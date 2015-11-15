@@ -1922,7 +1922,7 @@ class CAHOpenURL : public IActionHandler
 		url += "language=" + ClientCfg.LanguageCode;
 		openURL(url.c_str());
 
-		nlinfo("openURL %s",url.c_str());
+		nlinfo("openURL %s", url.c_str());
 	}
 };
 REGISTER_ACTION_HANDLER (CAHOpenURL, "open_url");
@@ -1945,7 +1945,10 @@ class CAHInitResLod : public IActionHandler
 		VideoModes.clear();
 		StringModeList.clear();
 
-		CurrentMode = getRyzomModes(VideoModes, StringModeList);
+		std::vector<std::string> stringFreqList;
+		sint currentFreq;
+
+		getRyzomModes(VideoModes, StringModeList, stringFreqList, CurrentMode, currentFreq);
 
 		// getRyzomModes() expects empty list, so we need to insert 'Windowed' after mode list is filled
 		StringModeList.insert(StringModeList.begin(), "uiConfigWindowed");
@@ -2452,7 +2455,7 @@ class CAHCreateAccountRules : public IActionHandler
 					if(Params==rules[i])
 					{
 						if(rulesGr)
-							rulesGr->setActive(text->getText() != ucstring(""));
+							rulesGr->setActive(!text->getText().empty());
 					}
 				}
 			}

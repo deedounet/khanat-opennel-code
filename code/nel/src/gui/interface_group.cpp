@@ -312,8 +312,7 @@ namespace NLGUI
 		ptr = (char*) xmlGetProp( cur, (xmlChar*)"max_sizeparent" );
 		if (ptr)
 		{
-			string idparent = ptr.str();
-			idparent = NLMISC::strlwr(idparent);
+			string idparent = NLMISC::toLower(ptr.str());
 			if (idparent != "parent")
 			{
 				if (parentGroup)
@@ -1174,7 +1173,7 @@ namespace NLGUI
 	int CInterfaceGroup::luaGetNumGroups(CLuaState &ls)
 	{
 		CLuaIHM::checkArgCount(ls, "CInterfaceGroup::getNumGroups", 0);
-		ls.push((double) _ChildrenGroups.size());
+		ls.push((uint)_ChildrenGroups.size());
 		return 1;
 	}
 
@@ -1184,7 +1183,7 @@ namespace NLGUI
 		const char *funcName = "CInterfaceGroup::getGroup";
 		CLuaIHM::checkArgCount(ls, "CInterfaceGroup::getGroup", 1);
 		CLuaIHM::checkArgType(ls, funcName, 1, LUA_TNUMBER);
-		uint index = (uint) ls.toNumber(1);
+		uint index = (uint) ls.toInteger(1);
 		if (index >= _ChildrenGroups.size())
 		{
 			CLuaIHM::fails(ls, "getGroup : try to index group %s, but there are only %d son groups", ls.toString(1), (int) _ChildrenGroups.size());
@@ -2140,7 +2139,8 @@ namespace NLGUI
 			std::string typeName = "???";
 			if (_ChildrenGroups[k])
 			{
-				const type_info &ti = typeid(*_ChildrenGroups[k]);
+				NLGUI::CInterfaceGroup *group = _ChildrenGroups[k];
+				const type_info &ti = typeid(*group);
 				typeName = ti.name();
 			}
 			nlinfo("Group %d, name = %s, type=%s", k,  _ChildrenGroups[k] ? _ChildrenGroups[k]->getId().c_str() : "???", typeName.c_str());
@@ -2156,7 +2156,8 @@ namespace NLGUI
 			std::string typeName = "???";
 			if (_ChildrenGroups[k])
 			{
-				const type_info &ti = typeid(*_EltOrder[k]);
+				NLGUI::CViewBase *view = _EltOrder[k];
+				const type_info &ti = typeid(*view);
 				typeName = ti.name();
 			}
 			CInterfaceElement *el = _EltOrder[k];

@@ -64,8 +64,10 @@ namespace NLGUI
 			std::string languageCode;
 			/// List of domains the widget can consider secure.
 			std::vector< std::string > trustedDomains;
+			/// Maximum concurrent MultiCurl connections per CGroupHTML instance
+			sint32 curlMaxConnections;
 
-			SWebOptions()
+			SWebOptions(): curlMaxConnections(2)
 			{
 			}
 		};
@@ -366,7 +368,7 @@ namespace NLGUI
 		bool			_Connecting;
 		double			_TimeoutValue;			// the timeout in seconds
 		double			_ConnectingTimeout;
-		uint32			_RedirectsRemaining;
+		sint			_RedirectsRemaining;
 
 		// minimal embeded lua script support
 		// Note : any embeded script is executed immediately after the closing

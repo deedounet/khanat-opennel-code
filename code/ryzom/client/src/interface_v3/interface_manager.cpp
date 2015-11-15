@@ -469,6 +469,7 @@ CInterfaceManager::CInterfaceManager()
 	CGroupHTML::options.languageCode = ClientCfg.getHtmlLanguageCode();
 	CGroupHTML::options.appName = getUserAgentName();
 	CGroupHTML::options.appVersion = getUserAgentVersion();
+	CGroupHTML::options.curlMaxConnections = ClientCfg.CurlMaxConnections;
 
 	NLGUI::CDBManager::getInstance()->resizeBanks( NB_CDB_BANKS );
 	interfaceLinkUpdater = new CInterfaceLink::CInterfaceLinkUpdater();
@@ -1760,6 +1761,8 @@ bool CInterfaceManager::loadConfig (const string &filename)
 	// *** If saved resolution is different from the current one setuped, must fix positions in _Modes
 	if(lastInGameScreenResLoaded)
 	{
+		// Temporarily set screen to saved size so that positions are correctly calculated
+		CWidgetManager::getInstance()->setScreenWH(_LastInGameScreenW, _LastInGameScreenH);
 		// NB: we are typically InGame here (even though the _InGame flag is not yet set)
 		// Use the screen size of the config file. Don't update current UI, just _Modes
 		CWidgetManager::getInstance()->moveAllWindowsToNewScreenSize(ClientCfg.Width, ClientCfg.Height, false);
@@ -1950,8 +1953,14 @@ void CInterfaceManager::drawViews(NL3D::UCamera camera)
 	nlctassert(CHARACTERISTICS::NUM_CHARACTERISTICS==8);
 	for (uint i=0; i<CHARACTERISTICS::NUM_CHARACTERISTICS; ++i)
 	{
-		NLMISC::CCDBNodeLeaf *node = _CurrentPlayerCharacLeaf[i] ? &*_CurrentPlayerCharacLeaf[i]
-			: &*(_CurrentPlayerCharacLeaf[i] = NLGUI::CDBManager::getInstance()->getDbProp(toString("SERVER:CHARACTER_INFO:CHARACTERISTICS%d:VALUE", i), false));
+		if (!_CurrentPlayerCharacLeaf[i])
+			_CurrentPlayerCharacLeaf[i] = NLGUI::CDBManager::getInstance()->getDbProp(toString("SERVER:CHARACTER_INFO:CHARACTERISTICS%d:VALUE", i), false);
+
+		NLMISC::CCDBNodeLeaf *node = NULL;
+
+		if (_CurrentPlayerCharacLeaf[i])
+			node = &*_CurrentPlayerCharacLeaf[i];
+
 		_CurrentPlayerCharac[i] = node ? node->getValue32() : 0;
 	}
 
@@ -2011,6 +2020,9 @@ void CInterfaceManager::updateDesktops( uint32 newScreenW, uint32 newScreenH )
 			CWidgetManager::getInstance()->getNewWindowCoordToNewScreenSize(gcCont.X, gcCont.Y, gcCont.W, gcCont.H ,newScreenW, newScreenH);
 		}
 	}
+
+	_LastInGameScreenW = newScreenW;
+	_LastInGameScreenH = newScreenH;
 }
 
 class InvalidateTextVisitor : public CInterfaceElementVisitor
@@ -2268,7 +2280,7 @@ void CInterfaceManager::displaySystemInfo(const ucstring &str, const string &cat
 	CRGBA color = CRGBA::White;
 
 
-	map<string, CClientConfig::SSysInfoParam>::const_iterator it = ClientCfg.SystemInfoParams.find(strlwr(cat));
+	map<string, CClientConfig::SSysInfoParam>::const_iterator it = ClientCfg.SystemInfoParams.find(toLower(cat));
 	if (it != ClientCfg.SystemInfoParams.end())
 	{
 		mode = it->second.Mode;
@@ -2303,7 +2315,7 @@ void CInterfaceManager::displaySystemInfo(const ucstring &str, const string &cat
 CRGBA CInterfaceManager::getSystemInfoColor(const std::string &cat)
 {
 	CRGBA col = CRGBA::White;
-	map<string, CClientConfig::SSysInfoParam>::const_iterator it = ClientCfg.SystemInfoParams.find(strlwr(cat));
+	map<string, CClientConfig::SSysInfoParam>::const_iterator it = ClientCfg.SystemInfoParams.find(toLower(cat));
 	if (it != ClientCfg.SystemInfoParams.end())
 		col = it->second.Color;
 	return col;
@@ -2482,7 +2494,8 @@ void CInterfaceManager::dumpUI(bool /* indent */)
 				if (ig->getViews()[k])
 				{
 					info += id;
-					info += toString(", type = %s, address=0x%p", typeid(*ig->getViews()[k]).name(), ig->getViews()[k]);
+					NLGUI::CViewBase *view = ig->getViews()[k];
+					info += toString(", type = %s, address=0x%p", typeid(*view).name(), view);
 				}
 				else
 				{
@@ -2498,7 +2511,8 @@ void CInterfaceManager::dumpUI(bool /* indent */)
 				if (ig->getControls()[k])
 				{
 					info += id;
-					info += toString(", type = %s, address=0x%p", typeid(*ig->getControls()[k]).name(), ig->getControls()[k]);
+					NLGUI::CCtrlBase *control = ig->getControls()[k];
+					info += toString(", type = %s, address=0x%p", typeid(*control).name(), control);
 				}
 				else
 				{
@@ -3313,11 +3327,17 @@ void		CInterfaceManager::getLuaValueInfo(std::string &str, sint index)
 
 	sint	type= ls.type(index);
 	if(type==LUA_TNIL)
+	{
 		str= "nil";
+	}
 	else if(type==LUA_TNUMBER)
-		str= NLMISC::toString(ls.toNumber(index));
+	{
+		str= NLMISC::toString(ls.isInteger(index) ? ls.toInteger(index):ls.toNumber(index));
+	}
 	else if(type==LUA_TBOOLEAN)
+	{
 		str= ls.toBoolean(index)?"true":"false";
+	}
 	else if(type==LUA_TSTRING)
 	{
 		ls.toString(index, str);

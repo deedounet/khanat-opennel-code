@@ -304,6 +304,7 @@ struct CClientConfig
 	std::string		WebIgMainDomain;
 	std::vector<string>	WebIgTrustedDomains;
 
+	sint32			CurlMaxConnections;
 
 	///////////////
 	// ANIMATION //
@@ -765,7 +766,6 @@ struct CClientConfig
 
 	/// Allow Lua commands (commands beginning with Lua)
 	bool			AllowDebugLua;
-	bool			LoadLuaDebugger;
 
 	bool			LuaDebugInfoGotoButtonEnabled;
 	std::string		LuaDebugInfoGotoButtonTemplate;
