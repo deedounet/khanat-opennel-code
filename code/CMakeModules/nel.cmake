@@ -102,10 +102,10 @@ ENDMACRO(NL_TARGET_DRIVER)
 # Argument:
 ###
 MACRO(NL_DEFAULT_PROPS name label)
-  IF(HAVE_REVISION_H)
+  IF(TARGET revision)
     # explicitly say that the target depends on revision.h
     ADD_DEPENDENCIES(${name} revision)
-  ENDIF(HAVE_REVISION_H)
+  ENDIF()
 
   # Note: This is just a workaround for a CMake bug generating VS10 files with a colon in the project name.
   # CMake Bug ID: http://www.cmake.org/Bug/view.php?id=11819
@@ -375,6 +375,7 @@ MACRO(NL_SETUP_RYZOM_DEFAULT_OPTIONS)
   ###
   OPTION(WITH_LUA51               "Build Ryzom Core using Lua 5.1"                ON )
   OPTION(WITH_LUA52               "Build Ryzom Core using Lua 5.2"                OFF)
+  OPTION(WITH_LUA53               "Build Ryzom Core using Lua 5.3"                OFF)
   OPTION(WITH_RYZOM_CLIENT_UAC    "Ask to run as Administrator"                   OFF)
 ENDMACRO(NL_SETUP_RYZOM_DEFAULT_OPTIONS)
 

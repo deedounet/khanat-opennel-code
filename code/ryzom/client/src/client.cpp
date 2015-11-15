@@ -49,9 +49,6 @@
  #define FINAL_VERSION 1
 #endif // TEST_CRASH_COUNTER
 
-// game share
-#include "game_share/ryzom_version.h"
-
 // Client
 #include "resource.h"
 #include "init.h"
@@ -123,6 +120,12 @@ static void sigHandler(int Sig)
 // Entry for the Application.
 //---------------------------------------------------
 #ifdef NL_OS_WINDOWS
+
+// enable optimus for NVIDIA cards
+extern "C"
+{
+	_declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+}
 
 void pump ()
 {
@@ -363,6 +366,11 @@ int main(int argc, char **argv)
 	// init the Nel context
 	CApplicationContext *appContext = new CApplicationContext;
 
+	// disable nldebug messages in logs in Release
+#ifdef NL_RELEASE
+	DisableNLDebug = true;
+#endif
+
 	createDebug();
 
 	INelContext::getInstance().setWindowedApplication(true);
@@ -443,10 +451,9 @@ int main(int argc, char **argv)
 	if (string(cmdline) == "/crash")
 		volatile int toto = *(int*)0;
 	if (string(cmdline) == "/break")
-		__asm
-		{
-			int 3
-		};
+	{
+		__debugbreak();
+	}
 #endif // TEST_CRASH_COUNTER
 
 	HInstance = hInstance;
@@ -513,7 +520,7 @@ int main(int argc, char **argv)
 		uint i;
 		for (i=0; i<files.size(); i++)
 		{
-			if (strlwr (CFile::getExtension (files[i])) == "ttf")
+			if (toLower(CFile::getExtension (files[i])) == "ttf")
 				CFile::deleteFile (files[i]);
 		}
 	}

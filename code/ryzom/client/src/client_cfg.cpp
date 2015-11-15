@@ -49,8 +49,6 @@
 #include "app_bundle_utils.h"
 #endif // NL_OS_MAC
 
-#include <locale.h>
-
 ///////////
 // MACRO //
 ///////////
@@ -295,8 +293,8 @@ CClientConfig::CClientConfig()
 	SelectedSlot		= 0;						// Default is slot 0
 
 	Windowed			= false;					// Default is windowed mode.
-	Width				= 800;						// Default Width for the window.
-	Height				= 600;						// Default Height for the window.
+	Width				= 0;						// Default Width for the window (0 = current screen resolution).
+	Height				= 0;						// Default Height for the window (0 = current screen resolution).
 	Depth				= 32;						// Default Bit per Pixel.
 	Driver3D			= DrvAuto;					// Select best driver depending on hardware.
 	Contrast			= 0.f;						// Default Monitor Contrast.
@@ -430,6 +428,8 @@ CClientConfig::CClientConfig()
 
 	WebIgMainDomain = "shard.ryzomcore.org";
 	WebIgTrustedDomains.push_back(WebIgMainDomain);
+
+	CurlMaxConnections = 2;
 
 	RingReleaseNotePath = "http://" + WebIgMainDomain + "/releasenotes_ring/index.php";
 	ReleaseNotePath = "http://" + WebIgMainDomain + "/releasenotes/index.php";
@@ -680,7 +680,6 @@ CClientConfig::CClientConfig()
 	DamageShieldEnabled = false;
 
 	AllowDebugLua = false;
-	LoadLuaDebugger = false;
 	DisplayLuaDebugInfo = false;
 	BeepWhenLaunched = false;
 
@@ -1076,6 +1075,9 @@ void CClientConfig::setValues()
 	// WEBIG //
 	READ_STRING_FV(WebIgMainDomain);
 	READ_STRINGVECTOR_FV(WebIgTrustedDomains);
+	READ_INT_FV(CurlMaxConnections);
+	if (ClientCfg.CurlMaxConnections < 0)
+		ClientCfg.CurlMaxConnections = 2;
 
 	///////////////
 	// ANIMATION //
@@ -1747,7 +1749,7 @@ void CClientConfig::setValues()
 	// Allow warning display only first time.
 	DisplayCFGWarning= false;
 
-	// If it is the load time, bkup the ClientCfg into LastClientCfg
+	// If it is the load time, backup the ClientCfg into LastClientCfg
 	if(firstTimeSetValues)
 		LastClientCfg = ClientCfg;
 
@@ -1761,7 +1763,6 @@ void CClientConfig::setValues()
 	READ_BOOL_DEV(DamageShieldEnabled)
 
 	READ_BOOL_DEV(AllowDebugLua)
-	READ_BOOL_DEV(LoadLuaDebugger)
 	READ_BOOL_DEV(DisplayLuaDebugInfo)
 
 	READ_BOOL_DEV(LuaDebugInfoGotoButtonEnabled)
@@ -1934,8 +1935,7 @@ void CClientConfig::init(const string &configFileName)
 			nlwarning("CFG::init: creating '%s' with default values", configFileName.c_str ());
 
 		// get current locale
-		std::string lang = toLower(std::string(setlocale(LC_CTYPE, "")));
-		lang = lang.substr(0, 2);
+		std::string lang = CI18N::getSystemLanguageCode();
 
 		const std::vector<std::string> &languages = CI18N::getLanguageCodes();
 
