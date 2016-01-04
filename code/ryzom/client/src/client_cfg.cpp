@@ -358,13 +358,9 @@ CClientConfig::CClientConfig()
 	TexturesLoginInterface.push_back("texture_interfaces_v3_login");
 
 	DisplayAccountButtons = true;
-	CreateAccountURL	= "http://shard.ryzomcore.org/ams/index.php?page=register";
-	ConditionsTermsURL	= "http://www.gnu.org/licenses/agpl-3.0.html";
-	EditAccountURL		= "http://shard.ryzomcore.org/ams/index.php?page=settings";
-	BetaAccountURL		= "http://shard.ryzomcore.org/ams/index.php?page=settings";
-	ForgetPwdURL		= "http://shard.ryzomcore.org/ams/index.php?page=forgot_password";
-	FreeTrialURL		= "http://shard.ryzomcore.org/ams/index.php?page=register";
-	LoginSupportURL		= "http://shard.ryzomcore.org/ams/index.php";
+	CreateAccountURL	= "https://secure.ryzom.com/signup/from_client.php";
+	EditAccountURL		= "https://secure.ryzom.com/payment_profile/index.php";
+	ForgetPwdURL		= "https://secure.ryzom.com/payment_profile/lost_secure_password.php";
 	Position			= CVector(0.f, 0.f, 0.f);	// Default Position.
 	Heading				= CVector(0.f, 1.f, 0.f);	// Default Heading.
 	EyesHeight			= 1.5f;						// Default User Eyes Height.
@@ -458,7 +454,7 @@ CClientConfig::CClientConfig()
 	PatchletUrl.clear();
 	PatchVersion.clear();
 
-	WebIgMainDomain = "shard.ryzomcore.org";
+	WebIgMainDomain = "atys.ryzom.com";
 	WebIgTrustedDomains.push_back(WebIgMainDomain);
 
 	CurlMaxConnections = 2;
@@ -908,18 +904,12 @@ void CClientConfig::setValues()
 	READ_BOOL_DEV(DisplayAccountButtons)
 	READ_STRING_DEV(CreateAccountURL)
 	READ_STRING_DEV(EditAccountURL)
-	READ_STRING_DEV(ConditionsTermsURL)
-	READ_STRING_DEV(BetaAccountURL)
 	READ_STRING_DEV(ForgetPwdURL)
+	READ_STRING_DEV(BetaAccountURL)
 	READ_STRING_DEV(FreeTrialURL)
-	READ_STRING_DEV(LoginSupportURL)
 
-	READ_STRING_FV(CreateAccountURL)
-	READ_STRING_FV(EditAccountURL)
+	// defined in client_default.cfg
 	READ_STRING_FV(ConditionsTermsURL)
-	READ_STRING_FV(BetaAccountURL)
-	READ_STRING_FV(ForgetPwdURL)
-	READ_STRING_FV(FreeTrialURL)
 	READ_STRING_FV(LoginSupportURL)
 
 #ifndef RZ_NO_CLIENT
