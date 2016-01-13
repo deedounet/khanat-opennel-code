@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 
 	// if client.cfg is not in current directory, use client.cfg from user directory
 	if (!CFile::isExists(config))
-		config = CPath::getApplicationDirectory("Ryzom") + config;
+		config = CPath::getApplicationDirectory("Khanat") + config;
 
 	// if client.cfg is not in current directory, use client_default.cfg
 	if (!CFile::isExists(config))
