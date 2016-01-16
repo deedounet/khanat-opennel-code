@@ -1,11 +1,11 @@
 [Desktop Entry]
-Version=1.0
-Name=Ryzom
+Version=0.1
+Name=Khanat
 Name[ru]=Ризом
 Type=Application
 GenericName=Game client
-Comment=Ryzom client
-Comment[fr_FR]=Client Ryzom
+Comment=Khanat client
+Comment[fr_FR]=Client Khanat
 TryExec=${RYZOM_GAMES_PREFIX}/ryzom_client
 Exec=${RYZOM_GAMES_PREFIX}/ryzom_client
 Icon=${RYZOM_CLIENT_ICON}
