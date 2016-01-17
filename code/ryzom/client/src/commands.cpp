@@ -5752,7 +5752,74 @@ NLMISC_COMMAND(em, "emote command", "<emote phrase>")
 	return false;
 }
 
+NLMISC_COMMAND(me, "emote command", "<emote phrase>")
+{
+	if (args.size() < 1) return false;
 
+	CInterfaceManager *pIM = CInterfaceManager::getInstance();
+	if( pIM )
+	{
+		string emotePhrase;
+		if( args.size() > 0 )
+		{
+			emotePhrase = args[0];
+		}
+		for(uint i = 1; i < args.size(); ++i )
+		{
+			emotePhrase += " ";
+			emotePhrase += args[i];
+		}
+		CAHManager::getInstance()->runActionHandler("emote", NULL, "nb=0|behav=255|custom_phrase="+emotePhrase);
+		return true;
+	}
+	return false;
+}
+
+NLMISC_COMMAND(emote, "emote command", "<emote phrase>")
+{
+	if (args.size() < 1) return false;
+
+	CInterfaceManager *pIM = CInterfaceManager::getInstance();
+	if( pIM )
+	{
+		string emotePhrase;
+		if( args.size() > 0 )
+		{
+			emotePhrase = args[0];
+		}
+		for(uint i = 1; i < args.size(); ++i )
+		{
+			emotePhrase += " ";
+			emotePhrase += args[i];
+		}
+		CAHManager::getInstance()->runActionHandler("emote", NULL, "nb=0|behav=255|custom_phrase="+emotePhrase);
+		return true;
+	}
+	return false;
+}
+
+NLMISC_COMMAND(m, "emote command", "<emote phrase>")
+{
+	if (args.size() < 1) return false;
+
+	CInterfaceManager *pIM = CInterfaceManager::getInstance();
+	if( pIM )
+	{
+		string emotePhrase;
+		if( args.size() > 0 )
+		{
+			emotePhrase = args[0];
+		}
+		for(uint i = 1; i < args.size(); ++i )
+		{
+			emotePhrase += " ";
+			emotePhrase += args[i];
+		}
+		CAHManager::getInstance()->runActionHandler("emote", NULL, "nb=0|behav=255|custom_phrase="+emotePhrase);
+		return true;
+	}
+	return false;
+}
 
 
 NLMISC_COMMAND(guildmotd, "Set or see the guild message of the day","<msg of the day>")
@@ -5797,4 +5864,12 @@ NLMISC_COMMAND(time, "Shows information about the current time", "")
 	strFindReplace(msg, "%utc", cs_utc);
 	CInterfaceManager::getInstance()->displaySystemInfo(msg, "AROUND");
 	return true;
+}
+
+NLMISC_COMMAND(easteregg_siela1915_khanat, "Miscellaneous", "")
+{
+  string stext = "Siela1915 blesses you...";
+  ucstring ucstext = ucstring(stext);
+  CInterfaceManager::getInstance()->displaySystemInfo(ucstext, "AROUND");
+  return true;
 }
