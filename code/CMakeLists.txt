@@ -63,6 +63,10 @@ SET(NL_VERSION_PATCH 0)
 SET(YEAR "2004-${CURRENT_YEAR}")
 SET(AUTHOR "Winchgate and The Ryzom Core Community")
 
+SET(RYZOM_VERSION_MAJOR 2)
+SET(RYZOM_VERSION_MINOR 9)
+SET(RYZOM_VERSION_PATCH 0)
+
 #-----------------------------------------------------------------------------
 # Redirect output files
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
