@@ -874,12 +874,15 @@ class CAHGuildSheetOpen : public IActionHandler
 				{
 					CRyzomTime rt;
 					rt.updateRyzomClock(rGuildMembers[i].EnterDate);
-					ucstring str = toString("%04d", rt.getRyzomYear()) + " ";
-					str += CI18N::get("uiJenaYear") + " : ";
-					str += CI18N::get("uiAtysianCycle") + " ";
-					str += toString("%01d", rt.getRyzomCycle()+1) +", ";
-					str += CI18N::get("ui"+MONTH::toString( (MONTH::EMonth)rt.getRyzomMonthInCurrentCycle() )) + ", ";
-					str += toString("%02d", rt.getRyzomDayOfMonth()+1);
+					ucstring str = toString("%03d", (sint)RT.getRyzomWeek()) + " ";
+					str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
+					ucstring year = CI18N::get("uiYear");
+					if (year.length() == 0) {
+					  str += toString("%04d", RT.getRyzomYear()) + " - ";
+					} else {
+					  str += year + " - ";
+					}
+					str += CI18N::get("uiEon");					
 					pViewEnterDate->setText(str);
 				}
 

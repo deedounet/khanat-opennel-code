@@ -3063,17 +3063,21 @@ static void displayTime(const CRyzomTime &rt, NLMISC::CLog &log)
 	std::string result;
 	result = NLMISC::toString("hh:mm = %d:%d; ", (int) floorf(rt.getRyzomTime()) , (int) floorf(60.f * fmodf(rt.getRyzomTime(), 1.f)));
 	log.displayNL(result.c_str());
-	uint32 month = rt.getRyzomMonth();
-	MONTH::EMonth monthInCycle = rt.getRyzomMonthInCurrentCycle();
-	std::string monthName = MONTH::toString((MONTH::EMonth) monthInCycle);
-	uint32 dayOfMonth = rt.getRyzomDayOfMonth();			
-	std::string dayName = WEEKDAY::toString((WEEKDAY::EWeekDay) rt.getRyzomDayOfWeek());
-	result = NLMISC::toString("mm:dd:yy = %d:%d:%d  (%s:%s)",
-		                       (int)  (month + 1),
-							   (int) (dayOfMonth + 1),
-							   (int) rt.getRyzomYear(),
-							   monthName.c_str(),
-							   dayName.c_str());
+	std::string week = toString("%03d", rt.getRyzomWeek());
+	std::string dayName = CI18N::get("ui"+WEEKDAY::toString((WEEKDAY::EWeekDay) rt.getRyzomDayOfWeek())).toUtf8();
+	std::string year;
+	std::string eon = CI18N::get("uiEon").toUtf8();
+	ucstring yearBool = CI18N::get("uiYear");
+	if (yearBool.length() == 0) {
+	  year = toString("%04d", rt.getRyzomYear());
+	} else {
+	  year = yearBool.toUtf8();
+	}
+	result = NLMISC::toString("week:day:year:eon = %s:%s:%s:%s",
+				  week,
+				  dayName,
+				  year,
+				  eon);
 	log.displayNL(result.c_str());
 	log.displayNL("day of year = %d/%d", (int) (rt.getRyzomDayOfYear() + 1), (int) RYZOM_YEAR_IN_DAY);
 	log.displayNL("season = %d/4 (%s)", (int) rt.getRyzomSeason() + 1, EGSPD::CSeason::toString(rt.getRyzomSeason()).c_str());

@@ -21,20 +21,18 @@
 
 #include "nel/misc/types_nl.h"
 
-const uint		RYZOM_HOURS_IN_TICKS	= 1800;
+const uint		RYZOM_HOURS_IN_TICKS	= 9000;
 const uint		RYZOM_DAY_IN_HOUR		= 24;
 const uint		RYZOM_DAY_IN_TICKS		= RYZOM_HOURS_IN_TICKS * RYZOM_DAY_IN_HOUR;
 const uint		RYZOM_SEASON_IN_DAY		= 90;
-const uint		RYZOM_MONTH_IN_DAY		= 30;
-const uint		RYZOM_YEAR_IN_MONTH		= 48;
-const uint		RYZOM_WEEK_IN_DAY		= 6;
-const uint		RYZOM_YEAR_IN_DAY		= RYZOM_MONTH_IN_DAY*RYZOM_YEAR_IN_MONTH;
-const uint		RYZOM_CYCLE_IN_MONTH	= 12;
+const uint		RYZOM_YEAR_IN_WEEK		= 120;
+const uint		RYZOM_WEEK_IN_DAY		= 4;
+const uint		RYZOM_YEAR_IN_DAY		= RYZOM_WEEK_IN_DAY*RYZOM_YEAR_IN_WEEK;
 
-const uint		RYZOM_START_YEAR		= 2570-2;
-const uint		RYZOM_START_SPRING		= 61;
-const uint		RYZOM_START_DAY			= 1111111;
-const uint		RYZOM_START_HOUR		= 9;
+const uint		RYZOM_START_YEAR		= 0;
+const uint		RYZOM_START_SPRING		= 0;
+const uint		RYZOM_START_DAY			= 0;
+const uint		RYZOM_START_HOUR		= 0;
 
 #include "../season.h"
 #include "static_light_cycle.h"
@@ -82,13 +80,11 @@ namespace WEEKDAY
 	// Week day
 	enum EWeekDay
 	{
-		Prima = 0,
-		Dua,
-		Tria,
-		Quarta,
-		Quinteth,
-		Holeth,
-
+		Pavdei = 0,
+		Reldei,
+		Cibdei,
+		Vondei,
+		
 		UNKNOWN,
 		NUM_WEEKDAY = UNKNOWN
 	};
@@ -136,15 +132,14 @@ public:
 		_RyzomDay = 0;
 		_RyzomTime = 0;
 		_TickOffset = 0;
-		_RyzomTime = 0;
 	}
 
 	// Update ryzom clock when tick occurs, local time must be given if localUpdateRyzomClock() and getLocalRyzomTime() is used
 	void updateRyzomClock( uint32 gameCyle, double localTime = 0 )
 	{
 		float time = ( gameCyle + _TickOffset ) / float(RYZOM_HOURS_IN_TICKS);
-		_RyzomDay = (uint32) ( time / 24.0f ) - RYZOM_START_SPRING;
-		_RyzomTime = (float) fmod( time, 24.0f );
+		_RyzomDay = (uint32) ( time / RYZOM_DAY_IN_HOUR ) - RYZOM_START_SPRING;
+		_RyzomTime = (float) fmod( time, RYZOM_DAY_IN_HOUR );
 		_LocalTime = localTime;
 	}
 
@@ -167,20 +162,8 @@ public:
 	// get Season
 	static inline ESeason getSeasonByDay(uint32 day) { return (ESeason) ( ( ( day % RYZOM_YEAR_IN_DAY ) / RYZOM_SEASON_IN_DAY ) % (EGSPD::CSeason::Invalid) ); }
 
-	// get ryzom month
-	inline uint getRyzomMonth() const { return ( _RyzomDay % RYZOM_YEAR_IN_DAY ) / RYZOM_MONTH_IN_DAY ; }
-
-	// get ryzom month in cycle
-	inline MONTH::EMonth getRyzomMonthInCurrentCycle() const { return (MONTH::EMonth) ( getRyzomMonth() % RYZOM_CYCLE_IN_MONTH ); }
-
-	// get ryzom cycle
-	inline uint32 getRyzomCycle() const { return getRyzomMonth() / RYZOM_CYCLE_IN_MONTH; }
-
 	// get ryzom day of week
 	inline WEEKDAY::EWeekDay getRyzomDayOfWeek() const { return (WEEKDAY::EWeekDay) ( _RyzomDay % RYZOM_WEEK_IN_DAY ); }
-
-	// get ryzom day of month
-	inline uint32 getRyzomDayOfMonth() const { return ( _RyzomDay % RYZOM_MONTH_IN_DAY ); }
 
 	// get ryzom day of season
 	inline uint32 getRyzomDayOfSeason() const { return ( _RyzomDay % RYZOM_SEASON_IN_DAY ); }
