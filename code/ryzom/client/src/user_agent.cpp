@@ -44,7 +44,7 @@
 #endif
 
 #ifndef RYZOM_CLIENT_ICON
-#define RYZOM_CLIENT_ICON "ryzom_client"
+#define RYZOM_CLIENT_ICON "khanat_client"
 #endif
 
 std::string getUserAgent()

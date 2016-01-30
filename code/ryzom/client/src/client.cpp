@@ -203,7 +203,7 @@ int main(int argc, char **argv)
 	// if client_default.cfg is not in current directory, use application default directory
 	if (!CFile::isExists("client_default.cfg"))
 	{
-		std::string currentPath = CPath::getApplicationDirectory("Ryzom");
+		std::string currentPath = CPath::getApplicationDirectory("Khanat");
 
 		// append config ID to directory
 		if (Args.haveArg("c"))
