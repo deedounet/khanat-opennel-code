@@ -39,7 +39,7 @@
 #include "fx_entity_manager.h"
 #include "ai_script_data_manager.h"
 #include "commands.h"
-#include "/nel/misc/i18n.h"
+#include "nel/misc/i18n.h"
 #include "ais_user_models.h"
 
 extern bool GrpHistoryRecordLog;
