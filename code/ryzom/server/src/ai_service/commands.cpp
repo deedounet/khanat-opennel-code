@@ -3068,12 +3068,12 @@ static void displayTime(const CRyzomTime &rt, NLMISC::CLog &log)
 	std::string week = toString("%03d", rt.getRyzomWeek());
 	std::string dayName = CI18N::get("ui"+WEEKDAY::toString((WEEKDAY::EWeekDay) rt.getRyzomDayOfWeek())).toUtf8();
 	std::string year = rt.getRyzomYearStr().toUtf8();
-	ucstring eon = CI18N::get("uiEon");
+	std::string eon = CI18N::get("uiEon");
 	result = NLMISC::toString("week:day:year:eon = %s:%s:%s:%s",
-				  week,
-				  dayName,
-				  year,
-				  eon.toUtf8());
+				  week.c_str(),
+				  dayName.c_str(),
+				  year.c_str(),
+				  eon.c_str());
 	log.displayNL(result.c_str());
 	log.displayNL("day of year = %d/%d", (int) (rt.getRyzomDayOfYear() + 1), (int) RYZOM_YEAR_IN_DAY);
 	log.displayNL("season = %d/4 (%s)", (int) rt.getRyzomSeason() + 1, EGSPD::CSeason::toString(rt.getRyzomSeason()).c_str());
