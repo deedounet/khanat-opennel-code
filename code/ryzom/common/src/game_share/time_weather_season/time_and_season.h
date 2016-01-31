@@ -155,7 +155,7 @@ public:
 	inline uint32 getRyzomYear() const { return _RyzomDay / RYZOM_YEAR_IN_DAY + RYZOM_START_YEAR; }
 
 	// get ryzom Year as string
-	inline ucstring getRyzomYearStr() const { return CI18N::get("uiYear").length()==0?toString(_RyzomDay / RYZOM_YEAR_IN_DAY + RYZOM_START_YEAR):CI18N::get("uiYear"); }
+	inline ucstring getRyzomYearStr() const { return NLMISC::CI18N::get("uiYear").length()==0?NLMISC::toString(_RyzomDay / RYZOM_YEAR_IN_DAY + RYZOM_START_YEAR):NLMISC::CI18N::get("uiYear"); }
 
 	// get ryzom week
 	inline uint32 getRyzomWeek() const { return (_RyzomDay % RYZOM_YEAR_IN_DAY) / RYZOM_WEEK_IN_DAY; }
