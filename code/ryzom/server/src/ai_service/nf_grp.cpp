@@ -3369,10 +3369,10 @@ void getRyzomDateStr__s(CStateInstance* entity, CScriptStack& stack)
 	std::string year = toString(rt.getRyzomYearStr());
 	std::string eon = CI18N::get("uiEon").toUtf8();
 	result += NLMISC::toString(" / %s %s - %s - %s",
-				  week,
-				  dayName,
-				  year,
-				  eon);
+				   week.c_str(),
+				   dayName.c_str(),
+				   year.c_str(),
+				   eon.c_str());
 				
 	stack.push( result );
 }
