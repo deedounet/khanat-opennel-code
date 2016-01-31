@@ -39,7 +39,7 @@
 #include "fx_entity_manager.h"
 #include "ai_script_data_manager.h"
 #include "commands.h"
-
+#include "i18n.h"
 #include "ais_user_models.h"
 
 extern bool GrpHistoryRecordLog;
@@ -3065,14 +3065,8 @@ static void displayTime(const CRyzomTime &rt, NLMISC::CLog &log)
 	log.displayNL(result.c_str());
 	std::string week = toString("%03d", rt.getRyzomWeek());
 	std::string dayName = CI18N::get("ui"+WEEKDAY::toString((WEEKDAY::EWeekDay) rt.getRyzomDayOfWeek())).toUtf8();
-	std::string year;
+	std::string year = rt.getRyzomYearStr().toUtf8();
 	std::string eon = CI18N::get("uiEon").toUtf8();
-	ucstring yearBool = CI18N::get("uiYear");
-	if (yearBool.length() == 0) {
-	  year = toString("%04d", rt.getRyzomYear());
-	} else {
-	  year = yearBool.toUtf8();
-	}
 	result = NLMISC::toString("week:day:year:eon = %s:%s:%s:%s",
 				  week,
 				  dayName,

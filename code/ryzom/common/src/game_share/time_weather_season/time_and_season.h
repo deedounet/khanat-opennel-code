@@ -20,6 +20,7 @@
 #define RY_TIME_AND_SEASON_H
 
 #include "nel/misc/types_nl.h"
+#include "nel/misc/i18n.h"
 
 const uint		RYZOM_HOURS_IN_TICKS	= 9000;
 const uint		RYZOM_DAY_IN_HOUR		= 24;
@@ -152,6 +153,9 @@ public:
 
 	// get ryzom Year
 	inline uint32 getRyzomYear() const { return _RyzomDay / RYZOM_YEAR_IN_DAY + RYZOM_START_YEAR; }
+
+	// get ryzom Year as string
+	inline ucstring getRyzomYearStr() const { return CI18N::get("uiYear").length()==0?toString(_RyzomDay / RYZOM_YEAR_IN_DAY + RYZOM_START_YEAR):CI18N::get("uiYear"); }
 
 	// get ryzom week
 	inline uint32 getRyzomWeek() const { return (_RyzomDay % RYZOM_YEAR_IN_DAY) / RYZOM_WEEK_IN_DAY; }

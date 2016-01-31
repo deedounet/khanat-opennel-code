@@ -3366,14 +3366,8 @@ void getRyzomDateStr__s(CStateInstance* entity, CScriptStack& stack)
 	
 	std::string week = toString("%03d", rt.getRyzomWeek());
 	std::string dayName = CI18N::get("ui"+WEEKDAY::toString((WEEKDAY::EWeekDay) rt.getRyzomDayOfWeek())).toUtf8();
-	std::string year;
+	std::string year = toString(rt.getRyzomYearStr());
 	std::string eon = CI18N::get("uiEon").toUtf8();
-	ucstring yearBool = CI18N::get("uiYear");
-	if (yearBool.length() == 0) {
-	  year = toString("%04d", rt.getRyzomYear());
-	} else {
-	  year = yearBool.toUtf8();
-	}
 	result += NLMISC::toString(" / %s %s - %s - %s",
 				  week,
 				  dayName,
