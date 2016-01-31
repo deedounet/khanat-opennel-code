@@ -3073,7 +3073,7 @@ static void displayTime(const CRyzomTime &rt, NLMISC::CLog &log)
 				  week,
 				  dayName,
 				  year,
-				  eon);
+				  eon.c_str());
 	log.displayNL(result.c_str());
 	log.displayNL("day of year = %d/%d", (int) (rt.getRyzomDayOfYear() + 1), (int) RYZOM_YEAR_IN_DAY);
 	log.displayNL("season = %d/4 (%s)", (int) rt.getRyzomSeason() + 1, EGSPD::CSeason::toString(rt.getRyzomSeason()).c_str());
