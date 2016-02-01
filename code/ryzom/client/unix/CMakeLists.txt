@@ -1,9 +1,9 @@
 IF(WITH_UNIX_STRUCTURE)
-  CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/ryzom_client.desktop.in" "${CMAKE_CURRENT_BINARY_DIR}/ryzom_client.desktop")
+  CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/khanat_client.desktop.in" "${CMAKE_CURRENT_BINARY_DIR}/khanat_client.desktop")
 
-  INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/ryzom_client.desktop" DESTINATION share/applications)
+  INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/khanat_client.desktop" DESTINATION share/applications)
   INSTALL(FILES khanat_client.png DESTINATION share/pixmaps)
-  INSTALL(FILES ryzom_client.xpm DESTINATION share/pixmaps)
+  INSTALL(FILES khanat_client.xpm DESTINATION share/pixmaps)
   INSTALL(FILES khanat_16x16.png DESTINATION share/icons/hicolor/16x16/apps RENAME ${RYZOM_CLIENT_ICON}.png)
   INSTALL(FILES khanat_22x22.png DESTINATION share/icons/hicolor/22x22/apps RENAME ${RYZOM_CLIENT_ICON}.png)
   INSTALL(FILES khanat_24x24.png DESTINATION share/icons/hicolor/24x24/apps RENAME ${RYZOM_CLIENT_ICON}.png)
