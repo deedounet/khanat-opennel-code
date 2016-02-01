@@ -207,17 +207,15 @@
 
 <!-- the id must be keys_### where ### is the name of the category -->
 <!-- dont remember if you add / remove a category to update hierarchy.xml -->
-<instance template="t_all_keys" id="keys_player"	title="uiKeysPlayerTitle" />
 <instance template="t_all_keys" id="keys_movement"	title="uiKeysMovementTitle" />
-<instance template="t_all_keys" id="keys_actions"	title="uiKeysActionsTitle" />
+<instance template="t_all_keys" id="keys_view"	title="uiKeysViewTitle" />
+<instance template="t_all_keys" id="keys_actionbar"	title="uiKeysActionbarTitle" />
+<instance template="t_all_keys" id="keys_fight"	title="uiKeysFightTitle" />
 <instance template="t_all_keys" id="keys_chat"		title="uiKeysChatTitle" />
-<instance template="t_all_keys" id="keys_view"		title="uiKeysViewTitle" />
-<instance template="t_all_keys" id="keys_windows"	title="uiKeysWindowsTitle" />
-<instance template="t_all_keys" id="keys_system"	title="uiKeysSystemTitle" />
 <instance template="t_all_keys" id="keys_edit"		title="uiKeysEditTitle" />
-<instance template="t_all_keys" id="keys_debug"		title="uiKeysDebugTitle" />
-<instance template="t_all_keys" id="keys_r2ed"		title="uiR2EDActionCategory" />
-
+<instance template="t_all_keys" id="keys_windows"	title="uiKeysWindowsTitle" />
+<instance template="t_all_keys" id="keys_miscellaneous"	title="uiKeysMiscellaneousTitle" />
+<instance template="t_all_keys" id="keys_debug" title="uiKeysDebugTitle" />
 
 <!-- ************************************************************************************************************************************************ -->
 <!-- ************************************************************************************************************************************************ -->
@@ -648,6 +646,7 @@
 </group>
 
 <tree node="keys" >
+    <tree node="keys_camera"/>
 	<tree node="keys_player"/>
 	<tree node="keys_movement"/>
 	<tree node="keys_actions"/>

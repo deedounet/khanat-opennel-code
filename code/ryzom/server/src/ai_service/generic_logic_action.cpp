@@ -830,11 +830,11 @@ public:
 			break;
 		case tm_monthday:
 			{
-				uint32 dom = CTimeInterface::getRyzomTime().getRyzomDayOfMonth();
+			  /*uint32 dom = CTimeInterface::getRyzomTime().getRyzomDayOfMonth();
 				while (dom < _DayNumber)
 					dom += RYZOM_MONTH_IN_DAY;
 
-				_Min = _Max = timeTicks + dom * RYZOM_DAY_IN_TICKS;
+					_Min = _Max = timeTicks + dom * RYZOM_DAY_IN_TICKS;*/
 			}
 			break;
 		case tm_seasonday:
