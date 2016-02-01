@@ -877,8 +877,8 @@ class CAHGuildSheetOpen : public IActionHandler
 					ucstring str = toString("%03d", (sint)RT.getRyzomWeek()) + " ";
 					str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
 					ucstring year = RT.getRyzomYearStr();
-					str += year + " - "
-					str += CI18N::get("uiEon");					
+					str += year + " - ";
+					str += CI18N::get("uiEon");		
 					pViewEnterDate->setText(str);
 				}
 
