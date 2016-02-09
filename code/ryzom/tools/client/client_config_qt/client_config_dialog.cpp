@@ -146,13 +146,13 @@ void CClientConfigDialog::onClickPlay()
 	bool started = false;
 
 #ifdef Q_OS_WIN32
-	started = QProcess::startDetached( "ryzom_client_r.exe" );
+	started = QProcess::startDetached( "khanat_client_r.exe" );
 	if( !started )
-		QProcess::startDetached( "ryzom_client_d.exe" );
+		QProcess::startDetached( "khanat_client_d.exe" );
 #elif defined(Q_OS_MAC)
-	started = QProcess::startDetached( "./Ryzom.app" );
+	started = QProcess::startDetached( "./Khanat.app" );
 #else
-	started = QProcess::startDetached( "./ryzom_client" );
+	started = QProcess::startDetached( "./khanat_client" );
 #endif
 
 	onClickOK();

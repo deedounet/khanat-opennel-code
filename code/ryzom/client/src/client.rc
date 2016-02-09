@@ -193,9 +193,9 @@ BEGIN
 #endif			
 #else
 #ifdef _DEBUG
-            VALUE "OriginalFilename", "ryzom_client_dev_d.exe"
+            VALUE "OriginalFilename", "kkhanat_client_dev_d.exe"
 #else
-            VALUE "OriginalFilename", "ryzom_client_dev_r.exe"
+            VALUE "OriginalFilename", "khanat_client_dev_r.exe"
 #endif			
 #endif
             VALUE "ProductName", "Ryzom Core"

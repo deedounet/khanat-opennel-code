@@ -158,8 +158,12 @@ code/snowballs/build/*
 code/ryzom/build/*
 code/build/*
 code/build-2010/*
-code/build_linux/*
-code/build_windows/*
+code/build_linux32/*
+code/build_linux64/*
+code/build_windows32/*
+code/build_debian32/*
+code/build_debian64/*
+code/build_mac/*
 build/*
 install/*
 build_vc*
