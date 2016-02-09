@@ -20,6 +20,7 @@
 #define RY_TIME_AND_SEASON_H
 
 #include "nel/misc/types_nl.h"
+#include "nel/misc/i18n.h"
 
 const uint		RYZOM_HOURS_IN_TICKS	= 9000;
 const uint		RYZOM_DAY_IN_HOUR		= 24;
@@ -130,19 +131,19 @@ public:
 	CRyzomTime()
 	{
 		_RyzomDay = 0;
-		_RyzomTime = 0;
+		_RyzomTime = 0.f;
+		_LocalTime = 0.0;
 		_TickOffset = 0;
 	}
 
 	// Update ryzom clock when tick occurs, local time must be given if localUpdateRyzomClock() and getLocalRyzomTime() is used
 	void updateRyzomClock( uint32 gameCyle, double localTime = 0 )
 	{
-		float time = ( gameCyle + _TickOffset ) / float(RYZOM_HOURS_IN_TICKS);
-		_RyzomDay = (uint32) ( time / RYZOM_DAY_IN_HOUR ) - RYZOM_START_SPRING;
-		_RyzomTime = (float) fmod( time, RYZOM_DAY_IN_HOUR );
+		float hours = ( gameCyle + _TickOffset ) / float(RYZOM_HOURS_IN_TICKS);
+		_RyzomDay = ( (uint)hours / RYZOM_DAY_IN_HOUR ) - RYZOM_START_SPRING;
+		_RyzomTime = (float) fmod( hours, (float)RYZOM_DAY_IN_HOUR );
 		_LocalTime = localTime;
 	}
-
 
 	// get ryzom time (synchronized with server)
 	inline float getRyzomTime() const { return _RyzomTime; }
@@ -152,6 +153,9 @@ public:
 
 	// get ryzom Year
 	inline uint32 getRyzomYear() const { return _RyzomDay / RYZOM_YEAR_IN_DAY + RYZOM_START_YEAR; }
+
+	// get ryzom Year as string
+	inline ucstring getRyzomYearStr() const { return NLMISC::CI18N::get("uiYear").length()==0?NLMISC::toString(_RyzomDay / RYZOM_YEAR_IN_DAY + RYZOM_START_YEAR):NLMISC::CI18N::get("uiYear"); }
 
 	// get ryzom week
 	inline uint32 getRyzomWeek() const { return (_RyzomDay % RYZOM_YEAR_IN_DAY) / RYZOM_WEEK_IN_DAY; }

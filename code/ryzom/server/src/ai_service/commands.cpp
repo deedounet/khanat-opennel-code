@@ -39,7 +39,7 @@
 #include "fx_entity_manager.h"
 #include "ai_script_data_manager.h"
 #include "commands.h"
-
+#include "nel/misc/i18n.h"
 #include "ais_user_models.h"
 
 extern bool GrpHistoryRecordLog;
@@ -1686,7 +1686,9 @@ NLMISC_COMMAND(getDatasetId,"get datasetid of bots with name matchiong the given
 		FOREACH(itBot, vector<CBot*>, bots)
 		{
 			CBot* bot = *itBot;
-			DatasetIds += bot->getSpawnObj()->dataSetRow().toString()+"|";
+			CSpawnBot* spawnBot = bot->getSpawnObj();
+			if (spawnBot!=NULL)
+				DatasetIds += spawnBot->dataSetRow().toString()+"|";
 
 		}
 	}
@@ -3065,19 +3067,13 @@ static void displayTime(const CRyzomTime &rt, NLMISC::CLog &log)
 	log.displayNL(result.c_str());
 	std::string week = toString("%03d", rt.getRyzomWeek());
 	std::string dayName = CI18N::get("ui"+WEEKDAY::toString((WEEKDAY::EWeekDay) rt.getRyzomDayOfWeek())).toUtf8();
-	std::string year;
+	std::string year = rt.getRyzomYearStr().toUtf8();
 	std::string eon = CI18N::get("uiEon").toUtf8();
-	ucstring yearBool = CI18N::get("uiYear");
-	if (yearBool.length() == 0) {
-	  year = toString("%04d", rt.getRyzomYear());
-	} else {
-	  year = yearBool.toUtf8();
-	}
 	result = NLMISC::toString("week:day:year:eon = %s:%s:%s:%s",
-				  week,
-				  dayName,
-				  year,
-				  eon);
+				  week.c_str(),
+				  dayName.c_str(),
+				  year.c_str(),
+				  eon.c_str());
 	log.displayNL(result.c_str());
 	log.displayNL("day of year = %d/%d", (int) (rt.getRyzomDayOfYear() + 1), (int) RYZOM_YEAR_IN_DAY);
 	log.displayNL("season = %d/4 (%s)", (int) rt.getRyzomSeason() + 1, EGSPD::CSeason::toString(rt.getRyzomSeason()).c_str());

@@ -1487,12 +1487,8 @@ void CInterfaceManager::updateFrameEvents()
 			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
 			str += toString("%d", (sint)RT.getRyzomWeek()) + " ";
 			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
-			ucstring year = CI18N::get("uiYear");
-			if (year.length() == 0) {
-			  str += toString("%04d", RT.getRyzomYear()) + " - ";
-			} else {
-			  str += year + " - ";
-			}
+			ucstring year = RT.getRyzomYearStr();
+			str += year + " - ";
 			str += CI18N::get("uiEon");
 
 			pVT = dynamic_cast<CViewText*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:time"));
