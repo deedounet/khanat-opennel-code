@@ -26,7 +26,6 @@ namespace CONTINENT
 	enum TContinent
 	{
 		INDOORS = 0,
-		INDOORS,
 		NEWBIELAND,
 		UNKNOWN,
 //		NB_RESPAWN_POINT_TYPE = UNKNOWN,
