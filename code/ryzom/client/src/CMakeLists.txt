@@ -52,11 +52,11 @@ IF(WITH_RYZOM_CLIENT)
 
   # on Mac, create a .App Bundle
   if(APPLE)
-    SET(MACOSX_BUNDLE_INFO_STRING "Ryzom")
-    SET(MACOSX_BUNDLE_ICON_FILE "ryzom.icns")
-    SET(MACOSX_BUNDLE_GUI_IDENTIFIER "com.winchgate.Ryzom")
+    SET(MACOSX_BUNDLE_INFO_STRING "Khanat")
+    SET(MACOSX_BUNDLE_ICON_FILE "khanat.icns")
+    SET(MACOSX_BUNDLE_GUI_IDENTIFIER "com.khaganat.khanat")
     SET(MACOSX_BUNDLE_LONG_VERSION_STRING ${RYZOM_VERSION})
-    SET(MACOSX_BUNDLE_BUNDLE_NAME "Ryzom")
+    SET(MACOSX_BUNDLE_BUNDLE_NAME "Khanat")
     SET(MACOSX_BUNDLE_SHORT_VERSION_STRING ${RYZOM_VERSION})
     SET(MACOSX_BUNDLE_BUNDLE_VERSION "1.0")
     SET(MACOSX_BUNDLE_COPYRIGHT ${COPYRIGHT})
@@ -66,53 +66,53 @@ IF(WITH_RYZOM_CLIENT)
     SET(MAC_RESOURCES_DIR ${CMAKE_SOURCE_DIR}/ryzom/client/macosx)
   ENDIF()
 
-  ADD_EXECUTABLE(ryzom_client WIN32 MACOSX_BUNDLE ${SRC} ${SRC_INTERFACE} ${SRC_MODE} ${SRC_R2})
+  ADD_EXECUTABLE(khanat_client WIN32 MACOSX_BUNDLE ${SRC} ${SRC_INTERFACE} ${SRC_MODE} ${SRC_R2})
 
   IF(APPLE)
-    SET_TARGET_PROPERTIES(ryzom_client PROPERTIES OUTPUT_NAME ${MACOSX_BUNDLE_BUNDLE_NAME})
-    SET_TARGET_PROPERTIES(ryzom_client PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${MAC_RESOURCES_DIR}/Info.plist)
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client PRE_BUILD COMMAND mkdir -p ${RYZOM_RESOURCES_DIR})
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/PkgInfo ${RYZOM_CONTENTS_DIR})
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/ryzom.icns ${RYZOM_RESOURCES_DIR})
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -p ${CMAKE_SOURCE_DIR}/ryzom/client/client_default.cfg ${RYZOM_RESOURCES_DIR})
+    SET_TARGET_PROPERTIES(khanat_client PROPERTIES OUTPUT_NAME ${MACOSX_BUNDLE_BUNDLE_NAME})
+    SET_TARGET_PROPERTIES(khanat_client PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${MAC_RESOURCES_DIR}/Info.plist)
+    ADD_CUSTOM_COMMAND(TARGET khanat_client PRE_BUILD COMMAND mkdir -p ${RYZOM_RESOURCES_DIR})
+    ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/PkgInfo ${RYZOM_CONTENTS_DIR})
+    ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND cp ARGS -p ${MAC_RESOURCES_DIR}/khanat.icns ${RYZOM_RESOURCES_DIR})
+    ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND cp ARGS -p ${CMAKE_SOURCE_DIR}/ryzom/client/client_default.cfg ${RYZOM_RESOURCES_DIR})
 
     # remove any present installscript_osx.vdf before signing
-    ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND rm -f ${RYZOM_OUTPUT_DIR}/installscript_osx.vdf)
+    ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND rm -f ${RYZOM_OUTPUT_DIR}/installscript_osx.vdf)
 
     IF(RYZOM_DATA_DIR)
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp ARGS -RpX ${RYZOM_DATA_DIR} ${RYZOM_RESOURCES_DIR})
+      ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND cp ARGS -RpX ${RYZOM_DATA_DIR} ${RYZOM_RESOURCES_DIR})
     ENDIF()
 
     IF(TARGET crash_report)
-      ADD_DEPENDENCIES(ryzom_client crash_report)
+      ADD_DEPENDENCIES(khanat_client crash_report)
 
       # copy crash_report to bundle
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/crash_report ${RYZOM_CONTENTS_DIR}/MacOS/CrashReport)
+      ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND cp -p ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/crash_report ${RYZOM_CONTENTS_DIR}/MacOS/CrashReport)
 
       IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/CrashReport" COMMENT "Signing CrashReport executable...")
+        ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/CrashReport" COMMENT "Signing CrashReport executable...")
       ENDIF()
     ENDIF()
 
-    IF(TARGET ryzom_client_patcher)
-      ADD_DEPENDENCIES(ryzom_client ryzom_client_patcher)
+    IF(TARGET khanat_client_patcher)
+      ADD_DEPENDENCIES(khanat_client khanat_client_patcher)
 
-      # copy ryzom_client_patcher to bundle
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ryzom_client_patcher ${RYZOM_CONTENTS_DIR}/MacOS/RyzomClientPatcher)
+      # copy khanat_client_patcher to bundle
+      ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND cp -p ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/khanat_client_patcher ${RYZOM_CONTENTS_DIR}/MacOS/KhanatClientPatcher)
 
       IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/RyzomClientPatcher" COMMENT "Signing RyzomClientPatcher executable...")
+        ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/KhanatClientPatcher" COMMENT "Signing KhanatClientPatcher executable...")
       ENDIF()
     ENDIF()
 
     IF(TARGET ryzom_configuration_qt)
-      ADD_DEPENDENCIES(ryzom_client ryzom_configuration_qt)
+      ADD_DEPENDENCIES(khanat_client ryzom_configuration_qt)
 
       # copy ryzom_configuration_qt to bundle
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ryzom_configuration_qt ${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration)
+      ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND cp -p ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ryzom_configuration_qt ${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration)
 
       IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration" COMMENT "Signing RyzomConfiguration executable...")
+        ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/RyzomConfiguration" COMMENT "Signing RyzomConfiguration executable...")
       ENDIF()
     ENDIF()
 
@@ -126,7 +126,7 @@ IF(WITH_RYZOM_CLIENT)
     ENDIF()
 
     IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_OUTPUT_DIR}" COMMENT "Signing Ryzom bundle...")
+      ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_OUTPUT_DIR}" COMMENT "Signing Ryzom bundle...")
     ENDIF()
   ENDIF()
 
@@ -143,7 +143,7 @@ IF(WITH_RYZOM_CLIENT)
     INCLUDE_DIRECTORIES(${STEAM_INCLUDE_DIRS})
   ENDIF()
 
-  TARGET_LINK_LIBRARIES(ryzom_client
+  TARGET_LINK_LIBRARIES(khanat_client
               nelmisc
               nelnet
               nelligo
@@ -163,40 +163,40 @@ IF(WITH_RYZOM_CLIENT)
   ADD_DEFINITIONS(${LIBXML2_DEFINITIONS})
 
   IF(NOT APPLE AND NOT WIN32)
-    TARGET_LINK_LIBRARIES(ryzom_client ${X11_LIBRARIES})
+    TARGET_LINK_LIBRARIES(khanat_client ${X11_LIBRARIES})
   ENDIF()
 
   IF(APPLE)
     FIND_LIBRARY(FOUNDATION_LIBRARY Foundation)
-    TARGET_LINK_LIBRARIES(ryzom_client ${FOUNDATION_LIBRARY})
+    TARGET_LINK_LIBRARIES(khanat_client ${FOUNDATION_LIBRARY})
   ENDIF()
 
   ADD_DEFINITIONS(${LIBXML2_DEFINITIONS} ${CURL_DEFINITIONS} ${LUABIND_DEFINITIONS})
 
-  NL_DEFAULT_PROPS(ryzom_client "Ryzom, Client: Ryzom Client")
-  NL_ADD_RUNTIME_FLAGS(ryzom_client)
+  NL_DEFAULT_PROPS(khanat_client "Khanat, Client: Khanat Client")
+  NL_ADD_RUNTIME_FLAGS(khanat_client)
 
   IF(FINAL_VERSION)
-    NL_ADD_LIB_SUFFIX(ryzom_client)
+    NL_ADD_LIB_SUFFIX(khanat_client)
   ELSE()
     IF(WIN32)
-      SET_TARGET_PROPERTIES(ryzom_client PROPERTIES DEBUG_POSTFIX "_dev_d" RELEASE_POSTFIX "_dev_r")
+      SET_TARGET_PROPERTIES(khanat_client PROPERTIES DEBUG_POSTFIX "_dev_d" RELEASE_POSTFIX "_dev_r")
     ELSE()
-      SET_TARGET_PROPERTIES(ryzom_client PROPERTIES POSTFIX "_dev")
+      SET_TARGET_PROPERTIES(khanat_client PROPERTIES POSTFIX "_dev")
     ENDIF()
   ENDIF()
 
   IF(WITH_RYZOM_CLIENT_UAC)
     IF(CMAKE_GENERATOR MATCHES "Visual Studio")
-      SET_PROPERTY(TARGET ryzom_client PROPERTY LINK_FLAGS_RELEASE "/level='requireAdministrator'")
+      SET_PROPERTY(TARGET khanat_client PROPERTY LINK_FLAGS_RELEASE "/level='requireAdministrator'")
     ELSEIF(CMAKE_GENERATOR MATCHES "NMake Makefiles")
-      SET_PROPERTY(TARGET ryzom_client PROPERTY LINK_FLAGS_RELEASE "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\"")
+      SET_PROPERTY(TARGET khanat_client PROPERTY LINK_FLAGS_RELEASE "/MANIFESTUAC:\"level='requireAdministrator' uiAccess='false'\"")
     ENDIF()
   ENDIF()
 
   IF(WITH_PCH AND (NOT MINGW OR NOT WITH_SYMBOLS))
-    ADD_NATIVE_PRECOMPILED_HEADER(ryzom_client ${CMAKE_CURRENT_SOURCE_DIR}/stdpch.h ${CMAKE_CURRENT_SOURCE_DIR}/stdpch.cpp)
+    ADD_NATIVE_PRECOMPILED_HEADER(khanat_client ${CMAKE_CURRENT_SOURCE_DIR}/stdpch.h ${CMAKE_CURRENT_SOURCE_DIR}/stdpch.cpp)
   ENDIF()
 
-  INSTALL(TARGETS ryzom_client RUNTIME DESTINATION ${RYZOM_GAMES_PREFIX} COMPONENT client BUNDLE DESTINATION /Applications)
+  INSTALL(TARGETS khanat_client RUNTIME DESTINATION ${RYZOM_GAMES_PREFIX} COMPONENT client BUNDLE DESTINATION /Applications)
 ENDIF()

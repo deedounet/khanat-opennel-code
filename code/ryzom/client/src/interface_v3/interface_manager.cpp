@@ -1477,12 +1477,19 @@ void CInterfaceManager::updateFrameEvents()
 
 			// literal version
 			// str = CI18N::get("uiDate");
-			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
+			/*			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
 			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + ", ";
 			str += CI18N::get("ui"+MONTH::toString( (MONTH::EMonth)RT.getRyzomMonthInCurrentCycle() )) + " ";
 			str += toString("%02d", RT.getRyzomDayOfMonth()+1) + ", ";
 			str += CI18N::get("uiAtysianCycle" + toString(RT.getRyzomCycle()+1) + "Ordinal") + " " + CI18N::get("uiAtysianCycle") + " ";
-			str += toString("%04d", RT.getRyzomYear());
+			str += toString("%04d", RT.getRyzomYear());*/
+
+			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
+			str += toString("%d", (sint)RT.getRyzomWeek()) + " ";
+			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
+			ucstring year = RT.getRyzomYearStr();
+			str += year + " - ";
+			str += CI18N::get("uiEon");
 
 			pVT = dynamic_cast<CViewText*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:time"));
 			if (pVT != NULL)
