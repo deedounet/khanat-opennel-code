@@ -1,14 +1,15 @@
 # Need clientsheets lib for sheets packer tool
 ADD_SUBDIRECTORY(client_sheets)
 
+# Need seven_zip lib for patch_gen tool
+ADD_SUBDIRECTORY(seven_zip)
+
 IF(WITH_RYZOM_CLIENT)
-  # These are Windows/MFC apps
-  SET(SEVENZIP_LIBRARY "ryzom_sevenzip")
-
-  ADD_SUBDIRECTORY(seven_zip)
-
   # Patch should never be enabled on Steam
-  IF(WITH_RYZOM_PATCH AND NOT WITH_RYZOM_STEAM)
+  IF(WITH_RYZOM_STEAM)
+    ADD_DEFINITIONS(-DRZ_USE_STEAM)
+    FIND_PACKAGE(Steam)
+  ELSEIF(WITH_RYZOM_PATCH)
     ADD_DEFINITIONS(-DRZ_USE_PATCH)
 
     IF(WITH_RYZOM_CUSTOM_PATCH_SERVER)
@@ -115,6 +116,15 @@ IF(WITH_RYZOM_CLIENT)
       ENDIF()
     ENDIF()
 
+
+    IF(WITH_RYZOM_STEAM AND STEAM_RUNTIME)
+      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p ${STEAM_RUNTIME} ${RYZOM_CONTENTS_DIR}/MacOS)
+
+      IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
+        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign --no-strict -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/${STEAM_RUNTIMENAME}" COMMENT "Signing Steam client runtime...")
+      ENDIF()
+    ENDIF()
+
     IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
       ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_OUTPUT_DIR}" COMMENT "Signing Ryzom bundle...")
     ENDIF()
@@ -129,6 +139,10 @@ IF(WITH_RYZOM_CLIENT)
         ${ZLIB_INCLUDE_DIR}
   )
 
+  IF(STEAM_FOUND)
+    INCLUDE_DIRECTORIES(${STEAM_INCLUDE_DIRS})
+  ENDIF()
+
   TARGET_LINK_LIBRARIES(khanat_client
               nelmisc
               nelnet
@@ -137,13 +151,13 @@ IF(WITH_RYZOM_CLIENT)
               nel3d
               nelgui
               nelsound
+              ryzom_sevenzip
               ryzom_clientsheets
               ryzom_gameshare
               nelpacs
               ${LUA_LIBRARIES}
               ${LUABIND_LIBRARIES}
               ${CURL_LIBRARIES}
-              ${SEVENZIP_LIBRARY}
   )
 
   ADD_DEFINITIONS(${LIBXML2_DEFINITIONS})

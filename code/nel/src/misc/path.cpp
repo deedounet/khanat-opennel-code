@@ -1777,19 +1777,29 @@ std::string CFileContainer::getWindowsDirectory()
 #endif
 }
 
-std::string CPath::getApplicationDirectory(const std::string &appName)
+std::string CPath::getApplicationDirectory(const std::string &appName, bool local)
 {
-	return getInstance()->_FileContainer.getApplicationDirectory(appName);
+	return getInstance()->_FileContainer.getApplicationDirectory(appName, local);
 }
 
-std::string CFileContainer::getApplicationDirectory(const std::string &appName)
+std::string CFileContainer::getApplicationDirectory(const std::string &appName, bool local)
 {
-	static std::string appPath;
+	static std::string appPaths[2];
+	std::string &appPath = appPaths[local ? 1 : 0];
 	if (appPath.empty())
 	{
 #ifdef NL_OS_WINDOWS
 		wchar_t buffer[MAX_PATH];
-		SHGetSpecialFolderPathW(NULL, buffer, CSIDL_APPDATA, TRUE);
+#ifdef CSIDL_LOCAL_APPDATA
+		if (local)
+		{
+			SHGetSpecialFolderPathW(NULL, buffer, CSIDL_LOCAL_APPDATA, TRUE);
+		}
+		else
+#endif
+		{
+			SHGetSpecialFolderPathW(NULL, buffer, CSIDL_APPDATA, TRUE);
+		}
 		appPath = CPath::standardizePath(ucstring((ucchar*)buffer).toUtf8());
 #elif defined(NL_OS_MAC)
 		appPath = CPath::standardizePath(getenv("HOME"));
@@ -2568,13 +2578,13 @@ std::string CPath::makePathAbsolute( const std::string &relativePath, const std:
 	{
 		absolutePath = relativePath;
 	}
-#else
-	// Unix filesystem absolute path
+	else
+#endif
+	// Unix filesystem absolute path (works also under Windows)
 	if (relativePath[0] == '/')
 	{
 		absolutePath = relativePath;
 	}
-#endif
 	else
 	{
 		// Add a slash to the directory if necessary.
@@ -2600,14 +2610,15 @@ std::string CPath::makePathAbsolute( const std::string &relativePath, const std:
 
 		// Now build the new absolute path
 		absolutePath += relativePath;
-		absolutePath = standardizePath(absolutePath, true);
 	}
+
+	absolutePath = standardizePath(absolutePath, true);
 
 	if (simplify)
 	{
 		// split all components path to manage parent directories
 		std::vector<std::string> tokens;
-		explode(absolutePath, std::string("/"), tokens, true);
+		explode(absolutePath, std::string("/"), tokens, false);
 
 		std::vector<std::string> directoryParts;
 
@@ -2639,7 +2650,10 @@ std::string CPath::makePathAbsolute( const std::string &relativePath, const std:
 
 			// rebuild the whole absolute path
 			for(uint i = 1, len = directoryParts.size(); i < len; ++i)
-				absolutePath += "/" + directoryParts[i];
+			{
+				if (!directoryParts[i].empty())
+					absolutePath += "/" + directoryParts[i];
+			}
 
 			// add trailing slash
 			absolutePath += "/";
