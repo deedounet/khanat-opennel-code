@@ -3,7 +3,6 @@ FILE(GLOB SRC main.cpp
 	${CMAKE_SOURCE_DIR}/ryzom/client/src/user_agent.cpp
 	${CMAKE_SOURCE_DIR}/ryzom/client/src/client_cfg.cpp
 	${CMAKE_SOURCE_DIR}/ryzom/client/src/login_patch.cpp
-	${CMAKE_SOURCE_DIR}/ryzom/client/src/login_patch_seven_zip.cpp
 	${CMAKE_SOURCE_DIR}/ryzom/client/src/login_xdelta.cpp
 	${CMAKE_SOURCE_DIR}/ryzom/client/src/stdpch.cpp
 	${CMAKE_SOURCE_DIR}/ryzom/client/src/stdpch.h
@@ -17,6 +16,7 @@ ADD_EXECUTABLE(khanat_client_patcher ${SRC})
 INCLUDE_DIRECTORIES(
 			${LIBXML2_INCLUDE_DIR}
 			${CURL_INCLUDE_DIRS}
+			${ZLIB_INCLUDE_DIR}
 			${CMAKE_SOURCE_DIR}/ryzom/client/src
 )
 

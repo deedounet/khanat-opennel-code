@@ -380,7 +380,26 @@ string bytesToHumanReadable (uint64 bytes)
 		div++;
 		res = newres;
 	}
-	return toString ("%" NL_I64 "u%s", res, divTable[div]);
+	return toString ("%" NL_I64 "u %s", res, divTable[div]);
+}
+
+std::string bytesToHumanReadableUnits (uint64 bytes, const std::vector<std::string> &units)
+{
+	if (units.empty()) return "";
+
+	uint div = 0;
+	uint last = units.size()-1;
+	uint64 res = bytes;
+	uint64 newres = res;
+	for(;;)
+	{
+		newres /= 1024;
+		if(newres < 8 || div > 3 || div == last)
+			break;
+		++div;
+		res = newres;
+	}
+	return toString ("%" NL_I64 "u %s", res, units[div].c_str());
 }
 
 uint32 humanReadableToBytes (const string &str)
@@ -394,7 +413,8 @@ uint32 humanReadableToBytes (const string &str)
 	if(str[0]<'0' || str[0]>'9')
 		return 0;
 
-	res = atoi (str.c_str());
+	if (!fromString(str, res))
+		return 0;
 
 	if(str[str.size()-1] == 'B')
 	{
@@ -404,10 +424,28 @@ uint32 humanReadableToBytes (const string &str)
 		// there's no break and it's **normal**
 		switch (str[str.size()-2])
 		{
-		case 'G': res *= 1024;
-		case 'M': res *= 1024;
-		case 'K': res *= 1024;
-		default: ;
+			// kB/KB, MB, GB and TB are 1000 multiples
+			case 'T': res *= 1000;
+			case 'G': res *= 1000;
+			case 'M': res *= 1000;
+			case 'k': res *= 1000; break; // kilo symbol should be a lowercase K
+			case 'K': res *= 1000; break;
+			case 'i':
+			{
+				// KiB, MiB, GiB and TiB are 1024 multiples
+				if (str.size()<4)
+					return res;
+
+				switch (str[str.size()-3])
+				{
+					case 'T': res *= 1024;
+					case 'G': res *= 1024;
+					case 'M': res *= 1024;
+					case 'K': res *= 1024;
+					default: ;
+				}
+			}
+			default: ;
 		}
 	}
 
@@ -694,8 +732,22 @@ bool launchProgram(const std::string &programName, const std::string &arguments,
 		SetEnvironmentVariable( SE_TRANSLATOR_IN_MAIN_MODULE, NULL );
 	}
 
-	string arg = " " + arguments;
-	BOOL res = CreateProcessA(programName.c_str(), (char*)arg.c_str(), NULL, NULL, FALSE, CREATE_DEFAULT_ERROR_MODE | CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+	const char *sProgramName = programName.c_str();
+
+	std::string args;
+
+	// a .bat file must have first parameter to NULL and use 2nd parameter to pass filename
+	if (CFile::getExtension(programName) == "bat")
+	{
+		sProgramName = NULL;
+		args = "\"" + programName + "\" " + arguments;
+	}
+	else
+	{
+		args = arguments;
+	}
+
+	BOOL res = CreateProcessA(sProgramName, (char*)args.c_str(), NULL, NULL, FALSE, CREATE_DEFAULT_ERROR_MODE | CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
 
 	if (res)
 	{
@@ -716,31 +768,21 @@ bool launchProgram(const std::string &programName, const std::string &arguments,
 	}
 
 #elif defined(NL_OS_MAC)
-	std::string command;
+	// we need to open bundles with "open" command
+	std::string command = NLMISC::toString("open \"%s\"", programName.c_str());
 
-	if (CFile::getExtension(programName) == "app")
+	// append arguments if any
+	if (!arguments.empty())
 	{
-		// we need to open bundles with "open" command
-		command = NLMISC::toString("open \"%s\"", programName.c_str());
-
-		// append arguments if any
-		if (!arguments.empty())
-		{
-			command += NLMISC::toString(" --args %s", arguments.c_str());
-		}
-	}
-	else
-	{
-		command = programName;
-
-		// append arguments if any
-		if (!arguments.empty()) command += " " + arguments;
+		command += NLMISC::toString(" --args %s", arguments.c_str());
 	}
 
 	int res = system(command.c_str());
 
 	if (res && log)
-		nlwarning ("LAUNCH: Failed launched '%s' with arg '%s' return code %d", programName.c_str(), arguments.c_str(), res);
+	  nlwarning ("LAUNCH: Failed launched '%s' with arg '%s' return code %d", programName.c_str(), arguments.c_str(), res);
+	if (!res)
+	  return true;
 #else
 
 	static bool firstLaunchProgram = true;
@@ -838,8 +880,22 @@ sint launchProgramAndWaitForResult(const std::string &programName, const std::st
 		SetEnvironmentVariable( SE_TRANSLATOR_IN_MAIN_MODULE, NULL );
 	}
 
-	string arg = " " + arguments;
-	BOOL ok = CreateProcessA(programName.c_str(), (char*)arg.c_str(), NULL, NULL, FALSE, CREATE_DEFAULT_ERROR_MODE | CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+	const char *sProgramName = programName.c_str();
+
+	std::string args;
+
+	// a .bat file must have first parameter to NULL and use 2nd parameter to pass filename
+	if (CFile::getExtension(programName) == "bat")
+	{
+		sProgramName = NULL;
+		args = "\"" + programName + "\" " + arguments;
+	}
+	else
+	{
+		args = arguments;
+	}
+
+	BOOL ok = CreateProcessA(sProgramName, (char*)args.c_str(), NULL, NULL, FALSE, CREATE_DEFAULT_ERROR_MODE | CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
 
 	if (ok)
 	{

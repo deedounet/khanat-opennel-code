@@ -753,9 +753,9 @@ uiErrPatchApply	[Error : Patch process ended but the patch has not been successf
 
 uiErrChecking	[Error : Checking for patch files failed]
 
-uiKb	[KB]
+uiKb	[KiB]
 
-uiMb	[MB]
+uiMb	[MiB]
 
 uiLoginGetFile	[Getting File :]
 uiDLFailed	[Download from emergency server failed, patching is aborted]
@@ -13454,3 +13454,13 @@ uiShowClock12h [Use 12-hour clock]
 uittShowClock12h [If checked, use 12-hour clock in compass and in chat messages.]
 uiRadarUseCamera [Radar follows camera rotation]
 uittRadarUseCamera [If checked, use camera rotation for radar view.]
+uiTotalPatch [TOTAL PATCH]
+uiRequiredFiles [REQUIRED FILES]
+// default value for LOD in login screen
+uiLodValue [NORMAL]
+// option displayed in keys configuration (Debug section)
+uiDebugProfileFillRate [Profile Fillrate]
+// displayed in mission window when continent is unknown
+uiFixedMissionEntry_Mainland_Unknwown [Main land / Unknown]
+// displayed when no files are playing in MP3 player
+uiNoFiles [No Files...]

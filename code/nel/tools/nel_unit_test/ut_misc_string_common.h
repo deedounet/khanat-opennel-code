@@ -444,11 +444,13 @@ struct CUTMiscStringCommon : public Test::Suite
 
 		// min limit -1, unable to compare with minimum value because no lower type
 		ret = NLMISC::fromString("-9223372036854775809", val);
-		TEST_ASSERT(ret && val == std::numeric_limits<sint64>::max());
+		// with GCC, it returns min, with VC++ it returns max
+		TEST_ASSERT(ret && (val == std::numeric_limits<sint64>::max() || std::numeric_limits<sint64>::min()));
 
 		// max limit +1, unable to compare with maximum value because no higher type
 		ret = NLMISC::fromString("9223372036854775808", val);
-		TEST_ASSERT(ret && val == std::numeric_limits<sint64>::min());
+		// with GCC, it returns max with VC++ it returns min
+		TEST_ASSERT(ret && (val == std::numeric_limits<sint64>::min() || std::numeric_limits<sint64>::max()));
 
 		// with period
 		ret = NLMISC::fromString("1.2", val);
@@ -508,7 +510,8 @@ struct CUTMiscStringCommon : public Test::Suite
 
 		// max limit +1, unable to compare with maximum value because no higher type
 		ret = NLMISC::fromString("18446744073709551616", val);
-		TEST_ASSERT(ret && val == std::numeric_limits<uint64>::min());
+		// with GCC, it returns max with VC++ it returns min
+		TEST_ASSERT(ret && (val == std::numeric_limits<uint64>::min() || val == std::numeric_limits<uint64>::max()));
 
 		// with period
 		ret = NLMISC::fromString("1.2", val);
@@ -682,60 +685,59 @@ struct CUTMiscStringCommon : public Test::Suite
 		// tests for bool
 		bool val;
 
-		// true value
-		val = false;
+		// true values
 		ret = NLMISC::fromString("1", val);
-		TEST_ASSERT(val);
-		TEST_ASSERT_MSG(ret, "should succeed");
+		TEST_ASSERT(ret && val);
 
-		val = false;
-		NLMISC::fromString("t", val);
-		TEST_ASSERT(val);
+		ret = NLMISC::fromString("t", val);
+		TEST_ASSERT(ret && val);
 
-		val = false;
-		NLMISC::fromString("y", val);
-		TEST_ASSERT(val);
+		ret = NLMISC::fromString("y", val);
+		TEST_ASSERT(ret && val);
 
-		val = false;
-		NLMISC::fromString("T", val);
-		TEST_ASSERT(val);
+		ret = NLMISC::fromString("T", val);
+		TEST_ASSERT(ret && val);
 
-		val = false;
-		NLMISC::fromString("Y", val);
-		TEST_ASSERT(val);
+		ret = NLMISC::fromString("Y", val);
+		TEST_ASSERT(ret && val);
 
-		val = true;
+		ret = NLMISC::fromString("true", val);
+		TEST_ASSERT(ret && val);
+
+		ret = NLMISC::fromString("yes", val);
+		TEST_ASSERT(ret && val);
+
+		// false values
 		ret = NLMISC::fromString("0", val);
-		TEST_ASSERT(!val);
-		TEST_ASSERT_MSG(ret, "should succeed");
+		TEST_ASSERT(ret && !val);
 
-		val = true;
-		NLMISC::fromString("f", val);
-		TEST_ASSERT(!val);
+		ret = NLMISC::fromString("f", val);
+		TEST_ASSERT(ret && !val);
 
-		val = true;
-		NLMISC::fromString("n", val);
-		TEST_ASSERT(!val);
+		ret = NLMISC::fromString("n", val);
+		TEST_ASSERT(ret && !val);
 
-		val = true;
-		NLMISC::fromString("F", val);
-		TEST_ASSERT(!val);
+		ret = NLMISC::fromString("F", val);
+		TEST_ASSERT(ret && !val);
 
-		val = true;
-		NLMISC::fromString("N", val);
-		TEST_ASSERT(!val);
+		ret = NLMISC::fromString("N", val);
+		TEST_ASSERT(ret && !val);
 
-		// bad character
+		ret = NLMISC::fromString("false", val);
+		TEST_ASSERT(ret && !val);
+
+		ret = NLMISC::fromString("no", val);
+		TEST_ASSERT(ret && !val);
+
+		// wrong values
+		ret = NLMISC::fromString("YES", val);
+		TEST_ASSERT(!ret && !val);
+
+		ret = NLMISC::fromString("foo", val);
+		TEST_ASSERT(!ret && !val);
+
 		ret = NLMISC::fromString("a", val);
-		TEST_ASSERT_MSG(!ret, "should not succeed");
-
-		val = true;
-		NLMISC::fromString("a", val);
-		TEST_ASSERT_MSG(val, "should not modify the value");
-
-		val = false;
-		NLMISC::fromString("a", val);
-		TEST_ASSERT_MSG(!val, "should not modify the value");
+		TEST_ASSERT(!ret && !val);
 	}
 };
 

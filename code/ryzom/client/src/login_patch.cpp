@@ -47,6 +47,7 @@
 #include "nel/misc/sha1.h"
 #include "nel/misc/big_file.h"
 #include "nel/misc/i18n.h"
+#include "nel/misc/cmd_args.h"
 
 #include "game_share/bg_downloader_msg.h"
 
@@ -54,6 +55,7 @@
 #include "login.h"
 #include "user_agent.h"
 
+#include "seven_zip/seven_zip.h"
 
 #ifndef RY_BG_DOWNLOADER
 	#include "client_cfg.h"
@@ -88,6 +90,8 @@ extern string R2ServerVersion;
 	std::string TheTmpInstallDirectory = "patch/client_install";
 #endif
 
+extern NLMISC::CCmdArgs Args;
+
 // ****************************************************************************
 // ****************************************************************************
 // ****************************************************************************
@@ -119,8 +123,16 @@ CPatchManager::CPatchManager() : State("t_state"), DataScanState("t_data_scan_st
 	UpdateBatchFilename = "updt_nl.sh";
 #endif
 
-	// use current directory by default
-	setClientRootPath("./");
+	// use application directory by default
+	std::string rootPath = Args.getProgramPath();
+
+	if (!CFile::fileExists(rootPath + "client_default.cfg"))
+	{
+		// use current directory
+		rootPath = CPath::getCurrentPath();
+	}
+
+	setClientRootPath(rootPath);
 
 	VerboseLog = true;
 
@@ -707,7 +719,7 @@ void CPatchManager::stopPatchThread()
 // ****************************************************************************
 void CPatchManager::deleteBatchFile()
 {
-	deleteFile(UpdateBatchFilename, false, false);
+	deleteFile(ClientRootPath + UpdateBatchFilename, false, false);
 }
 
 // ****************************************************************************
@@ -715,29 +727,12 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 {
 	uint nblab = 0;
 
-	FILE *fp = NULL;
-
-	if (useBatchFile)
-	{
-		deleteBatchFile();
-		fp = fopen (UpdateBatchFilename.c_str(), "wt");
-		if (fp == 0)
-		{
-			string err = toString("Can't open file '%s' for writing: code=%d %s (error code 29)", UpdateBatchFilename.c_str(), errno, strerror(errno));
-			throw Exception (err);
-		}
-
-		//use bat if windows if not use sh
-#ifdef NL_OS_WINDOWS
-		fprintf(fp, "@echo off\n");
-#else
-		fprintf(fp, "#!/bin/sh\n");
-#endif
-	}
+	std::string content;
 
 	// Unpack files with category ExtractPath non empty
 	const CBNPCategorySet &rDescCats = descFile.getCategories();
 	OptionalCat.clear();
+
 	for (uint32 i = 0; i < rDescCats.categoryCount(); ++i)
 	{
 		// For all optional categories check if there is a 'file to patch' in it
@@ -757,11 +752,6 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 			}
 			catch(...)
 			{
-				if (useBatchFile)
-				{
-					fclose(fp);
-				}
-
 				throw;
 			}
 
@@ -769,11 +759,6 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 			{
 				// TODO: handle exception?
 				string err = toString("Error unpacking %s", rFilename.c_str());
-
-				if (useBatchFile)
-				{
-					fclose(fp);
-				}
 
 				throw Exception (err);
 			}
@@ -786,38 +771,40 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 					NLMISC::CFile::createDirectoryTree(DstPath);
 
 					// this file must be moved
-					if (useBatchFile)
-					{
 #ifdef NL_OS_WINDOWS
-						SrcPath = CPath::standardizeDosPath(SrcPath);
-						DstPath = CPath::standardizeDosPath(DstPath);
-#else
-						SrcPath = CPath::standardizePath(SrcPath);
-						DstPath = CPath::standardizePath(DstPath);
+					SrcPath = CPath::standardizeDosPath(SrcPath);
+					DstPath = CPath::standardizeDosPath(DstPath);
 #endif
-					}
 
 					std::string SrcName = SrcPath + vFilenames[fff];
 					std::string DstName = DstPath + vFilenames[fff];
 
-					if (useBatchFile)
+					bool succeeded = false;
+
+					if (!useBatchFile)
+					{
+						// don't check result, because it's possible the olk file doesn't exist
+						CFile::deleteFile(DstName);
+						
+						// try to move it, if fails move it later in a script
+						if (CFile::moveFile(DstName, SrcName))
+							succeeded = true;
+					}
+
+					// if we didn't succeed to delete or move the file, create a batch file anyway
+					if (!succeeded)
 					{
 						// write windows .bat format else write sh format
 #ifdef NL_OS_WINDOWS
-						fprintf(fp, ":loop%u\n", nblab);
-						fprintf(fp, "attrib -r -a -s -h %s\n", DstName.c_str());
-						fprintf(fp, "del %s\n", DstName.c_str());
-						fprintf(fp, "if exist %s goto loop%u\n", DstName.c_str(), nblab);
-						fprintf(fp, "move %s %s\n", SrcName.c_str(), DstPath.c_str());
+						content += toString(":loop%u\n", nblab);
+						content += toString("attrib -r -a -s -h \"%s\"\n", DstName.c_str());
+						content += toString("del \"%s\"\n", DstName.c_str());
+						content += toString("if exist \"%s\" goto loop%u\n", DstName.c_str(), nblab);
+						content += toString("move \"%s\" \"%s\"\n", SrcName.c_str(), DstPath.c_str());
 #else
-						fprintf(fp, "rm -rf %s\n", DstName.c_str());
-						fprintf(fp, "mv %s %s\n", SrcName.c_str(), DstPath.c_str());
+						content += toString("rm -rf \"%s\"\n", DstName.c_str());
+						content += toString("mv %s \"%s\"\n", SrcName.c_str(), DstPath.c_str());
 #endif
-					}
-					else
-					{
-						deleteFile(DstName);
-						CFile::moveFile(DstName, SrcName);
 					}
 
 					nblab++;
@@ -826,58 +813,86 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 		}
 	}
 
+	std::string patchDirectory = CPath::standardizeDosPath(ClientRootPath + "patch");
+
 	// Finalize batch file
-	if (NLMISC::CFile::isExists("patch") && NLMISC::CFile::isDirectory("patch"))
+	if (NLMISC::CFile::isExists(patchDirectory) && NLMISC::CFile::isDirectory(patchDirectory))
 	{
-#ifdef NL_OS_WINDOWS
-		if (useBatchFile)
-		{
-			fprintf(fp, ":looppatch\n");
-		}
-#endif
+		std::string patchContent;
 
 		vector<string> vFileList;
-		CPath::getPathContent ("patch", false, false, true, vFileList, NULL, false);
+		CPath::getPathContent (patchDirectory, false, false, true, vFileList, NULL, false);
 
 		for(uint32 i = 0; i < vFileList.size(); ++i)
 		{
-			if (useBatchFile)
+			bool succeeded = false;
+
+			if (!useBatchFile)
+			{
+				if (CFile::deleteFile(vFileList[i]))
+					succeeded = true;
+			}
+
+			// if we didn't succeed to delete, create a batch file anyway
+			if (!succeeded)
 			{
 #ifdef NL_OS_WINDOWS
-				fprintf(fp, "del %s\n", CPath::standardizeDosPath(vFileList[i]).c_str());
+				patchContent += toString("del \"%s\"\n", CPath::standardizeDosPath(vFileList[i]).c_str());
 #else
-				fprintf(fp, "rm -f %s\n", CPath::standardizePath(vFileList[i]).c_str());
+				patchContent += toString("rm -f \"%s\"\n", CPath::standardizePath(vFileList[i]).c_str());
 #endif
-			}
-			else
-			{
-				CFile::deleteFile(vFileList[i]);
 			}
 		}
 
-		if (useBatchFile)
+		if (!patchContent.empty())
 		{
 #ifdef NL_OS_WINDOWS
-			fprintf(fp, "rd /Q /S patch\n");
-			fprintf(fp, "if exist patch goto looppatch\n");
+			content += toString(":looppatch\n");
+
+			content += patchContent;
+
+			content += toString("rd /Q /S \"" + patchDirectory + "\"\n");
+			content += toString("if exist \"" + patchDirectory + "\" goto looppatch\n");
 #else
-			fprintf(fp, "rm -rf patch\n");
+			content += toString("rm -rf \"" + patchDirectory + "\"\n");
 #endif
 		}
 		else
 		{
-			CFile::deleteDirectory("patch");
+			CFile::deleteDirectory(patchDirectory);
 		}
 	}
 
-	if (useBatchFile)
+	if (!content.empty())
 	{
+		deleteBatchFile();
+
+		std::string batchFilename = ClientRootPath + UpdateBatchFilename;
+
+		FILE *fp = fopen (batchFilename.c_str(), "wt");
+
+		if (fp == NULL)
+		{
+			string err = toString("Can't open file '%s' for writing: code=%d %s (error code 29)", batchFilename.c_str(), errno, strerror(errno));
+			throw Exception (err);
+		}
+
+		//use bat if windows if not use sh
+#ifdef NL_OS_WINDOWS
+		fprintf(fp, "@echo off\n");
+#else
+		fprintf(fp, "#!/bin/sh\n");
+#endif
+
+		// append content of script
+		fprintf(fp, content.c_str());
+
 		if (wantRyzomRestart)
 		{
 #ifdef NL_OS_WINDOWS
-			fprintf(fp, "start %s %%1 %%2 %%3\n", RyzomFilename.c_str());
+			fprintf(fp, "start \"\" \"%s\" %%1 %%2 %%3\n", CPath::standardizeDosPath(RyzomFilename).c_str());
 #else
-			fprintf(fp, "%s $1 $2 $3\n", RyzomFilename.c_str());
+			fprintf(fp, "\"%s\" $1 $2 $3\n", RyzomFilename.c_str());
 #endif
 		}
 
@@ -886,11 +901,11 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 		fclose(fp);
 		if (diskFull)
 		{
-			throw NLMISC::EDiskFullError(UpdateBatchFilename.c_str());
+			throw NLMISC::EDiskFullError(batchFilename.c_str());
 		}
 		if (writeError)
 		{
-			throw NLMISC::EWriteError(UpdateBatchFilename.c_str());
+			throw NLMISC::EWriteError(batchFilename.c_str());
 		}
 	}
 }
@@ -902,93 +917,44 @@ void CPatchManager::executeBatchFile()
 	extern void quitCrashReport ();
 	quitCrashReport ();
 
-#ifdef NL_OS_WINDOWS
-	// Launch the batch file
-	STARTUPINFO si;
-	PROCESS_INFORMATION pi;
-
-	ZeroMemory( &si, sizeof(si) );
-	si.dwFlags = STARTF_USESHOWWINDOW;
-	si.wShowWindow = SW_HIDE; // SW_SHOW
-
-	si.cb = sizeof(si);
-
-	ZeroMemory( &pi, sizeof(pi) );
-
-	// Start the child process.
-	string strCmdLine;
-	bool r2Mode = false;
-	#ifndef RY_BG_DOWNLOADER
-		r2Mode = ClientCfg.R2Mode;
-	#endif
-	if (r2Mode)
-	{
-		strCmdLine = UpdateBatchFilename + " " + LoginLogin + " " + LoginPassword;
-	}
-	else
-	{
-		strCmdLine = UpdateBatchFilename + " " + LoginLogin + " " + LoginPassword + " " + toString(LoginShardId);
-	}
-	if( !CreateProcess( NULL, // No module name (use command line).
-		(char*)strCmdLine.c_str(), // Command line.
-		NULL,				// Process handle not inheritable.
-		NULL,				// Thread handle not inheritable.
-		FALSE,				// Set handle inheritance to FALSE.
-		0,					// No creation flags.
-		NULL,				// Use parent's environment block.
-		NULL,				// Use parent's starting directory.
-		&si,				// Pointer to STARTUPINFO structure.
-		&pi )				// Pointer to PROCESS_INFORMATION structure.
-		)
-	{
-		// error occurs during the launch
-		string str = toString("Can't execute '%s': code=%d %s (error code 30)", UpdateBatchFilename.c_str(), errno, strerror(errno));
-		throw Exception (str);
-	}
-	// Close process and thread handles.
-//	CloseHandle( pi.hProcess );
-//	CloseHandle( pi.hThread );
-
-#else
-	// Start the child process.
 	bool r2Mode = false;
 
 #ifndef RY_BG_DOWNLOADER
 	r2Mode = ClientCfg.R2Mode;
 #endif
 
-	string strCmdLine;
+	std::string batchFilename;
 
-	strCmdLine = "./" + UpdateBatchFilename;
+#ifdef NL_OS_WINDOWS
+	batchFilename = CPath::standardizeDosPath(ClientRootPath);
+#else
+	batchFilename = ClientRootPath;
+#endif
 
-	chmod(strCmdLine.c_str(), S_IRWXU);
-	if (r2Mode)
+	batchFilename += UpdateBatchFilename;
+
+#ifdef NL_OS_UNIX
+	// make script executable under UNIX
+	chmod(batchFilename.c_str(), S_IRWXU);
+#endif
+
+	std::string arguments = LoginLogin + " " + LoginPassword;
+
+	if (!r2Mode)
 	{
-		if (execl(strCmdLine.c_str(), strCmdLine.c_str(), LoginLogin.c_str(), LoginPassword.c_str(), (char *) NULL) == -1)
-		{
-			int errsv = errno;
-			nlerror("Execl Error: %d %s", errsv, strCmdLine.c_str());
-		}
-		else
-		{
-			nlinfo("Ran batch file r2Mode Success");
-		}
+		arguments += " " + toString(LoginShardId);
+	}
+
+	if (launchProgram(batchFilename, arguments, false))
+	{
+		exit(0);
 	}
 	else
 	{
-		if (execl(strCmdLine.c_str(), strCmdLine.c_str(), LoginLogin.c_str(), LoginPassword.c_str(), toString(LoginShardId).c_str(), (char *) NULL) == -1)
-		{
-			int errsv = errno;
-			nlerror("Execl r2mode Error: %d %s", errsv, strCmdLine.c_str());
-		}
-		else
-		{
-			nlinfo("Ran batch file Success");
-		}
+		// error occurs during the launch
+		string str = toString("Can't execute '%s': code=%d %s (error code 30)", batchFilename.c_str(), errno, strerror(errno));
+		throw Exception (str);
 	}
-#endif
-
-//	exit(0);
 }
 
 // ****************************************************************************
@@ -1155,9 +1121,9 @@ void CPatchManager::readDescFile(sint32 nVersion)
 
 			std::string unpackTo = category.getUnpackTo();
 
-			if (unpackTo.substr(0, 2) == "./")
+			if (unpackTo.substr(0, 1) == ".")
 			{
-				unpackTo = ClientRootPath + unpackTo.substr(2);
+				unpackTo = CPath::makePathAbsolute(unpackTo, ClientRootPath, true);
 				category.setUnpackTo(unpackTo);
 			}
 		}
@@ -1827,7 +1793,7 @@ void CPatchManager::MyPatchingCB::progress(float f)
 {
 	CPatchManager *pPM = CPatchManager::getInstance();
 	double p = 100.0*f;
-	ucstring sTranslate = CI18N::get("uiApplyingDelta") + toString(" %s (%5.02f %%)", patchFilename.c_str(), p);
+	ucstring sTranslate = CI18N::get("uiApplyingDelta") + toString(" %s (%5.02f %%)", CFile::getFilename(patchFilename).c_str(), p);
 	pPM->setState(false, sTranslate);
 }
 
@@ -2355,7 +2321,6 @@ void CPatchThread::run()
 	ucstring sTranslate;
 	try
 	{
-
 		// First do all ref files
 		// ----------------------
 
@@ -2428,7 +2393,6 @@ void CPatchThread::run()
 		pPM->deleteFile(pPM->UpdateBatchFilename, false, false);
 	}
 
-
 	if (!bErr)
 	{
 		sTranslate = CI18N::get("uiPatchEndNoErr");
@@ -2438,6 +2402,7 @@ void CPatchThread::run()
 		// Set a more explicit error message
 		pPM->setErrorMessage(sTranslate);
 	}
+
 	PatchOk = !bErr;
 	Ended = true;
 }
@@ -2625,7 +2590,7 @@ void CPatchThread::processFile (CPatchManager::SFileToPatch &rFTP)
 			// try to unpack the file
 			try
 			{
-				if (!CPatchManager::unpackLZMA(pPM->ClientPatchPath+lzmaFile, OutFilename+".tmp"))
+				if (!unpackLZMA(pPM->ClientPatchPath+lzmaFile, OutFilename+".tmp"))
 				{
 					// fallback to standard patch method
 					usePatchFile = true;
@@ -2746,7 +2711,7 @@ void CPatchThread::processFile (CPatchManager::SFileToPatch &rFTP)
 
 			string OutFilename = pPM->ClientPatchPath + rFTP.FileName + ".tmp__" + toString(j);
 
-			sTranslate = CI18N::get("uiApplyingDelta") + " " + PatchName;
+			sTranslate = CI18N::get("uiApplyingDelta") + " " + CFile::getFilename(PatchName);
 			pPM->setState(true, sTranslate);
 
 			xDeltaPatch(PatchName, SourceNameXD, OutFilename);
@@ -3087,7 +3052,7 @@ bool CPatchManager::download(const std::string& patchFullname, const std::string
 		&& patchName.substr(patchName.size() - zsStrLength) == zsStr)
 	{
 		std::string outFilename = patchName.substr(0, patchName.size() - zsStrLength);
-		CPatchManager::unpack7Zip(patchName, outFilename);
+		unpack7Zip(patchName, outFilename);
 		pPM->deleteFile(patchName);
 		pPM->renameFile(outFilename, sourceFullname);
 	}
@@ -3449,7 +3414,7 @@ void CInstallThread::run()
 					std::string outFilename = patchName.substr(0, patchName.size() - zsStrLength);
 					std::string localOutFilename = CPath::standardizeDosPath(outFilename);
 
-					if ( CPatchManager::unpackLZMA(patchName, localOutFilename) )
+					if ( unpackLZMA(patchName, localOutFilename) )
 					{
 						pPM->deleteFile(patchName);
 						pPM->renameFile(outFilename, sourceName);
