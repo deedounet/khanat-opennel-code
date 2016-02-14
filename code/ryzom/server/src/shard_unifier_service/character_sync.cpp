@@ -328,20 +328,20 @@ namespace CHARSYNC
 			{
 				const CONTINENT::TContinentId &cont = first->first;
 				const uint32 &count = first->second;
-//				if (cont == CONTINENT::FYROS)
-//					access['D'] += count;
-//				else if (cont == CONTINENT::ZORAI)
-//					access['J'] += count;
-//				if (cont == CONTINENT::BAGNE
-//					|| cont == CONTINENT::NEXUS
-//					|| cont == CONTINENT::ROUTE_GOUFFRE
-//					|| cont == CONTINENT::SOURCES
-//					|| cont == CONTINENT::TERRE)
-//					access['P'] += count;
-//				if (cont == CONTINENT::MATIS)
-//					access['F'] += count;
-//				if (cont == CONTINENT::TRYKER)
-//					access['L'] += count;
+				if (cont == CONTINENT::FYROS)
+					access['D'] += count;
+				else if (cont == CONTINENT::ZORAI)
+					access['J'] += count;
+				if (cont == CONTINENT::BAGNE
+					|| cont == CONTINENT::NEXUS
+					|| cont == CONTINENT::ROUTE_GOUFFRE
+					|| cont == CONTINENT::SOURCES
+					|| cont == CONTINENT::TERRE)
+					access['P'] += count;
+				if (cont == CONTINENT::MATIS)
+					access['F'] += count;
+				if (cont == CONTINENT::TRYKER)
+					access['L'] += count;
 			}
 
 			// parse the RingAccessLimits variable and build up a limits map...
