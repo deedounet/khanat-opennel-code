@@ -221,12 +221,16 @@ static DECLARE_INTERFACE_USER_FCT(getDateText)
 	CRyzomTime	rt;
 
 	string	strRes;
-	strRes= NLMISC::toString(rt.getRyzomDayOfMonth()+1);	// Start at 1
+	strRes= NLMISC::toString((uint32)rt.getRyzomDayOfWeek()+1);	// Start at 1
 	strRes+= " / ";
-	strRes+= NLMISC::toString(rt.getRyzomMonth()+1);		// Start at 1 for january
+	strRes+= NLMISC::toString(rt.getRyzomWeek()+1);		// Start at 1 for january
 	strRes+= " / ";
-	strRes+= NLMISC::toString(rt.getRyzomYear());
-
+	ucstring year = CI18N::get("uiYear");
+	if (year.length() == 0) {
+	  strRes += toString("%04d", RT.getRyzomYear());
+	} else {
+	  strRes += year.toUtf8();
+	}
 	result.setString (strRes);
 	return true;
 }

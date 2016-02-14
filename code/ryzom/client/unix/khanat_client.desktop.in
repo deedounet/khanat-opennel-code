@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=0.1
+Name=Khanat
+Name[ru]=Ризом
+Type=Application
+GenericName=Game client
+Comment=Khanat client
+Comment[fr_FR]=Client Khanat
+TryExec=${RYZOM_GAMES_PREFIX}/khanat_client
+Exec=${RYZOM_GAMES_PREFIX}/khanat_client
+Icon=${RYZOM_CLIENT_ICON}
+Terminal=false
+Hidden=false
+Categories=Game;RolePlaying;
+StartupWMClass=khanat_client
+X-AppInstall-Package=khanat-client

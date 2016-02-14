@@ -55,7 +55,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_MAIN_ICON           ICON    DISCARDABLE     "ryzom.ico"
+IDI_MAIN_ICON           ICON    DISCARDABLE     "khanat.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -86,10 +86,10 @@ END
 
 IDD_CRASH_INFORMATION DIALOG DISCARDABLE  0, 0, 186, 301
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
-CAPTION "Ryzom information"
+CAPTION "Khanat information"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Ryzom has detected that the last game session has not quit properly. You have experienced :",
+    LTEXT           "Khanat has detected that the last game session has not quit properly. You have experienced :",
                     IDC_STATIC,7,7,172,27
     PUSHBUTTON      "A computer freeze.",FROZEN,7,38,172,29
     PUSHBUTTON      "A computer self reboot.",REBOOTED,7,70,172,29
@@ -182,20 +182,20 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "Ryzom client"
+            VALUE "FileDescription", "Khanat client"
             VALUE "FileVersion", RYZOM_VERSION
             VALUE "LegalCopyright", COPYRIGHT
 #if defined(FINAL_VERSION) && (FINAL_VERSION == 1)
 #ifdef _DEBUG
-            VALUE "OriginalFilename", "ryzom_client_d.exe"
+            VALUE "OriginalFilename", "khanat_client_d.exe"
 #else
-            VALUE "OriginalFilename", "ryzom_client_r.exe"
+            VALUE "OriginalFilename", "khanat_client_r.exe"
 #endif			
 #else
 #ifdef _DEBUG
-            VALUE "OriginalFilename", "ryzom_client_dev_d.exe"
+            VALUE "OriginalFilename", "kkhanat_client_dev_d.exe"
 #else
-            VALUE "OriginalFilename", "ryzom_client_dev_r.exe"
+            VALUE "OriginalFilename", "khanat_client_dev_r.exe"
 #endif			
 #endif
             VALUE "ProductName", "Ryzom Core"

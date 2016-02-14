@@ -110,15 +110,15 @@
 <tree node="connection"/>
 
 <tree node="keys" >
-	<tree node="keys_player"/>
-	<tree node="keys_movement"/>
-	<tree node="keys_actions"/>
-	<tree node="keys_chat"/>
+    <tree node="keys_movement"/>
 	<tree node="keys_view"/>
-	<tree node="keys_windows"/>
-	<tree node="keys_system"/>
+	<tree node="keys_actionbar"/>
+	<tree node="keys_fight"/>
+	<tree node="keys_chat"/>
 	<tree node="keys_edit"/>
-	<tree node="keys_debug"/>
+	<tree node="keys_windows"/>
+	<tree node="keys_miscellaneous"/>
+    <tree node="keys_debug"
 </tree>
 <!-- done with template teditcmd now <tree node="editkey" />-->
 

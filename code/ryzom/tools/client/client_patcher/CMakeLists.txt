@@ -11,7 +11,7 @@ FILE(GLOB SRC main.cpp
 # always enable custom patch server
 ADD_DEFINITIONS(${LIBXML2_DEFINITIONS} -DRZ_USE_CUSTOM_PATCH_SERVER)
 
-ADD_EXECUTABLE(ryzom_client_patcher ${SRC})
+ADD_EXECUTABLE(khanat_client_patcher ${SRC})
 
 INCLUDE_DIRECTORIES(
 			${LIBXML2_INCLUDE_DIR}
@@ -20,7 +20,7 @@ INCLUDE_DIRECTORIES(
 			${CMAKE_SOURCE_DIR}/ryzom/client/src
 )
 
-TARGET_LINK_LIBRARIES(ryzom_client_patcher
+TARGET_LINK_LIBRARIES(khanat_client_patcher
 				nelmisc
 				nelnet
 				ryzom_gameshare
@@ -29,16 +29,16 @@ TARGET_LINK_LIBRARIES(ryzom_client_patcher
 
 IF(APPLE)
   FIND_LIBRARY(FOUNDATION_LIBRARY Foundation)
-  TARGET_LINK_LIBRARIES(ryzom_client_patcher ${FOUNDATION_LIBRARY})
+  TARGET_LINK_LIBRARIES(khanat_client_patcher ${FOUNDATION_LIBRARY})
 ENDIF(APPLE)
 
 ADD_DEFINITIONS(${CURL_DEFINITIONS} -DRZ_NO_CLIENT -DNL_USE_SEVENZIP)
 
-NL_DEFAULT_PROPS(ryzom_client_patcher "Ryzom, Tools: Ryzom Client Patcher")
-NL_ADD_RUNTIME_FLAGS(ryzom_client_patcher)
+NL_DEFAULT_PROPS(khanat_client_patcher "Khanat, Tools: Khanat Client Patcher")
+NL_ADD_RUNTIME_FLAGS(khanat_client_patcher)
 
 IF(WITH_PCH)
-  ADD_NATIVE_PRECOMPILED_HEADER(ryzom_client_patcher ${CMAKE_SOURCE_DIR}/ryzom/client/src/stdpch.h ${CMAKE_SOURCE_DIR}/ryzom/client/src/stdpch.cpp)
+  ADD_NATIVE_PRECOMPILED_HEADER(khanat_client_patcher ${CMAKE_SOURCE_DIR}/ryzom/client/src/stdpch.h ${CMAKE_SOURCE_DIR}/ryzom/client/src/stdpch.cpp)
 ENDIF(WITH_PCH)
 
-INSTALL(TARGETS ryzom_client_patcher RUNTIME DESTINATION ${RYZOM_GAMES_PREFIX} COMPONENT client)
+INSTALL(TARGETS khanat_client_patcher RUNTIME DESTINATION ${RYZOM_GAMES_PREFIX} COMPONENT client)
