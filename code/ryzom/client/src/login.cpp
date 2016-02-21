@@ -77,7 +77,7 @@ extern bool SetMousePosFirstTime;
 
 vector<CShard> Shards;
 
-string LoginLogin, LoginPassword, ClientApp, Salt;
+string LoginLogin, LoginPassword, ClientApp, Salt, LoginCustomParameters;
 uint32 LoginShardId = 0xFFFFFFFF;
 
 
@@ -1092,7 +1092,7 @@ void initShardDisplay()
 	for (uint fff = 0; fff < 20; ++fff)
 	{
 		CShard s (	toString("%05d",fff), fff%3, fff+32, toString("%s%d","pipo",fff),
-					32*fff%46546, "32.32.32.32", "http://www.ryzomcore.org" );
+					32*fff%46546, "32.32.32.32", "http://www.ryzom.com" );
 		Shards.push_back(s);
 	}*/
 
@@ -1169,7 +1169,7 @@ void onlogin(bool vanishScreen = true)
 	// Check the login/pass
 
 	// main menu page for r2mode
-	string res = checkLogin(LoginLogin, LoginPassword, ClientApp);
+	string res = checkLogin(LoginLogin, LoginPassword, ClientApp, LoginCustomParameters);
 	if (res.empty())
 	{
 		// if not in auto login, push login ok event
@@ -1219,7 +1219,7 @@ void onlogin(bool vanishScreen = true)
 //		for (uint fff = 0; fff < 20; ++fff)
 //		{
 //			CShard s (	toString("%05d",fff), fff%3, fff+32, toString("%s%d","pipo",fff),
-//						32*fff%46546, "32.32.32.32", "http://www.ryzomcore.org" );
+//						32*fff%46546, "32.32.32.32", "http://www.ryzom.com" );
 //			Shards.push_back(s);
 //		}*/
 //
@@ -1896,16 +1896,30 @@ class CAHOpenURL : public IActionHandler
 			return;
 		}
 
+		// modify existing languages
+		
+		// old site
 		string::size_type pos_lang = url.find("/en/");
 
-		if(pos_lang!=string::npos)
-			url.replace(pos_lang+1, 2, ClientCfg.getHtmlLanguageCode());
+		// or new forums
+		if (pos_lang == string::npos)
+			pos_lang = url.find("=en#");
 
-		if(url.find('?')!=string::npos)
-			url += "&";
+		if (pos_lang != string::npos)
+		{
+			url.replace(pos_lang + 1, 2, ClientCfg.getHtmlLanguageCode());
+		}
 		else
-			url += "?";
-		url += "language=" + ClientCfg.LanguageCode;
+		{
+			// append language
+			if (url.find('?') != string::npos)
+				url += "&";
+			else
+				url += "?";
+
+			url += "language=" + ClientCfg.LanguageCode;
+		}
+
 		openURL(url.c_str());
 
 		nlinfo("openURL %s", url.c_str());
@@ -2702,7 +2716,7 @@ REGISTER_ACTION_HANDLER (CAHOnBackToLogin, "on_back_to_login");
 
 
 // ***************************************************************************
-string checkLogin(const string &login, const string &password, const string &clientApp)
+string checkLogin(const string &login, const string &password, const string &clientApp, const std::string &customParameters)
 {
 	CPatchManager *pPM = CPatchManager::getInstance();
 	Shards.clear();
@@ -2759,7 +2773,7 @@ string checkLogin(const string &login, const string &password, const string &cli
 	{
 		// R2 login sequence
 		std::string	cryptedPassword = CCrypt::crypt(password, Salt);
-		if(!HttpClient.sendGet(ClientCfg.ConfigFile.getVar("StartupPage").asString()+"?cmd=login&login="+login+"&password="+cryptedPassword+"&clientApplication="+clientApp+"&cp=1"+"&lg="+ClientCfg.LanguageCode))
+		if(!HttpClient.sendGet(ClientCfg.ConfigFile.getVar("StartupPage").asString()+"?cmd=login&login="+login+"&password="+cryptedPassword+"&clientApplication="+clientApp+"&cp=1"+"&lg="+ClientCfg.LanguageCode+customParameters))
 			return "Can't send (error code 2)";
 
 		// the response should contains the result code and the cookie value
