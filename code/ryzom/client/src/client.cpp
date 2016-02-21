@@ -61,6 +61,10 @@
 #include "far_tp.h"
 #include "user_agent.h"
 
+#ifdef RZ_USE_STEAM
+#include "steam_client.h"
+#endif
+
 ///////////
 // USING //
 ///////////
@@ -319,6 +323,13 @@ int main(int argc, char **argv)
 	RYZOM_TRY("Pre-Login Init")
 		prelogInit();
 	RYZOM_CATCH("Pre-Login Init")
+
+#ifdef RZ_USE_STEAM
+	CSteamClient steamClient;
+
+	if (steamClient.init())
+		LoginCustomParameters = "&steam_auth_session_ticket=" + steamClient.getAuthSessionTicket();
+#endif
 
 	// Log the client and choose from shard
 	RYZOM_TRY("Login")
