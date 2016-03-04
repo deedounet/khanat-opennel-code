@@ -286,7 +286,17 @@ namespace MBEHAV
 	EMOTE_BEGIN,						// 46
 	EMOTE_END = EMOTE_BEGIN+150,
 
-
+		//--------- JUGGLE ----------//
+		JUGGLE,
+		
+				//--------- DANSE ----------//,
+		DANSE,
+		
+				//--------- PAINT ----------//
+		PAINT_INIT,
+		PAINT_LOOP,
+		PAINT_END,
+		
 		// IMPORTANT : IF YOU MODIFY THIS ENUM DO NOT FORGET TO CHANGE stringToBehaviour() TOO
 	NUMBER_OF_BEHAVIOURS
 	};
