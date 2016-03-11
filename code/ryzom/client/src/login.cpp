@@ -77,7 +77,7 @@ extern bool SetMousePosFirstTime;
 
 vector<CShard> Shards;
 
-string LoginLogin, LoginPassword, ClientApp, Salt;
+string LoginLogin, LoginPassword, ClientApp, Salt, LoginCustomParameters;
 uint32 LoginShardId = 0xFFFFFFFF;
 
 
@@ -842,6 +842,55 @@ void initAutoLogin()
 	}
 }
 
+void initAltLogin()
+{
+	// Check the alt param
+	if (!LoginCustomParameters.empty())
+	{
+		// don't use login and password for alternate login
+		string res = checkLogin("", "", ClientApp, LoginCustomParameters);
+		if (res.empty())
+		{
+			if (ClientCfg.R2Mode)
+			{
+				LoginSM.pushEvent(CLoginStateMachine::ev_login_ok);
+			}
+			else
+			{
+				// Select good shard
+				ShardSelected = -1;
+				for (uint32 i = 0; i < Shards.size(); ++i)
+				{
+					if (Shards[i].ShardId == LoginShardId)
+					{
+						ShardSelected = i;
+						break;
+					}
+				}
+
+				if (ShardSelected == -1)
+				{
+					CInterfaceManager *pIM = CInterfaceManager::getInstance();
+					pIM->messageBoxWithHelp(CI18N::get("uiErrServerLost"), "ui:login");
+					LoginSM.pushEvent(CLoginStateMachine::ev_quit);
+				}
+				else
+				{
+					LoginSM.pushEvent(CLoginStateMachine::ev_login_ok);
+				}
+			}
+
+			return;
+		}
+	}
+
+	// close the socket in case of error
+	HttpClient.disconnect();
+
+	// ignore error
+	LoginSM.pushEvent(CLoginStateMachine::ev_login_not_alt);
+}
+
 
 // ***************************************************************************
 // Called from client.cpp
@@ -1092,7 +1141,7 @@ void initShardDisplay()
 	for (uint fff = 0; fff < 20; ++fff)
 	{
 		CShard s (	toString("%05d",fff), fff%3, fff+32, toString("%s%d","pipo",fff),
-					32*fff%46546, "32.32.32.32", "http://www.ryzomcore.org" );
+					32*fff%46546, "32.32.32.32", "http://www.ryzom.com" );
 		Shards.push_back(s);
 	}*/
 
@@ -1169,7 +1218,7 @@ void onlogin(bool vanishScreen = true)
 	// Check the login/pass
 
 	// main menu page for r2mode
-	string res = checkLogin(LoginLogin, LoginPassword, ClientApp);
+	string res = checkLogin(LoginLogin, LoginPassword, ClientApp, LoginCustomParameters);
 	if (res.empty())
 	{
 		// if not in auto login, push login ok event
@@ -1219,7 +1268,7 @@ void onlogin(bool vanishScreen = true)
 //		for (uint fff = 0; fff < 20; ++fff)
 //		{
 //			CShard s (	toString("%05d",fff), fff%3, fff+32, toString("%s%d","pipo",fff),
-//						32*fff%46546, "32.32.32.32", "http://www.ryzomcore.org" );
+//						32*fff%46546, "32.32.32.32", "http://www.ryzom.com" );
 //			Shards.push_back(s);
 //		}*/
 //
@@ -1896,16 +1945,30 @@ class CAHOpenURL : public IActionHandler
 			return;
 		}
 
+		// modify existing languages
+		
+		// old site
 		string::size_type pos_lang = url.find("/en/");
 
-		if(pos_lang!=string::npos)
-			url.replace(pos_lang+1, 2, ClientCfg.getHtmlLanguageCode());
+		// or new forums
+		if (pos_lang == string::npos)
+			pos_lang = url.find("=en#");
 
-		if(url.find('?')!=string::npos)
-			url += "&";
+		if (pos_lang != string::npos)
+		{
+			url.replace(pos_lang + 1, 2, ClientCfg.getHtmlLanguageCode());
+		}
 		else
-			url += "?";
-		url += "language=" + ClientCfg.LanguageCode;
+		{
+			// append language
+			if (url.find('?') != string::npos)
+				url += "&";
+			else
+				url += "?";
+
+			url += "language=" + ClientCfg.LanguageCode;
+		}
+
 		openURL(url.c_str());
 
 		nlinfo("openURL %s", url.c_str());
@@ -2702,7 +2765,7 @@ REGISTER_ACTION_HANDLER (CAHOnBackToLogin, "on_back_to_login");
 
 
 // ***************************************************************************
-string checkLogin(const string &login, const string &password, const string &clientApp)
+string checkLogin(const string &login, const string &password, const string &clientApp, const std::string &customParameters)
 {
 	CPatchManager *pPM = CPatchManager::getInstance();
 	Shards.clear();
@@ -2718,49 +2781,63 @@ string checkLogin(const string &login, const string &password, const string &cli
 
 	string res;
 
-	// ask server for salt
-	if(!HttpClient.sendGet(ClientCfg.ConfigFile.getVar("StartupPage").asString()+"?cmd=ask&login="+login+"&lg="+ClientCfg.LanguageCode, "", pPM->isVerboseLog()))
-		return "Can't send (error code 60)";
-
-	if(pPM->isVerboseLog()) nlinfo("Sent request for password salt");
-
-	if(!HttpClient.receive(res, pPM->isVerboseLog()))
-		return "Can't receive (error code 61)";
-
-	if(pPM->isVerboseLog()) nlinfo("Received request login check");
-
-	if(res.empty())
-		return "Empty answer from server (error code 62)";
-
-	if(res[0] == '0')
+	// don't use login with alt method
+	if (!login.empty())
 	{
-		// server returns an error
-		nlwarning("server error: %s", res.substr(2).c_str());
-		return res.substr(2);
-	}
-	else if(res[0] == '1')
-	{
-		Salt = res.substr(2);
-	}
-	else
-	{
-		// server returns ???
-		nlwarning("%s", res.c_str());
-		return res;
-	}
+		// ask server for salt
+		if(!HttpClient.sendGet(ClientCfg.ConfigFile.getVar("StartupPage").asString()+"?cmd=ask&login="+login+"&lg="+ClientCfg.LanguageCode, "", pPM->isVerboseLog()))
+			return "Can't send (error code 60)";
 
-	// send login + crypted password + client app and cp=1 (as crypted password)
-	if(!HttpClient.connectToLogin())
-		return "Can't connect (error code 63)";
+		if(pPM->isVerboseLog()) nlinfo("Sent request for password salt");
 
-	if(pPM->isVerboseLog()) nlinfo("Connected");
+		if(!HttpClient.receive(res, pPM->isVerboseLog()))
+			return "Can't receive (error code 61)";
+
+		if(pPM->isVerboseLog()) nlinfo("Received request login check");
+
+		if(res.empty())
+			return "Empty answer from server (error code 62)";
+
+		if(res[0] == '0')
+		{
+			// server returns an error
+			nlwarning("server error: %s", res.substr(2).c_str());
+			return res.substr(2);
+		}
+		else if(res[0] == '1')
+		{
+			Salt = res.substr(2);
+		}
+		else
+		{
+			// server returns ???
+			nlwarning("%s", res.c_str());
+			return res;
+		}
+
+		// send login + crypted password + client app and cp=1 (as crypted password)
+		if(!HttpClient.connectToLogin())
+			return "Can't connect (error code 63)";
+
+		if(pPM->isVerboseLog()) nlinfo("Connected");
+	}
 
 	if (ClientCfg.R2Mode)
 	{
 		// R2 login sequence
-		std::string	cryptedPassword = CCrypt::crypt(password, Salt);
-		if(!HttpClient.sendGet(ClientCfg.ConfigFile.getVar("StartupPage").asString()+"?cmd=login&login="+login+"&password="+cryptedPassword+"&clientApplication="+clientApp+"&cp=1"+"&lg="+ClientCfg.LanguageCode))
-			return "Can't send (error code 2)";
+
+		if (!login.empty())
+		{
+			std::string	cryptedPassword = CCrypt::crypt(password, Salt);
+			if(!HttpClient.sendGet(ClientCfg.ConfigFile.getVar("StartupPage").asString()+"?cmd=login&login="+login+"&password="+cryptedPassword+"&clientApplication="+clientApp+"&cp=1"+"&lg="+ClientCfg.LanguageCode+customParameters))
+				return "Can't send (error code 2)";
+		}
+		else
+		{
+			// don't send login and password if empty
+			if(!HttpClient.sendGet(ClientCfg.ConfigFile.getVar("StartupPage").asString()+"?cmd=login&clientApplication="+clientApp+"&cp=1"+"&lg="+ClientCfg.LanguageCode+customParameters))
+				return "Can't send (error code 2)";
+		}
 
 		// the response should contains the result code and the cookie value
 		if(pPM->isVerboseLog()) nlinfo("Sent request login check");
