@@ -54,6 +54,10 @@
 #include "far_tp.h"
 #include "user_agent.h"
 
+#ifdef RZ_USE_STEAM
+#include "steam_client.h"
+#endif
+
 ///////////
 // USING //
 ///////////
@@ -270,6 +274,12 @@ int main(int argc, char **argv)
 	// initialize log
 	initLog();
 
+#ifdef RZ_USE_STEAM
+	CSteamClient steamClient;
+
+	if (steamClient.init())
+		LoginCustomParameters = "&steam_auth_session_ticket=" + steamClient.getAuthSessionTicket();
+#endif
 
 	// initialize patch manager and set the ryzom full path, before it's used
 	CPatchManager *pPM = CPatchManager::getInstance();
