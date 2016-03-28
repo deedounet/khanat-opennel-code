@@ -27,8 +27,8 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#ifndef NLMISC_TOOL_LOGGER_H
-#define NLMISC_TOOL_LOGGER_H
+#ifndef NLPIPELINE_TOOL_LOGGER_H
+#define NLPIPELINE_TOOL_LOGGER_H
 #include <nel/misc/types_nl.h>
 
 // STL includes
@@ -39,6 +39,7 @@
 // NeL includes
 #include <nel/misc/time_nl.h>
 #include <nel/misc/string_common.h>
+#include <nel/misc/common.h>
 
 // Project includes
 
@@ -47,16 +48,16 @@
 #endif
 
 #ifdef NL_DEBUG_H
-#define tlerror(toolLogger, path, error, ...) nlwarning(error, ## __VA_ARGS__), toolLogger.writeError(NLMISC::ERROR, path, error, ## __VA_ARGS__)
-#define tlwarning(toolLogger, path, error, ...) nlwarning(error, ## __VA_ARGS__), toolLogger.writeError(NLMISC::WARNING, path, error, ## __VA_ARGS__)
-#define tlmessage(toolLogger, path, error, ...) nlinfo(error, ## __VA_ARGS__), toolLogger.writeError(NLMISC::MESSAGE, path, error, ## __VA_ARGS__)
+#define tlerror(toolLogger, path, error, ...) nlwarning(error, ## __VA_ARGS__), toolLogger.writeError(NLPIPELINE::ERROR, path, error, ## __VA_ARGS__)
+#define tlwarning(toolLogger, path, error, ...) nlwarning(error, ## __VA_ARGS__), toolLogger.writeError(NLPIPELINE::WARNING, path, error, ## __VA_ARGS__)
+#define tlmessage(toolLogger, path, error, ...) nlinfo(error, ## __VA_ARGS__), toolLogger.writeError(NLPIPELINE::MESSAGE, path, error, ## __VA_ARGS__)
 #else
-#define tlerror(toolLogger, path, error, ...) toolLogger.writeError(NLMISC::ERROR, path, error, ## __VA_ARGS__)
-#define tlwarning(toolLogger, path, error, ...) toolLogger.writeError(NLMISC::WARNING, path, error, ## __VA_ARGS__)
-#define tlmessage(toolLogger, path, error, ...) toolLogger.writeError(NLMISC::MESSAGE, path, error, ## __VA_ARGS__)
+#define tlerror(toolLogger, path, error, ...) toolLogger.writeError(NLPIPELINE::ERROR, path, error, ## __VA_ARGS__)
+#define tlwarning(toolLogger, path, error, ...) toolLogger.writeError(NLPIPELINE::WARNING, path, error, ## __VA_ARGS__)
+#define tlmessage(toolLogger, path, error, ...) toolLogger.writeError(NLPIPELINE::MESSAGE, path, error, ## __VA_ARGS__)
 #endif
 
-namespace NLMISC {
+namespace NLPIPELINE {
 
 enum TError
 {
@@ -102,7 +103,7 @@ public:
 	{
 		releaseError();
 
-		m_ErrorLog = fopen(errorLog.c_str(), "wt");
+		m_ErrorLog = NLMISC::nlfopen(errorLog, "wt");
 		fwrite(s_ErrorHeader.c_str(), 1, s_ErrorHeader.length(), m_ErrorLog);
 		fwrite("\n", 1, 1, m_ErrorLog);
 		fflush(m_ErrorLog);
@@ -113,7 +114,7 @@ public:
 	{
 		releaseDepend();
 
-		m_DependLog = fopen(dependLog.c_str(), "wt");
+		m_DependLog = NLMISC::nlfopen(dependLog, "wt");
 		fwrite(s_DependHeader.c_str(), 1, s_DependHeader.length(), m_DependLog);
 		fwrite("\n", 1, 1, m_DependLog);
 		// fflush(m_DependLog);
@@ -203,8 +204,8 @@ public:
 	}
 }; /* class CToolLogger */
 
-} /* namespace NLMISC */
+} /* namespace NLPIPELINE */
 
-#endif /* #ifndef NLMISC_TOOL_LOGGER_H */
+#endif /* #ifndef NLPIPELINE_TOOL_LOGGER_H */
 
 /* end of file */

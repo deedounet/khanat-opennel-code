@@ -17,7 +17,6 @@
 
 
 #include "stdpch.h"
-#include "user_agent.h"
 
 //////////////
 // INCLUDES //
@@ -31,13 +30,6 @@
 #include <csignal>
 #endif
 
-#ifdef NL_OS_MAC
-#include <stdio.h>
-#include <sys/resource.h>
-#include "nel/misc/dynloadlib.h"
-#include "app_bundle_utils.h"
-#endif
-
 #include "nel/misc/debug.h"
 #include "nel/misc/command.h"
 #include "nel/net/tcp_sock.h"
@@ -45,7 +37,6 @@
 
 //#define TEST_CRASH_COUNTER
 #ifdef TEST_CRASH_COUNTER
-#include "nel/net/email.h"
  #undef FINAL_VERSION
  #define FINAL_VERSION 1
 #endif // TEST_CRASH_COUNTER
@@ -61,6 +52,7 @@
 #include "release.h"
 #include "client_cfg.h"
 #include "far_tp.h"
+#include "user_agent.h"
 
 #ifdef RZ_USE_STEAM
 #include "steam_client.h"
@@ -176,10 +168,16 @@ int main(int argc, char **argv)
 
 	Args.setVersion(getDisplayVersion());
 	Args.setDescription("Ryzom client");
-	Args.addArg("c", "config", "id", "Use this configuration to determine what directory to use by default");
+	Args.addArg("p", "profile", "id", "Use this profile to determine what directory to use by default");
 	Args.addAdditionalArg("login", "Login to use", true, false);
 	Args.addAdditionalArg("password", "Password to use", true, false);
 	Args.addAdditionalArg("shard_id", "Shard ID to use", true, false);
+
+#ifdef TEST_CRASH_COUNTER
+	Args.addArg("", "crash", "", "Crash client before init");
+	Args.addArg("", "break", "", "Create a break point");
+	Args.addArg("", "release", "", "Crash client after init");
+#endif // TEST_CRASH_COUNTER
 
 #ifdef NL_OS_WINDOWS
 	if (!Args.parse(cmdline)) return 1;
@@ -205,51 +203,30 @@ int main(int argc, char **argv)
 		LoginShardId = std::numeric_limits<uint32>::max();
 
 	// if client_default.cfg is not in current directory, use application default directory
-	if (Args.haveArg("c") || !CFile::isExists("client_default.cfg"))
+	if (Args.haveArg("p") || !CFile::isExists("client_default.cfg"))
 	{
 		std::string currentPath = CPath::getApplicationDirectory("Khanat");
 
-		// append config ID to directory
-		if (Args.haveArg("c"))
-			currentPath = NLMISC::CPath::standardizePath(currentPath) + Args.getArg("c").front();
+		// append profile ID to directory
+		if (Args.haveArg("p"))
+			currentPath = NLMISC::CPath::standardizePath(currentPath) + Args.getArg("p").front();
 
 		if (!CFile::isExists(currentPath)) CFile::createDirectory(currentPath);
 
 		CPath::setCurrentPath(currentPath);
 	}
 
-#ifdef NL_OS_MAC
-	struct rlimit rlp, rlp2, rlp3;
-
-	getrlimit(RLIMIT_NOFILE, &rlp);
-
-	rlp2.rlim_cur = 1024;
-	rlp2.rlim_max = rlp.rlim_max;
-	setrlimit(RLIMIT_NOFILE, &rlp2);
-
-	getrlimit(RLIMIT_NOFILE, &rlp3);
-	nlinfo("rlimit before %d %d\n", rlp.rlim_cur, rlp.rlim_max);
-	nlinfo("rlimit after %d %d\n", rlp3.rlim_cur, rlp3.rlim_max);
-
-	// add the bundle's plugins path as library search path (for nel drivers)
-	CLibrary::addLibPath(getAppBundlePath() + "/Contents/PlugIns/nel/");
-#endif
+#ifdef TEST_CRASH_COUNTER
+	if (Args.haveLongArg("crash"))
+	{
+		volatile int toto = *(int*)0;
+	}
+#endif // TEST_CRASH_COUNTER
 
 #if defined(NL_OS_WINDOWS)
 
-#if FINAL_VERSION
-	//initCrashReport ();
-#endif // FINAL_VERSION
-
-	// Set default email value for reporting error
 #ifdef TEST_CRASH_COUNTER
-	// initCrashReport ();
-	// setReportEmailFunction ((void*)sendEmail);
-	// setDefaultEmailParams ("smtp.nevrax.com", "", "hulud@nevrax.com");
-
-	if (string(cmdline) == "/crash")
-		volatile int toto = *(int*)0;
-	if (string(cmdline) == "/break")
+	if (Args.haveLongArg("break"))
 	{
 		__debugbreak();
 	}
@@ -278,20 +255,6 @@ int main(int argc, char **argv)
 
 	pump ();
 
-	// Delete the .bat file because it s not useful anymore
-	if (NLMISC::CFile::fileExists("updt_nl.bat"))
-		NLMISC::CFile::deleteFile("updt_nl.bat");
-	if (NLMISC::CFile::fileExists("bug_report.exe"))
-		NLMISC::CFile::deleteFile("bug_report.exe");
-	if (NLMISC::CFile::fileExists("bug_report_r.exe"))
-		NLMISC::CFile::deleteFile("bug_report_r.exe");
-	if (NLMISC::CFile::fileExists("bug_report_rd.exe"))
-		NLMISC::CFile::deleteFile("bug_report_rd.exe");
-	if (NLMISC::CFile::fileExists("bug_report_df.exe"))
-		NLMISC::CFile::deleteFile("bug_report_df.exe");
-	if (NLMISC::CFile::fileExists("bug_report_d.exe"))
-		NLMISC::CFile::deleteFile("bug_report_d.exe");
-
 	// Delete all the .ttf file in the /data directory
 	{
 		vector<string> files;
@@ -306,10 +269,16 @@ int main(int argc, char **argv)
 
 #else
 	// TODO for Linux : splashscreen
+#endif
 
-	// Delete the .sh file because it s not useful anymore
-	if (NLMISC::CFile::fileExists("updt_nl.sh"))
-		NLMISC::CFile::deleteFile("updt_nl.sh");
+	// initialize log
+	initLog();
+
+#ifdef RZ_USE_STEAM
+	CSteamClient steamClient;
+
+	if (steamClient.init())
+		LoginCustomParameters = "&steam_auth_session_ticket=" + steamClient.getAuthSessionTicket();
 #endif
 
 	// initialize patch manager and set the ryzom full path, before it's used
@@ -322,13 +291,6 @@ int main(int argc, char **argv)
 	RYZOM_TRY("Pre-Login Init")
 		prelogInit();
 	RYZOM_CATCH("Pre-Login Init")
-
-#ifdef RZ_USE_STEAM
-	CSteamClient steamClient;
-
-	if (steamClient.init())
-		LoginCustomParameters = "&steam_auth_session_ticket=" + steamClient.getAuthSessionTicket();
-#endif
 
 	// Log the client and choose from shard
 	RYZOM_TRY("Login")
@@ -417,8 +379,10 @@ int main(int argc, char **argv)
 	//CFile::createEmptyFile(getLogDirectory() + "during_release");
 
 #ifdef TEST_CRASH_COUNTER
-	if (string(cmdline) == "/release")
+	if (Args.haveLongArg("release"))
+	{
 		volatile int toto = *(int*)0;
+	}
 #endif // TEST_CRASH_COUNTER
 
 	// Final release

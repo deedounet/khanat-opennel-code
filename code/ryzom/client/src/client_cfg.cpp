@@ -877,6 +877,7 @@ void CClientConfig::setValues()
 
 	// defined in client_default.cfg
 	READ_STRING_FV(ConditionsTermsURL)
+	READ_STRING_FV(NamingPolicyURL)
 	READ_STRING_FV(LoginSupportURL)
 
 #ifndef RZ_NO_CLIENT
@@ -1921,7 +1922,7 @@ void CClientConfig::init(const string &configFileName)
 	if(!CFile::fileExists(configFileName))
 	{
 		// create the basic .cfg
-		FILE *fp = fopen(configFileName.c_str(), "w");
+		FILE *fp = nlfopen(configFileName, "w");
 
 		if (fp == NULL)
 			nlerror("CFG::init: Can't create config file '%s'", configFileName.c_str());
@@ -2211,21 +2212,25 @@ bool CClientConfig::getDefaultConfigLocation(std::string& p_name) const
 	defaultConfigPath = Args.getProgramPath();
 #endif
 
+	std::string currentPath = CPath::standardizePath(CPath::getCurrentPath());
+	std::string etcPath = CPath::standardizePath(getRyzomEtcPrefix());
+
 	// look in the current working directory first
-	if (CFile::isExists(defaultConfigFileName))
-		p_name = defaultConfigFileName;
+	if (CFile::isExists(currentPath + defaultConfigFileName))
+		p_name = currentPath + defaultConfigFileName;
 
 	// look in startup directory
 	else if (CFile::isExists(Args.getStartupPath() + defaultConfigFileName))
 		p_name = Args.getStartupPath() + defaultConfigFileName;
 
-	// look in prefix path
+	// look in application directory
 	else if (CFile::isExists(defaultConfigPath + defaultConfigFileName))
 		p_name = defaultConfigPath + defaultConfigFileName;
 
-	// if some client_default.cfg was found return true
-	if (p_name.size())
-		return true;
+	// look in etc prefix path
+	else if (!etcPath.empty() && CFile::isExists(etcPath + defaultConfigFileName))
+		p_name = etcPath + defaultConfigFileName;
 
-	return false;
+	// if some client_default.cfg was found return true
+	return !p_name.empty();
 }

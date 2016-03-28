@@ -16301,9 +16301,9 @@ uiHumidity	[Humidity]
 uiWind	[Wind]
 
 // Continent names
-// HASH_VALUE 0000000000000000
+// HASH_VALUE 2E59C4AAE9F9F4BD
 // INDEX 3817
-uiContinentIndoors	[]
+uiContinentIndoors	[indoors]
 
 // HASH_VALUE 94A55E9E066B888F
 // INDEX 3818
@@ -27478,4 +27478,80 @@ uiFixedMissionEntry_Mainland_Unknwown	[Main land / Unknown]
 // HASH_VALUE CAB123089C80B66B
 // INDEX 6472
 uiNoFiles	[No Files...]
+
+// symbol of byte unit
+// HASH_VALUE 4090240840902408
+// INDEX 6473
+uiByte	[B]
+
+// names generator title
+// HASH_VALUE AA699882DFD7A376
+// INDEX 6474
+uiCP_Name_Generator	[Names generator]
+
+// for the generate button
+// HASH_VALUE 6498541C641C14C8
+// INDEX 6475
+uiCP_Name_Generate	[Generate]
+
+// Marauder's nation name
+// HASH_VALUE 609C1434705844D4
+// INDEX 6476
+uiCP_Maraudeur	[Marauder]
+
+// Same as the forum post title
+// HASH_VALUE 92C6D489AAC438C4
+// INDEX 6477
+uiCP_Name_Policy	[Naming policy]
+
+// last name
+// HASH_VALUE E7473F9596B88799
+// INDEX 6478
+uiCP_FirstName	[First name]
+
+// first name
+// HASH_VALUE 6467007F5645D768
+// INDEX 6479
+uiCP_LastName	[Last name]
+
+// HASH_VALUE 6DA7FC912D38D095
+// INDEX 6480
+uiHorizontal	[Horizontal]
+
+// HASH_VALUE 749C54586C5834A4
+// INDEX 6481
+uiVertical	[Vertical]
+
+// HASH_VALUE 641C5434641C5434
+// INDEX 6482
+uiKeyMUTE	[Mute]
+
+// HASH_VALUE 3165F321EF51FEF1
+// INDEX 6483
+uiKeyPLAYPAUSE	[Play / pause]
+
+// HASH_VALUE 26C8EF962CB49073
+// INDEX 6484
+uiKeyVOLUMEDOWN	[Volume down]
+
+// HASH_VALUE E828AC5B1985D0BD
+// INDEX 6485
+uiKeyVOLUMEUP	[Volume up]
+
+// HASH_VALUE E906D08868678C93
+// INDEX 6486
+uiKeyCALC	[Calculator]
+
+// HASH_VALUE 60C82889E9C9B49B
+// INDEX 6487
+uiKeyPARAGRAPH	[Paragraph]
+
+// HASH_VALUE ECEC8E017F3FDAE2
+// INDEX 6488
+uiKeyOEM_102	[OEM 102]
+
+// used to format dynamic chats filters
+// HASH_VALUE 39C742C862CB934B
+// INDEX 6489
+uiFilterMenuDynamic	[%s @{T8}/%s]
 

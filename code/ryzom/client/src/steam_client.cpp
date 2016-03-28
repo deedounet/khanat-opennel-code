@@ -22,11 +22,14 @@
 
 #include "steam_client.h"
 
+#include "nel/misc/cmd_args.h"
+
 #include <steam_api.h>
 
 // prototypes definitions for Steam API functions we'll call
 typedef bool			(__cdecl *SteamAPI_InitFuncPtr)();
 typedef void			(__cdecl *SteamAPI_ShutdownFuncPtr)();
+typedef ISteamApps*		(__cdecl *SteamAppsFuncPtr)();
 typedef ISteamClient*	(__cdecl *SteamClientFuncPtr)();
 typedef ISteamFriends*	(__cdecl *SteamFriendsFuncPtr)();
 typedef ISteamUser*		(__cdecl *SteamUserFuncPtr)();
@@ -43,6 +46,7 @@ if (nl##symbol == NULL) return false
 
 NL_DECLARE_SYMBOL(SteamAPI_Init);
 NL_DECLARE_SYMBOL(SteamAPI_Shutdown);
+NL_DECLARE_SYMBOL(SteamApps);
 NL_DECLARE_SYMBOL(SteamClient);
 NL_DECLARE_SYMBOL(SteamFriends);
 NL_DECLARE_SYMBOL(SteamUser);
@@ -147,6 +151,8 @@ protected:
 	T *m_pObj;
 	func_t m_Func;
 };
+
+extern NLMISC::CCmdArgs Args;
 
 // listener called by Steam when AuthSessionTicket is available
 class CAuthSessionTicketListener
@@ -296,13 +302,19 @@ bool CSteamClient::init()
 	filename = "libsteam_api.so";
 #endif
 
-	// try to load library
-	_Handle = NLMISC::nlLoadLibrary(filename);
+	// try to load library with absolute path
+	_Handle = NLMISC::nlLoadLibrary(Args.getProgramPath() + filename);
 
 	if (!_Handle)
 	{
-		nlwarning("Unable to load Steam client");
-		return false;
+		// try to load library with relative path (will search in system paths)
+		_Handle = NLMISC::nlLoadLibrary(filename);
+
+		if (!_Handle)
+		{
+			nlwarning("Unable to load Steam client");
+			return false;
+		}
 	}
 
 	// load Steam functions
@@ -326,6 +338,7 @@ bool CSteamClient::init()
 	_Initialized = true;
 
 	// load more Steam functions
+	NL_LOAD_SYMBOL(SteamApps);
 	NL_LOAD_SYMBOL(SteamClient);
 	NL_LOAD_SYMBOL(SteamFriends);
 	NL_LOAD_SYMBOL(SteamUser);
@@ -335,10 +348,14 @@ bool CSteamClient::init()
 	nlSteamClient()->SetWarningMessageHook(SteamWarningMessageHook);
 
 	bool loggedOn = nlSteamUser()->BLoggedOn();
+	const char *lang = nlSteamApps()->GetCurrentGameLanguage();
 
 	nlinfo("Steam AppID: %u", nlSteamUtils()->GetAppID());
 	nlinfo("Steam login: %s", nlSteamFriends()->GetPersonaName());
 	nlinfo("Steam user logged: %s", loggedOn ? "yes":"no");
+	nlinfo("Steam language: %s", lang);
+
+	NLMISC::CI18N::setSystemLanguageCode(lang);
 
 	// don't need to continue, if not connected
 	if (!loggedOn) return false;

@@ -4057,7 +4057,6 @@ uiKeyF22	[F22]
 
 uiKeyF23	[F23]
 
-
 uiKeyF24	[F24]
 
 uiKeyNUMLOCK	[NUMLOCK]
@@ -4099,7 +4098,6 @@ uiKeyOEM_CLEAR	[OEM CLEAR]
 uiKeyCOMMA [COMMA]
 
 uiNumber00	[00]
-
 
 uiNumber01	[01]
 
@@ -8674,7 +8672,7 @@ uiWind	[Wind]
 
 // Continent names
 
-uiContinentIndoors	[]
+uiContinentIndoors	[indoors]
 
 uiContinentRouteGouffre	[the Abyss Road]
 
@@ -13464,3 +13462,32 @@ uiDebugProfileFillRate [Profile Fillrate]
 uiFixedMissionEntry_Mainland_Unknwown [Main land / Unknown]
 // displayed when no files are playing in MP3 player
 uiNoFiles [No Files...]
+// symbol of byte unit
+uiByte [B]
+// names generator title
+uiCP_Name_Generator [Names generator]
+// for the generate button
+uiCP_Name_Generate [Generate]
+// Marauder's nation name
+uiCP_Maraudeur [Marauder]
+// Same as the forum post title
+uiCP_Name_Policy [Naming policy]
+// last name
+uiCP_FirstName [First name]
+// first name
+uiCP_LastName [Last name]
+uiHorizontal [Horizontal]
+uiVertical [Vertical]
+uiKeyMUTE [Mute]
+uiKeyPLAYPAUSE [Play / pause]
+uiKeyVOLUMEDOWN [Volume down]
+uiKeyVOLUMEUP [Volume up]
+uiKeyCALC [Calculator]
+uiKeyPARAGRAPH [Paragraph]
+uiKeyOEM_102 [OEM 102]
+
+// used to format dynamic chats filters
+uiFilterMenuDynamic	[%s @{T8}/%s]
+// displayed in System/Windows/Communication
+uiwmAppZone [AppZone]
+
