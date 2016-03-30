@@ -374,7 +374,7 @@ bool s_move(
 					0.5f);
 			// If we can't follow the path or the computed pos is invalid
 			if (	status==CFollowPath::FOLLOW_NO_PATH
-				||	(_Bot->wpos().isValid() && (_Bot->wpos().getFlags()&_Bot->getAStarFlag())!=0))
+				||	(_Bot->wpos().isValid() && !isPlaceAllowed(_Bot->getAStarFlag(), _Bot->wpos().getFlags())))
 			{
 				// Restore position
 				_Bot->setPos(lastPos);
@@ -605,7 +605,7 @@ static void s_updateProfile(
 	_AtAttackDist = norm < _RangeMax;
 	
 	// Check if target can be attacked
-	bool const targetInForbiddenZone = ((!target->wpos().isValid())||(target->wpos().getFlags()&_Bot->getAStarFlag())!=0);
+	bool const targetInForbiddenZone = ((!target->wpos().isValid())||!isPlaceAllowed(_Bot->getAStarFlag(), target->wpos().getFlags()));
 	
 /****************************************************************************/
 /* Profile main processing                                                  */

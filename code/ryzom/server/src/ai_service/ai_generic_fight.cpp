@@ -309,7 +309,7 @@ void CBotProfileFlee::updateProfile(uint ticksSinceLastUpdate)
 			{
 				RYAI_MAP_CRUNCH::CWorldPosition wpos=rootCell->getWorldPosition(_Bot->getPersistent().getChildIndex()&3);
 				if	(	wpos.isValid()
-					&&	(wpos.getFlags()&_DenyFlags)==0 )	// verify that we got some compatible flags ..
+					&&	isPlaceAllowed(_DenyFlags, wpos.getFlags()))	// verify that we got some compatible flags ..
 				{
 					_LastDir=startDir;
 					_LastStartPos=_Bot->wpos();

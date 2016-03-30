@@ -97,12 +97,37 @@ IAliasCont* CMgrFauna::getAliasCont(TAIType type)
 
 CAliasTreeOwner* CMgrFauna::createChild(IAliasCont* cont, CAIAliasDescriptionNode* aliasTree)
 {
+	RYAI_MAP_CRUNCH::TAStarFlag flags = RYAI_MAP_CRUNCH::Nothing;
+	// this hack is to retrieve the AStar flags from the fauna group. We expect the groupname to be as follows : groupname:AStarFlag[|AStarFlag]
+	std::string key, tail;
+	std::string p = NLMISC::toLower(this->getAliasFullName()); // force lowercase
+	
+	AI_SHARE::stringToKeywordAndTail(p, key, tail);
+	int bAstarFlags = 0;
+	if (!tail.empty()){ //AStarFlags were provided
+		bAstarFlags = 1;
+		vector<string> sFlags;
+		NLMISC::splitString(tail, "|", sFlags);
+		FOREACHC(it, vector<string>, sFlags){
+			TAStarFlag tmpflag = RYAI_MAP_CRUNCH::toAStarFlag(*it);
+			if(	(tmpflag == TAStarFlag::Nothing) &&
+				it->compare("nothing")){ // this is not a valid AStarFlags => Let's preserve the default way the fauna is handled
+				bAstarFlags = 0;
+				break;
+			}
+			flags = RYAI_MAP_CRUNCH::TAStarFlag( flags | tmpflag);
+		}
+	}
+	
+	if(!bAstarFlags){
+		flags = WaterAndNogo;
+	}
 	CAliasTreeOwner* child = NULL;
 	
 	switch (aliasTree->getType())
 	{
 	case AITypeGrp:
-		child = new CGrpFauna(this, aliasTree, WaterAndNogo);
+		child = new CGrpFauna(this, aliasTree, flags);
 		break;
 	case AITypeEvent:
 		child = new CAIEventReaction(getStateMachine(), aliasTree);

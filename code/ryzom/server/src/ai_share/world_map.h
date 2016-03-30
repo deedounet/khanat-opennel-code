@@ -52,11 +52,24 @@ enum TAStarFlag
 	Water			= 2,
 	NoGo			= 4,
 	WaterAndNogo	= 6,
-	GroundFlags		= WaterAndNogo
+	GroundFlags		= WaterAndNogo,
+	Ground			= 8,
+	GroundAndNogo	= 12,
+	GroundAndWaterAndNogo = 14
 };
 
 const std::string& toString(TAStarFlag flag);
 TAStarFlag toAStarFlag(const std::string& str);
+
+inline int isPlaceAllowed(TAStarFlag denyFlags, TAStarFlag flags){ // check if the place is allowed given the denyFlags and flags
+	if(denyFlags & Ground){ // in case of ground is denied
+		return	((flags & denyFlags) == 0) && // denied flags against the current flags
+				(flags & Water);  // check the current flag is in the water
+	} else {
+		return (flags & denyFlags) == 0; //  denied flags against the current flags
+	}
+}
+
 
 uint const WorldMapGridSize = 256;
 double const WorldGridResolution = 1.;
@@ -64,6 +77,49 @@ NLMISC::CVectorD const WorldStartOffset = NLMISC::CVectorD(0., 0., 0.);
 
 typedef sint TLevel;
 
+class CPossibleTAStarFlags { // class to create a list of possible TAStarFlags
+private:
+	uint8 nFlags;
+	uint8 aFlags[3];
+public:
+	CPossibleTAStarFlags() : nFlags(0){ // default constructor
+	}
+	int buildTAStarFlagsList(const TAStarFlag denyflags){
+		nFlags = 0;
+		if(denyflags & Ground){ // ground forbidden
+			if(!(denyflags & Water)){ // Water possible
+				aFlags[nFlags++] = (uint8)(Water | Ground);
+				if(!(denyflags & NoGo)){ // Water and NoGo possible
+					aFlags[nFlags++] = (uint8)(Water | NoGo | Ground);
+				}
+			}
+		} else { // ground possible
+			aFlags[nFlags++] = (uint8)(Nothing);
+			if(!(denyflags & Water)){ // Ground and Water possible
+				aFlags[nFlags++] = (uint8)(Water);
+				if(!(denyflags & NoGo)){ // Ground, Water and NoGo possible
+					aFlags[nFlags++] = (uint8)(Water | NoGo);
+				}
+			} else {
+				if(!(denyflags & NoGo)){ // Ground and NoGo possible
+					aFlags[nFlags++] = (uint8)(NoGo);
+				}
+			}
+		}
+		return nFlags;
+	}
+	int size(){ // returns the size of the list of possible TAStarFlags
+		return nFlags;
+	}
+
+	TAStarFlag get(int nIndex){ // returns a possible TAStarFlag
+		return (TAStarFlag)aFlags[nIndex];
+	}
+
+	CPossibleTAStarFlags(const TAStarFlag denyflags){ //constructor, build a possible TAStarFlag list
+		buildTAStarFlagsList(denyflags);
+	}
+};
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -1573,7 +1629,7 @@ void CTopology::updateTopologyRef(CWorldMap* worldMapPtr)
 inline
 uint32 CTopology::getMasterTopo(TAStarFlag const& flags) const
 {
-	switch (flags&WaterAndNogo)
+	switch (flags&(WaterAndNogo | Ground))
 	{
 	case Nothing:
 	default:
@@ -1584,6 +1640,12 @@ uint32 CTopology::getMasterTopo(TAStarFlag const& flags) const
 		return MasterTopLN;
 	case WaterAndNogo:
 		return MasterTopLNW;
+	case Water|Ground:
+		return (MasterTopL == TTopologyId::UNDEFINED_TOPOLOGY) ? MasterTopLW : TTopologyId::UNDEFINED_TOPOLOGY;
+	case Water|Ground|NoGo:
+		return (MasterTopL == TTopologyId::UNDEFINED_TOPOLOGY) ? MasterTopLNW : TTopologyId::UNDEFINED_TOPOLOGY;
+	case NoGo|Ground:
+		return TTopologyId::UNDEFINED_TOPOLOGY;
 	}
 }
 

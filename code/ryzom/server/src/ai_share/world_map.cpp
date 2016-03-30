@@ -34,6 +34,9 @@ NL_BEGIN_STRING_CONVERSION_TABLE (TAStarFlag)
 	NL_STRING_CONVERSION_TABLE_ENTRY(NoGo)
 	NL_STRING_CONVERSION_TABLE_ENTRY(WaterAndNogo)
 	NL_STRING_CONVERSION_TABLE_ENTRY(GroundFlags)
+	NL_STRING_CONVERSION_TABLE_ENTRY(Ground)
+	NL_STRING_CONVERSION_TABLE_ENTRY(GroundAndNogo)
+	NL_STRING_CONVERSION_TABLE_ENTRY(GroundAndWaterAndNogo)
 NL_END_STRING_CONVERSION_TABLE(TAStarFlag, AStarFlagConversion, Nothing)
 
 const std::string& toString(TAStarFlag flag)
@@ -781,14 +784,14 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosS();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isESlotValid())
 						return	false;
 
 					tmpPos=tmpPos.getPosE();
-					if	((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 				}
 
@@ -798,7 +801,7 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosE();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isSSlotValid())
@@ -819,14 +822,14 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosN();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isESlotValid())
 						return	false;
 
 					tmpPos=tmpPos.getPosE();
-					if	((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 				}
 
@@ -836,7 +839,7 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosE();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isNSlotValid())
@@ -856,14 +859,14 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosN();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isWSlotValid())
 						return	false;
 
 					tmpPos=tmpPos.getPosW();
-					if	((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 				}
 
@@ -873,7 +876,7 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosW();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isNSlotValid())
@@ -893,14 +896,14 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosS();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isWSlotValid())
 						return	false;
 
 					tmpPos=tmpPos.getPosW();
-					if	((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 				}
 
@@ -910,7 +913,7 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 						return	false;
 
 					tmpPos=tmpPos.getPosW();
-					if ((tmpPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)
+					if (!isPlaceAllowed(denyFlags, tmpPos.getTopologyRef().getCstTopologyNode().getFlags()))
 						return	false;
 
 					if (!tmpPos.getCellLinkage().isSSlotValid())
@@ -1348,29 +1351,21 @@ void	CWorldMap::countCells(uint &compute, uint &white, uint &simple, uint &multi
 
 		const	CTopology	&startTopoNode=startPos.getTopologyRef().getCstTopologyNode();
 		const	CTopology	&endTopoNode=endPos.getTopologyRef().getCstTopologyNode();
-		TAStarFlag	startFlag=(TAStarFlag)(startTopoNode.getFlags()&WaterAndNogo);
-//		if	(!allowStartRestriction)
-			startFlag=Nothing;
 
+		CPossibleTAStarFlags PossibleTAStarFlags; // build a list of possible flags given the denyflags
+		const int nFlags = PossibleTAStarFlags.buildTAStarFlagsList(denyflags); 
 
-		for	(TAStarFlag	possibleFlag=Nothing;possibleFlag<=WaterAndNogo;possibleFlag=(TAStarFlag)(possibleFlag+2))	//	tricky !! -> to replace with a defined list of flags to checks.
-		{
-			const	uint32	incompatibilityFlags=(possibleFlag&(denyflags&~startFlag))&WaterAndNogo;
-
-			if	(incompatibilityFlags)
-				continue;
-
-			const	uint32	startMasterTopo=startTopoNode.getMasterTopo(possibleFlag);
-			const	uint32	endMasterTopo=endTopoNode.getMasterTopo(possibleFlag);
-			if	(	(startMasterTopo^endMasterTopo)!=0
-				||	startMasterTopo == std::numeric_limits<uint32>::max())	// if not same masterTopo or invalid masterTopo then bypass ..
-				continue;
-
+		for(int i = 0;i < nFlags;i++){  // for each possible flag
+			TAStarFlag	possibleFlag = PossibleTAStarFlags.get(i);
+			uint32 startMasterTopo=startTopoNode.getMasterTopo(possibleFlag);
+			uint32 endMasterTopo=endTopoNode.getMasterTopo(possibleFlag);
+			if(	(startMasterTopo^endMasterTopo)!=0 ||
+				(startMasterTopo == CTopology::TTopologyId::UNDEFINED_TOPOLOGY)){	// if not same masterTopo or invalid masterTopo then continue
+				continue;				
+			}
 			res.set(possibleFlag, startMasterTopo);
 			res.setValid();
-
-			if	(((possibleFlag&denyflags)&WaterAndNogo)==0)	//	it was the optimal case ?
-				break;
+			break;
 		}
 
 	}
@@ -1665,7 +1660,7 @@ bool	CWorldMap::findAStarPath(const CTopology::TTopologyId &start, const CTopolo
 			const CTopology	&ntp = next.getCstTopologyNode();
 
 			// don't examine not accessible nodes
-			if ((ntp.Flags & denyflags) != 0)
+			if (!isPlaceAllowed(denyflags,(RYAI_MAP_CRUNCH::TAStarFlag) ntp.Flags))
 				continue;
 
 			// compute actual node distance
@@ -1821,7 +1816,7 @@ bool CWorldMap::findInsideAStarPath(CWorldPosition const& start, CWorldPosition 
 				continue;
 
 			// If that point's flags are not compatible skip it
-			if ((denyflags & mv.getTopologyRef().getCstTopologyNode().getFlags()) != 0)
+			if (!isPlaceAllowed(denyflags, mv.getTopologyRef().getCstTopologyNode().getFlags()))
 				continue;
 
 			// Build an A* node
@@ -1927,7 +1922,7 @@ bool	CWorldMap::move(CWorldPosition &pos, CAStarPath &path, uint &currentstep) c
 bool CWorldMap::move(CWorldPosition& pos, CMapPosition const& end, TAStarFlag const denyFlags) const
 {
 	CWorldPosition	tempPos(pos);
-	BOMB_IF((tempPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0, "Error in CWorldMap::mode, invalid flag "<<RYAI_MAP_CRUNCH::toString(tempPos.getTopologyRef().getCstTopologyNode().getFlags())
+	BOMB_IF(!isPlaceAllowed(denyFlags, tempPos.getTopologyRef().getCstTopologyNode().getFlags()), "Error in CWorldMap::mode, invalid flag "<<RYAI_MAP_CRUNCH::toString(tempPos.getTopologyRef().getCstTopologyNode().getFlags())
 		<<"on world pos "<<pos.toString()<<" while going to map pos "<<end.toString()<<" with denyflags "<<RYAI_MAP_CRUNCH::toString(denyFlags), return false);
 	//	not optimum but it will be rewrite for each specialized rootcell type.
 	const	sint32	x0	=	pos.x();
@@ -1945,7 +1940,7 @@ bool CWorldMap::move(CWorldPosition& pos, CMapPosition const& end, TAStarFlag co
 
 
 		if	(	!move(tempPos, CDirection(dx,dy))
-			||	(tempPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlags)!=0)	//	Arghh !!
+			||	!isPlaceAllowed(denyFlags, tempPos.getTopologyRef().getCstTopologyNode().getFlags()))	//	Arghh !!
 			return	false;
 		pos=tempPos;
 	}
