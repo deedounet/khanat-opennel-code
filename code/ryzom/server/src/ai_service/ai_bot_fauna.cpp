@@ -501,7 +501,7 @@ void CSpawnBotFauna::getBestTarget()
 								if (	canMove()
 									&&	!player->isAggressive()
 									&&	entity->wpos().isValid()
-									&&	(entity->wpos().getFlags()&entity->getAStarFlag())==0)
+									&&	isPlaceAllowed(entity->getAStarFlag(), entity->wpos().getFlags()))
 								{
 									// Suppose we can go to him
 									bool canChange = true;
@@ -706,7 +706,7 @@ void CSpawnBotFauna::getBestTarget()
 										if (	profile
 											&&	profile->getAIProfileType()==ACTIVITY_CORPSE
 											&&	botCreat->wpos().isValid()
-											&&	!(botCreat->wpos().getFlags()&botCreat->getAStarFlag())
+											&&	isPlaceAllowed(botCreat->getAStarFlag(), botCreat->wpos().getFlags())
 											)
 										{
 											CCorpseFaunaProfile	*corpseProfile=NLMISC::safe_cast<CCorpseFaunaProfile*>(profile);
@@ -951,7 +951,7 @@ void CMovementMagnet::getNewDestination(RYAI_MAP_CRUNCH::CWorldPosition const& a
 				continue;
 
 			if	(	!faunaBot->wpos().isValid()
-				||	(faunaBot->wpos().getFlags()&denyFlag)!=0)
+				||	!isPlaceAllowed(denyFlag, faunaBot->wpos().getFlags()))
 				continue;
 
 			// can be optimize by in avoid inversion.
@@ -990,7 +990,7 @@ void CMovementMagnet::getNewDestination(RYAI_MAP_CRUNCH::CWorldPosition const& a
 		
 		//	check if its a nogo and water proof position.
 		if (	!wRndPos.isValid()
-			||	(wRndPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlag)!=0	)
+			||	!isPlaceAllowed(denyFlag, wRndPos.getTopologyRef().getCstTopologyNode().getFlags()))
 			continue;
 		
 	#if !FINAL_VERSION
@@ -1126,7 +1126,7 @@ CReturnMovementMagnet::CReturnMovementMagnet(RYAI_MAP_CRUNCH::CWorldPosition con
 
 void CReturnMovementMagnet::getNewDestination(RYAI_MAP_CRUNCH::CWorldPosition const& alternativePos, RYAI_MAP_CRUNCH::TAStarFlag denyFlag)
 {
-	if (_ForcedDest.isValid() && (_ForcedDest.getTopologyRef().getCstTopologyNode().getFlags()&denyFlag)==0)
+	if (_ForcedDest.isValid() && isPlaceAllowed(denyFlag, _ForcedDest.getTopologyRef().getCstTopologyNode().getFlags()))
 		_PathCont.setDestination(_ForcedDest);
 	else
 		CMovementMagnet::getNewDestination(alternativePos, denyFlag);

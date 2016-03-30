@@ -836,7 +836,7 @@ bool CGrpFauna::spawnPop(uint popVersion)
 		if (!places()[i]->worldValidPos().isValid())
 			return	false;
 		const	RYAI_MAP_CRUNCH::TAStarFlag	flags=places()[i]->worldValidPos().getTopologyRef().getCstTopologyNode().getFlags();
-		if	((flags&getAStarFlag())!=0)
+		if(!isPlaceAllowed(getAStarFlag(), flags)) // if place is not allowed - we now deal with creatures that can't go on the ground
 			return	false;
 	}
 
