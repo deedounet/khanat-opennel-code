@@ -1530,7 +1530,10 @@ bool CCellZone::findRestAndFoodFaunaZoneInCellList(CFaunaZone const*& rest, CPro
 	CPropertySet activities[CCellChoice::MAX_ZONE_SCORE];
 	activities[CCellChoice::FOOD_ZONE_SCORE].merge(foodActivity);
 	activities[CCellChoice::REST_ZONE_SCORE].merge(restActivity);
-	
+
+	CPossibleTAStarFlags PossibleTAStarFlags;  // possible TAStarFlags
+	const int nFlags = PossibleTAStarFlags.buildTAStarFlagsList(denyflags); // we build the list according to the deny flags
+
 	// Look for a conveninent zone in a convenient cell.
 	if (extensiveDebug) nldebug("ED0001.02: cells.size()=%d", cells.size());
 	// For each cell
@@ -1586,22 +1589,15 @@ bool CCellZone::findRestAndFoodFaunaZoneInCellList(CFaunaZone const*& rest, CPro
 					continue;
 				}
 				
-				TAStarFlag const flags = (TAStarFlag)(wpos.getFlags()&GroundFlags);	//	Erase unused flags.
+
 				float const score = faunaZone->getFreeAreaScore();
 				
-				for	(TAStarFlag	possibleFlag=Nothing;possibleFlag<=GroundFlags;possibleFlag=(TAStarFlag)(possibleFlag+2))	//	tricky !! -> to replace with a defined list of flags to checks.
-				{
-					const	uint32	incompatibilityFlags=possibleFlag&denyflags&GroundFlags;	//	Erase unused flags.
-					if	(incompatibilityFlags)
-					{
-						if (extensiveDebug) nldebug("ED0001.06: incompatibilityFlags");
-						continue;
-					}
-					
+				for(int i = 0;i < nFlags;i++){
+					TAStarFlag	possibleFlag = PossibleTAStarFlags.get(i);
 					const	uint32	masterTopo=wpos.getTopologyRef().getCstTopologyNode().getMasterTopo(possibleFlag);
-					if	(masterTopo==~0)
+					if(masterTopo==CTopology::TTopologyId::UNDEFINED_TOPOLOGY)
 					{
-						if (extensiveDebug) nldebug("ED0001.07: masterTopo==~0");
+						if (extensiveDebug) nldebug("ED0001.07: CTopology::TTopologyId::UNDEFINED_TOPOLOGY");
 						continue;
 					}
 					
@@ -1611,7 +1607,7 @@ bool CCellZone::findRestAndFoodFaunaZoneInCellList(CFaunaZone const*& rest, CPro
 						continue;
 					}
 					
-					CCellChoice::CZoneScore	&zoneScore=searchMap[possibleFlag][masterTopo].zones[typeZone];
+					CCellChoice::CZoneScore	&zoneScore=searchMap[possibleFlag & WaterAndNogo][masterTopo].zones[typeZone];
 					
 					if	(score<zoneScore.score)
 					{
@@ -1662,8 +1658,8 @@ bool CCellZone::findRestAndFoodFaunaZoneInCellList(CFaunaZone const*& rest, CPro
 #if !FINAL_VERSION
 			const	RYAI_MAP_CRUNCH::TAStarFlag	restFlags=rest->worldValidPos().getTopologyRef().getCstTopologyNode().getFlags();
 			const	RYAI_MAP_CRUNCH::TAStarFlag	foodFlags=food->worldValidPos().getTopologyRef().getCstTopologyNode().getFlags();
-			nlassert((restFlags&denyflags)==0);
-			nlassert((foodFlags&denyflags)==0);
+			nlassert(isPlaceAllowed(denyflags, restFlags));
+			nlassert(isPlaceAllowed(denyflags, foodFlags));
 #endif
 			return	true;
 		}
@@ -1740,7 +1736,7 @@ const	CFaunaZone	*CCellZone::lookupFaunaZone(const	CPropertySet &activity,	TASta
 			}
 
 			const	RYAI_MAP_CRUNCH::TAStarFlag	flags=faunaZone->worldValidPos().getTopologyRef().getCstTopologyNode().getFlags();
-			if	(flags&denyflags)
+			if	(!isPlaceAllowed(denyflags, flags))
 				continue;
 
 			const	float	score=faunaZone->getFreeAreaScore();
