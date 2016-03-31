@@ -110,7 +110,7 @@ CAliasTreeOwner* CMgrFauna::createChild(IAliasCont* cont, CAIAliasDescriptionNod
 		NLMISC::splitString(tail, "|", sFlags);
 		FOREACHC(it, vector<string>, sFlags){
 			TAStarFlag tmpflag = RYAI_MAP_CRUNCH::toAStarFlag(*it);
-			if(	(tmpflag == TAStarFlag::Nothing) &&
+			if(	(tmpflag == Nothing) &&
 				it->compare("nothing")){ // this is not a valid AStarFlags => Let's preserve the default way the fauna is handled
 				bAstarFlags = 0;
 				break;
