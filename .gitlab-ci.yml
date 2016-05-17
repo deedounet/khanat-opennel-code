@@ -1,0 +1,65 @@
+Linux:
+  stage: build
+  only:
+    - develop
+    - /^feature\/.*(\+CI$|\+CI-LIN64.*)/
+    - tags
+  tags:
+    - Docker
+    - Linux
+  image: ubuntu:14.04
+  script:
+    # Installation des dépendances
+    - apt-get update
+    - apt-get install -y g++ gcc cmake libgl1-mesa-dev libjpeg-dev libpng12-dev libopenal-dev libfreetype6-dev libxxf86vm-dev libxrandr-dev libxrender-dev libvorbis-dev libluabind-dev libboost-dev libmysqlclient-dev libssl-dev liblzma-dev libxml2-dev
+    # Installation des dépendances des dépendances statiques (à commenter si construction de Khanat en mode dynamique)
+    # libxml2 : python-pyicu (support d'unicode), python-dev (support de... python)
+    - apt-get install -y wget python-pyicu python-dev
+    # Création de l'environnement de compilation
+    - mkdir -p BUILD/x86_64
+    - cd BUILD/x86_64
+    ## Le curl des dépots a trop de dépendances en statique. On le recompile donc, afin d'aléger l'executable
+    # Téléchargement et décompression des dépendances à recompiller
+    - wget -c http://curl.haxx.se/download/curl-7.21.0.tar.gz
+    - tar xzf curl-7.21.0.tar.gz
+    # Compilation de curl
+    - cd curl-7.21.0
+    - ./configure --disable-ldap --disable-ldaps --disable-rtsp --disable-dict --disable-ipv6 --disable-crypto-auth --disable-sspi --disable-tls-srp --without-gnutls --without-librtmp --without-libidn --disable-versioned-symbols --disable-pop3 --without-libssh2 --with-ssl=/usr/lib/x86_64-linux-gnu/libssl.so
+    - make install -j$(($(nproc)-1))
+    - cd ..
+    ## Compilation de Khanat
+    # Configuration
+    - cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/ -DCMAKE_BUILD_TYPE=Release -DWITH_RYZOM_SERVER=OFF -DWITH_RYZOM_TOOLS=OFF -DWITH_RYZOM_CLIENT=ON -DWITH_NEL_TESTS=OFF -DWITH_NEL_TOOLS=OFF -DWITH_NEL_SAMPLES=OFF -DWITH_STATIC=ON -DWITH_STATIC_DRIVERS=ON -DWITH_STATIC_EXTERNAL=ON -DWITH_UNIX_STRUCTURE=OFF -DWITH_INSTALL_LIBRARIES=OFF -DWITH_LUA52=ON -DCURL_LIBRARY=/usr/local/lib/libcurl.a ../../code
+    # Compilation et installation
+    - make -j$(($(nproc)-1)) install DESTDIR=../../Linux/x86_64
+  artifacts:
+    paths:
+      - Linux
+  cache:
+    key: "$CI_BUILD_NAME"
+    paths:
+      - BUILD
+
+OSX:
+  stage: build
+  only:
+    - develop
+    - /^feature\/.*(\+CI$|\+CI-OSX.*)/
+    - tags
+  tags:
+    - OSX
+  script:
+    # Création de l'environnement de compilation
+    - mkdir -p BUILD/x86_64
+    - cd BUILD/x86_64
+    # Configuration
+    - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFINAL_VERSION=ON -DWITH_STATIC=ON -DWITH_STATIC_DRIVERS=ON -DWITH_NEL_TOOLS=OFF -DWITH_NEL_SAMPLES=OFF -DWITH_NEL_TESTS=OFF -DWITH_RYZOM_SERVER=OFF -DWITH_RYZOM_TOOLS=OFF -DWITH_STATIC_EXTERNAL=ON -DWITH_RYZOM_PATCH=ON -DWITH_RYZOM_CUSTOM_PATCH_SERVER=ON -DWITH_LUA52=ON ../../code
+    # Compilation et installation
+    - make -j$(($(sysctl -n hw.ncpu)-1)) install DESTDIR=../../OSX/x86_64
+  artifacts:
+    paths:
+      - OSX
+  cache:
+    key: "$CI_BUILD_NAME"
+    paths:
+      - BUILD
