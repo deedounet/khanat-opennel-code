@@ -35,10 +35,6 @@ Linux:
   artifacts:
     paths:
       - Linux
-  cache:
-    key: "$CI_BUILD_NAME"
-    paths:
-      - BUILD
 
 OSX:
   stage: build
@@ -59,7 +55,3 @@ OSX:
   artifacts:
     paths:
       - OSX
-  cache:
-    key: "$CI_BUILD_NAME"
-    paths:
-      - BUILD
