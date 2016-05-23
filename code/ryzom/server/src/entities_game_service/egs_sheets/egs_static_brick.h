@@ -169,10 +169,10 @@ public:
 		DefensiveAfflictionCastingTimeFactor = 1.0f;
 		DefensiveAfflictionPowerFactor = 1.0f;
 
-		HpBonusPerLevel = 0.0f;
-		SapBonusPerLevel = 0.0f;
-		StaBonusPerLevel = 0.0f;
-		FocusBonusPerLevel = 0.0f;
+		ChaScore1BonusPerLevel = 0.0f;
+		ChaScore2BonusPerLevel = 0.0f;
+		ChaScore3BonusPerLevel = 0.0f;
+		ChaScore4BonusPerLevel = 0.0f;
 		AllowPartialSuccess= true;
 	}
 	
@@ -221,10 +221,10 @@ public:
 		f.serial( DefensiveAfflictionCastingTimeFactor );
 		f.serial( DefensiveAfflictionPowerFactor );
 
-		f.serial( HpBonusPerLevel );
-		f.serial( SapBonusPerLevel );
-		f.serial( StaBonusPerLevel );
-		f.serial( FocusBonusPerLevel );
+		f.serial( ChaScore1BonusPerLevel );
+		f.serial( ChaScore2BonusPerLevel );
+		f.serial( ChaScore3BonusPerLevel );
+		f.serial( ChaScore4BonusPerLevel );
 
 		f.serial( AllowPartialSuccess );
 		
@@ -313,10 +313,10 @@ public:
 	float	DefensiveAfflictionPowerFactor;
 
 	/// stats factor
-	float	HpBonusPerLevel;
-	float	SapBonusPerLevel;
-	float	StaBonusPerLevel;
-	float	FocusBonusPerLevel;
+	float	ChaScore1BonusPerLevel;
+	float	ChaScore2BonusPerLevel;
+	float	ChaScore3BonusPerLevel;
+	float	ChaScore4BonusPerLevel;
 
 	/// Some Plans can Force no Partial Success (instead replace full success)
 	bool	AllowPartialSuccess;

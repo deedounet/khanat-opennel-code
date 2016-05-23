@@ -27,18 +27,18 @@ class CPactSheet : public CEntitySheet
 public:
 	struct SPact
 	{
-		uint16	    LoseHitPointsLevel;
-		uint16	    LoseStaminaLevel;
-		uint16	    LoseSapLevel;
+		uint16	    LoseChaScore1Level;
+		uint16	    LoseChaScore2Level;
+		uint16	    LoseChaScore3Level;
 		uint16	    LoseSkillsLevel;
 		float	    Duration;
 		std::string Name;
 
 		void serial(class NLMISC::IStream &f) throw(NLMISC::EStream)
 		{
-			f.serial( LoseHitPointsLevel);
-			f.serial( LoseStaminaLevel );
-			f.serial( LoseSapLevel );
+			f.serial( LoseChaScore1Level);
+			f.serial( LoseChaScore2Level );
+			f.serial( LoseChaScore3Level );
 			f.serial( LoseSkillsLevel );
 			f.serial( Duration );
 			f.serial( Name );

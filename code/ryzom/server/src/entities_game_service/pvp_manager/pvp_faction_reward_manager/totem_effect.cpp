@@ -98,40 +98,40 @@ CTotemCharacEffect::CTotemCharacEffect(	const TDataSetRow & creatorRowId,
 {
 	switch ( family )
 	{
-		case TotemStatsHP :
-			_AffectedCharac = constitution;
+		case TotemStatsChaScore1 :
+			_AffectedCharac = cha1;
 			break;
 
-		case TotemRegenHP :
-			_AffectedCharac = metabolism;
+		case TotemRegenChaScore1 :
+			_AffectedCharac = cha1_reg;
 			break;
 
-		case TotemStatsSap :
-			_AffectedCharac = intelligence;
+		case TotemStatsChaScore2 :
+			_AffectedCharac = cha2;
 			break;
 
-		case TotemRegenSap :
-			_AffectedCharac = wisdom;
+		case TotemRegenChaScore2 :
+			_AffectedCharac = cha2_reg;
 			break;
 
-		case TotemStatsSta :
-			_AffectedCharac = strength;
+		case TotemStatsChaScore3 :
+			_AffectedCharac = cha3;
 			break;
 
-		case TotemRegenSta :
-			_AffectedCharac = well_balanced;
+		case TotemRegenChaScore3 :
+			_AffectedCharac = cha3_reg;
 			break;
 
-		case TotemStatsFoc :
-			_AffectedCharac = dexterity;
+		case TotemStatsChaScore4 :
+			_AffectedCharac = cha4;
 			break;
 
-		case TotemRegenFoc :
-			_AffectedCharac = will;
+		case TotemRegenChaScore4 :
+			_AffectedCharac = cha4_reg;
 			break;
 
 		case TotemMiscMov :
-			_AffectedCharac = constitution; // arbitrary value < Unknown
+			_AffectedCharac = cha1; // arbitrary value < Unknown
 			break;
 		
 		default :

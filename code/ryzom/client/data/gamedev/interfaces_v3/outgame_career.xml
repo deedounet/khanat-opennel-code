@@ -7,14 +7,14 @@
 <variable entry="UI:TEMP:POINTS"			type="sint64" value="0" />
 <variable entry="UI:TEMP:CAREERBACKHOME"	type="sint64" value="-1"/>
 
-<variable entry="UI:TEMP:CARACS:HPMAX" type="sint64" value="-1"/>
-<variable entry="UI:TEMP:CARACS:HPREG" type="sint64" value="-1"/>
-<variable entry="UI:TEMP:CARACS:STAMAX" type="sint64" value="-1"/>
-<variable entry="UI:TEMP:CARACS:STAREG" type="sint64" value="-1"/>
-<variable entry="UI:TEMP:CARACS:SAPMAX" type="sint64" value="-1"/>
-<variable entry="UI:TEMP:CARACS:SAPREG" type="sint64" value="-1"/>
-<variable entry="UI:TEMP:CARACS:WISHMAX" type="sint64" value="-1"/>
-<variable entry="UI:TEMP:CARACS:WISHREG" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore1MAX" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore1REG" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore2MAX" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore2REG" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore3MAX" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore3REG" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore4MAX" type="sint64" value="-1"/>
+<variable entry="UI:TEMP:CARACS:ChaScore4REG" type="sint64" value="-1"/>
 
 <variable entry="UI:TEMP:CHAR3D:CAREER" type="sint64" value="0"/>
 
@@ -26,47 +26,47 @@
 <!-- BASE CARACS PART -->
 
 <proc id="proc_set_base_caracs_fy">
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPREG|value=35" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAREG|value=35" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPREG|value=20" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHMAX|value=20" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHREG|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=20" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=20" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=30" />
 </proc>
 
 <proc id="proc_set_base_caracs_ma">
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPREG|value=20" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAREG|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPMAX|value=20" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPREG|value=35" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHMAX|value=35" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHREG|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=20" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=20" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=30" />
 </proc>
 
 <proc id="proc_set_base_caracs_tr">
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPMAX|value=20" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPREG|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAMAX|value=35" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAREG|value=20" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPREG|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHREG|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=20" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=20" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=35" />
 </proc>
 
 <proc id="proc_set_base_caracs_zo">
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPMAX|value=20" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:HPREG|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:STAREG|value=35" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:SAPREG|value=35" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHMAX|value=30" />
-	<action handler="set" params="dblink=UI:TEMP:CARACS:WISHREG|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=20" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=35" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=30" />
+	<action handler="set" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=30" />
 </proc>
 
 <!-- ADD CARACS PART -->
@@ -74,136 +74,136 @@
 <proc id="proc_set_add_caracs_fy">
 
 	<!--Fighter-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 	<!--Magician-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 	<!--Craftsman-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 </proc>
 
 <proc id="proc_set_add_caracs_ma">
 
 	<!--Fighter-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 	<!--Magician-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 	<!--Craftsman-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 </proc>
 
 <proc id="proc_set_add_caracs_tr">
 
 	<!--Fighter-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 	<!--Magician-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 	<!--Craftsman-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 	
 </proc>
 
 <proc id="proc_set_add_caracs_zo">
 
 	<!--Fighter-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,1)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 
 	<!--Magician-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,2)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 
 	<!--Craftsman-->
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPMAX|value=add(@@UI:TEMP:CARACS:HPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:HPREG|value=add(@@UI:TEMP:CARACS:HPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAMAX|value=add(@@UI:TEMP:CARACS:STAMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:STAREG|value=add(@@UI:TEMP:CARACS:STAREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPMAX|value=add(@@UI:TEMP:CARACS:SAPMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:SAPREG|value=add(@@UI:TEMP:CARACS:SAPREG,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHMAX|value=add(@@UI:TEMP:CARACS:WISHMAX,5)" />
-	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:WISHREG|value=add(@@UI:TEMP:CARACS:WISHREG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1MAX|value=add(@@UI:TEMP:CARACS:ChaScore1MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore1REG|value=add(@@UI:TEMP:CARACS:ChaScore1REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2MAX|value=add(@@UI:TEMP:CARACS:ChaScore2MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore2REG|value=add(@@UI:TEMP:CARACS:ChaScore2REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3MAX|value=add(@@UI:TEMP:CARACS:ChaScore3MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore3REG|value=add(@@UI:TEMP:CARACS:ChaScore3REG,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4MAX|value=add(@@UI:TEMP:CARACS:ChaScore4MAX,5)" />
+	<action handler="set" cond="eq(@UI:TEMP:CAREERCLICKJOB,3)" params="dblink=UI:TEMP:CARACS:ChaScore4REG|value=add(@@UI:TEMP:CARACS:ChaScore4REG,5)" />
 
 </proc>
 
@@ -1156,20 +1156,20 @@
 		<view type="bitmap" id="bgtable" posref="TL TL" x="0" y="0" texture="blank.tga" color="45 57 38 128" scale="true" sizeref="wh" global_color="false" render_layer="-2" />
 		<instance template="window_border" id="bordure" posref="MM MM" />		
 	
-		<instance template="caracs_reg" id="c_hpreg" 	posref="TM TM" x="0" y="-8" 					 color="%hp_color"	carac="uiCarac_HpReg"	value_carac="UI:TEMP:CARACS:HPREG" 		score="uiHpReg" 	value_score="div(@UI:TEMP:CARACS:HPREG,10)"	/>
-		<instance template="caracs_reg" id="c_stareg" 	posref="BL TL" posparent="c_hpreg" 	x="0" y="-2" color="%sta_color"	carac="uiCarac_StaReg"	value_carac="UI:TEMP:CARACS:STAREG" 	score="uiStaReg" 	value_score="div(@UI:TEMP:CARACS:STAREG,10)"	/>
-		<instance template="caracs_reg" id="c_sapreg" 	posref="BL TL" posparent="c_stareg" x="0" y="-2" color="%sap_color"	carac="uiCarac_SapReg"	value_carac="UI:TEMP:CARACS:SAPREG" 	score="uiSapReg" 	value_score="div(@UI:TEMP:CARACS:SAPREG,10)"	/>
-		<instance template="caracs_reg" id="c_wishreg"	posref="BL TL" posparent="c_sapreg" x="0" y="-2" color="%focus_color"	carac="uiCarac_WishReg"	value_carac="UI:TEMP:CARACS:WISHREG"	score="uiWishReg" 	value_score="div(@UI:TEMP:CARACS:WISHREG,10)"	/>
+		<instance template="caracs_reg" id="c_ChaScore1reg" 	posref="TM TM" x="0" y="-8" 					 color="%ChaScore1_color"	carac="uiCarac_ChaScore1Reg"	value_carac="UI:TEMP:CARACS:ChaScore1REG" 		score="uiChaScore1Reg" 	value_score="div(@UI:TEMP:CARACS:ChaScore1REG,10)"	/>
+		<instance template="caracs_reg" id="c_ChaScore2reg" 	posref="BL TL" posparent="c_ChaScore1reg" 	x="0" y="-2" color="%ChaScore2_color"	carac="uiCarac_ChaScore2Reg"	value_carac="UI:TEMP:CARACS:ChaScore2REG" 	score="uiChaScore2Reg" 	value_score="div(@UI:TEMP:CARACS:ChaScore2REG,10)"	/>
+		<instance template="caracs_reg" id="c_ChaScore3reg" 	posref="BL TL" posparent="c_ChaScore2reg" x="0" y="-2" color="%ChaScore3_color"	carac="uiCarac_ChaScore3Reg"	value_carac="UI:TEMP:CARACS:ChaScore3REG" 	score="uiChaScore3Reg" 	value_score="div(@UI:TEMP:CARACS:ChaScore3REG,10)"	/>
+		<instance template="caracs_reg" id="c_ChaScore4reg"	posref="BL TL" posparent="c_ChaScore3reg" x="0" y="-2" color="%ChaScore4_color"	carac="uiCarac_ChaScore4Reg"	value_carac="UI:TEMP:CARACS:ChaScore4REG"	score="uiChaScore4Reg" 	value_score="div(@UI:TEMP:CARACS:ChaScore4REG,10)"	/>
 	</group>
     
 	<group id="table1" posparent="table2" posref="TR BR" w="306" h="117" x="0" y="24" active="false"  >
 		<view type="bitmap" id="bgtable" posref="TL TL" x="0" y="0" texture="blank.tga" color="45 57 38 128" scale="true" sizeref="wh" global_color="false" render_layer="-2" />
 		<instance template="window_border" id="bordure" posref="MM MM" />
 		
-		<instance template="caracs_max" id="c_hpmax" 	posref="TM TM" x="0" y="-8" 					 color="%hp_color"	carac="uiCarac_HpMax"	value_carac="UI:TEMP:CARACS:HPMAX"	 score="uiHpMax" 	value_score="mul(@UI:TEMP:CARACS:HPMAX,10)"	/>
-		<instance template="caracs_max" id="c_stamax" 	posref="BL TL" posparent="c_hpmax" 	x="0" y="-2" color="%sta_color"	carac="uiCarac_StaMax"	value_carac="UI:TEMP:CARACS:STAMAX"  score="uiStaMax"	value_score="mul(@UI:TEMP:CARACS:STAMAX,10)"	/>
-		<instance template="caracs_max" id="c_sapmax" 	posref="BL TL" posparent="c_stamax" x="0" y="-2" color="%sap_color"	carac="uiCarac_SapMax"	value_carac="UI:TEMP:CARACS:SAPMAX"  score="uiSapMax"	value_score="mul(@UI:TEMP:CARACS:SAPMAX,10)"	/>
-		<instance template="caracs_max" id="c_wishmax" 	posref="BL TL" posparent="c_sapmax" x="0" y="-2" color="%focus_color"	carac="uiCarac_WishMax"	value_carac="UI:TEMP:CARACS:WISHMAX" score="uiWishMax"	value_score="mul(@UI:TEMP:CARACS:WISHMAX,10)"	/>
+		<instance template="caracs_max" id="c_ChaScore1max" 	posref="TM TM" x="0" y="-8" 					 color="%ChaScore1_color"	carac="uiCarac_ChaScore1Max"	value_carac="UI:TEMP:CARACS:ChaScore1MAX"	 score="uiChaScore1Max" 	value_score="mul(@UI:TEMP:CARACS:ChaScore1MAX,10)"	/>
+		<instance template="caracs_max" id="c_ChaScore2max" 	posref="BL TL" posparent="c_ChaScore1max" 	x="0" y="-2" color="%ChaScore2_color"	carac="uiCarac_ChaScore2Max"	value_carac="UI:TEMP:CARACS:ChaScore2MAX"  score="uiChaScore2Max"	value_score="mul(@UI:TEMP:CARACS:ChaScore2MAX,10)"	/>
+		<instance template="caracs_max" id="c_ChaScore3max" 	posref="BL TL" posparent="c_ChaScore2max" x="0" y="-2" color="%ChaScore3_color"	carac="uiCarac_ChaScore3Max"	value_carac="UI:TEMP:CARACS:ChaScore3MAX"  score="uiChaScore3Max"	value_score="mul(@UI:TEMP:CARACS:ChaScore3MAX,10)"	/>
+		<instance template="caracs_max" id="c_ChaScore4max" 	posref="BL TL" posparent="c_ChaScore3max" x="0" y="-2" color="%ChaScore4_color"	carac="uiCarac_ChaScore4Max"	value_carac="UI:TEMP:CARACS:ChaScore4MAX"  score="uiChaScore4Max"	value_score="mul(@UI:TEMP:CARACS:ChaScore4MAX,10)"	/>
 	</group>
 
 	<view type="text" id="table2_txt" posparent="table2" posref="TL BL" x="0" y="2" hardtext="uiScoreRegen" fontsize="16" color="255 255 255 255" render_layer="-1" />		

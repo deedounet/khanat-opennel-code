@@ -74,9 +74,9 @@ bool CNoLinkDOTEffect::update(CTimerEvent * event, bool applyEffect)
 		bool kill = false;
 		switch(_AffectedScore)
 		{ 
-		case SCORES::hit_points:
+		case SCORES::cha_score1:
 			realDamage = targetEntity->applyDamageOnArmor( _DamageType, maxDamage );
-			kill = targetEntity->changeCurrentHp( -realDamage, _CreatorRowId);
+			kill = targetEntity->changeCurrentChaScore1( -realDamage, _CreatorRowId);
 			break;
 		default:
 			realDamage = targetEntity->applyDamageOnArmor( _DamageType, maxDamage );
@@ -85,7 +85,7 @@ bool CNoLinkDOTEffect::update(CTimerEvent * event, bool applyEffect)
 		}
 
 		if (targetEntity != NULL && _CreatorRowId.isValid() && TheDataset.isDataSetRowStillValid(_CreatorRowId))
-			PHRASE_UTILITIES::sendScoreModifierSpellMessage( TheDataset.getEntityId(_CreatorRowId), targetEntity->getId(), -realDamage, -maxDamage, SCORES::hit_points , ACTNATURE::OFFENSIVE_MAGIC);
+			PHRASE_UTILITIES::sendScoreModifierSpellMessage( TheDataset.getEntityId(_CreatorRowId), targetEntity->getId(), -realDamage, -maxDamage, SCORES::cha_score1 , ACTNATURE::OFFENSIVE_MAGIC);
 
 		if (kill)
 		{

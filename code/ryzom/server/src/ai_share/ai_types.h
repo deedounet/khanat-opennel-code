@@ -291,8 +291,8 @@ namespace AITYPES
 //		EffectCurseHatredDegeneres,
 //		
 //		EffectHeal,
-//		EffectStamina,
-//		EffectSap,
+//		EffectChaScore2,
+//		EffectChaScore3,
 //
 //		EffectDotShock,
 //		EffectDotSlash,

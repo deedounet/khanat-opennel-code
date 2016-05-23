@@ -300,8 +300,8 @@ public:
 	/// \param members : members of the team before it is separated
 	void disbandTeam(TTeamId teamId, const std::list<NLMISC::CEntityId> & members);
 
-	/// a player regenerates HP
-	void playerRegenHP(const CCharacter * playerChar, sint32 regenHP);
+	/// a player regenerates ChaScore1
+	void playerRegenChaScore1(const CCharacter * playerChar, sint32 regenChaScore1);
 	/// report a player death
 	void playerDeath(CCharacter * playerChar, const CCharacter * finalBlower);
 	/// report a spire destroyed

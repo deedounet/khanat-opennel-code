@@ -330,8 +330,8 @@ void CSpellParams::serial(class NLMISC::IStream &f)
 	f.serial(CastingTime);
 	f.serial(PostActionTime);
 	f.serial(Stackable);
-	f.serial(SapCost);
-	f.serial(HpCost);
+	f.serial(ChaScore3Cost);
+	f.serial(ChaScore1Cost);
 	f.serial(SpellParamValue);
 	f.serial(SpellParamValue2);
 	f.serial(SpellPowerFactor);
@@ -386,8 +386,8 @@ void CSpellParams::readForm (const UFormElm &root, const NLMISC::CSheetId &sheet
 	else
 		Stackable = false;
 	
-	root.getValueByName( SapCost, "SapCost" );	
-	root.getValueByName( HpCost, "HpCost" );
+	root.getValueByName( ChaScore3Cost, "ChaScore3Cost" );	
+	root.getValueByName( ChaScore1Cost, "ChaScore1Cost" );
 	root.getValueByName(SpellLevel, "SpellLevel");
 
 	if (root.getValueByName( value, "Skill" ))

@@ -37,7 +37,7 @@ class CMagicActionBasicHeal : public IMagicAction
 {
 public:
 	CMagicActionBasicHeal()
-		:_HealHp(0),_HealSap(0),_HealSta(0){}
+		:_HealChaScore1(0),_HealChaScore3(0),_HealChaScore2(0){}
 protected:
 	virtual bool addBrick( const CStaticBrick & brick, CMagicPhrase * phrase, bool &effectEnd )
 	{
@@ -50,10 +50,10 @@ protected:
 				effectEnd = true;
 				return true;
 			case TBrickParam::MA_HEAL:
-				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)brick.Params[i])->Hp,((CSBrickParamMagicHeal *)brick.Params[i])->Sap,((CSBrickParamMagicHeal *)brick.Params[i])->Sta);
-				_HealHp = ((CSBrickParamMagicHeal *)brick.Params[i])->Hp;
-				_HealSap = ((CSBrickParamMagicHeal *)brick.Params[i])->Sap;
-				_HealSta = ((CSBrickParamMagicHeal *)brick.Params[i])->Sta;
+				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore1,((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore3,((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore2);
+				_HealChaScore1 = ((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore1;
+				_HealChaScore3 = ((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore3;
+				_HealChaScore2 = ((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore2;
 				
 			default:
 				// unused param, can be useful in the phrase
@@ -116,61 +116,61 @@ protected:
 				//behav.Spell.KillingBlow = 0;
 			
 				///
-				sint32 realHealHp = 0;
+				sint32 realHealChaScore1 = 0;
 				{
-					RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::hit_points];
-					score.Current = score.Current + sint32(_HealHp * successFactor);
+					RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score1];
+					score.Current = score.Current + sint32(_HealChaScore1 * successFactor);
 					if ( score.Current >= score.Max )
 					{
-						realHealHp = sint32(_HealHp * successFactor) + score.Max - score.Current;
-						if ( realHealHp > 0)
-							PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target,  realHealHp,SCORES::hit_points , ACTNATURE::DEFENSIVE);
+						realHealChaScore1 = sint32(_HealChaScore1 * successFactor) + score.Max - score.Current;
+						if ( realHealChaScore1 > 0)
+							PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target,  realHealChaScore1,SCORES::cha_score1 , ACTNATURE::DEFENSIVE);
 						score.Current = score.Max;
 					}
 					else
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realHealHp ,SCORES::hit_points , ACTNATURE::DEFENSIVE);
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realHealChaScore1 ,SCORES::cha_score1 , ACTNATURE::DEFENSIVE);
 				}
-				sint32 realHealSap = 0;
+				sint32 realHealChaScore3 = 0;
 				{
-					RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::sap];
-					score.Current = score.Current + sint32(_HealSap * successFactor);
+					RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score3];
+					score.Current = score.Current + sint32(_HealChaScore3 * successFactor);
 					if ( score.Current >= score.Max )
 					{
-						realHealSap = sint32(_HealSap * successFactor) + score.Max - score.Current;
-						if ( realHealSap > 0)
-							PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target,  realHealSap,SCORES::sap , ACTNATURE::DEFENSIVE);
+						realHealChaScore3 = sint32(_HealChaScore3 * successFactor) + score.Max - score.Current;
+						if ( realHealChaScore3 > 0)
+							PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target,  realHealChaScore3,SCORES::cha_score3 , ACTNATURE::DEFENSIVE);
 						score.Current = score.Max;
 					}
 					else
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realHealSap ,SCORES::sap , ACTNATURE::DEFENSIVE);
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realHealChaScore3 ,SCORES::cha_score3 , ACTNATURE::DEFENSIVE);
 				}
 
-				sint32 realHealSta = 0;
+				sint32 realHealChaScore2 = 0;
 				{
-					RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::stamina];
-					score.Current = score.Current + sint32(_HealSta * successFactor);
+					RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score2];
+					score.Current = score.Current + sint32(_HealChaScore2 * successFactor);
 					if ( score.Current >= score.Max )
 					{
-						realHealSta = sint32(_HealSta * successFactor) + score.Max - score.Current;
-						if ( realHealSta > 0)
-							PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target,  realHealSta,SCORES::stamina , ACTNATURE::DEFENSIVE);
+						realHealChaScore2 = sint32(_HealChaScore2 * successFactor) + score.Max - score.Current;
+						if ( realHealChaScore2 > 0)
+							PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target,  realHealChaScore2,SCORES::cha_score2 , ACTNATURE::DEFENSIVE);
 						score.Current = score.Max;
 					}
 					else
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realHealSta ,SCORES::stamina , ACTNATURE::DEFENSIVE);
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realHealChaScore2 ,SCORES::cha_score2 , ACTNATURE::DEFENSIVE);
 				}
-				/*behav.Magic.ImpactIntensity = PHRASE_UTILITIES::getImpactIntensity( realHealHp ,targets[i],SCORES::hit_points);
-				behav.Magic.ImpactIntensity += PHRASE_UTILITIES::getImpactIntensity( realHealSap ,targets[i],SCORES::sap);
-				behav.Magic.ImpactIntensity = PHRASE_UTILITIES::getImpactIntensity( realHealSta ,targets[i],SCORES::stamina);
+				/*behav.Magic.ImpactIntensity = PHRASE_UTILITIES::getImpactIntensity( realHealChaScore1 ,targets[i],SCORES::cha_score1);
+				behav.Magic.ImpactIntensity += PHRASE_UTILITIES::getImpactIntensity( realHealChaScore3 ,targets[i],SCORES::cha_score3);
+				behav.Magic.ImpactIntensity = PHRASE_UTILITIES::getImpactIntensity( realHealChaScore2 ,targets[i],SCORES::cha_score2);
 				*/
 				behav.Spell.SpellIntensity = 5;
-				behav.Spell.SpellId =  MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,false );
+				behav.Spell.SpellId =  MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,false );
 			}
 		}
 	}
-	sint32					_HealHp;
-	sint32					_HealSap;
-	sint32					_HealSta;
+	sint32					_HealChaScore1;
+	sint32					_HealChaScore3;
+	sint32					_HealChaScore2;
 };
 
 BEGIN_MAGIC_ACTION_FACTORY(CMagicActionBasicHeal)

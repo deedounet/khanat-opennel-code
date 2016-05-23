@@ -29,9 +29,9 @@ namespace AI_EVENT_REPORT
 {
 	enum TAIReportStat
 	{		
-		HitPoints = 0,
-		Stamina,
-		Sap,
+		ChaScore1 = 0,
+		ChaScore2,
+		ChaScore3,
 		Unknown,		
 	};
 
@@ -100,7 +100,7 @@ struct CAiEventReport
 	TDataSetRow					Originator;
 	/// Target
 	TDataSetRow					Target;
-	/// the affected stats (Hp, sap...)
+	/// the affected stats (ChaScore1, ChaScore2...)
 	std::vector<AI_EVENT_REPORT::TAIReportStat>	AffectedStats;
 	/// the delta values
 	std::vector<sint32>							DeltaValue;

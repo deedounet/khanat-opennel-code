@@ -59,10 +59,10 @@ public:
 	inline NLMISC::CCDBNodeLeaf *getTitle() { return _Title ? (&*_Title) : &*(_Title = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "TITLE")); }
 	inline NLMISC::CCDBNodeLeaf *getRPTags() { return _RPTags ? (&*_RPTags) : &*(_RPTags = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "RPTAGS")); }
 	inline NLMISC::CCDBNodeLeaf *getGuildName() { return _GuildName ? (&*_GuildName) : &*(_GuildName = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "GUILD_NAME")); }
-	inline NLMISC::CCDBNodeLeaf *getHP() { return _HP ? (&*_HP) : &*(_HP = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "HP")); }
-	inline NLMISC::CCDBNodeLeaf *getSta() { return _Sta ? (&*_Sta) : &*(_Sta = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "STA")); }
-	inline NLMISC::CCDBNodeLeaf *getSap() { return _Sap ? (&*_Sap) : &*(_Sap = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "SAP")); }
-	inline NLMISC::CCDBNodeLeaf *getFocus() { return _Focus ? (&*_Focus) : &*(_Focus = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "FOCUS")); }
+	inline NLMISC::CCDBNodeLeaf *getChaScore1() { return _ChaScore1 ? (&*_ChaScore1) : &*(_ChaScore1 = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "ChaScore1")); }
+	inline NLMISC::CCDBNodeLeaf *getChaScore2() { return _ChaScore2 ? (&*_ChaScore2) : &*(_ChaScore2 = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "ChaScore2")); }
+	inline NLMISC::CCDBNodeLeaf *getChaScore3() { return _ChaScore3 ? (&*_ChaScore3) : &*(_ChaScore3 = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "ChaScore3")); }
+	inline NLMISC::CCDBNodeLeaf *getChaScore4() { return _ChaScore4 ? (&*_ChaScore4) : &*(_ChaScore4 = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "ChaScore4")); }
 	inline NLMISC::CCDBNodeLeaf *getAction() { return _Action ? (&*_Action) : &*(_Action = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "ACTION")); }
 	inline NLMISC::CCDBNodeLeaf *getMessages() { return _Messages ? (&*_Messages) : &*(_Messages = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "MESSAGES")); }
 	inline NLMISC::CCDBNodeLeaf *getPvPLogo() { return _PvPLogo ? (&*_PvPLogo) : &*(_PvPLogo = NLGUI::CDBManager::getInstance()->getDbProp(_DBPrefix + "PVP_LOGO")); }
@@ -77,10 +77,10 @@ private:
 	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _Title;
 	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _RPTags;
 	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _GuildName;
-	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _HP;
-	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _Sta;
-	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _Sap;
-	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _Focus;
+	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _ChaScore1;
+	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _ChaScore2;
+	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _ChaScore3;
+	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _ChaScore4;
 	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _Action;
 	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _Messages;
 	NLMISC::CRefPtr<NLMISC::CCDBNodeLeaf> _PvPLogo;
@@ -150,7 +150,7 @@ CRGBA CGroupInSceneUserInfo::BarColor[NumBars]=
 	CRGBA(255, 255, 255),
 };
 
-CRGBA CGroupInSceneUserInfo::BarColorHPNegative = CRGBA(127, 32, 0);
+CRGBA CGroupInSceneUserInfo::BarColorChaScore1Negative = CRGBA(127, 32, 0);
 
 // ***************************************************************************
 
@@ -227,7 +227,7 @@ CGroupInSceneUserInfo *CGroupInSceneUserInfo::build (CEntityCL *entity)
 		forageSourceBarDisplayed = (entity->slot() == UserEntity->selection());
 		bars[Time] = forageSourceBarDisplayed;
 		bars[Amount] = forageSourceBarDisplayed;
-		//bool displayExtractingParams = true; //forageSource->isExtractionInProgress() /*&& NLGUI::CDBManager::getInstance()->getDbProp(dbEntry+"HP")*/;
+		//bool displayExtractingParams = true; //forageSource->isExtractionInProgress() /*&& NLGUI::CDBManager::getInstance()->getDbProp(dbEntry+"ChaScore1")*/;
 		bars[Life] = forageSourceBarDisplayed;//displayExtractingParams;
 		bars[Danger] = forageSourceBarDisplayed;//displayExtractingParams;
 		bars[Spawn] = forageSourceBarDisplayed;//displayExtractingParams;
@@ -862,18 +862,18 @@ void CGroupInSceneUserInfo::getBarSettings( CInterfaceManager* pIM, bool isUser,
 	// if currently is edition mode, then bars are not displayed
 	if (ClientCfg.R2EDEnabled && R2::isEditionCurrent())
 	{
-		bars[HP]     = false;
-		bars[SAP]    = false;
-		bars[STA]    = false;
-		bars[Focus]  = false;
+		bars[ChaScore1]     = false;
+		bars[ChaScore3]    = false;
+		bars[ChaScore2]    = false;
+		bars[ChaScore4]  = false;
 		bars[Action] = false;
 	}
 	else
 	{
-		bars[HP] = _ConfigSaveInsceneDB[dbEntry].getHP()->getValueBool();
-		bars[SAP] = (isUser || isFriend) && (isUser || isPlayer) && _ConfigSaveInsceneDB[dbEntry].getSap()->getValueBool();
-		bars[STA] = (isUser || isFriend) && (isUser || isPlayer) && _ConfigSaveInsceneDB[dbEntry].getSta()->getValueBool();
-		bars[Focus] = (isUser || isFriend) && (isUser || isPlayer) && _ConfigSaveInsceneDB[dbEntry].getFocus()->getValueBool();
+		bars[ChaScore1] = _ConfigSaveInsceneDB[dbEntry].getChaScore1()->getValueBool();
+		bars[ChaScore3] = (isUser || isFriend) && (isUser || isPlayer) && _ConfigSaveInsceneDB[dbEntry].getChaScore3()->getValueBool();
+		bars[ChaScore2] = (isUser || isFriend) && (isUser || isPlayer) && _ConfigSaveInsceneDB[dbEntry].getChaScore2()->getValueBool();
+		bars[ChaScore4] = (isUser || isFriend) && (isUser || isPlayer) && _ConfigSaveInsceneDB[dbEntry].getChaScore4()->getValueBool();
 		bars[Action] = (isUser) && _ConfigSaveInsceneDB[dbEntry].getAction()->getValueBool();
 	}
 }
@@ -1059,28 +1059,28 @@ void CGroupInSceneUserInfo::updateDynamicData ()
 			// NB: forage don't use CBarManager for 2 reasons: useless (forage bars exist only through VP),
 			// and complicated since updated at each frame on client (because of smooth transition code)
 			CForageSourceCL *forageSource = static_cast<CForageSourceCL*>(_Entity);
-			barInfo.Score[SCORES::hit_points]=	forageSource->getTimeBar();		// Map TimeBar to HP
-			barInfo.Score[SCORES::sap]= forageSource->getQuantityBar();			// Map QuantityBar to SAP
-			barInfo.Score[SCORES::stamina]= forageSource->getDBar();			// Map D Bar to Sta
-			barInfo.Score[SCORES::focus]= forageSource->getEBar();				// Map E Bar to Focus
+			barInfo.Score[SCORES::cha_score1]=	forageSource->getTimeBar();		// Map TimeBar to ChaScore1
+			barInfo.Score[SCORES::cha_score3]= forageSource->getQuantityBar();			// Map QuantityBar to ChaScore3
+			barInfo.Score[SCORES::cha_score2]= forageSource->getDBar();			// Map D Bar to ChaScore2
+			barInfo.Score[SCORES::cha_score4]= forageSource->getEBar();				// Map E Bar to ChaScore4
 		}
 
 		// Set the bar
-		if (_Bars[HP])
+		if (_Bars[ChaScore1])
 		{
-			sint value = (sint)_BatLength * barInfo.Score[SCORES::hit_points] / RZ_BARS_LENGTH;
+			sint value = (sint)_BatLength * barInfo.Score[SCORES::cha_score1] / RZ_BARS_LENGTH;
 			if ( ! _Entity->isForageSource() )
 			{
 				if (value < 0)
 				{
 					value = -value;
-					_Bars[HP]->setColorRGBA(BarColorHPNegative);
+					_Bars[ChaScore1]->setColorRGBA(BarColorChaScore1Negative);
 				}
 				else
 				{
-					_Bars[HP]->setColorRGBA(BarColor[HP]);
+					_Bars[ChaScore1]->setColorRGBA(BarColor[ChaScore1]);
 				}
-				// if dead creature, force the hp to 0
+				// if dead creature, force the ChaScore1 to 0
 				if( _Entity->mode() == MBEHAV::DEATH && !_Entity->isPlayer() && !_Entity->isUser())
 				{
 					if( value > 0 )
@@ -1095,22 +1095,22 @@ void CGroupInSceneUserInfo::updateDynamicData ()
 				CForageSourceCL *forageSource = static_cast<CForageSourceCL*>(_Entity);
 				if ( forageSource->isInExtraTime() )
 				{
-					_Bars[HP]->setColorRGBA(
+					_Bars[ChaScore1]->setColorRGBA(
 						forageSource->isInProspectionExtraTime() ?
 						CRGBA( 255, 0, 0 ) : // red
 						CRGBA( 235, 144, 0 ) ); // orange
 				}
 			}
 			clamp (value, 0, (sint)_BatLength);
-			if(_Bars[HP]->getW() != value)
-				_Bars[HP]->setWAndInvalidateCoords (value);
+			if(_Bars[ChaScore1]->getW() != value)
+				_Bars[ChaScore1]->setWAndInvalidateCoords (value);
 		}
-		if (_Bars[SAP])
+		if (_Bars[ChaScore3])
 		{
-			int value = _BatLength * barInfo.Score[SCORES::sap] / RZ_BARS_LENGTH;
+			int value = _BatLength * barInfo.Score[SCORES::cha_score3] / RZ_BARS_LENGTH;
 			clamp (value, 0, (int)_BatLength);
-			if(_Bars[SAP]->getW() != value)
-				_Bars[SAP]->setWAndInvalidateCoords (value);
+			if(_Bars[ChaScore3]->getW() != value)
+				_Bars[ChaScore3]->setWAndInvalidateCoords (value);
 
 			// Forage source quantity bar: update contents value in tooltip
 			if ( _Entity->isForageSource() )
@@ -1126,27 +1126,27 @@ void CGroupInSceneUserInfo::updateDynamicData ()
 					toolTip2->setDefaultContextHelp( txt );
 			}
 		}
-		if (_Bars[STA])
+		if (_Bars[ChaScore2])
 		{
-			int value = _BatLength * barInfo.Score[SCORES::stamina] / RZ_BARS_LENGTH;
+			int value = _BatLength * barInfo.Score[SCORES::cha_score2] / RZ_BARS_LENGTH;
 			clamp (value, 0, (int)_BatLength);
-			if(_Bars[STA]->getW() != value)
+			if(_Bars[ChaScore2]->getW() != value)
 			{
 				// Forage source life bar: update danger colour
 				if ( _Entity->isForageSource() )
 				{
-					CRGBA color = _Bars[STA]->getColorRGBA();
-					color.blendFromuiRGBOnly( CRGBA( 255, 127, 127 ), CRGBA( 255, 0, 0 ), (RZ_BARS_LENGTH - barInfo.Score[SCORES::stamina]) * (256/RZ_BARS_LENGTH) );
-					_Bars[STA]->setColorRGBA( color );
+					CRGBA color = _Bars[ChaScore2]->getColorRGBA();
+					color.blendFromuiRGBOnly( CRGBA( 255, 127, 127 ), CRGBA( 255, 0, 0 ), (RZ_BARS_LENGTH - barInfo.Score[SCORES::cha_score2]) * (256/RZ_BARS_LENGTH) );
+					_Bars[ChaScore2]->setColorRGBA( color );
 				}
-				_Bars[STA]->setWAndInvalidateCoords (value);
+				_Bars[ChaScore2]->setWAndInvalidateCoords (value);
 			}
 		}
-		if (_Bars[Focus])
+		if (_Bars[ChaScore4])
 		{
-			int value = _BatLength * barInfo.Score[SCORES::focus] / RZ_BARS_LENGTH;
+			int value = _BatLength * barInfo.Score[SCORES::cha_score4] / RZ_BARS_LENGTH;
 			clamp (value, 0, (int)_BatLength);
-			if(_Bars[Focus]->getW() != value)
+			if(_Bars[ChaScore4]->getW() != value)
 			{
 				// Forage source life bar: update danger colour
 				if ( _Entity->isForageSource() )
@@ -1154,16 +1154,16 @@ void CGroupInSceneUserInfo::updateDynamicData ()
 					CForageSourceCL *forageSource = static_cast<CForageSourceCL*>(_Entity);
 					if ( forageSource->isSafe() )
 					{
-						_Bars[Focus]->setColorRGBA( CForageSourceCL::SafeSourceColor );
+						_Bars[ChaScore4]->setColorRGBA( CForageSourceCL::SafeSourceColor );
 					}
 					else
 					{
-						CRGBA color = _Bars[Focus]->getColorRGBA();
-						color.blendFromuiRGBOnly( CRGBA( 255, 175, 0 ), CRGBA( 255, 0, 0 ), (RZ_BARS_LENGTH - barInfo.Score[SCORES::focus]) * (256/RZ_BARS_LENGTH) );
-						_Bars[Focus]->setColorRGBA( color );
+						CRGBA color = _Bars[ChaScore4]->getColorRGBA();
+						color.blendFromuiRGBOnly( CRGBA( 255, 175, 0 ), CRGBA( 255, 0, 0 ), (RZ_BARS_LENGTH - barInfo.Score[SCORES::cha_score4]) * (256/RZ_BARS_LENGTH) );
+						_Bars[ChaScore4]->setColorRGBA( color );
 					}
 				}
-				_Bars[Focus]->setWAndInvalidateCoords (value);
+				_Bars[ChaScore4]->setWAndInvalidateCoords (value);
 			}
 		}
 

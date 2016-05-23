@@ -24,7 +24,7 @@ namespace SABRINA
 	// type of healing to apply
 	enum THealType
 	{
-		HealUnknown,		HealHP,				HealSap,			HealSta,			HealFocus,
+		HealUnknown,		HealChaScore1,				HealChaScore3,			HealChaScore2,			HealChaScore4,
 	};
 
 	// types of damage to apply
@@ -36,7 +36,7 @@ namespace SABRINA
 		DmgFire,			DmgPoison,			DmgElectric,		DmgShock,
 
 		// energy damage types
-		DmgSap,				DmgStamina,
+		DmgChaScore3,				DmgChaScore2,
 
 		// damage to armor or equipment *** see SLOT_EQUIPMENT::TSlotEquipment *** for correct order ***
 		DmgRightHandItem,	DmgLeftHandItem,			
@@ -51,9 +51,9 @@ namespace SABRINA
 		SuccessNormal,
 		SuccessCritical,
 
-		FailInsufficientHP,			// not enough HP to pay couterpart
-		FailInsufficientSap,		// not enough Sap to pay couterpart	
-		FailInsufficientStamina,	// not enough Sta to pay couterpart
+		FailInsufficientChaScore1,			// not enough ChaScore1 to pay couterpart
+		FailInsufficientChaScore3,		// not enough ChaScore3 to pay couterpart	
+		FailInsufficientChaSCore2,	// not enough ChaScore2 to pay couterpart
 		FailTgtDead,				// the target died
 		FailTgtInaccessible,		// the target teleported or became inaccessible
 		FailIMoved,					// the actor moved and invalidated their action

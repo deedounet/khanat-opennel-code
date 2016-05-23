@@ -2094,11 +2094,11 @@ public:
 	SKILLS::ESkills getFirstUnlockedParentSkill(SKILLS::ESkills skill) const;
 
 	/**
-	 * change hp with a delta value
-	 * \param deltaValue the delta value applied on hp
+	 * change tra with a delta value
+	 * \param deltaValue the delta value applied on tra
 	 * \return bool true if the entity died from the changement
 	 */
-	virtual bool changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEntity = TDataSetRow());
+	virtual bool changeCurrentChaScore1(sint32 deltaValue, TDataSetRow responsibleEntity = TDataSetRow());
 
 	// aggroable mode
 	void setAggroable(bool aggroable, bool forceUpdate = false);
@@ -2251,7 +2251,7 @@ public:
 	/// database update, called every 2 tick, send delta to the clients
 	void databaseUpdate();
 
-	/// HP/STA/SAP/FOCUS bar update, called every 2 tick, send fast-accurate bar info to the client
+	/// ChaScore1/ChaScore2/ChaScore3/ChaScore4 bar update, called every 2 tick, send fast-accurate bar info to the client
 	void barUpdate();
 		
 	CCharacterEncyclopedia	&getEncyclopedia();
@@ -3025,7 +3025,7 @@ public:
 private:
 
 	R2::TUserRole						_SessionUserRole;
-	sint32								_HPB; //backup hp of player for mainland, for be independant of what happend in ring session
+	sint32								_ChaScore1B; //backup ChaScore1 of player for mainland, for be independant of what happend in ring session
 	
 	// If SessionLockPositionStack, the current position won't be saved (ex: _SessionUserRole == ur_editor)
 	TSessionId							_SessionId;
@@ -3104,17 +3104,17 @@ private:
 	TChanID								_LeagueId;
 
 	/// temp values used to test if team bars need an update or not
-	mutable uint8						_OldHpBarSentToTeam;
-	mutable uint8						_OldSapBarSentToTeam;
-	mutable uint8						_OldStaBarSentToTeam;
+	mutable uint8						_OldChaScore1BarSentToTeam;
+	mutable uint8						_OldChaScore3BarSentToTeam;
+	mutable uint8						_OldChaScore2BarSentToTeam;
 
 	/// temp values used to test if Players bars need an update or not
 	uint8								_BarSentToPlayerMsgNumber;
 
-	sint32								_OldHpBarSentToPlayer;
-	sint32								_OldSapBarSentToPlayer;
-	sint32								_OldStaBarSentToPlayer;
-	sint32								_OldFocusBarSentToPlayer;
+	sint32								_OldChaScore1BarSentToPlayer;
+	sint32								_OldChaScore3BarSentToPlayer;
+	sint32								_OldChaScore2BarSentToPlayer;
+	sint32								_OldChaScore4BarSentToPlayer;
 	
 	NLMISC::TGameCycle					_LastTickSaved;
 	NLMISC::TGameCycle					_LastTickCompassUpdated;
@@ -3678,10 +3678,10 @@ private:
 //		struct CTarget
 //		{
 //			TDbReminderData UID;
-//			TDbReminderData HP;
-//			TDbReminderData SAP;
-//			TDbReminderData STA;
-//			TDbReminderData FOCUS;
+//			TDbReminderData ChaScore1;
+//			TDbReminderData ChaScore3;
+//			TDbReminderData ChaScore2;
+//			TDbReminderData ChaScore4;
 //			TDbReminderData CONTEXT_VAL;
 //			TDbReminderData PLAYER_LEVEL;
 //		};

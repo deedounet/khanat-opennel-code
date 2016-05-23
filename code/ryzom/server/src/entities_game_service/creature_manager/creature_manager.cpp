@@ -184,33 +184,33 @@ void CCreatureCompleteHealImp::callback(const string &, NLNET::TServiceId sid)
 {
 	H_AUTO(CCreatureCompleteHealImp);
 	
-	// for each creature, restore full HP
+	// for each creature, restore full ChaScore1
 	for ( uint i = 0; i < Entities.size(); ++i )
 	{
 		CCreature * c = CreatureManager.getCreature( Entities[i] );
 		if ( c )
 		{
-			c->changeCurrentHp( c->maxHp() - c->currentHp() );
+			c->changeCurrentChaScore1( c->maxChaScore1() - c->currentChaScore1() );
 		}
 	}
 }
 
 //--------------------------------------------------------------
-//				CChangeCreatureMaxHPImp ::callback()  
+//				CChangeCreatureMaxChaScore1Imp ::callback()  
 //--------------------------------------------------------------
-void CChangeCreatureMaxHPImp::callback(const string &, NLNET::TServiceId sid)
+void CChangeCreatureMaxChaScore1Imp::callback(const string &, NLNET::TServiceId sid)
 {
-	H_AUTO(CChangeCreatureMaxHPImp);
+	H_AUTO(CChangeCreatureMaxChaScore1Imp);
 	
-	// for each creature, restore full HP
+	// for each creature, restore full ChaScore1
 	for ( uint i = 0; i < Entities.size(); ++i )
 	{
 		CCreature * c = CreatureManager.getCreature( Entities[i] );
 		if ( c )
 		{
-			c->getScores()._PhysicalScores[SCORES::hit_points].Max = MaxHp[i];
+			c->getScores()._PhysicalScores[SCORES::cha_score1].Max = MaxChaScore1[i];
 			if (SetFull[i] != 0)
-				c->changeCurrentHp( c->maxHp() - c->currentHp() );
+				c->changeCurrentChaScore1( c->maxChaScore1() - c->currentChaScore1() );
 		}
 	}
 }
@@ -218,34 +218,34 @@ void CChangeCreatureMaxHPImp::callback(const string &, NLNET::TServiceId sid)
 
 
 //--------------------------------------------------------------
-//				CChangeCreatureHPImp ::callback()  
+//				CChangeCreatureChaScore1Imp ::callback()  
 //--------------------------------------------------------------
-void CChangeCreatureHPImp::callback(const string &, NLNET::TServiceId sid)
+void CChangeCreatureChaScore1Imp::callback(const string &, NLNET::TServiceId sid)
 {
-	H_AUTO(CChangeCreatureHPImp);
+	H_AUTO(CChangeCreatureChaScore1Imp);
 
 	uint16 size = (uint16)Entities.size();
-	if (Entities.size() != DeltaHp.size() )
+	if (Entities.size() != DeltaChaScore1.size() )
 	{
-		nlwarning("Entities.size() != DeltaHp.size()");
+		nlwarning("Entities.size() != DeltaChaScore1.size()");
 
-		size = (uint16)min(Entities.size(),DeltaHp.size());
+		size = (uint16)min(Entities.size(),DeltaChaScore1.size());
 	}
 	
-	// for each creature, change HP
+	// for each creature, change ChaScore1
 	for ( uint i = 0; i < size; ++i )
 	{
 		CCreature * c = CreatureManager.getCreature( Entities[i] );
 		if ( c )
 		{
-			if( c->currentHp()+DeltaHp[i] > c->maxHp() )
+			if( c->currentChaScore1()+DeltaChaScore1[i] > c->maxChaScore1() )
 			{
-				// clamp hp
-				c->changeCurrentHp( c->maxHp() - c->currentHp() );
+				// clamp ChaScore1
+				c->changeCurrentChaScore1( c->maxChaScore1() - c->currentChaScore1() );
 			}
 			else
 			{
-				c->changeCurrentHp( DeltaHp[i] );
+				c->changeCurrentChaScore1( DeltaChaScore1[i] );
 			}
 		}
 	}

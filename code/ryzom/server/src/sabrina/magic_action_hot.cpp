@@ -37,7 +37,7 @@ class CMagicActionHot : public IMagicAction
 {
 public:
 	CMagicActionHot()
-		:_HealHp(0),_HealSap(0),_HealSta(0),_CostPerUpdate(0),_Power(0){}
+		:_HealChaScore1(0),_HealChaScore3(0),_HealChaScore2(0),_CostPerUpdate(0),_Power(0){}
 protected:
 	virtual bool addBrick( const CStaticBrick & brick, CMagicPhrase * phrase, bool &effectEnd )
 	{
@@ -51,10 +51,10 @@ protected:
 				return true;
 				
 			case TBrickParam::MA_HEAL:
-				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)brick.Params[i])->Hp,((CSBrickParamMagicHeal *)brick.Params[i])->Sap,((CSBrickParamMagicHeal *)brick.Params[i])->Sta);
-				_HealHp = ((CSBrickParamMagicHeal *)brick.Params[i])->Hp;
-				_HealSap = ((CSBrickParamMagicHeal *)brick.Params[i])->Sap;
-				_HealSta = ((CSBrickParamMagicHeal *)brick.Params[i])->Sta;
+				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore1,((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore3,((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore2);
+				_HealChaScore1 = ((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore1;
+				_HealChaScore3 = ((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore3;
+				_HealChaScore2 = ((CSBrickParamMagicHeal *)brick.Params[i])->ChaScore2;
 				
 			case TBrickParam::MA_LINK_COST:
 				INFOLOG("MA_LINK_COST: %u",((CSBrickParamMagicLinkCost *)brick.Params[i])->Cost);
@@ -98,12 +98,12 @@ protected:
 		const std::vector< TDataSetRow > & targets = phrase->getTargets();
 
 		SCORES::TScores linkEnergy;
-		if ( phrase->getHPCost() > 0 )
+		if ( phrase->getChaScore1Cost() > 0 )
 		{
-			linkEnergy = SCORES::hit_points;
+			linkEnergy = SCORES::cha_score1;
 		}
 		else
-			linkEnergy = SCORES::sap;
+			linkEnergy = SCORES::cha_score3;
 
 		for ( uint i = 0; i < targets.size(); i++ )
 		{
@@ -129,21 +129,21 @@ protected:
 					linkEnergy,
 					_Skill,
 					_Power,
-					uint32(_HealHp * successFactor* CSLinkEffect::getUpdatePeriod()),
-					uint32(_HealSap * successFactor* CSLinkEffect::getUpdatePeriod()),
-					uint32(_HealSta * successFactor* CSLinkEffect::getUpdatePeriod()) );
+					uint32(_HealChaScore1 * successFactor* CSLinkEffect::getUpdatePeriod()),
+					uint32(_HealChaScore3 * successFactor* CSLinkEffect::getUpdatePeriod()),
+					uint32(_HealChaScore2 * successFactor* CSLinkEffect::getUpdatePeriod()) );
 				
 				actor->addLink( hot );
 				target->addSabrinaEffect( hot );
 
 
-				behav.Spell.SpellId =  MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,true );
+				behav.Spell.SpellId =  MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,true );
 			}
 		}
 	}
-	sint32					_HealHp;
-	sint32					_HealSap;
-	sint32					_HealSta;
+	sint32					_HealChaScore1;
+	sint32					_HealChaScore3;
+	sint32					_HealChaScore2;
 	uint					_CostPerUpdate;
 	uint8					_Power;
 };

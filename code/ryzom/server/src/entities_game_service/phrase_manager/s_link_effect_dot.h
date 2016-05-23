@@ -34,10 +34,10 @@ public:
 		DMGTYPE::EDamageType dmgType,
 		uint8 power,
 		TReportAction& report,
-		sint32 dmgHp,sint32 dmgSap,sint32 dmgSta,sint32 vampirise, float vampiriseRatio )
+		sint32 dmgChaScore1,sint32 dmgChaScore3,sint32 dmgChaScore2,sint32 vampirise, float vampiriseRatio )
 		:CSLinkEffectOffensive ( creatorRowId,targetRowId,EFFECT_FAMILIES::Dot,cost,energyCost, skill, maxDistance, 0,power, report ),
 		_DmgType( dmgType ),
-		_DmgHp( dmgHp), _DmgSap( dmgSap), _DmgSta(dmgSta),_Vampirise(vampirise),_VampiriseRatio(vampiriseRatio),
+		_DmgChaScore1( dmgChaScore1), _DmgChaScore3( dmgChaScore3), _DmgChaScore2(dmgChaScore2),_Vampirise(vampirise),_VampiriseRatio(vampiriseRatio),
 		_FirstUpdate(true)
 	{
 		_MagicFxType = MAGICFX::toMagicFx(dmgType, true);
@@ -52,9 +52,9 @@ public:
 
 protected:
 	DMGTYPE::EDamageType	_DmgType;
-	sint32	_DmgHp;
-	sint32	_DmgSap;
-	sint32	_DmgSta;
+	sint32	_DmgChaScore1;
+	sint32	_DmgChaScore2;
+	sint32	_DmgChaScore3;
 	sint32	_Vampirise;
 	float	_VampiriseRatio;
 	bool	_FirstUpdate;

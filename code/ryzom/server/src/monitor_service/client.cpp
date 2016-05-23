@@ -376,15 +376,15 @@ void CMonitorClient::update ()
 		if ((Entites[entityRawIndex].Flags & CEntityEntry::MiscPropDirty) != 0 && (Entites[entityRawIndex].Flags & CEntityEntry::Pending) == 0)
 		{
 			TDataSetRow	entityIndex = TDataSetRow::createFromRawIndex (entityRawIndex);
-			CMirrorPropValueRO<TYPE_CURRENT_HIT_POINTS>	    valueCurrentHP( TheDataset, entityIndex, DSPropertyCURRENT_HIT_POINTS);
-			CMirrorPropValueRO<TYPE_MAX_HIT_POINTS>			valueMaxHP( TheDataset, entityIndex, DSPropertyMAX_HIT_POINTS);
+			CMirrorPropValueRO<TYPE_CURRENT_ChaScore1>	    valueCurrentChaScore1( TheDataset, entityIndex, DSPropertyCURRENT_ChaScore1);
+			CMirrorPropValueRO<TYPE_MAX_ChaScore1>			valueMaxChaScore1( TheDataset, entityIndex, DSPropertyMAX_ChaScore1);
 			CMirrorPropValueRO<TYPE_MODE>					valueMode( TheDataset, entityIndex, DSPropertyMODE);
 			CMirrorPropValueRO<TYPE_BEHAVIOUR>				valueBehaviour( TheDataset, entityIndex, DSPropertyBEHAVIOUR);
 
 			CMonitorClient::CMiscPropData miscPropData;
 			miscPropData.Id = entityRawIndex;
-			miscPropData.CurrentHP = valueCurrentHP;
-			miscPropData.MaxHP = valueMaxHP;
+			miscPropData.CurrentChaScore1 = valueCurrentChaScore1;
+			miscPropData.MaxChaScore1 = valueMaxChaScore1;
 			miscPropData.Mode = (uint8) valueMode;
 			miscPropData.Behaviour = (uint8) valueBehaviour;
 			MiscProp.push_back (miscPropData);
@@ -477,8 +477,8 @@ void CMonitorClient::update ()
 		for (i=0; i<count; i++)
 		{
 			msgout.serial (MiscProp[i].Id);
-			msgout.serial (MiscProp[i].CurrentHP);
-			msgout.serial (MiscProp[i].MaxHP);
+			msgout.serial (MiscProp[i].CurrentChaScore1);
+			msgout.serial (MiscProp[i].MaxChaScore1);
 			msgout.serial (MiscProp[i].Mode);
 			msgout.serial (MiscProp[i].Behaviour);
 		}

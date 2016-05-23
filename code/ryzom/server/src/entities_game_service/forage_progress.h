@@ -38,14 +38,14 @@ public:
 
 
 	/// Constructor
-	CForageProgress( const NLMISC::CSheetId& material, const TDataSetRow& sourceRowId, SKILLS::ESkills usedSkill, sint32 initialFocus )
+	CForageProgress( const NLMISC::CSheetId& material, const TDataSetRow& sourceRowId, SKILLS::ESkills usedSkill, sint32 initialChaScore4 )
 	{
-		reset( material, sourceRowId, initialFocus );
+		reset( material, sourceRowId, initialChaScore4 );
 		_UsedSkill = usedSkill;
 	}
 
 	/// Reset
-	void						reset( const NLMISC::CSheetId& material, const TDataSetRow& sourceRowId, sint32 initialFocus );
+	void						reset( const NLMISC::CSheetId& material, const TDataSetRow& sourceRowId, sint32 initialChaScore4 );
 
 	/// Add the result of an extraction action
 	void						fillFromExtraction( float quantity, float quality, CCharacter *player );
@@ -71,8 +71,8 @@ public:
 	/// Return the quality
 	uint16						quality() const { return (uint16)_Quality; }
 
-	/// Return the amount of focus the player has when the extraction started
-	sint32						initialFocus() const { return _InitialFocus; }
+	/// Return the amount of ChaScore4 the player has when the extraction started
+	sint32						initialChaScore4() const { return _InitialChaScore4; }
 
 	/// Return true if the player has executed at least one useful care action
 	bool						hasCastedUsefulCare() const { return _HasCastedUsefulCare; }
@@ -102,8 +102,8 @@ private:
 	/// Skill used to forage
 	SKILLS::ESkills				_UsedSkill;
 
-	/// Amount of focus the player has when the extraction started
-	sint32						_InitialFocus;
+	/// Amount of ChaScore4 the player has when the extraction started
+	sint32						_InitialChaScore4;
 
 	/// Forage tool used
 //	CGameItemRefPtr				_ForageToolUsed;

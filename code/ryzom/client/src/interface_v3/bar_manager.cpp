@@ -97,7 +97,7 @@ void	CBarManager::CBarDataEntry::resetDB()
 
 // ***************************************************************************
 void	CBarManager::CBarDataEntry::connectDB(const std::string &baseDBin, const std::string &baseDBout, const std::string &presentDB,
-			const std::string &hpDB, const std::string &sapDB, const std::string &staDB, const std::string &focusDB)
+			const std::string &ChaScore1DB, const std::string &ChaScore3DB, const std::string &ChaScore2DB, const std::string &ChaScore4DB)
 {
 	CInterfaceManager	*pIM= CInterfaceManager::getInstance();
 
@@ -110,27 +110,27 @@ void	CBarManager::CBarDataEntry::connectDB(const std::string &baseDBin, const st
 		UIDIn= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+"UID", false);
 		if(!presentDB.empty())
 			PresentIn= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+presentDB, false);
-		if(!hpDB.empty())
-			ScoreIn[SCORES::hit_points]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+hpDB, false);
-		if(!sapDB.empty())
-			ScoreIn[SCORES::sap]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+sapDB, false);
-		if(!staDB.empty())
-			ScoreIn[SCORES::stamina]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+staDB, false);
-		if(!focusDB.empty())
-			ScoreIn[SCORES::focus]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+focusDB, false);
+		if(!ChaScore1DB.empty())
+			ScoreIn[SCORES::cha_score1]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+ChaScore1DB, false);
+		if(!ChaScore3DB.empty())
+			ScoreIn[SCORES::cha_score3]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+ChaScore3DB, false);
+		if(!ChaScore2DB.empty())
+			ScoreIn[SCORES::cha_score2]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+ChaScore2DB, false);
+		if(!ChaScore4DB.empty())
+			ScoreIn[SCORES::cha_score4]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBin+ChaScore4DB, false);
 	}
 
 	// try to connect each output entry (don't create)
 	if(!baseDBout.empty())
 	{
-		if(!hpDB.empty())
-			ScoreOut[SCORES::hit_points]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+hpDB, false);
-		if(!sapDB.empty())
-			ScoreOut[SCORES::sap]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+sapDB, false);
-		if(!staDB.empty())
-			ScoreOut[SCORES::stamina]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+staDB, false);
-		if(!focusDB.empty())
-			ScoreOut[SCORES::focus]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+focusDB, false);
+		if(!ChaScore1DB.empty())
+			ScoreOut[SCORES::cha_score1]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+ChaScore1DB, false);
+		if(!ChaScore3DB.empty())
+			ScoreOut[SCORES::cha_score3]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+ChaScore3DB, false);
+		if(!ChaScore2DB.empty())
+			ScoreOut[SCORES::cha_score2]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+ChaScore2DB, false);
+		if(!ChaScore4DB.empty())
+			ScoreOut[SCORES::cha_score4]= NLGUI::CDBManager::getInstance()->getDbProp(baseDBout+ChaScore4DB, false);
 	}
 }
 
@@ -207,28 +207,28 @@ void		CBarManager::initInGame()
 	// *** create connexion to the Local Output database
 	for(i=0;i<_EntryBars[TeamMemberType].size();i++)
 	{
-		// don't connect FOCUS, since not setuped by SERVER
+		// don't connect ChaScore4, since not setuped by SERVER
 		_EntryBars[TeamMemberType][i].connectDB(
 			toString("SERVER:GROUP:%d:",i),
 			toString("UI:VARIABLES:BARS:TEAM:%d:",i),
 			"PRESENT",
-			"HP", "SAP", "STA", "");
+			"ChaScore1", "ChaScore3", "ChaScore2", "");
 	}
 	for(i=0;i<_EntryBars[AnimalType].size();i++)
 	{
-		// don't connect STA, SAP and FOCUS for animal, since they don't have
+		// don't connect ChaScore2, ChaScore3 and ChaScore4 for animal, since they don't have
 		_EntryBars[AnimalType][i].connectDB(
 			toString("SERVER:PACK_ANIMAL:BEAST%d:",i),
 			toString("UI:VARIABLES:BARS:ANIMAL:%d:",i),
 			"STATUS",
-			"HP", "", "", "");
+			"ChaScore1", "", "", "");
 	}
 	nlassert(_EntryBars[TargetType].size()==1);
 	_EntryBars[TargetType][0].connectDB(
 		"SERVER:TARGET:BARS:",
 		"UI:VARIABLES:BARS:TARGET:",
 		"",	// no present flag for target (not so important)
-		"HP", "SAP", "STA", "FOCUS");
+		"ChaScore1", "ChaScore3", "ChaScore2", "ChaScore4");
 
 	// NB: don't connect the DB for entities, since CEntityCL read it directly from getBarsByEntityId() (simpler and faster)
 
@@ -237,30 +237,30 @@ void		CBarManager::initInGame()
 	nlctassert(MaxEntryType==4);
 	nlctassert(SCORES::NUM_SCORES==4);
 	// For each entry type, tells what score they can affect (see DB connection above)
-	_EntryScoreFlags[EntityType]= HpFlag | SapFlag | StaFlag | FocusFlag;	// all
-	_EntryScoreFlags[TeamMemberType]= HpFlag | SapFlag | StaFlag;			// anything but focus
-	_EntryScoreFlags[AnimalType]= HpFlag;									// Hp only
-	_EntryScoreFlags[TargetType]= HpFlag | SapFlag | StaFlag | FocusFlag;	// all
+	_EntryScoreFlags[EntityType]= ChaScore1Flag | ChaScore3Flag | ChaScore2Flag | ChaScore4Flag;	// all
+	_EntryScoreFlags[TeamMemberType]= ChaScore1Flag | ChaScore3Flag | ChaScore2Flag;			// anything but ChaScore4
+	_EntryScoreFlags[AnimalType]= ChaScore1Flag;									// ChaScore1 only
+	_EntryScoreFlags[TargetType]= ChaScore1Flag | ChaScore3Flag | ChaScore2Flag | ChaScore4Flag;	// all
 
 
 	// *** create connexion for User Bar mgt
 	// user now can only manage 4 scores
 	nlctassert(SCORES::NUM_SCORES==4);
 	// Input max values
-	_UserScores[SCORES::hit_points].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES0:Max", false);
-	_UserScores[SCORES::sap].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES2:Max", false);
-	_UserScores[SCORES::stamina].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES1:Max", false);
-	_UserScores[SCORES::focus].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES3:Max", false);
+	_UserScores[SCORES::cha_score1].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES0:Max", false);
+	_UserScores[SCORES::cha_score3].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES2:Max", false);
+	_UserScores[SCORES::cha_score2].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES1:Max", false);
+	_UserScores[SCORES::cha_score3].DBInMax= NLGUI::CDBManager::getInstance()->getDbProp("SERVER:CHARACTER_INFO:SCORES3:Max", false);
 	// Output real values
-	_UserScores[SCORES::hit_points].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:HP", false);
-	_UserScores[SCORES::sap].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:SAP", false);
-	_UserScores[SCORES::stamina].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:STA", false);
-	_UserScores[SCORES::focus].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:FOCUS", false);
+	_UserScores[SCORES::cha_score1].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore1", false);
+	_UserScores[SCORES::cha_score3].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore3", false);
+	_UserScores[SCORES::cha_score2].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore2", false);
+	_UserScores[SCORES::cha_score4].DBOutVal= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore4", false);
 	// Output ratio values
-	_UserScores[SCORES::hit_points].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:HP_RATIO", false);
-	_UserScores[SCORES::sap].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:SAP_RATIO", false);
-	_UserScores[SCORES::stamina].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:STA_RATIO", false);
-	_UserScores[SCORES::focus].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:FOCUS_RATIO", false);
+	_UserScores[SCORES::cha_score1].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore1_RATIO", false);
+	_UserScores[SCORES::cha_score3].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore3_RATIO", false);
+	_UserScores[SCORES::cha_score2].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore2_RATIO", false);
+	_UserScores[SCORES::cha_score4].DBOutRatio= NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:USER:ChaScore4_RATIO", false);
 }
 
 // ***************************************************************************
@@ -410,7 +410,7 @@ void		CBarManager::updateBars(uint dataSetId, CBarInfo barInfo, TGameCycle serve
 	if(it==_UIDBars.end())
 		return;
 
-	barInfoLog("BARS: updateBars(dsid=%x, biHP=%d, t=%d, sf=%x", dataSetId, barInfo.Score[SCORES::hit_points], serverTick, scoreFlags);
+	barInfoLog("BARS: updateBars(dsid=%x, biChaScore1=%d, t=%d, sf=%x", dataSetId, barInfo.Score[SCORES::cha_score1], serverTick, scoreFlags);
 
 	// special Case: if the info is for the User (slot 0)
 	if(dataSetId==_EntryBars[EntityType][0].DataSetId)
@@ -585,7 +585,7 @@ CBarManager::CBarInfo	CBarManager::getBarsByEntityId(CLFECOMMON::TCLEntityId ent
 }
 
 // ***************************************************************************
-void	CBarManager::setupUserBarInfo(uint8 msgNumber, sint32 hp, sint32 sap, sint32 sta, sint32 focus)
+void	CBarManager::setupUserBarInfo(uint8 msgNumber, sint32 ChaScore1, sint32 ChaScore3, sint32 ChaScore2, sint32 ChaScore4)
 {
 	/*
 		Since we are not sure of the message order, use a little counter to discard old messages
@@ -614,10 +614,10 @@ void	CBarManager::setupUserBarInfo(uint8 msgNumber, sint32 hp, sint32 sap, sint3
 		_LastUserBarMsgNumber= msgNumber;
 		// user now can only manage 4 scores
 		nlctassert(SCORES::NUM_SCORES==4);
-		_UserScores[SCORES::hit_points].Score= hp;
-		_UserScores[SCORES::sap].Score= sap;
-		_UserScores[SCORES::stamina].Score= sta;
-		_UserScores[SCORES::focus].Score= focus;
+		_UserScores[SCORES::cha_score1].Score= ChaScore1;
+		_UserScores[SCORES::cha_score3].Score= ChaScore3;
+		_UserScores[SCORES::cha_score2].Score= ChaScore2;
+		_UserScores[SCORES::cha_score4].Score= ChaScore4;
 
 		// update actual database now.
 		for(uint i=0;i<SCORES::NUM_SCORES;i++)
@@ -681,7 +681,7 @@ void	CBarManager::updateUserBars()
 
 			// update (user can only manage 4 scores for now)
 			nlctassert(SCORES::NUM_SCORES==4);
-			updateBars(userDataSetId, _UserBarInfo, serverTick, HpFlag | SapFlag | StaFlag | FocusFlag);
+			updateBars(userDataSetId, _UserBarInfo, serverTick, ChaScore1Flag | ChaScore3Flag | ChaScore2Flag | ChaScore4Flag);
 		}
 	}
 }

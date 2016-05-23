@@ -239,17 +239,17 @@ class CStaticPacts
 public:
 	struct SPact
 	{
-		uint16	LoseHitPointsLevel;
-		uint16	LoseStaminaLevel;
-		uint16	LoseSapLevel;
+		uint16	LoseChaScore1Level;
+		uint16	LoseChaScore2Level;
+		uint16	LoseChaScore3Level;
 		uint16	LoseSkillsLevel;
 		NLMISC::TGameCycle	Duration;
 
 		void serial(class NLMISC::IStream &f) throw(NLMISC::EStream) 
 		{
-			f.serial( LoseHitPointsLevel); 
-			f.serial( LoseStaminaLevel ); 
-			f.serial( LoseSapLevel ); 
+			f.serial( LoseChaScore1Level); 
+			f.serial( LoseChaScore2Level ); 
+			f.serial( LoseChaScore3Level ); 
 			f.serial( LoseSkillsLevel );
 			f.serial( Duration );
 		}
@@ -342,7 +342,7 @@ public:
 
 	// damage shield
 	virtual uint16							getDamageShieldDamage() const = 0;
-	virtual uint16							getDamageShieldHpDrain() const = 0;
+	virtual uint16							getDamageShieldChaScore1Drain() const = 0;
 	//@}
 	
 	///@name Methods
@@ -413,7 +413,7 @@ public:
 	virtual float							getColWidth() const { return _Sheet->getColWidth(); }
 
 	virtual uint16							getDamageShieldDamage() const { return _Sheet->getDamageShieldDamage(); }
-	virtual uint16							getDamageShieldHpDrain() const { return _Sheet->getDamageShieldHpDrain(); }
+	virtual uint16							getDamageShieldChaScore1Drain() const { return _Sheet->getDamageShieldChaScore1Drain(); }
 	
 	virtual std::vector<CStaticCreatureRawMaterial> const&	getMps() const { return _Sheet->getMps(); }
 	
@@ -439,15 +439,15 @@ enum TAttributeType
 	at_level,
 	at_player_skill_level,
 	at_nb_players,
-	at_player_hp_level,
+	at_player_ChaScore1_level,
 	at_nb_hit_to_kill_player,
 	at_ecosystem,
 	at_type,
 	at_fame,
 	at_fame_by_kill,
 	at_fame_for_guard_attack,
-	at_life,
-	at_liferegen,
+	at_ChaScore1,
+	at_ChaScore1regen,
 	at_attack_speed,
 	at_attack_level,
 	at_defense_level,
@@ -566,7 +566,7 @@ public:
 	virtual float							getColWidth() const { return _ColWidth; }
 
 	virtual uint16							getDamageShieldDamage() const { return _DamageShieldDamage; }
-	virtual uint16							getDamageShieldHpDrain() const { return _DamageShieldHpDrain; }
+	virtual uint16							getDamageShieldChaScore1Drain() const { return _DamageShieldChaScore1Drain; }
 
 	virtual std::vector<CStaticCreatureRawMaterial> const& getMps() const { return CStaticHarvestable::getMps(); }
 	
@@ -578,7 +578,7 @@ private:
 	uint8		_Gender;	
 	uint8		_Size;
 	uint16		_Level;
-	uint32 _PlayerHpLevel;
+	uint32 _PlayerChaScore1Level;
 	float _NbHitToKillPlayer;
 	uint16		_AttackLevel;
 	uint16		_DefenseLevel;
@@ -632,7 +632,7 @@ private:
 	
 	// damage shield
 	uint16		_DamageShieldDamage;
-	uint16		_DamageShieldHpDrain;
+	uint16		_DamageShieldChaScore1Drain;
 	
 public:
 	/// read the sheet

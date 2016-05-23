@@ -261,46 +261,46 @@ public:
 
 
 //////////////////////////////////////////////////////////////////////////
-//	HP Less Filter
+//	ChaScore1 Less Filter
 
-class	CFightHPLessFilter
+class	CFightChaScore1LessFilter
 		:public	CFightScriptComp
 {
 public:
-	CFightHPLessFilter(CFightScriptComp	*customComp, float	hpLimit)
+	CFightChaScore1LessFilter(CFightScriptComp	*customComp, float	ChaScore1Limit)
 		:_CustomComp(customComp)
-		,_HPLimit(hpLimit)
+		,_ChaScore1Limit(ChaScore1Limit)
 	{
 		nlassert(customComp);	//	comportment needed.
 	}
 
-	virtual ~CFightHPLessFilter()
+	virtual ~CFightChaScore1LessFilter()
 	{}
 	bool	update	(CSpawnBot	&bot)	const
 	{
-		if	(bot.hpPercentage()>=_HPLimit)
+		if	(bot.ChaScore1Percentage()>=_ChaScore1Limit)
 			return	true;		
 		return	_CustomComp->update(bot);
 	}
 
 	string	toString() const
 	{
-		return	"HP%LESS("+NLMISC::toString(_HPLimit)+","+_CustomComp->toString()+")";
+		return	"ChaScore1%LESS("+NLMISC::toString(_ChaScore1Limit)+","+_CustomComp->toString()+")";
 	}
 
 protected:
 private:
 	NLMISC::CSmartPtr<CFightScriptComp>	_CustomComp;
-	float	_HPLimit;
+	float	_ChaScore1Limit;
 };
 
 
-class	CFightHPLessFilterReader
+class	CFightChaScore1LessFilterReader
 		:public	CFightScriptCompReader
 {
 public:
-	CFightHPLessFilterReader()			{}
-	virtual ~CFightHPLessFilterReader()	{}
+	CFightChaScore1LessFilterReader()			{}
+	virtual ~CFightChaScore1LessFilterReader()	{}
 
 	CFightScriptComp	*create	(const	std::string	&inStr)	throw	(ReadFightActionException)
 	{
@@ -308,9 +308,9 @@ public:
 		explodeSubStrings(inStr, params, -1);
 
 		if	(params.size()!=2)
-			throw	ReadFightActionException("HP%LESS Needs 2 Params: <hp limit>,<ScriptComp>");
+			throw	ReadFightActionException("ChaScore1%LESS Needs 2 Params: <ChaScore1 limit>,<ScriptComp>");
 
-		float	hpLimit=(float)atof(params[0].c_str());
+		float	ChaScore1Limit=(float)atof(params[0].c_str());
 
 		CSmartPtr<CFightScriptComp>	scriptComp;
 		try
@@ -321,56 +321,56 @@ public:
 		{
 			throw	ReadFightActionException("cannot create sub ScriptComp : "+string(ex.what()));
 		}
-		return	new	CFightHPLessFilter(scriptComp, hpLimit);
+		return	new	CFightChaScore1LessFilter(scriptComp, ChaScore1Limit);
 	}
 	std::string	getName	() const
 	{
-		return	std::string("HP%LESS");
+		return	std::string("ChaScore1%LESS");
 	}
 
 };
 
 //////////////////////////////////////////////////////////////////////////
-//	HP More Filter
+//	ChaScore1 More Filter
 
-class	CFightHPMoreFilter
+class	CFightChaScore1MoreFilter
 		:public	CFightScriptComp
 {
 public:
-	CFightHPMoreFilter(CFightScriptComp	*customComp, float	hpLimit)
+	CFightChaScore1MoreFilter(CFightScriptComp	*customComp, float	ChaScore1Limit)
 		:_CustomComp(customComp)
-		,_HPLimit(hpLimit)
+		,_ChaScore1Limit(ChaScore1Limit)
 	{
 		nlassert(customComp);	//	comportment needed.
 	}
 
-	virtual ~CFightHPMoreFilter()
+	virtual ~CFightChaScore1MoreFilter()
 	{}
 	bool	update	(CSpawnBot	&bot)	const
 	{
-		if	(bot.hpPercentage()<=_HPLimit)
+		if	(bot.ChaScore1Percentage()<=_ChaScore1Limit)
 			return	true;
 		return	_CustomComp->update(bot);
 	}
 
 	string	toString() const
 	{
-		return	"HP%MORE("+NLMISC::toString(_HPLimit)+","+_CustomComp->toString()+")";
+		return	"ChaScore1%MORE("+NLMISC::toString(_ChaScore1Limit)+","+_CustomComp->toString()+")";
 	}
 
 protected:
 private:
 	NLMISC::CSmartPtr<CFightScriptComp>	_CustomComp;
-	float	_HPLimit;
+	float	_ChaScore1Limit;
 };
 
 
-class	CFightHPMoreFilterReader
+class	CFightChaScore1MoreFilterReader
 		:public	CFightScriptCompReader
 {
 public:
-	CFightHPMoreFilterReader()			{}
-	virtual ~CFightHPMoreFilterReader()	{}
+	CFightChaScore1MoreFilterReader()			{}
+	virtual ~CFightChaScore1MoreFilterReader()	{}
 
 	CFightScriptComp	*create	(const	std::string	&inStr)	throw	(ReadFightActionException)
 	{
@@ -378,9 +378,9 @@ public:
 		explodeSubStrings(inStr, params, -1);
 
 		if	(params.size()!=2)
-			throw	ReadFightActionException("HP%MORE Needs 2 Params: <hp limit>,<ScriptComp>");
+			throw	ReadFightActionException("ChaScore1%MORE Needs 2 Params: <ChaScore1 limit>,<ScriptComp>");
 
-		float	hpLimit=(float)atof(params[0].c_str());
+		float	ChaScore1Limit=(float)atof(params[0].c_str());
 
 		CSmartPtr<CFightScriptComp>	scriptComp;
 		try
@@ -391,11 +391,11 @@ public:
 		{
 			throw	ReadFightActionException("cannot create sub ScriptComp : "+string(ex.what()));
 		}
-		return	new	CFightHPMoreFilter(scriptComp, hpLimit);
+		return	new	CFightChaScore1MoreFilter(scriptComp, ChaScore1Limit);
 	}
 	std::string	getName	() const
 	{
-		return	std::string("HP%MORE");
+		return	std::string("ChaScore1%MORE");
 	}
 
 };
@@ -1045,8 +1045,8 @@ CFightScript::CFightScript()
 	add(new	CFightOnceReader());
 	add(new CFightTimedFilterReader());
 	add(new CFightRandomFilterReader());
-	add(new CFightHPLessFilterReader());
-	add(new CFightHPMoreFilterReader());	
+	add(new CFightChaScore1LessFilterReader());
+	add(new CFightChaScore1MoreFilterReader());	
 	
 	add(new	CFightAggroBlockReader());
 	add(new	CFightAggroChangeReader());

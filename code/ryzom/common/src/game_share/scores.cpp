@@ -30,10 +30,10 @@ namespace SCORES
 	// The conversion table
 	const CStringConversion<TScores>::CPair stringTable [] =
 	{
-		{ "HitPoints", hit_points },
-		{ "Stamina", stamina },
-		{ "Sap", sap },
-		{ "Focus", focus },
+		{ "ChaScore1", cha_score1 },
+		{ "ChaScore2", cha_score2 },
+		{ "ChaScore3", cha_score3 },
+		{ "ChaScore4", cha_score4 },
 	};
 
 	CStringConversion<TScores> conversion(stringTable, sizeof(stringTable) / sizeof(stringTable[0]),  unknown);

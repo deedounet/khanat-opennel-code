@@ -89,18 +89,18 @@ bool CDamageAuraEffect::update(CTimerEvent * event, bool applyEffect)
 				{
 					params[0].setEIdAIAlias( _AffectedEntity->getId(), CAIAliasTranslator::getInstance()->getAIAlias(_AffectedEntity->getId()) );
 					params[1].Int = _CycleDamage;
-					PHRASE_UTILITIES::sendDynamicSystemMessage( entity->getEntityRowId(), "EFFECT_STENCH_LOSE_HP", params);
+					PHRASE_UTILITIES::sendDynamicSystemMessage( entity->getEntityRowId(), "EFFECT_STENCH_LOSE_ChaScore1", params);
 				}
 				// to stinking entity
 				if (_AffectedEntity->getId().getType() == RYZOMID::player)
 				{
 					params[0].setEIdAIAlias( entity->getId(), CAIAliasTranslator::getInstance()->getAIAlias(entity->getId()) );
 					params[1].Int = _CycleDamage;
-					PHRASE_UTILITIES::sendDynamicSystemMessage( _TargetRowId, "EFFECT_STENCH_LOSE_HP_ACTOR", params);
+					PHRASE_UTILITIES::sendDynamicSystemMessage( _TargetRowId, "EFFECT_STENCH_LOSE_ChaScore1_ACTOR", params);
 				}
 				
-				// remove HP
-				if (entity->changeCurrentHp( -sint32(_CycleDamage), _TargetRowId))
+				// remove ChaScore1
+				if (entity->changeCurrentChaScore1( -sint32(_CycleDamage), _TargetRowId))
 				{
 					// killed entity, so this effect and all other effects have been cleared send kill message and return true
 					PHRASE_UTILITIES::sendDeathMessages( _TargetRowId, entity->getEntityRowId());

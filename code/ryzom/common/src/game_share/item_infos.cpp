@@ -41,10 +41,10 @@ CItemInfos::CItemInfos()
 	MaxSlashingProtection = 0;
 	MaxBluntProtection = 0;
 	MaxPiercingProtection = 0;
-	HpBuff = 0;
-	SapBuff = 0;
-	StaBuff = 0;
-	FocusBuff = 0;
+	ChaScore1Buff = 0;
+	ChaScore3Buff = 0;
+	ChaScore2Buff = 0;
+	ChaScore4Buff = 0;
 	WearEquipmentMalus = 0.0f;
 
 	RequiredSkill = SKILLS::unknown;
@@ -107,10 +107,10 @@ void CItemInfos::serial(NLMISC::IStream & s)
 	s.serial( LacustreMagicResistance );
 	s.serial( JungleMagicResistance );
 	s.serial( PrimaryRootMagicResistance );
-	s.serial( HpBuff );
-	s.serial( SapBuff );
-	s.serial( StaBuff );
-	s.serial( FocusBuff );
+	s.serial( ChaScore1Buff );
+	s.serial( ChaScore3Buff );
+	s.serial( ChaScore2Buff );
+	s.serial( ChaScore4Buff );
 	s.serial( Enchantment );
 	s.serial( WearEquipmentMalus );
 

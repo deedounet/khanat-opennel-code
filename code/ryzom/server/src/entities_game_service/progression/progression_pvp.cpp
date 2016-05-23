@@ -901,9 +901,9 @@ void CDamageScoreManager::reportAction(const TReportAction & action)
 	const bool isCurative = isCurativeAction(action);
 
 	// add damage to the score if any
-	if (target != NULL && isOffensive && action.Hp > 0)
+	if (target != NULL && isOffensive && action.ChaScore1 > 0)
 	{
-		addDamage(actor, target, action.Hp);
+		addDamage(actor, target, action.ChaScore1);
 	}
 
 	// for a creature actor we only need to add damage
@@ -929,9 +929,9 @@ void CDamageScoreManager::reportAction(const TReportAction & action)
 	{
 		if (targetChar != NULL)
 		{
-			// apply HP heal as HP regen
-			if (action.Hp > 0)
-				changeAllDamageEquitably(targetChar->getEntityRowId(), -sint32(action.Hp));
+			// apply ChaScore1 heal as ChaScore1 regen
+			if (action.ChaScore1 > 0)
+				changeAllDamageEquitably(targetChar->getEntityRowId(), -sint32(action.ChaScore1));
 
 			// discard curative actions on a non team member
 			if (actorChar->getTeamId() != CTEAM::InvalidTeamId && actorChar->getTeamId() != targetChar->getTeamId())
@@ -1074,19 +1074,19 @@ void CDamageScoreManager::disbandTeam(TTeamId teamId, const std::list<NLMISC::CE
 }
 
 //-----------------------------------------------------------------------------
-void CDamageScoreManager::playerRegenHP(const CCharacter * playerChar, sint32 regenHP)
+void CDamageScoreManager::playerRegenChaScore1(const CCharacter * playerChar, sint32 regenChaScore1)
 {
-	H_AUTO(CDamageScoreManager_playerRegenHP);
+	H_AUTO(CDamageScoreManager_playerRegenChaScore1);
 
 	nlassert(playerChar != NULL);
 
-	if (regenHP <= 0)
+	if (regenChaScore1 <= 0)
 		return;
 
 	if (!playerInFactionPvP(playerChar))
 		return;
 
-	changeAllDamageEquitably(playerChar->getEntityRowId(), -regenHP);
+	changeAllDamageEquitably(playerChar->getEntityRowId(), -regenChaScore1);
 }
 
 //-----------------------------------------------------------------------------
@@ -1664,7 +1664,7 @@ bool CDamageScoreManager::isOffensiveAction(const TReportAction & action) const
 	{
 	case ACTNATURE::FIGHT:
 		// discard fight actions without any damage
-		if (action.Hp == 0)
+		if (action.ChaScore1 == 0)
 			return false;
 
 	case ACTNATURE::OFFENSIVE_MAGIC:

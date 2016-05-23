@@ -111,10 +111,10 @@ private:
 	sint32						_SabrinaCost;
 	/// total credit (sabrina system)
 	sint32						_SabrinaCredit;
-	/// stamina cost of the harvest action
-	sint32						_StaminaCost;
-	/// hp cost
-	sint32						_HPCost;
+	/// ChaScore2 cost of the harvest action
+	sint32						_ChaScore2Cost;
+	/// ChaScore1 cost
+	sint32						_ChaScore1Cost;
 	/// harvest time in ticks
 	NLMISC::TGameCycle			_HarvestTime;
 

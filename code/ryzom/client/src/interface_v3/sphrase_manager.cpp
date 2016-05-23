@@ -1135,19 +1135,19 @@ void CSPhraseManager::buildPhraseDesc(ucstring &text, const CSPhraseCom &phrase,
 		sint	success= getPhraseSuccessRate(phrase);
 		float	castTime= 0, castTimeMalus= 0;
 		sint	range= 0, rangeMalus= 0;
-		sint	hpCost= 0, hpCostMalus= 0;
+		sint	ChaScore1Cost= 0, ChaScore1CostMalus= 0;
 		sint	enCost= 0, enCostMalus= 0;
 
 		getPhraseCastTime(phrase, totalActionMalus, castTime, castTimeMalus);
 		getPhraseMagicRange(phrase, totalActionMalus, range, rangeMalus);
-		getPhraseHpCost(phrase, totalActionMalus, hpCost, hpCostMalus);
+		getPhraseChaScore1Cost(phrase, totalActionMalus, ChaScore1Cost, ChaScore1CostMalus);
 
 		if(rootBrick->isCombat())
-			getPhraseStaCost(phrase, totalActionMalus, enCost, enCostMalus);
+			getPhraseChaScore2Cost(phrase, totalActionMalus, enCost, enCostMalus);
 		else if(rootBrick->isMagic())
-			getPhraseSapCost(phrase, totalActionMalus, enCost, enCostMalus);
+			getPhraseChaScore3Cost(phrase, totalActionMalus, enCost, enCostMalus);
 		else
-			getPhraseFocusCost(phrase, totalActionMalus, enCost, enCostMalus);
+			getPhraseChaScore4Cost(phrase, totalActionMalus, enCost, enCostMalus);
 
 		sint32 successModifier = 0;
 		CCDBNodeLeaf * nodeSM = NULL;
@@ -1198,7 +1198,7 @@ void CSPhraseManager::buildPhraseDesc(ucstring &text, const CSPhraseCom &phrase,
 		strFindReplace(text, "%success", toString(successStr));
 		strFindReplace(text, "%duration", formatMalus(castTime, castTimeMalus) );
 		strFindReplace(text, "%energy_cost", formatMalus(enCost, enCostMalus) );
-		strFindReplace(text, "%hp_cost", formatMalus(hpCost, hpCostMalus) );
+		strFindReplace(text, "%ChaScore1_cost", formatMalus(ChaScore1Cost, ChaScore1CostMalus) );
 		// special range and "self"
 		if(range==0)
 			strFindReplace(text, "%range", CI18N::get("uihelpPhraseRangeSelf"));
@@ -1461,38 +1461,38 @@ sint				CSPhraseManager::getForageExtractionPhraseSuccessRate(const CSPhraseCom 
 }
 
 // ***************************************************************************
-void				CSPhraseManager::getPhraseSapCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
+void				CSPhraseManager::getPhraseChaScore3Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
 {
 	CSBrickManager	*pBM= CSBrickManager::getInstance();
-	cost= (sint)getPhraseSumBrickProp(phrase, pBM->SapPropId, true);
+	cost= (sint)getPhraseSumBrickProp(phrase, pBM->ChaScore3PropId, true);
 	// compute malus (positive)
 	costMalus= (cost * (totalActionMalus))/100;
 }
 
 // ***************************************************************************
-void				CSPhraseManager::getPhraseStaCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
+void				CSPhraseManager::getPhraseChaScore2Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
 {
 	CSBrickManager	*pBM= CSBrickManager::getInstance();
-	cost= (sint)getPhraseSumBrickProp(phrase, pBM->StaPropId, true);
+	cost= (sint)getPhraseSumBrickProp(phrase, pBM->ChaScore2PropId, true);
 	// TODO: combat special case
 	// compute malus (positive)
 	costMalus= (cost * (totalActionMalus))/100;
 }
 
 // ***************************************************************************
-void				CSPhraseManager::getPhraseFocusCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
+void				CSPhraseManager::getPhraseChaScore4Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
 {
 	CSBrickManager	*pBM= CSBrickManager::getInstance();
-	cost= (sint)getPhraseSumBrickProp(phrase, pBM->FocusPropId, true);
+	cost= (sint)getPhraseSumBrickProp(phrase, pBM->ChaScore4PropId, true);
 	// compute malus (positive)
 	costMalus= (cost * (totalActionMalus))/100;
 }
 
 // ***************************************************************************
-void				CSPhraseManager::getPhraseHpCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
+void				CSPhraseManager::getPhraseChaScore1Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus)
 {
 	CSBrickManager	*pBM= CSBrickManager::getInstance();
-	cost= (sint)getPhraseSumBrickProp(phrase, pBM->HpPropId, true);
+	cost= (sint)getPhraseSumBrickProp(phrase, pBM->ChaScore1PropId, true);
 	// compute malus (positive)
 	costMalus= (cost * (totalActionMalus))/100;
 }
@@ -1656,7 +1656,7 @@ float				CSPhraseManager::getPhraseSumBrickProp(const CSPhraseCom &phrase, uint 
 					else
 						sum+= brick->Properties[j].Value;
 				}
-				else if(propId==CSBrickManager::getInstance()->StaPropId && brick->Properties[j].PropId==CSBrickManager::getInstance()->StaWeightFactorId)
+				else if(propId==CSBrickManager::getInstance()->ChaScore2PropId && brick->Properties[j].PropId==CSBrickManager::getInstance()->ChaScore2WeightFactorId)
 				{
 					CInterfaceManager *im = CInterfaceManager::getInstance();
 					if (!_ServerUserDefaultWeightHandsLeaf) _ServerUserDefaultWeightHandsLeaf = NLGUI::CDBManager::getInstance()->getDbProp("SERVER:USER:DEFAULT_WEIGHT_HANDS");
@@ -4591,7 +4591,7 @@ int CSPhraseComAdpater::luaGetCastRange(CLuaState &ls)
 }
 
 // ***************************************************************************
-int CSPhraseComAdpater::luaGetHpCost(CLuaState &ls)
+int CSPhraseComAdpater::luaGetChaScore1Cost(CLuaState &ls)
 {
 	if (Phrase.Bricks.empty())
 	{
@@ -4599,15 +4599,15 @@ int CSPhraseComAdpater::luaGetHpCost(CLuaState &ls)
 		return 1;
 	}
 	CSPhraseManager *pPM = CSPhraseManager::getInstance();
-	sint hpCost;
-	sint hpCostMalus;
-	pPM->getPhraseHpCost(this->Phrase, pPM->getTotalActionMalus(Phrase), hpCost, hpCostMalus);
-	ls.push(hpCost + hpCostMalus);
+	sint ChaScore1Cost;
+	sint ChaScore1CostMalus;
+	pPM->getPhraseChaScore1Cost(this->Phrase, pPM->getTotalActionMalus(Phrase), ChaScore1Cost, ChaScore1CostMalus);
+	ls.push(ChaScore1Cost + ChaScore1CostMalus);
 	return 1;
 }
 
 // ***************************************************************************
-int CSPhraseComAdpater::luaGetSapCost(CLuaState &ls)
+int CSPhraseComAdpater::luaGetChaScore3Cost(CLuaState &ls)
 {
 	if (Phrase.Bricks.empty())
 	{
@@ -4615,10 +4615,10 @@ int CSPhraseComAdpater::luaGetSapCost(CLuaState &ls)
 		return 1;
 	}
 	CSPhraseManager *pPM = CSPhraseManager::getInstance();
-	sint sapCost;
-	sint sapCostMalus;
-	pPM->getPhraseSapCost(this->Phrase, pPM->getTotalActionMalus(Phrase), sapCost, sapCostMalus);
-	ls.push(sapCost + sapCostMalus);
+	sint ChaScore3Cost;
+	sint ChaScore3CostMalus;
+	pPM->getPhraseChaScore3Cost(this->Phrase, pPM->getTotalActionMalus(Phrase), ChaScore3Cost, ChaScore3CostMalus);
+	ls.push(ChaScore3Cost + ChaScore3CostMalus);
 	return 1;
 }
 
@@ -4637,7 +4637,7 @@ int CSPhraseComAdpater::luaGetSuccessRate(CLuaState &ls)
 
 
 // ***************************************************************************
-int CSPhraseComAdpater::luaGetFocusCost(CLuaState &ls)
+int CSPhraseComAdpater::luaGetChaScore4Cost(CLuaState &ls)
 {
 	if (Phrase.Bricks.empty())
 	{
@@ -4645,15 +4645,15 @@ int CSPhraseComAdpater::luaGetFocusCost(CLuaState &ls)
 		return 1;
 	}
 	CSPhraseManager *pPM = CSPhraseManager::getInstance();
-	sint focusCost;
-	sint focusCostMalus;
-	pPM->getPhraseFocusCost(this->Phrase, pPM->getTotalActionMalus(Phrase), focusCost, focusCostMalus);
-	ls.push(focusCost + focusCostMalus);
+	sint ChaScore4Cost;
+	sint ChaScore4CostMalus;
+	pPM->getPhraseChaScore4Cost(this->Phrase, pPM->getTotalActionMalus(Phrase), ChaScore4Cost, ChaScore4CostMalus);
+	ls.push(ChaScore4Cost + ChaScore4CostMalus);
 	return 1;
 }
 
 // ***************************************************************************
-int CSPhraseComAdpater::luaGetStaCost(CLuaState &ls)
+int CSPhraseComAdpater::luaGetChaScore2Cost(CLuaState &ls)
 {
 	if (Phrase.Bricks.empty())
 	{
@@ -4661,10 +4661,10 @@ int CSPhraseComAdpater::luaGetStaCost(CLuaState &ls)
 		return 1;
 	}
 	CSPhraseManager *pPM = CSPhraseManager::getInstance();
-	sint staCost;
-	sint staCostMalus;
-	pPM->getPhraseStaCost(this->Phrase, pPM->getTotalActionMalus(Phrase), staCost, staCostMalus);
-	ls.push(staCost + staCostMalus);
+	sint ChaScore2Cost;
+	sint ChaScore2CostMalus;
+	pPM->getPhraseChaScore2Cost(this->Phrase, pPM->getTotalActionMalus(Phrase), ChaScore2Cost, ChaScore2CostMalus);
+	ls.push(ChaScore2Cost + ChaScore2CostMalus);
 	return 1;
 }
 

@@ -264,7 +264,7 @@ Tbe bitfield returned let us know if the selected target is a botobject, if it i
 - r2:updateAnimBarActions: called by  CDynamicMapClient::onNpcAnimationTargeted, update the anim bar that contains action that can be done on the selecte npc
 
 The DM can push button on the anim bar to do some DM functions like kill an npc, kill a group, despawn, heal, control, speak as
-- dssTarget with a parameter DESPAWN_NPC, ADD_HP, KILL_NPC, ADD_HP, GRP_KILL, GRP_HEAL, CONTROL, STOP_CONTROL, TALK_AS, STOP_TALK let the dm do dm functions.
+- dssTarget with a parameter DESPAWN_NPC, ADD_ChaScore1, KILL_NPC, ADD_ChaScore1, GRP_KILL, GRP_HEAL, CONTROL, STOP_CONTROL, TALK_AS, STOP_TALK let the dm do dm functions.
 
 CONTROL / STOP_CONTROL
 The DM can incarnate a npc: in this case he is tp at the npc position, he takes the speed of the npc.
@@ -294,10 +294,10 @@ Each Sentence that the npc would say is written in  this dynamic channel.
 - CServerAnimationModule handle the management of list (CServerAnimationModule::setTalkingAsPlayer)
 - Ais handle the notification of the death of bot (useful for updating the list of controlled bot) (see CAisWrapper::askBotDespawnNotification)
 
-ADD_HP / KILL_NPC / ADD_HP / GRP_KILL / GRP_HEAL
-It is possible for the Dm to add/remove hp to a group/npc.
-- dssTarget with ADD_HP ok KILL_NPC or  GRP_KILL or GRP_HEAL as parameter: heal/kill a npc/group
-Note: CServerAnimationModule will call CAiWrapper::setGrpHPLevel, CAiWrapper::setHPLevel that will call Ais native function (nf_npc_grp.cpp)
+ADD_ChaScore1 / KILL_NPC / ADD_ChaScore1 / GRP_KILL / GRP_HEAL
+It is possible for the Dm to add/remove ChaScore1 to a group/npc.
+- dssTarget with ADD_ChaScore1 ok KILL_NPC or  GRP_KILL or GRP_HEAL as parameter: heal/kill a npc/group
+Note: CServerAnimationModule will call CAiWrapper::setGrpChaScore1Level, CAiWrapper::setChaScore1Level that will call Ais native function (nf_npc_grp.cpp)
 Theses native functions set the life of a npc.
 Its simple to add other AIS native function the same way.
 
@@ -741,9 +741,9 @@ public:
 
 	/*! Updates the DM admin bar. Send DM commands.
 		Called withou param this function update the DM action bar.
-		Called with as parameter DESPAWN_NPC, ADD_HP, KILL_NPC, ADD_HP, GRP_KILL, GRP_HEAL, CONTROL, STOP_CONTROL, TALK_AS, STOP_TALK it launch DM function
+		Called with as parameter DESPAWN_NPC, ADD_ChaScore1, KILL_NPC, ADD_ChaScore1, GRP_KILL, GRP_HEAL, CONTROL, STOP_CONTROL, TALK_AS, STOP_TALK it launch DM function
 		\see CClientEditionModule for more info
-		\parm args a list of optional argument may be empty or one of "DESPAWN_NPC" "ADD_HP" "KILL_NPC" "ADD_HP" "GRP_KILL" "GRP_HEAL" "CONTROL" "STOP_CONTROL" "TALK_AS" "STOP_TALK". Multi param could be useful for setting the aggro distance (NIY).
+		\parm args a list of optional argument may be empty or one of "DESPAWN_NPC" "ADD_ChaScore1" "KILL_NPC" "ADD_ChaScore1" "GRP_KILL" "GRP_HEAL" "CONTROL" "STOP_CONTROL" "TALK_AS" "STOP_TALK". Multi param could be useful for setting the aggro distance (NIY).
 	*/
 	void dssTarget( std::vector<std::string>& args);
 

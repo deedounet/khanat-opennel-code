@@ -2187,8 +2187,8 @@ void CUserEntity::applyBehaviour(const CBehaviourContext &behaviourContext)	// v
 		{
 			startItemAttackFXs(_CurrentBehaviour.Combat.ImpactIntensity != 0 && _CurrentBehaviour.Combat.HitType != HITTYPE::Failed, _CurrentBehaviour.Combat.ImpactIntensity);
 		}
-		// DeltaHP
-		applyBehaviourFlyingHPs(behaviourContext, behaviour, targetHitDates);
+		// DeltaChaScore1
+		applyBehaviourFlyingChaScore1s(behaviourContext, behaviour, targetHitDates);
 	}
 	// In third person view (or camera mode), play the same way than for the others.
 	else

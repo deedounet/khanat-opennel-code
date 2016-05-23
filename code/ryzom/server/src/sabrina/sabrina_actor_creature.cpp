@@ -134,7 +134,7 @@ void CSabrinaActorCreature::cbSabrinaActionApplyBegin()
 //------------------------------------------------------------------------------------------------------
 void CSabrinaActorCreature::applyHeal(SABRINA::THealType healType,uint32 value)
 {
-// apply damage (to hp, sap or sta)
+// apply damage (to ChaScore1, ChaScore3 or ChaScore2)
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ void CSabrinaActorCreature::applyHeal(SABRINA::THealType healType,uint32 value)
 //------------------------------------------------------------------------------------------------------
 void CSabrinaActorCreature::applyDamage(SABRINA::TDmgType damageType, uint32 value)
 {
-// apply damage (to hp, sap or sta)
+// apply damage (to ChaScore1, ChaScore3 or ChaScore2)
 }
 
 //------------------------------------------------------------------------------------------------------

@@ -87,7 +87,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			effects += "\n";
 		}
 
-		if ( name == "SP_LIFE_AURA" )
+		if ( name == "SP_ChaScore1_AURA" )
 		{
 			
 			uint16 regenMod;
@@ -101,7 +101,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			uint32 userDisableTime;
 			fromString(params[4].c_str(), userDisableTime);
 
-			ucstring result = CI18N::get("uiItemConsumableEffectLifeAura");
+			ucstring result = CI18N::get("uiItemConsumableEffectChaScore1Aura");
 			strFindReplace(result, "%modifier", toString(regenMod));
 			strFindReplace(result, "%minutes", toString(duration/60));
 			strFindReplace(result, "%secondes", toString(duration%60));
@@ -113,7 +113,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			effects += "\n";
 		}
 
-		if ( name == "SP_LIFE_AURA2" )
+		if ( name == "SP_ChaScore1_AURA2" )
 		{
 			
 			uint16 regenMod;
@@ -128,7 +128,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			uint32 userDisableTime;
 			fromString(params[4].c_str(), userDisableTime);
 
-			ucstring result = CI18N::get("uiItemConsumableEffectLifeAura");
+			ucstring result = CI18N::get("uiItemConsumableEffectChaScore1Aura");
 			strFindReplace(result, "%modifier", toString(bonus));
 			strFindReplace(result, "%minutes", toString(duration/60));
 			strFindReplace(result, "%secondes", toString(duration%60));
@@ -140,7 +140,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			effects += "\n";
 		}
 
-		if ( name == "SP_STAMINA_AURA" )
+		if ( name == "SP_ChaScore2_AURA" )
 		{
 			
 			uint16 regenMod;
@@ -154,7 +154,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			uint32 userDisableTime;
 			fromString(params[4].c_str(), userDisableTime);
 
-			ucstring result = CI18N::get("uiItemConsumableEffectStaminaAura");
+			ucstring result = CI18N::get("uiItemConsumableEffectChaScore2Aura");
 			strFindReplace(result, "%modifier", toString(regenMod));
 			strFindReplace(result, "%minutes", toString(duration/60));
 			strFindReplace(result, "%secondes", toString(duration%60));
@@ -167,7 +167,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 		}
 
 
-		if ( name == "SP_STAMINA_AURA2" )
+		if ( name == "SP_ChaScore2_AURA2" )
 		{
 			
 			uint16 regenMod;
@@ -182,7 +182,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			uint32 userDisableTime;
 			fromString(params[4].c_str(), userDisableTime);
 
-			ucstring result = CI18N::get("uiItemConsumableEffectStaminaAura");
+			ucstring result = CI18N::get("uiItemConsumableEffectChaScore2Aura");
 			strFindReplace(result, "%modifier", toString(bonus));
 			strFindReplace(result, "%minutes", toString(duration/60));
 			strFindReplace(result, "%secondes", toString(duration%60));
@@ -194,7 +194,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			effects += "\n";
 		}
 
-		if ( name == "SP_SAP_AURA" )
+		if ( name == "SP_ChaScore3_AURA" )
 		{
 			
 			uint16 regenMod;
@@ -208,7 +208,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			uint32 userDisableTime;
 			fromString(params[4].c_str(), userDisableTime);
 
-			ucstring result = CI18N::get("uiItemConsumableEffectSapAura");
+			ucstring result = CI18N::get("uiItemConsumableEffectChaScore3Aura");
 			strFindReplace(result, "%modifier", toString(regenMod));
 			strFindReplace(result, "%minutes", toString(duration/60));
 			strFindReplace(result, "%secondes", toString(duration%60));
@@ -220,7 +220,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			effects += "\n";
 		}
 
-		if ( name == "SP_SAP_AURA2" )
+		if ( name == "SP_ChaScore3_AURA2" )
 		{
 			
 			uint16 regenMod;
@@ -235,7 +235,7 @@ void CItemConsumableEffectHelper::getItemConsumableEffectText(const CItemSheet *
 			uint32 userDisableTime;
 			fromString(params[4].c_str(), userDisableTime);
 
-			ucstring result = CI18N::get("uiItemConsumableEffectSapAura");
+			ucstring result = CI18N::get("uiItemConsumableEffectChaScore3Aura");
 			strFindReplace(result, "%modifier", toString(bonus));
 			strFindReplace(result, "%minutes", toString(duration/60));
 			strFindReplace(result, "%secondes", toString(duration%60));

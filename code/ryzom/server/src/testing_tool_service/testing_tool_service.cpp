@@ -31,7 +31,6 @@
 // Nel
 #include "nel/misc/sheet_id.h"
 #include "nel/misc/command.h"
-#include "nel/misc/common.h"
 #include "nel/georges/u_form_elm.h"
 #include "nel/georges/u_form.h"
 #include "nel/georges/u_form_loader.h"
@@ -271,7 +270,7 @@ void CTestingTool::startTestSession( const std::string& sheet )
 //----------------------------------------------------------------
 void CTestingTool::testSessionProceed()
 {
-	_TestSessionReport = nlfopen( "testSessionReport.txt", "w+t" );
+	_TestSessionReport = fopen( "testSessionReport.txt", "w+t" );
 
 	fputs( "=====================================================================\n", _TestSessionReport );
 	fputs( "===================== NEW TEST SESSION STARTED ======================\n", _TestSessionReport );
@@ -354,7 +353,7 @@ void CTestingTool::testEnd()
 		if ( _ActorsDeathFlags[_Actors[i].TargetIndex] )
 			_ActorsNbWin[i]++;
 	}
-
+ﬂ
 	_CurrentIteration++;
 
 	
@@ -378,11 +377,11 @@ void CTestingTool::testEnd()
 //			fputs( out.c_str(), _TestSessionReport ); 
 //			out = string("Level ") + NLMISC::toString( _ActorsBeginStats[i].Level ) + string("\n");
 //			fputs( out.c_str(), _TestSessionReport ); 
-			out = string("Hp ") + NLMISC::toString( _ActorsBeginStats[i].Hp ) + string("\n");
+			out = string("ChaScore1 ") + NLMISC::toString( _ActorsBeginStats[i].ChaScore1 ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport ); 
-			out = string("Stamina ") + NLMISC::toString( _ActorsBeginStats[i].Sta ) + string("\n");
+			out = string("ChaScore2 ") + NLMISC::toString( _ActorsBeginStats[i].ChaScore2 ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport ); 
-			out = string("Sap ") + NLMISC::toString( _ActorsBeginStats[i].Sap ) + string("\n");
+			out = string("ChaScore3 ") + NLMISC::toString( _ActorsBeginStats[i].ChaScore3 ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
 			out = string("Armor ") + _ActorsBeginStats[i].Armor.toString() + string(" Quality ") + NLMISC::toString( _ActorsBeginStats[i].ArmorQuality ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
@@ -439,19 +438,19 @@ void CTestingTool::testEnd()
 			fputs( out.c_str(), _TestSessionReport );
 			out = string( " Effective damages: " ) + NLMISC::toString( _ActorsStats[i].SendDamage / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( " Final Hp Value: " ) + NLMISC::toString( _ActorsStats[i].FinalHp / _IterationCount ) + string( " stats: " ) + NLMISC::toString( 100.f * _ActorsStats[i].FinalHp / _ActorsBeginStats[i].Hp / _IterationCount ) + string( " %\n" );
+			out = string( " Final ChaScore1 Value: " ) + NLMISC::toString( _ActorsStats[i].FinalChaScore1 / _IterationCount ) + string( " stats: " ) + NLMISC::toString( 100.f * _ActorsStats[i].FinalChaScore1 / _ActorsBeginStats[i].ChaScore1 / _IterationCount ) + string( " %\n" );
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( " Final Stamina Value: " ) + NLMISC::toString( _ActorsStats[i].FinalSta / _IterationCount ) + string( " stats: " ) + NLMISC::toString( 100.f * _ActorsStats[i].FinalSta / _ActorsBeginStats[i].Sta / _IterationCount ) + string( " %\n" );
+			out = string( " Final ChaScore2 Value: " ) + NLMISC::toString( _ActorsStats[i].FinalChaScore2 / _IterationCount ) + string( " stats: " ) + NLMISC::toString( 100.f * _ActorsStats[i].FinalChaScore2 / _ActorsBeginStats[i].ChaScore2 / _IterationCount ) + string( " %\n" );
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( " Final Sap Value: " ) + NLMISC::toString( _ActorsStats[i].FinalSap / _IterationCount ) + string( " stats: " ) + NLMISC::toString( 100.f * _ActorsStats[i].FinalSap / _ActorsBeginStats[i].Sap / _IterationCount ) + string( " %\n" );
+			out = string( " Final ChaScore3 Value: " ) + NLMISC::toString( _ActorsStats[i].FinalChaScore3 / _IterationCount ) + string( " stats: " ) + NLMISC::toString( 100.f * _ActorsStats[i].FinalChaScore3 / _ActorsBeginStats[i].ChaScore3 / _IterationCount ) + string( " %\n" );
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( " Ratio Stamina per gived damage: " ) + NLMISC::toString( 1.0f * ( _ActorsBeginStats[i].Sta - ( _ActorsStats[i].FinalSta / _IterationCount ) ) / ( _ActorsStats[i].GivenDamage / _IterationCount ) ) + string( "\n" );
+			out = string( " Ratio ChaScore2 per gived damage: " ) + NLMISC::toString( 1.0f * ( _ActorsBeginStats[i].ChaScore2 - ( _ActorsStats[i].FinalChaScore2 / _IterationCount ) ) / ( _ActorsStats[i].GivenDamage / _IterationCount ) ) + string( "\n" );
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( " Ratio Sap per gived damage: " ) + NLMISC::toString( 1.0f * ( _ActorsBeginStats[i].Sap - ( _ActorsStats[i].FinalSap / _IterationCount ) ) / ( _ActorsStats[i].GivenDamage / _IterationCount ) ) + string( "\n" );
+			out = string( " Ratio ChaScore3 per gived damage: " ) + NLMISC::toString( 1.0f * ( _ActorsBeginStats[i].ChaScore3 - ( _ActorsStats[i].FinalChaScore3 / _IterationCount ) ) / ( _ActorsStats[i].GivenDamage / _IterationCount ) ) + string( "\n" );
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( " Ratio Stamina per effective damage: " ) + NLMISC::toString( 1.0f * ( _ActorsBeginStats[i].Sta - ( _ActorsStats[i].FinalSta / _IterationCount ) ) / ( _ActorsStats[i].SendDamage / _IterationCount ) ) + string( "\n" );
+			out = string( " Ratio ChaScore2 per effective damage: " ) + NLMISC::toString( 1.0f * ( _ActorsBeginStats[i].ChaScore2 - ( _ActorsStats[i].FinalChaScore2 / _IterationCount ) ) / ( _ActorsStats[i].SendDamage / _IterationCount ) ) + string( "\n" );
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( " Ratio Sap per effective damage: " ) + NLMISC::toString( ( 1.0f * _ActorsBeginStats[i].Sap - ( _ActorsStats[i].FinalSap / _IterationCount ) ) / ( _ActorsStats[i].SendDamage / _IterationCount ) ) + string( "\n" );
+			out = string( " Ratio ChaScore3 per effective damage: " ) + NLMISC::toString( ( 1.0f * _ActorsBeginStats[i].ChaScore3 - ( _ActorsStats[i].FinalChaScore3 / _IterationCount ) ) / ( _ActorsStats[i].SendDamage / _IterationCount ) ) + string( "\n" );
 			fputs( out.c_str(), _TestSessionReport );
 		}
 	
@@ -473,9 +472,9 @@ void CTestingTool::testEnd()
 			fputs( out.c_str(), _TestSessionReport );
 			out = string( "Total gived damage: " ) + NLMISC::toString( _ActorsSentence1[i].TotalGivenDamage / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( "Total Stamina consummate: " ) + NLMISC::toString( _ActorsSentence1[i].TotalStaminaConsume / _IterationCount ) + string("\n");
+			out = string( "Total ChaScore2 consummate: " ) + NLMISC::toString( _ActorsSentence1[i].TotalChaScore2Consume / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( "Total Sap consummate: " ) + NLMISC::toString( _ActorsSentence1[i].TotalSapConsum / _IterationCount ) + string("\n");
+			out = string( "Total ChaScore3 consummate: " ) + NLMISC::toString( _ActorsSentence1[i].TotalChaScore3Consume / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
 			
 			if( _ActorsSentence1[i].NbSuccess )
@@ -492,17 +491,17 @@ void CTestingTool::testEnd()
 			
 			if( _ActorsSentence1[i].TotalGivenDamage )
 			{
-				out = string( "Stamina consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalStaminaConsume / _ActorsSentence1[i].TotalGivenDamage ) + string("\n");
+				out = string( "ChaScore2 consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalChaScore2Consume / _ActorsSentence1[i].TotalGivenDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
-				out = string( "Sap consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalSapConsum / _ActorsSentence1[i].TotalGivenDamage ) + string("\n");
+				out = string( "ChaScore3 consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalChaScore3Consume / _ActorsSentence1[i].TotalGivenDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
 			}
 			
 			if( _ActorsSentence1[i].TotalSendDamage )
 			{
-				out = string( "Stamina consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalStaminaConsume / _ActorsSentence1[i].TotalSendDamage ) + string("\n");
+				out = string( "ChaScore2 consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalChaScore2Consume / _ActorsSentence1[i].TotalSendDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
-				out = string( "Sap consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalSapConsum / _ActorsSentence1[i].TotalSendDamage ) + string("\n");
+				out = string( "ChaScore3 consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence1[i].TotalChaScore3Consume / _ActorsSentence1[i].TotalSendDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
 			}
 
@@ -517,9 +516,9 @@ void CTestingTool::testEnd()
 			fputs( out.c_str(), _TestSessionReport );
 			out = string( "Total gived damage: " ) + NLMISC::toString( _ActorsSentence2[i].TotalGivenDamage / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( "Total Stamina consummate: " ) + NLMISC::toString( _ActorsSentence2[i].TotalStaminaConsume / _IterationCount ) + string("\n");
+			out = string( "Total ChaScore2 consummate: " ) + NLMISC::toString( _ActorsSentence2[i].TotalChaScore2Consume / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( "Total Sap consummate: " ) + NLMISC::toString( _ActorsSentence2[i].TotalSapConsum / _IterationCount ) + string("\n");
+			out = string( "Total ChaScore3 consummate: " ) + NLMISC::toString( _ActorsSentence2[i].TotalChaScore3Consume / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
 			
 			if( _ActorsSentence2[i].NbSuccess )
@@ -536,17 +535,17 @@ void CTestingTool::testEnd()
 			
 			if( _ActorsSentence2[i].TotalGivenDamage )
 			{
-				out = string( "Stamina consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalStaminaConsume / _ActorsSentence2[i].TotalGivenDamage ) + string("\n");
+				out = string( "ChaScore2 consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalChaScore2Consume / _ActorsSentence2[i].TotalGivenDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
-				out = string( "Sap consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalSapConsum / _ActorsSentence2[i].TotalGivenDamage ) + string("\n");
+				out = string( "ChaScore3 consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalChaScore3Consume / _ActorsSentence2[i].TotalGivenDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
 			}
 			
 			if( _ActorsSentence2[i].TotalSendDamage )
 			{
-				out = string( "Stamina consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalStaminaConsume / _ActorsSentence2[i].TotalSendDamage ) + string("\n");
+				out = string( "ChaScore2 consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalChaScore2Consume / _ActorsSentence2[i].TotalSendDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
-				out = string( "Sap consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalSapConsum / _ActorsSentence2[i].TotalSendDamage ) + string("\n");
+				out = string( "ChaScore3 consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence2[i].TotalChaScore3Consume / _ActorsSentence2[i].TotalSendDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
 			}
 
@@ -561,9 +560,9 @@ void CTestingTool::testEnd()
 			fputs( out.c_str(), _TestSessionReport );
 			out = string( "Total gived damage: " ) + NLMISC::toString( _ActorsSentence3[i].TotalGivenDamage / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( "Total Stamina consummate: " ) + NLMISC::toString( _ActorsSentence3[i].TotalStaminaConsume / _IterationCount ) + string("\n");
+			out = string( "Total ChaScore2 consummate: " ) + NLMISC::toString( _ActorsSentence3[i].TotalChaScore2Consume / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
-			out = string( "Total Sap consummate: " ) + NLMISC::toString( _ActorsSentence3[i].TotalSapConsum / _IterationCount ) + string("\n");
+			out = string( "Total ChaScore3 consummate: " ) + NLMISC::toString( _ActorsSentence3[i].TotalChaScore3Consume / _IterationCount ) + string("\n");
 			fputs( out.c_str(), _TestSessionReport );
 			
 			if( _ActorsSentence3[i].NbSuccess )
@@ -580,17 +579,17 @@ void CTestingTool::testEnd()
 			
 			if( _ActorsSentence3[i].TotalGivenDamage )
 			{
-				out = string( "Stamina consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalStaminaConsume / _ActorsSentence3[i].TotalGivenDamage ) + string("\n");
+				out = string( "ChaScore2 consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalChaScore2Consume / _ActorsSentence3[i].TotalGivenDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
-				out = string( "Sap consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalSapConsum / _ActorsSentence3[i].TotalGivenDamage ) + string("\n");
+				out = string( "ChaScore3 consummate by gived damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalChaScore3Consume / _ActorsSentence3[i].TotalGivenDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
 			}
 			
 			if( _ActorsSentence3[i].TotalSendDamage )
 			{
-				out = string( "Stamina consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalStaminaConsume / _ActorsSentence3[i].TotalSendDamage ) + string("\n");
+				out = string( "ChaScore2 consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalChaScore2Consume / _ActorsSentence3[i].TotalSendDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
-				out = string( "Sap consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalSapConsum / _ActorsSentence3[i].TotalSendDamage ) + string("\n");
+				out = string( "ChaScore3 consummate by effective damage: " ) + NLMISC::toString( 1.0f * _ActorsSentence3[i].TotalChaScore3Consume / _ActorsSentence3[i].TotalSendDamage ) + string("\n");
 				fputs( out.c_str(), _TestSessionReport );
 			}
 		}
@@ -710,9 +709,9 @@ void CTestingTool::setActorStartState( NLNET::CMessage& msgin )
 		if (id == _ActorsIds [i] )
 		{
 			msgin.serial( _ActorsBeginStats[i] );
-			_ActorsStats[i].FinalHp += _ActorsBeginStats[i].Hp;
-			_ActorsStats[i].FinalSta += _ActorsBeginStats[i].Sta;
-			_ActorsStats[i].FinalSap += _ActorsBeginStats[i].Sap;
+			_ActorsStats[i].FinalChaScore1 += _ActorsBeginStats[i].ChaScore1;
+			_ActorsStats[i].FinalChaScore2 += _ActorsBeginStats[i].ChaScore2;
+			_ActorsStats[i].FinalChaScore3 += _ActorsBeginStats[i].ChaScore3;
 			break;
 		}
 	}
@@ -909,12 +908,12 @@ void CTestingTool::logReport( NLMISC::CEntityId& id, SLogReport& LogReport )
 		Actor->ArmorAbsorption += LogReport.ArmorAbsorption;
 		sentence->TotalShieldAbsorption += (uint16)LogReport.ShieldAbsorption;
 
-		// Target Hp lost
-		out = string("   Target Hp Lost: ") + NLMISC::toString( LogReport.HpLost ) + string("\n");
+		// Target ChaScore1 lost
+		out = string("   Target ChaScore1 Lost: ") + NLMISC::toString( LogReport.ChaScore1Lost ) + string("\n");
 		fputs( out.c_str(), _TestSessionReport );
-		Actor->SendDamage += LogReport.HpLost;
-		Cible->FinalHp -= LogReport.HpLost;
-		sentence->TotalSendDamage += (uint16)LogReport.HpLost;
+		Actor->SendDamage += LogReport.ChaScore1Lost;
+		Cible->FinalChaScore1 -= LogReport.ChaScore1Lost;
+		sentence->TotalSendDamage += (uint16)LogReport.ChaScore1Lost;
 
 		// Special effect Resist, Start and Duration
 		// ...
@@ -922,24 +921,24 @@ void CTestingTool::logReport( NLMISC::CEntityId& id, SLogReport& LogReport )
 
 	if( LogReport.SentenceSucces )
 	{
-		// Used Stamina
-		out = string("   Used Stamina: ") + NLMISC::toString( LogReport.UsedStamina ) + string("\n");
+		// Used ChaScore2
+		out = string("   Used ChaScore2: ") + NLMISC::toString( LogReport.UsedChaScore2 ) + string("\n");
 		fputs( out.c_str(), _TestSessionReport );
-		Actor->FinalSta -= LogReport.UsedStamina;
-		sentence->TotalStaminaConsume += (uint16)LogReport.UsedStamina;
+		Actor->FinalChaScore2 -= LogReport.UsedChaScore2;
+		sentence->TotalChaScore2Consume += (uint16)LogReport.UsedChaScore2;
 
-		// Used Sap
-		out = string("   Used Sap: ") + NLMISC::toString( LogReport.UsedSap ) + string("\n");
+		// Used ChaScore3
+		out = string("   Used ChaScore3: ") + NLMISC::toString( LogReport.UsedChaScore3 ) + string("\n");
 		fputs( out.c_str(), _TestSessionReport );
-		Actor->FinalSap -= LogReport.UsedSap;
-		sentence->TotalSapConsum += (uint16)LogReport.UsedSap;
+		Actor->FinalChaScore3 -= LogReport.UsedChaScore3;
+		sentence->TotalChaScore3Consume += (uint16)LogReport.UsedChaScore3;
 
-		// Stamina left
-		out = string("   Stamina left: ") + NLMISC::toString( LogReport.StaminaLeft ) + string("\n");
+		// ChaScore2 left
+		out = string("   ChaScore2 left: ") + NLMISC::toString( LogReport.ChaScore2Left ) + string("\n");
 		fputs( out.c_str(), _TestSessionReport );
 
-		// Sap left
-		out = string("   Sap left: ") + NLMISC::toString( LogReport.SapLeft ) + string("\n");
+		// ChaScore3 left
+		out = string("   ChaScore3 left: ") + NLMISC::toString( LogReport.ChaScore3Left ) + string("\n");
 		fputs( out.c_str(), _TestSessionReport );
 	}
 

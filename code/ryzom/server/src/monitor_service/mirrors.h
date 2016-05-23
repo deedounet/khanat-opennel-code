@@ -69,8 +69,8 @@ public:
 	
 	static void					setVPA( const TDataSetRow& entityIndex, const SAltLookProp &prop );
 
-	static uint32				currentHitPoints( const TDataSetRow& entityIndex );
-	static uint32				maxHitPoints( const TDataSetRow& entityIndex );
+	static uint32				currentChaScore1( const TDataSetRow& entityIndex );
+	static uint32				maxChaScore1( const TDataSetRow& entityIndex );
 	static uint32				bestRoleLevel( const TDataSetRow& entityIndex );
 	static uint8				combatState( const TDataSetRow& entityIndex );
 	static uint16				actionFlags( const TDataSetRow& entityIndex );*/

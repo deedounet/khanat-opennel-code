@@ -225,16 +225,16 @@ inline void sendDeathMessages( const TDataSetRow &killerRowId, const TDataSetRow
  * \param self flag indicating of aggressor self hitting
  * \param sentence pointer on the calling sentence if any
  * \param amount the amount of damage dealt to the victim entity
- * \param lostStamina the amount of stamina lost by the victim entity
- * \param lostSap the amount of sap lost by the victim entity
+ * \param lostChaScore2 the amount of ChaScore2 lost by the victim entity
+ * \param lostChaScore3 the amount of ChaScore3 lost by the victim entity
  */
-void sendHitMessages( const NLMISC::CEntityId &aggressorId, const NLMISC::CEntityId &victimId, bool self, sint32 amount, sint32 maxDamage, sint32 lostStamina = 0, sint32 lostSap = 0, BODY::TBodyPart bodyPart= BODY::UnknownBodyPart);
+void sendHitMessages( const NLMISC::CEntityId &aggressorId, const NLMISC::CEntityId &victimId, bool self, sint32 amount, sint32 maxDamage, sint32 lostChaScore2 = 0, sint32 lostChaScore3 = 0, BODY::TBodyPart bodyPart= BODY::UnknownBodyPart);
 
-inline void sendHitMessages( const TDataSetRow &aggressorRowId, const TDataSetRow &victimRowId, bool self, sint32 amount, sint32 maxDamage, sint32 lostStamina = 0, sint32 lostSap = 0, BODY::TBodyPart bodyPart= BODY::UnknownBodyPart)
+inline void sendHitMessages( const TDataSetRow &aggressorRowId, const TDataSetRow &victimRowId, bool self, sint32 amount, sint32 maxDamage, sint32 lostChaScore2 = 0, sint32 lostChaScore3 = 0, BODY::TBodyPart bodyPart= BODY::UnknownBodyPart)
 {
 	if (TheDataset.isAccessible(aggressorRowId) && TheDataset.isAccessible(victimRowId))
 	{
-		sendHitMessages( TheDataset.getEntityId( aggressorRowId ), TheDataset.getEntityId( victimRowId ), self, amount, maxDamage, lostStamina, lostSap, bodyPart );
+		sendHitMessages( TheDataset.getEntityId( aggressorRowId ), TheDataset.getEntityId( victimRowId ), self, amount, maxDamage, lostChaScore2, lostChaScore3, bodyPart );
 	}
 }
 
@@ -243,17 +243,17 @@ inline void sendHitMessages( const TDataSetRow &aggressorRowId, const TDataSetRo
  * \param woundedEntity the entity wounded by the damage shield
  * \param defender the entity dealing the damage via it's DS
  * \param damage the amount of damage dealt to the wounded entity
- * \param hpDrain the amount of HP  gained by the defender
+ * \param ChaScore1Drain the amount of ChaScore1  gained by the defender
  */
-void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, const NLMISC::CEntityId &defender, uint16 damage, uint16 hpDrain);
+void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, const NLMISC::CEntityId &defender, uint16 damage, uint16 ChaScore1Drain);
 
 /**
- * a vampirism proc was triggered, damage done are converted to hp transfer
- * \param actingEntity the entity inflicting the damages and receiving the hp
- * \param defender the entity receiving the damage and losing hp
- * \param hpDrain the amount of HP transfered
+ * a vampirism proc was triggered, damage done are converted to ChaScore1 transfer
+ * \param actingEntity the entity inflicting the damages and receiving the ChaScore1
+ * \param defender the entity receiving the damage and losing ChaScore1
+ * \param ChaScore1Drain the amount of ChaScore1 transfered
  */
-void sendVampirismProcMessages(const NLMISC::CEntityId &actingEntity, const NLMISC::CEntityId &defender, sint32 hpDrain);
+void sendVampirismProcMessages(const NLMISC::CEntityId &actingEntity, const NLMISC::CEntityId &defender, sint32 ChaScore1Drain);
 
 void sendItemSpecialEffectProcMessage(ITEM_SPECIAL_EFFECT::TItemSpecialEffect type, CEntityBase* actor, CEntityBase* target=NULL, sint32 param=0, sint32 param2=0);
 

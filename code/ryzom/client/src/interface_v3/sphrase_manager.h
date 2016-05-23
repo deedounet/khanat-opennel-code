@@ -70,10 +70,10 @@ public:
 	REFLECT_EXPORT_START(CSPhraseComAdpater, CInterfaceElement)
 		REFLECT_LUA_METHOD("getCastTime",	luaGetCastTime)
 		REFLECT_LUA_METHOD("getCastRange",  luaGetCastRange)
-		REFLECT_LUA_METHOD("getHpCost",		luaGetHpCost)
-		REFLECT_LUA_METHOD("getSapCost",	luaGetSapCost)
-		REFLECT_LUA_METHOD("getFocusCost",	luaGetFocusCost)
-		REFLECT_LUA_METHOD("getStaCost",	luaGetStaCost)
+		REFLECT_LUA_METHOD("getChaScore1Cost",		luaGetChaScore1Cost)
+		REFLECT_LUA_METHOD("getChaScore3Cost",	luaGetChaScore3Cost)
+		REFLECT_LUA_METHOD("getChaScore4Cost",	luaGetChaScore4Cost)
+		REFLECT_LUA_METHOD("getChaScore2Cost",	luaGetChaScore2Cost)
 		REFLECT_LUA_METHOD("getName",		luaGetName)
 		REFLECT_LUA_METHOD("getDesc",		luaGetDesc)
 		REFLECT_LUA_METHOD("getSuccessRate",		luaGetSuccessRate)
@@ -86,11 +86,11 @@ public:
 	REFLECT_EXPORT_END
 	int luaGetCastTime(CLuaState &ls);
 	int luaGetCastRange(CLuaState &ls);
-	int luaGetHpCost(CLuaState &ls);
-	int luaGetSapCost(CLuaState &ls);
+	int luaGetChaScore1Cost(CLuaState &ls);
+	int luaGetChaScore3Cost(CLuaState &ls);
 	int luaGetSuccessRate(CLuaState &ls);
-	int luaGetFocusCost(CLuaState &ls);
-	int luaGetStaCost(CLuaState &ls);
+	int luaGetChaScore4Cost(CLuaState &ls);
+	int luaGetChaScore2Cost(CLuaState &ls);
 	int luaGetName(CLuaState &ls);
 	int luaGetDesc(CLuaState &ls);
 	int luaIsMagicPhrase(CLuaState &ls);
@@ -343,14 +343,14 @@ public:
 	sint				getForageExtractionPhraseSuccessRate(const CSPhraseCom &phrase, SKILLS::ESkills skill);
 	// return the fmt according to forage terrain specializing
 	ucstring			getForageExtractionPhraseEcotypeFmt(const CSPhraseCom &phrase);
-	// Get the Phrase Sap Cost
-	void				getPhraseSapCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
-	// Get the Phrase Sta Cost
-	void				getPhraseStaCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
-	// Get the Phrase Focus Cost
-	void				getPhraseFocusCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
-	// Get the Phrase Hp Cost
-	void				getPhraseHpCost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
+	// Get the Phrase ChaScore3 Cost
+	void				getPhraseChaScore3Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
+	// Get the Phrase ChaScore2 Cost
+	void				getPhraseChaScore2Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
+	// Get the Phrase ChaScore4 Cost
+	void				getPhraseChaScore4Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
+	// Get the Phrase ChaScore1 Cost
+	void				getPhraseChaScore1Cost(const CSPhraseCom &phrase, uint32 totalActionMalus, sint &cost, sint &costMalus);
 	// Get the Phrase Cast Time
 	void				getPhraseCastTime(const CSPhraseCom &phrase, uint32 totalActionMalus, float &castTime, float &castTimeMalus);
 	// Get the Phrase Range

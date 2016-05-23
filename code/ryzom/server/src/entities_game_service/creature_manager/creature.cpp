@@ -239,12 +239,12 @@ CCreature * CCreature::getCreatureCopy( const NLMISC::CEntityId & entityId, sint
 	CMirrorPropValue<SAltLookProp> value3Src( TheDataset, _EntityRowId, DSPropertyVPA );
 	value3Dest = value3Src.getValue();
 
-	CMirrorPropValue<sint32> value4Dest( TheDataset, entityRowId, DSPropertyCURRENT_HIT_POINTS );
-	CMirrorPropValue<sint32> value4Src( TheDataset, _EntityRowId, DSPropertyCURRENT_HIT_POINTS );
+	CMirrorPropValue<sint32> value4Dest( TheDataset, entityRowId, DSPropertyCURRENT_ChaScore1 );
+	CMirrorPropValue<sint32> value4Src( TheDataset, _EntityRowId, DSPropertyCURRENT_ChaScore1 );
 	value4Dest = value4Src.getValue();
 
-	CMirrorPropValue<sint32> value5Dest( TheDataset, entityRowId, DSPropertyMAX_HIT_POINTS );
-	CMirrorPropValue<sint32> value5Src( TheDataset, _EntityRowId, DSPropertyMAX_HIT_POINTS );
+	CMirrorPropValue<sint32> value5Dest( TheDataset, entityRowId, DSPropertyMAX_ChaScore1 );
+	CMirrorPropValue<sint32> value5Src( TheDataset, _EntityRowId, DSPropertyMAX_ChaScore1 );
 	value5Dest = value5Src.getValue();
 
 	CMirrorPropValue<TYPE_SHEET> value6Dest( TheDataset, entityRowId, DSPropertySHEET );
@@ -450,11 +450,11 @@ void CCreature::displayModifiedAttributes(CEntityId id, NLMISC::CLog &log)
 		log.displayNL("Size : %i [%i]", _Size, baseForm->getSize());
 		log.displayNL("Faction : %d [%d]", _Faction, baseForm->getFaction());
 		log.displayNL("FameByKill : %d [%d]", _FameByKill, baseForm->getFameByKill());
-		log.displayNL("HP : %d [%d]", _PhysScores._PhysicalScores[SCORES::hit_points].Base, baseForm->getScores(SCORES::hit_points));
+		log.displayNL("ChaScore1 : %d [%d]", _PhysScores._PhysicalScores[SCORES::cha_score1].Base, baseForm->getScores(SCORES::cha_score1));
 		//attributes only present in sheets, are they really used?
 		log.displayNL("Ecosystem : %s [%s]", ECOSYSTEM::toString(_Form->getEcosystem()).c_str(), ECOSYSTEM::toString(baseForm->getEcosystem()).c_str());
 		/*log.displayNL("NbPlayers : %i [%i]", _NbPlayers, ???);
-		log.displayNL("PlayerHpLevel: %d [%d]", _);
+		log.displayNL("PlayerChaScore1Level: %d [%d]", _);
 		log.displayNL("NbHitToKillPlayer: %d [%d]", _);
 		log.displayNL("AttackLevel : %i [%i]", _AttackLevel, baseForm->getAttackLevel());
 		log.displayNL("AttackSpeed : %d [%d]", _AttackLatency, baseForm->getAttackLatency());
@@ -462,7 +462,7 @@ void CCreature::displayModifiedAttributes(CEntityId id, NLMISC::CLog &log)
 		log.displayNL("XPLevel : %i [%i]", _XPLevel, baseForm->getXPLevel());
 		log.displayNL("TauntLevel : %i [%i]", _TauntLevel, baseForm->getTauntLevel());
 		log.displayNL("XPGainOnCreature : %f [%f]", _XPGainOnCreature, baseForm->getXPGainOnCreature());*/
-		log.displayNL("Regen: %f [%f]",_PhysScores._PhysicalScores[SCORES::hit_points].CurrentRegenerate, baseForm->getRegen(SCORES::hit_points));
+		log.displayNL("Regen: %f [%f]",_PhysScores._PhysicalScores[SCORES::cha_score1].CurrentRegenerate, baseForm->getRegen(SCORES::cha_score1));
 		log.displayNL("DodgeAsDefense : %d [%d]", _DodgeAsDefense, baseForm->getDodgeAsDefense());
 	}
 }
@@ -531,13 +531,13 @@ void CCreature::loadSheetCreature( NLMISC::CSheetId sheetId )
 		_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _Form->getRegen( i );
 	}
 
-	if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Base == 0 || _PhysScores._PhysicalScores[ SCORES::hit_points ].Current == 0)
+	if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base == 0 || _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current == 0)
 	{
 		const sint32 score = (sint32) ( (2*_Form->getDefenseLevel()*_Form->getNbPlayers() + 0.5)*(MinDamage + DamageStep * _Form->getDefenseLevel())*0.65 );
-		nlwarning("CREATURE : spawning a creature with 0 Hit Points ! (SHEET %s), set the hp to %d", sheetId.toString().c_str(), score);
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].Base = max(score,sint32(1));
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = max(score,sint32(1));
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].Max = max(score,sint32(1));
+		nlwarning("CREATURE : spawning a creature with 0 ChaScore1 ! (SHEET %s), set the ChaScore1 to %d", sheetId.toString().c_str(), score);
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base = max(score,sint32(1));
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = max(score,sint32(1));
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Max = max(score,sint32(1));
 	}
 	
 	///////////////////////////////////////////////////////
@@ -614,7 +614,7 @@ void CCreature::loadSheetCreature( NLMISC::CSheetId sheetId )
 	// Damage Shield
 	///////////////////////////////////////////////////////
 	_DamageShieldDamage = _Form->getDamageShieldDamage();
-	_DamageShieldHpDrain= _Form->getDamageShieldHpDrain();
+	_DamageShieldChaScore1Drain= _Form->getDamageShieldChaScore1Drain();
 
 	///////////////////////////////////////////////////////
 	// defense mode
@@ -1724,7 +1724,7 @@ void CCreature::kill(TDataSetRow killerRowId)
 	
 	removeAllSpells();
 	
-	_PhysScores._PhysicalScores[SCORES::hit_points].Current = 0;
+	_PhysScores._PhysicalScores[SCORES::cha_score1].Current = 0;
 	setBars(0);	
 	
 	BotDeathReport.Bots.push_back(_EntityRowId);
@@ -2046,12 +2046,12 @@ uint32 CCreature::tickUpdate()
 
 	if( _GodMode || _Invulnerable )
 	{
-		if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Current <= 0 )
-			_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Base;
+		if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current <= 0 )
+			_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base;
 	}
 	
 	// Check if death of entity occurs
-	if (_PhysScores._PhysicalScores[ SCORES::hit_points ].Current <= 0 &&	_Mode.getValue().Mode != MBEHAV::DEATH )
+	if (_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current <= 0 &&	_Mode.getValue().Mode != MBEHAV::DEATH )
 	{
 		kill();
 	}
@@ -2079,7 +2079,7 @@ uint32 CCreature::tickUpdate()
 		}
 	}
 
-	if (currentHp()!=maxHp() && !isDead()) return 12;
+	if (currentChaScore1()!=maxChaScore1() && !isDead()) return 12;
 	return 24;		
 } // tickUpdate //
 

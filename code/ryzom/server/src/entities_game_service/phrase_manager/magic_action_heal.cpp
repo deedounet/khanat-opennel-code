@@ -43,7 +43,7 @@ class CMagicActionBasicHeal : public IMagicAction
 {
 public:
 	CMagicActionBasicHeal()
-		:_HealHp(0),_HealSap(0),_HealSta(0){}
+		:_HealChaScore1(0),_HealChaScore3(0),_HealChaScore2(0){}
 
 	/// build from AI Action
 	bool initFromAiAction( const CStaticAiAction *aiAction, CMagicPhrase *phrase )
@@ -61,20 +61,20 @@ public:
 
 		switch(aiAction->getData().Spell.AffectedScore)
 		{
-		case SCORES::sap:
-			_HealSap = sint32(aiAction->getData().Spell.SpellParamValue + healBonus);
+		case SCORES::cha_score3:
+			_HealChaScore3 = sint32(aiAction->getData().Spell.SpellParamValue + healBonus);
 			break;
-		case SCORES::stamina:
-			_HealSta = sint32(aiAction->getData().Spell.SpellParamValue + healBonus);
+		case SCORES::cha_score2:
+			_HealChaScore2 = sint32(aiAction->getData().Spell.SpellParamValue + healBonus);
 			break;
-		case SCORES::hit_points:
-			_HealHp = sint32(aiAction->getData().Spell.SpellParamValue + healBonus);
+		case SCORES::cha_score1:
+			_HealChaScore1 = sint32(aiAction->getData().Spell.SpellParamValue + healBonus);
 			break;
 		default:
 			return false;
 		};
 
-		phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,false ), 3);
+		phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,false ), 3);
 
 		return true;
 	}
@@ -84,9 +84,9 @@ protected:
 	{
 		TDataSetRow	RowId;
 		bool		MainTarget;
-		sint32		HealHp;
-		sint32		HealSap;
-		sint32		HealSta;
+		sint32		HealChaScore1;
+		sint32		HealChaScore3;
+		sint32		HealChaScore2;
 	};
 
 protected:
@@ -104,11 +104,11 @@ protected:
 				effectEnd = true;
 				return true;
 			case TBrickParam::MA_HEAL:
-				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)param)->Hp,((CSBrickParamMagicHeal *)param)->Sap,((CSBrickParamMagicHeal *)param)->Sta);
-				_HealHp = ((CSBrickParamMagicHeal *)param)->Hp;
-				_HealSap = ((CSBrickParamMagicHeal *)param)->Sap;
-				_HealSta = ((CSBrickParamMagicHeal *)param)->Sta;
-				phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,false ), brick.SabrinaValue);
+				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)param)->ChaScore1,((CSBrickParamMagicHeal *)param)->ChaScore3,((CSBrickParamMagicHeal *)param)->ChaScore2);
+				_HealChaScore1 = ((CSBrickParamMagicHeal *)param)->ChaScore1;
+				_HealChaScore3 = ((CSBrickParamMagicHeal *)param)->ChaScore3;
+				_HealChaScore2 = ((CSBrickParamMagicHeal *)param)->ChaScore2;
+				phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,false ), brick.SabrinaValue);
 				
 			default:
 				// unused param, can be useful in the phrase
@@ -180,25 +180,25 @@ protected:
 			CTargetInfos targetInfos;
 			targetInfos.RowId		= target->getEntityRowId();
 			targetInfos.MainTarget	= (i == 0);
-			targetInfos.HealHp		= 0;
-			targetInfos.HealSap		= 0;
-			targetInfos.HealSta		= 0;
+			targetInfos.HealChaScore1		= 0;
+			targetInfos.HealChaScore3		= 0;
+			targetInfos.HealChaScore2		= 0;
 
 			float factor = successFactor * powerFactors[i] * phrase->getAreaSpellPowerFactor();
-			if ( _HealHp != 0)
+			if ( _HealChaScore1 != 0)
 			{
-				targetInfos.HealHp = sint32(_HealHp * factor);
+				targetInfos.HealChaScore1 = sint32(_HealChaScore1 * factor);
 
-				// update behaviour for healed Hp
-				behav.DeltaHP += sint16(targetInfos.HealHp);
+				// update behaviour for healed ChaScore1
+				behav.DeltaChaScore1 += sint16(targetInfos.HealChaScore1);
 			}
-			if (_HealSap != 0)
+			if (_HealChaScore3 != 0)
 			{
-				targetInfos.HealSap = sint32(_HealSap * factor);
+				targetInfos.HealChaScore3 = sint32(_HealChaScore3 * factor);
 			}
-			if ( _HealSta != 0 )
+			if ( _HealChaScore2 != 0 )
 			{
-				targetInfos.HealSta = sint32(_HealSta * factor);
+				targetInfos.HealChaScore2 = sint32(_HealChaScore2 * factor);
 			}
 
 			_ApplyTargets.push_back(targetInfos);
@@ -254,123 +254,123 @@ protected:
 			aiReport.Target = _ApplyTargets[i].RowId;
 			aiReport.Type = ACTNATURE::CURATIVE_MAGIC;
 
-			if ( _HealHp != 0)
+			if ( _HealChaScore1 != 0)
 			{
-				sint32 & realHealHp = _ApplyTargets[i].HealHp;
-				// clip heal hp
-				if (realHealHp + target->currentHp() > target->maxHp())
+				sint32 & realHealChaScore1 = _ApplyTargets[i].HealChaScore1;
+				// clip heal ChaScore1
+				if (realHealChaScore1 + target->currentChaScore1() > target->maxChaScore1())
 				{
-					realHealHp = target->maxHp() - target->currentHp();
+					realHealChaScore1 = target->maxChaScore1() - target->currentChaScore1();
 				}
 
-				target->changeCurrentHp(realHealHp);
-				if ( target->currentHp() >= target->maxHp() )
+				target->changeCurrentChaScore1(realHealChaScore1);
+				if ( target->currentChaScore1() >= target->maxChaScore1() )
 				{
-					if ( realHealHp > 0)
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealHp, realHealHp, SCORES::hit_points , ACTNATURE::CURATIVE_MAGIC);
-					reportAction.Hp = realHealHp;
+					if ( realHealChaScore1 > 0)
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealChaScore1, realHealChaScore1, SCORES::cha_score1 , ACTNATURE::CURATIVE_MAGIC);
+					reportAction.ChaScore1 = realHealChaScore1;
 
 					if (actor != target)
 					{
 						SM_STATIC_PARAMS_2(params2, STRING_MANAGER::entity, STRING_MANAGER::score);
 						params2[0].setEIdAIAlias( target->getId(), CAIAliasTranslator::getInstance()->getAIAlias( target->getId()) );
-						params2[1].Enum = SCORES::hit_points;
+						params2[1].Enum = SCORES::cha_score1;
 						PHRASE_UTILITIES::sendDynamicSystemMessage(actor->getEntityRowId(), "MAGIC_HEAL_FULL_SCORE_ACTOR", params2);
 					}
 
 					SM_STATIC_PARAMS_1(params, STRING_MANAGER::score);
-					params[0].Enum = SCORES::hit_points;
+					params[0].Enum = SCORES::cha_score1;
 					PHRASE_UTILITIES::sendDynamicSystemMessage(target->getEntityRowId(), "MAGIC_HEAL_FULL_SCORE_TARGET", params);
 				}
 				else
 				{
-					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealHp, realHealHp, SCORES::hit_points , ACTNATURE::CURATIVE_MAGIC);
-					reportAction.Hp = realHealHp;
+					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealChaScore1, realHealChaScore1, SCORES::cha_score1 , ACTNATURE::CURATIVE_MAGIC);
+					reportAction.ChaScore1 = realHealChaScore1;
 				}
 
 				// update the report
-				if (target->maxHp())
+				if (target->maxChaScore1())
 				{
-					float aggro = float(realHealHp)/float(target->maxHp());
+					float aggro = float(realHealChaScore1)/float(target->maxChaScore1());
 					aiReport.AggroAdd = aggro;
-					aiReport.addDelta(AI_EVENT_REPORT::HitPoints, realHealHp);
+					aiReport.addDelta(AI_EVENT_REPORT::ChaScore1, realHealChaScore1);
 					CPhraseManager::getInstance().addAiEventReport(aiReport);
 				}
 			}
 
-			if (_HealSap != 0)
+			if (_HealChaScore3 != 0)
 			{
-				sint32 & realHealSap = _ApplyTargets[i].HealSap;
-				SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::sap];
-				score.Current = score.Current + realHealSap;
+				sint32 & realHealChaScore3 = _ApplyTargets[i].HealChaScore3;
+				SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score3];
+				score.Current = score.Current + realHealChaScore3;
 				if ( score.Current >= score.Max )
 				{
-					realHealSap += score.Max - score.Current;
-					if ( realHealSap > 0)
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealSap, realHealSap, SCORES::sap , ACTNATURE::CURATIVE_MAGIC);
+					realHealChaScore3 += score.Max - score.Current;
+					if ( realHealChaScore3 > 0)
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealChaScore3, realHealChaScore3, SCORES::cha_score3 , ACTNATURE::CURATIVE_MAGIC);
 					score.Current = score.Max;
-					reportAction.Sap = realHealSap;
+					reportAction.ChaScore3 = realHealChaScore3;
 
 					if ( actor != target)
 					{
 						SM_STATIC_PARAMS_2(params2, STRING_MANAGER::entity, STRING_MANAGER::score);
 						params2[0].setEIdAIAlias( target->getId(), CAIAliasTranslator::getInstance()->getAIAlias( target->getId()) );
-						params2[1].Enum = SCORES::sap;
+						params2[1].Enum = SCORES::cha_score3;
 						PHRASE_UTILITIES::sendDynamicSystemMessage(actor->getEntityRowId(), "MAGIC_HEAL_FULL_SCORE_ACTOR", params2);
 					}
 
 					SM_STATIC_PARAMS_1(params, STRING_MANAGER::score);
-					params[0].Enum = SCORES::sap;
+					params[0].Enum = SCORES::cha_score3;
 					PHRASE_UTILITIES::sendDynamicSystemMessage(target->getEntityRowId(), "MAGIC_HEAL_FULL_SCORE_TARGET", params);
 				}
 				else
 				{
-					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealSap, realHealSap, SCORES::sap , ACTNATURE::CURATIVE_MAGIC);
-					reportAction.Sap = realHealSap;
+					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealChaScore3, realHealChaScore3, SCORES::cha_score3 , ACTNATURE::CURATIVE_MAGIC);
+					reportAction.ChaScore3 = realHealChaScore3;
 				}
 
 				// update the report
-				float aggro = float(realHealSap)/float(score.Max);
+				float aggro = float(realHealChaScore3)/float(score.Max);
 				aiReport.AggroAdd = aggro;
-				aiReport.addDelta(AI_EVENT_REPORT::Sap, realHealSap);
+				aiReport.addDelta(AI_EVENT_REPORT::ChaScore3, realHealChaScore3);
 				CPhraseManager::getInstance().addAiEventReport(aiReport);
 			}
 
-			if ( _HealSta != 0 )
+			if ( _HealChaScore2 != 0 )
 			{
-				sint32 & realHealSta = _ApplyTargets[i].HealSta;
-				SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::stamina];
-				score.Current = score.Current + realHealSta;
+				sint32 & realHealChaScore2 = _ApplyTargets[i].HealChaScore2;
+				SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score2];
+				score.Current = score.Current + realHealChaScore2;
 				if ( score.Current >= score.Max )
 				{
-					realHealSta += score.Max - score.Current;
-					if ( realHealSta > 0)
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealSta, realHealSta, SCORES::stamina , ACTNATURE::CURATIVE_MAGIC);
+					realHealChaScore2 += score.Max - score.Current;
+					if ( realHealChaScore2 > 0)
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealChaScore2, realHealChaScore2, SCORES::cha_score2 , ACTNATURE::CURATIVE_MAGIC);
 					score.Current = score.Max;
-					reportAction.Sta = realHealSta;
+					reportAction.ChaScore2 = realHealChaScore2;
 
 					if (actor != target)
 					{
 						SM_STATIC_PARAMS_2(params2, STRING_MANAGER::entity, STRING_MANAGER::score);												
 						params2[0].setEIdAIAlias( target->getId(), CAIAliasTranslator::getInstance()->getAIAlias( target->getId() ) );
-						params2[1].Enum = SCORES::stamina;
+						params2[1].Enum = SCORES::cha_score2;
 						PHRASE_UTILITIES::sendDynamicSystemMessage(actor->getEntityRowId(), "MAGIC_HEAL_FULL_SCORE_ACTOR", params2);
 					}
 
 					SM_STATIC_PARAMS_1(params, STRING_MANAGER::score);
-					params[0].Enum = SCORES::stamina;
+					params[0].Enum = SCORES::cha_score2;
 					PHRASE_UTILITIES::sendDynamicSystemMessage(target->getEntityRowId(), "MAGIC_HEAL_FULL_SCORE_TARGET", params);
 				}
 				else
 				{
-					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealSta, realHealSta, SCORES::stamina , ACTNATURE::CURATIVE_MAGIC);
-					reportAction.Sta = realHealSta;
+					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), realHealChaScore2, realHealChaScore2, SCORES::cha_score2 , ACTNATURE::CURATIVE_MAGIC);
+					reportAction.ChaScore2 = realHealChaScore2;
 				}
 
 				// update the report
-				float aggro = float(realHealSta)/float(score.Max);
+				float aggro = float(realHealChaScore2)/float(score.Max);
 				aiReport.AggroAdd = aggro;
-				aiReport.addDelta(AI_EVENT_REPORT::Stamina, realHealSta);
+				aiReport.addDelta(AI_EVENT_REPORT::ChaScore2, realHealChaScore2);
 				CPhraseManager::getInstance().addAiEventReport(aiReport);
 			}
 
@@ -385,7 +385,7 @@ protected:
 			for (uint i = 0 ; i < actionReports.size() ; ++i)
 			{
 				// only send report if healing succesful
-				if (actionReports[i].Hp != 0 || actionReports[i].Sap != 0 || actionReports[i].Sta != 0 || actionReports[i].Focus != 0)
+				if (actionReports[i].ChaScore1 != 0 || actionReports[i].ChaScore3 != 0 || actionReports[i].ChaScore2 != 0 || actionReports[i].ChaScore4 != 0)
 				{
 					PROGRESSIONPVE::CCharacterProgressionPVE::getInstance()->actionReport(actionReports[i], (i==0));
 					PROGRESSIONPVP::CCharacterProgressionPVP::getInstance()->reportAction(actionReports[i]);
@@ -394,9 +394,9 @@ protected:
 		}
 	}
 
-	sint32						_HealHp;
-	sint32						_HealSap;
-	sint32						_HealSta;
+	sint32						_HealChaScore1;
+	sint32						_HealChaScore3;
+	sint32						_HealChaScore2;
 
 	/// targets that need to be treated by apply()
 	std::vector<CTargetInfos>	_ApplyTargets;

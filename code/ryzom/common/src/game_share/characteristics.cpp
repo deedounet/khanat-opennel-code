@@ -31,14 +31,14 @@ namespace CHARACTERISTICS
 	// The conversion table
 	const CStringConversion<TCharacteristics>::CPair stringTable [] =
 	{
-		{ "Constitution", constitution },	//HP max
-		{ "Metabolism", metabolism },		//Hp Regen
-		{ "Intelligence", intelligence },	//Sap Max
-		{ "Wisdom", wisdom },				//Sap regen
-		{ "Strength", strength },			//Stamina Max
-		{ "WellBalanced", well_balanced },	//Stamina regen
-		{ "Dexterity", dexterity },			//Focus Max
-		{ "Will", will },					//Focus regen
+		{ "Cha1", cha1 },	//Cha1 Max
+		{ "Cha1Reg", cha1_reg },		//Cha1 Regeneration
+		{ "Cha3", cha3 },	//Cha3 Max
+		{ "Cha3Reg", cha3_reg },				//Cha3 Regeneration
+		{ "Cha2", cha2 },			//Cha2 Max
+		{ "Cha2Reg", cha2_reg },	//Cha2 Regeneration
+		{ "Cha4", cha4 },			//Cha4 Max
+		{ "Cha4Reg", cha4_reg },					//Cha4 Regeneration
 
 		{ "Unknown", Unknown },
 
@@ -73,14 +73,14 @@ namespace CHARACTERISTICS
 	// The code conversion table
 	const CStringConversion<TCharacteristics>::CPair codeTable [] =
 	{
-		{ "c", constitution },
-		{ "m", metabolism },
-		{ "i", intelligence },
-		{ "w", wisdom },
-		{ "s", strength },
-		{ "b", well_balanced },
-		{ "d", dexterity },
-		{ "l", will },
+		{ "s1", cha1 },
+		{ "r1", cha1_reg },
+		{ "s2", cha2 },
+		{ "r2", cha2_reg },
+		{ "s3", cha3 },
+		{ "r3", cha3_reg },
+		{ "s4", cha4 },
+		{ "r4", cha4_reg },
 	};
 	CStringConversion<TCharacteristics> codeCharac(codeTable, sizeof(codeTable) / sizeof(codeTable[0]), Unknown );
 

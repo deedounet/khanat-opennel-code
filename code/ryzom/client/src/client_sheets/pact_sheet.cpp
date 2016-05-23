@@ -40,9 +40,9 @@ void CPactSheet::build(const NLGEORGES::UFormElm &root)
 			const UFormElm *node;
 
 			// variable is used for calculate pact effect in differential between pacts type
-			sint16 LoseHitPoints = 0;
-			sint16 LoseStamina = 0;
-			sint16 LoseSap = 0;
+			sint16 LoseChaScore1 = 0;
+			sint16 LoseChaScore2 = 0;
+			sint16 LoseChaScore3 = 0;
 			sint16 LoseSkills = 0;
 
 			sint16 value;
@@ -54,20 +54,20 @@ void CPactSheet::build(const NLGEORGES::UFormElm &root)
 
 				if( node )
 				{
-					node->getValueByName( value, "HitPoints" );
-					value = 0 - value - LoseHitPoints;
-					LoseHitPoints += value;
-					PactLose[ i ].LoseHitPointsLevel = value;
+					node->getValueByName( value, "ChaScore1" );
+					value = 0 - value - LoseChaScore1;
+					LoseChaScore1 += value;
+					PactLose[ i ].LoseChaScore1Level = value;
 
-					node->getValueByName( value, "Stamina" );
-					value = 0 - value - LoseStamina;
-					LoseStamina += value;
-					PactLose[ i ].LoseStaminaLevel = value;
+					node->getValueByName( value, "ChaScore2" );
+					value = 0 - value - LoseChaScore2;
+					LoseChaScore2 += value;
+					PactLose[ i ].LoseChaScore2Level = value;
 
-					node->getValueByName( value, "Sap" );
-					value = 0 - value - LoseSap;
-					LoseSap += value;
-					PactLose[ i ].LoseSapLevel = value;
+					node->getValueByName( value, "ChaScore3" );
+					value = 0 - value - LoseChaScore3;
+					LoseChaScore3 += value;
+					PactLose[ i ].LoseChaScore3Level = value;
 
 					node->getValueByName( value, "Skills" );
 					value = 0 - value - LoseSkills;

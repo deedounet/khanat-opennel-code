@@ -415,22 +415,22 @@ void	CAIS::update()
 			_FaunaDescriptionList.Bots.clear();
 			_FaunaDescriptionList.GrpAlias.clear();
 		}
-		// send agglomerated hp changes
-		if (!_CreatureChangeHPList.Entities.empty())
+		// send agglomerated ChaScore1 changes
+		if (!_CreatureChangeChaScore1List.Entities.empty())
 		{
-			nlassert(_CreatureChangeHPList.Entities.size()==_CreatureChangeHPList.DeltaHp.size());
-			_CreatureChangeHPList.send("EGS");
-			_CreatureChangeHPList.Entities.clear();
-			_CreatureChangeHPList.DeltaHp.clear();
+			nlassert(_CreatureChangeChaScore1List.Entities.size()==_CreatureChangeChaScore1List.DeltaChaScore1.size());
+			_CreatureChangeChaScore1List.send("EGS");
+			_CreatureChangeChaScore1List.Entities.clear();
+			_CreatureChangeChaScore1List.DeltaChaScore1.clear();
 		}
-		if (!_CreatureChangeMaxHPList.Entities.empty())
+		if (!_CreatureChangeMaxChaScore1List.Entities.empty())
 		{
-			nlassert(_CreatureChangeMaxHPList.Entities.size()==_CreatureChangeMaxHPList.MaxHp.size());
-			nlassert(_CreatureChangeMaxHPList.Entities.size()==_CreatureChangeMaxHPList.SetFull.size());
-			_CreatureChangeMaxHPList.send("EGS");
-			_CreatureChangeMaxHPList.Entities.clear();
-			_CreatureChangeMaxHPList.MaxHp.clear();
-			_CreatureChangeMaxHPList.SetFull.clear();
+			nlassert(_CreatureChangeMaxChaScore1List.Entities.size()==_CreatureChangeMaxChaScore1List.MaxChaScore1.size());
+			nlassert(_CreatureChangeMaxChaScore1List.Entities.size()==_CreatureChangeMaxChaScore1List.SetFull.size());
+			_CreatureChangeMaxChaScore1List.send("EGS");
+			_CreatureChangeMaxChaScore1List.Entities.clear();
+			_CreatureChangeMaxChaScore1List.MaxChaScore1.clear();
+			_CreatureChangeMaxChaScore1List.SetFull.clear();
 		}
 	}
 

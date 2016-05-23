@@ -390,7 +390,7 @@ bool CPVPFactionRewardManager::startTotemBuilding( uint16 regionIndex, CCharacte
 	
 	_FactionsPossessions[ allegiance.first ].NbTotems++;
 	
-	// update HP for all totems & faction points
+	// update ChaScore1 for all totems & faction points
 	// &send message to clients
 	updateFactionPointPool( allegiance.first, -FactionPoolSizeToBuild );
 	
@@ -455,7 +455,7 @@ bool CPVPFactionRewardManager::destroyTotem( uint16 regionIndex, TDataSetRow kil
 	_FactionsPossessions[oldFaction].NbTotems--;
 	_UpdateLevel( oldFaction );
 	
-	// update HP for all totems
+	// update ChaScore1 for all totems
 	updateFactionPointPool( oldFaction, 0 );
 
 	_DataUpdated = true;
@@ -647,7 +647,7 @@ void CPVPFactionRewardManager::tickUpdate()
 				// the totem has finished building during last tick
 				_UpdateLevel( pTotem->getOwnerFaction() );
 
-				// update all totem HP
+				// update all totem ChaScore1
 				updateFactionPointPool( pTotem->getOwnerFaction(), 0 );
 
 				// spawn totem npc (guards)
@@ -718,7 +718,7 @@ void CPVPFactionRewardManager::updateFactionPointPool( PVP_CLAN::TPVPClan factio
 
 	if ( _FactionsPossessions[faction].NbTotems > 0 )
 	{
-		sint32 newTotemHp = _FactionsPossessions[faction].FactionPointsPool / _FactionsPossessions[faction].NbTotems;
+		sint32 newTotemChaScore1 = _FactionsPossessions[faction].FactionPointsPool / _FactionsPossessions[faction].NbTotems;
 
 		map<uint32, CTotemBase*>::iterator it = _TotemBasesPerRegion.begin();
 		while ( it != _TotemBasesPerRegion.end() )
@@ -727,7 +727,7 @@ void CPVPFactionRewardManager::updateFactionPointPool( PVP_CLAN::TPVPClan factio
 			if ( pTotem && ( pTotem->getOwnerFaction() == faction ) && ( pTotem->isBuildingFinished() == true ) )
 			{
 				if ( pTotem->getBotObject() )
-					pTotem->getBotObject()->getScores()._PhysicalScores[SCORES::hit_points].Max = newTotemHp;
+					pTotem->getBotObject()->getScores()._PhysicalScores[SCORES::cha_score1].Max = newTotemChaScore1;
 			}
 			it++;
 		}

@@ -328,12 +328,12 @@ struct CCreatureTakenDamage
 	}
 
 	/// apply regen, remove an equal part of damage on each registered entity
-	void applyRegenHP(sint32 regenHP)
+	void applyRegenChaScore1(sint32 regenChaScore1)
 	{
-		if (regenHP == 0 || (PlayerInflictedDamage.size() + CreatureInflictedDamage.size() == 0) )
+		if (regenChaScore1 == 0 || (PlayerInflictedDamage.size() + CreatureInflictedDamage.size() == 0) )
 			return;
 		
-		const float damageLoss = (float)regenHP / float(PlayerInflictedDamage.size() + CreatureInflictedDamage.size());
+		const float damageLoss = (float)regenChaScore1 / float(PlayerInflictedDamage.size() + CreatureInflictedDamage.size());
 
 		// remove damage for teams
 		for ( uint i = 0 ; i < PlayerInflictedDamage.size() ; ++i)
@@ -455,7 +455,7 @@ public:
 	/// remove a creature (so clear all references on it)
 	void removeCreature(TDataSetRow creature);
 	/// apply regen of a creature
-	void applyRegenHP(TDataSetRow creature, sint32 regenHP);
+	void applyRegenChaScore1(TDataSetRow creature, sint32 regenChaScore1);
 	///  attribute player inflicted damage to a fictious creature (when player enters water)
 	void transferDamageOnFictitiousCreature(TDataSetRow playerRowId, uint16 teamId);
 	///  attribute player inflicted damage on a specific creature to a fictious creature (to avoid exploits)

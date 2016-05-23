@@ -1444,14 +1444,14 @@ void cbClientTpAck( NLNET::CMessage& msgin, const std::string &serviceName, NLNE
 
 //		ch->_PropertyDatabase.setProp( "TARGET:BARS:UID", CLFECOMMON::INVALID_CLIENT_DATASET_INDEX );
 		CBankAccessor_PLR::getTARGET().getBARS().setUID(ch->_PropertyDatabase, CLFECOMMON::INVALID_CLIENT_DATASET_INDEX );
-//		ch->_PropertyDatabase.setProp( "TARGET:BARS:HP", 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setHP(ch->_PropertyDatabase, 0 );
-//		ch->_PropertyDatabase.setProp( "TARGET:BARS:SAP", 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setSAP(ch->_PropertyDatabase, 0 );
-//		ch->_PropertyDatabase.setProp( "TARGET:BARS:STA", 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setSTA(ch->_PropertyDatabase, 0 );
-//		ch->_PropertyDatabase.setProp( "TARGET:BARS:FOCUS", 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setFOCUS(ch->_PropertyDatabase, 0 );
+//		ch->_PropertyDatabase.setProp( "TARGET:BARS:ChaScore1", 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(ch->_PropertyDatabase, 0 );
+//		ch->_PropertyDatabase.setProp( "TARGET:BARS:ChaScore2", 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore2(ch->_PropertyDatabase, 0 );
+//		ch->_PropertyDatabase.setProp( "TARGET:BARS:ChaScore3", 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore3(ch->_PropertyDatabase, 0 );
+//		ch->_PropertyDatabase.setProp( "TARGET:BARS:ChaScore4", 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore4(ch->_PropertyDatabase, 0 );
 		ch->setTarget( CEntityId::Unknown );
 
 		// player still intangible for a few seconds

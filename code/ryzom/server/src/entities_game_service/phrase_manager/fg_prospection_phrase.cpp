@@ -233,9 +233,9 @@ bool CFgSearchPhrase::build( const TDataSetRow & actorRowId, const std::vector< 
 			TBrickParam::IId* param = (*ip);
 			switch ( param->id() )
 			{
-			case TBrickParam::FOCUS:
-				INFOLOG("FOCUS: %i",((CSBrickParamFocus *)param)->Focus);
-				_FocusCost += ((CSBrickParamFocus *)param)->Focus;
+			case TBrickParam::ChaScore4:
+				INFOLOG("ChaScore4: %i",((CSBrickParamChaScore4 *)param)->ChaScore4);
+				_ChaScore4Cost += ((CSBrickParamChaScore4 *)param)->ChaScore4;
 				break;
 			case TBrickParam::FG_RANGE:
 				INFOLOG("RANGE: %g",((CSBrickParamForageRange *)param)->Range);
@@ -316,13 +316,13 @@ bool CFgSearchPhrase::build( const TDataSetRow & actorRowId, const std::vector< 
 		//insertProgressingSkill( brick.Skill, brick.SheetId );
 	}
 
-	// Calculate actual focus cost
+	// Calculate actual ChaScore4 cost
 	CCharacter *player = (CCharacter*)CEntityBaseManager::getEntityBasePtr( _ActorRowId );
 	if ( ! player )
 	{
 		return false;
 	}
-	_FocusCost = (sint32)(((float)_FocusCost) * (1.0f + player->wearMalus()));
+	_ChaScore4Cost = (sint32)(((float)_ChaScore4Cost) * (1.0f + player->wearMalus()));
 
 	//egs_feinfo( "Forage phrase built" );
 	if ( ForageDebug.get() == 10 )
@@ -407,13 +407,13 @@ bool CFgSearchPhrase::validate()
 		return false;
 	}
 
-	// Check focus
-	if ( ! (_IsLocateDepositProspection && player->getProspectionLocateDepositEffect()) ) // a deposit tracking cancellation does not take focus
+	// Check ChaScore4
+	if ( ! (_IsLocateDepositProspection && player->getProspectionLocateDepositEffect()) ) // a deposit tracking cancellation does not take ChaScore4
 	{
-		const sint32 focus = player->getScores()._PhysicalScores[ SCORES::focus ].Current;
-		if ( focus < _FocusCost)
+		const sint32 ChaScore4 = player->getScores()._PhysicalScores[ SCORES::cha_score4 ].Current;
+		if ( ChaScore4 < _ChaScore4Cost)
 		{
-			PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "PHRASE_NOT_ENOUGH_FOCUS");
+			PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "PHRASE_NOT_ENOUGH_ChaScore4");
 			if ( ForageDebug.get() == 0 )
 				return false;
 		}
@@ -595,13 +595,13 @@ class CSEffectLocateDeposit : public CSEffect
 {
 public:
 	inline CSEffectLocateDeposit( const TDataSetRow & creatorRowId,
-		sint32 focusCost, // transmitted into effectValue
+		sint32 ChaScore4Cost, // transmitted into effectValue
 		uint8 power,
 		const NLMISC::CVector2f& locatedPoint )
-		: CSEffect ( creatorRowId, creatorRowId, EFFECT_FAMILIES::ForageLocateDeposit, false, focusCost, power ),
+		: CSEffect ( creatorRowId, creatorRowId, EFFECT_FAMILIES::ForageLocateDeposit, false, ChaScore4Cost, power ),
 		_LocatedPoint(locatedPoint)
 	{
-		//_MagicFxType = MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,true); /*TODO*/
+		//_MagicFxType = MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,true); /*TODO*/
 	}
 
 	/**
@@ -640,10 +640,10 @@ bool CSEffectLocateDeposit::update(CTimerEvent * event, bool )
 
 	if ( ForageDebug.get() == 0 )
 	{
-		// Spend energies, or stop effect if not enough focus
-		SCharacteristicsAndScores &focus = player->getScores()._PhysicalScores[SCORES::focus];
-		if ( focus.Current() >= _Value)
-			focus.Current = focus.Current - _Value;
+		// Spend energies, or stop effect if not enough ChaScore4
+		SCharacteristicsAndScores &ChaScore4 = player->getScores()._PhysicalScores[SCORES::cha_score4];
+		if ( ChaScore4.Current() >= _Value)
+			ChaScore4.Current = ChaScore4.Current - _Value;
 		else
 		{
 			endProspection();
@@ -699,14 +699,14 @@ void CFgProspectionPhrase::apply()
 		return;
 
 	// Spend energies
-	if ( ! (_IsLocateDepositProspection && player->getProspectionLocateDepositEffect()) ) // a deposit tracking cancellation does not spend focus
+	if ( ! (_IsLocateDepositProspection && player->getProspectionLocateDepositEffect()) ) // a deposit tracking cancellation does not spend ChaScore4
 	{
-		SCharacteristicsAndScores &focus = player->getScores()._PhysicalScores[SCORES::focus];
-		if ( focus.Current != 0)
+		SCharacteristicsAndScores &ChaScore4 = player->getScores()._PhysicalScores[SCORES::cha_score4];
+		if ( ChaScore4.Current != 0)
 		{
-			focus.Current = focus.Current - _FocusCost;
-			if (focus.Current < 0)
-				focus.Current = 0;
+			ChaScore4.Current = ChaScore4.Current - _ChaScore4Cost;
+			if (ChaScore4.Current < 0)
+				ChaScore4.Current = 0;
 		}
 	}
 
@@ -1026,12 +1026,12 @@ void CFgProspectionPhrase::startLocateDeposit( CCharacter *player )
 		// Start the effect
 		CVector2f locatedPoint( retainedLoc->NearestPos );
 		TReportAction report;
-		sint32 effectFocusCostByUpdate = _FocusCost / ForageFocusRatioOfLocateDeposit.get();
+		sint32 effectChaScore4CostByUpdate = _ChaScore4Cost / ForageChaScore4RatioOfLocateDeposit.get();
 		if ( _EcotypeSpec != ECOSYSTEM::common_ecosystem )
-			effectFocusCostByUpdate /= 2; // lower focus consumption with terrain specialization
+			effectChaScore4CostByUpdate /= 2; // lower ChaScore4 consumption with terrain specialization
 		CSEffectLocateDeposit *effect = new CSEffectLocateDeposit(
 			player->getEntityRowId(),
-			effectFocusCostByUpdate, 1 /*not used: power*/, locatedPoint );
+			effectChaScore4CostByUpdate, 1 /*not used: power*/, locatedPoint );
 		player->addSabrinaEffect( effect ); // the linked entity
 		player->setProspectionLocateDepositEffect( effect );
 	}
@@ -1884,13 +1884,13 @@ void CDepositMapsBatchTask::run()
 	if ( ! CFile::isExists( pathName ) )
 		CFile::createDirectory( pathName );
 	pathName += "/";
-	FILE *outputF = nlfopen(pathName + "deposit_maps.html", "w");
+	FILE *outputF = fopen( (pathName + "deposit_maps.html").c_str(), "w" );
 	if ( ! outputF )
 	{
 		nlwarning( "Can't create file %sdeposit_maps.html", pathName.c_str() );
 		return;
 	}
-	FILE *inputF = nlfopen(_InputFilename, "r");
+	FILE *inputF = fopen( _InputFilename.c_str(), "r" );
 	if ( ! inputF )
 	{
 		fprintf( outputF, "File %s not found", _InputFilename.c_str() );

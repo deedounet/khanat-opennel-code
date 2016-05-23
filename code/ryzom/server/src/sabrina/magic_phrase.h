@@ -45,7 +45,7 @@ public:
 
 	/// ctor
 	inline CMagicPhrase() 
-		:CSPhrase(),_SabrinaCost(0),_SabrinaCredit(0),_SapCost(0),_HPCost(0),_RangeIndex(0),
+		:CSPhrase(),_SabrinaCost(0),_SabrinaCredit(0),_ChaScore3Cost(0),_ChaScore1Cost(0),_RangeIndex(0),
 		_CastingTime(0),_Targets(1),_Nature(ACTNATURE::UNKNOWN),_Range( 0 ), _BreakResist(0),_ArmorCompensation(0) {}
 
 	/// dtor
@@ -55,8 +55,8 @@ public:
 	//@{
 	inline uint16	getSabrinaCost()							{ return _SabrinaCost;		}
 	inline uint		getNbActions()								{ return _Actions.size();	}
-	inline sint32	getSapCost()								{ return _SapCost;			}
-	inline sint32	getHPCost()									{ return _HPCost;			}
+	inline sint32	getChaScore3Cost()								{ return _ChaScore3Cost;			}
+	inline sint32	getChaScore1Cost()									{ return _ChaScore1Cost;			}
 	inline const	std::vector<TDataSetRow> & getTargets()		{ return _Targets;			}
 	inline const	TDataSetRow & getActor()					{ return _ActorRowId;		}
 	inline sint32	getBreakResist()							{ return _BreakResist;		}
@@ -108,10 +108,10 @@ private:
 	uint16						_SabrinaCost;
 	/// total credit (sabrina system)
 	uint16						_SabrinaCredit;
-	/// sap cost of the attack
-	uint16						_SapCost;
-	/// hp cost
-	uint16						_HPCost;
+	/// ChaScore3 cost of the attack
+	uint16						_ChaScore3Cost;
+	/// ChaScore1 cost
+	uint16						_ChaScore1Cost;
 	/// casting time in ticks
 	NLMISC::TGameCycle			_CastingTime;
 	/// range index of the spell

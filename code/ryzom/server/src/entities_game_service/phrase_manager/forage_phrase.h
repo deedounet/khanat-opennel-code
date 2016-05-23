@@ -92,8 +92,8 @@ protected: // because CForagePhrase is a common trunc
 	/// Forage time in ticks (set by build)
 	NLMISC::TGameCycle			_ForageTime;
 
-	/// Focus cost of the forage action (set by build())
-	sint32						_FocusCost;
+	/// ChaScore4 cost of the forage action (set by build())
+	sint32						_ChaScore4Cost;
 };
 
 

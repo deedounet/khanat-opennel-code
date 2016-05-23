@@ -64,12 +64,12 @@ bool CSLinkEffectHot::update(CTimerEvent * event, bool applyEffect)
 		return true;
 	}
 	
-	applyOnScore( caster, target,SCORES::hit_points, _HealHp );
-	_Report.Hp = _HealHp;
-	applyOnScore( caster, target,SCORES::sap, _HealSap );
-	_Report.Sap = _HealSap;
-	applyOnScore( caster, target,SCORES::stamina, _HealSta );
-	_Report.Sta = _HealSta;
+	applyOnScore( caster, target,SCORES::cha_score1, _HealChaScore1 );
+	_Report.ChaScore1 = _HealChaScore1;
+	applyOnScore( caster, target,SCORES::cha_score2, _HealChaScore2 );
+	_Report.ChaScore2 = _HealChaScore2;
+	applyOnScore( caster, target,SCORES::cha_score3, _HealChaScore3 );
+	_Report.ChaScore3 = _HealChaScore3;
 	PROGRESSIONPVE::CCharacterProgressionPVE::getInstance()->actionReport( _Report );
 	PROGRESSIONPVP::CCharacterProgressionPVP::getInstance()->reportAction(_Report);
 

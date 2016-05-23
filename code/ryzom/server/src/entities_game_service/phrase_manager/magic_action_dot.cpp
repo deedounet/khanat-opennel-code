@@ -40,7 +40,7 @@ class CMagicActionDot : public IMagicAction
 {
 public:
 	CMagicActionDot()
-		:_DmgHp(0),_DmgSap(0),_DmgSta(0),_DmgType(DMGTYPE::UNDEFINED),_CostPerUpdate(0),_Power(0),_Vampirise(0),_VampiriseRatio(1) {}
+		:_DmgChaScore1(0),_DmgChaScore3(0),_DmgChaScore2(0),_DmgType(DMGTYPE::UNDEFINED),_CostPerUpdate(0),_Power(0),_Vampirise(0),_VampiriseRatio(1) {}
 
 
 	/// build from an ai action
@@ -54,14 +54,14 @@ public:
 		
 		switch(aiAction->getData().LinkSpell.AffectedScore)
 		{
-		case SCORES::sap:
-			_DmgSap = sint32(aiAction->getData().LinkSpell.SpellParamValue);
+		case SCORES::cha_score3:
+			_DmgChaScore3 = sint32(aiAction->getData().LinkSpell.SpellParamValue);
 			break;
-		case SCORES::stamina:
-			_DmgSta = sint32(aiAction->getData().LinkSpell.SpellParamValue);
+		case SCORES::cha_score2:
+			_DmgChaScore2 = sint32(aiAction->getData().LinkSpell.SpellParamValue);
 			break;
-		case SCORES::hit_points:
-			_DmgHp = sint32(aiAction->getData().LinkSpell.SpellParamValue);
+		case SCORES::cha_score1:
+			_DmgChaScore1 = sint32(aiAction->getData().LinkSpell.SpellParamValue);
 			break;
 		default:
 			return false;
@@ -69,7 +69,7 @@ public:
 
 		_DmgType = aiAction->getData().LinkSpell.DamageType;
 		
-		_CostPerUpdate = max(aiAction->getData().LinkSpell.SapCostRate, aiAction->getData().LinkSpell.HpCostRate);
+		_CostPerUpdate = max(aiAction->getData().LinkSpell.ChaScore3CostRate, aiAction->getData().LinkSpell.ChaScore1CostRate);
 		_Power = (uint8) fabs(aiAction->getData().LinkSpell.SpellParamValue);
 
 		phrase->setMagicFxType( MAGICFX::toMagicFx( _DmgType ,true), 1 );
@@ -116,10 +116,10 @@ protected:
 				break;
 
 			case TBrickParam::MA_DMG:
-				INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)param)->Hp,((CSBrickParamMagicDmg *)param)->Sap,((CSBrickParamMagicDmg *)param)->Sta);
-				_DmgHp = ((CSBrickParamMagicDmg *)param)->Hp;
-				_DmgSap = ((CSBrickParamMagicDmg *)param)->Sap;
-				_DmgSta = ((CSBrickParamMagicDmg *)param)->Sta;
+				INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)param)->ChaScore1,((CSBrickParamMagicDmg *)param)->ChaScore3,((CSBrickParamMagicDmg *)param)->ChaScore2);
+				_DmgChaScore1 = ((CSBrickParamMagicDmg *)param)->ChaScore1;
+				_DmgChaScore3 = ((CSBrickParamMagicDmg *)param)->ChaScore3;
+				_DmgChaScore2 = ((CSBrickParamMagicDmg *)param)->ChaScore2;
 				break;
 
 			case TBrickParam::MA_LINK_COST:
@@ -395,7 +395,7 @@ protected:
 				{
 					c->sendDynamicSystemMessage(c->getId(), "UNEFFICENT_RANGE");
 					sendAggro = false;
-					behav.DeltaHP = 0;
+					behav.DeltaChaScore1 = 0;
 				}
 				else
 				{
@@ -406,15 +406,15 @@ protected:
 						phrase->getActor(),
 						_ApplyTargets[i].RowId,
 						_CostPerUpdate,
-						SCORES::sap,
+						SCORES::cha_score3,
 						_Skill,
 						phrase->getSpellRange(),
 						_DmgType,
 						_Power,
 						reportAction,
-						sint32(_DmgHp * factor),
-						sint32(_DmgSap * factor),
-						sint32(_DmgSta * factor),
+						sint32(_DmgChaScore1 * factor),
+						sint32(_DmgChaScore3 * factor),
+						sint32(_DmgChaScore2 * factor),
 						_Vampirise,
 						_VampiriseRatio);
 					
@@ -467,9 +467,9 @@ protected:
 	}
 
 	DMGTYPE::EDamageType		_DmgType;
-	sint32						_DmgHp;
-	sint32						_DmgSap;
-	sint32						_DmgSta;
+	sint32						_DmgChaScore1;
+	sint32						_DmgChaScore3;
+	sint32						_DmgChaScore2;
 	sint32						_CostPerUpdate;
 	uint8						_Power;
 	sint32						_Vampirise;

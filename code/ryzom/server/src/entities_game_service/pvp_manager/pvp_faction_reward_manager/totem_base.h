@@ -149,14 +149,14 @@ private :
 
 	// these information must be kept or they will be lost
 	// while changing the bot object sheetId
-	/// HP Gained during building
-	float	_BuildHpGain;
+	/// ChaScore1 Gained during building
+	float	_BuildChaScore1Gain;
 	
-	/// Max HP for Totem
-	float	_TotemMaxHP;
+	/// Max ChaScore1 for Totem
+	float	_TotemMaxChaScore1;
 
-	/// Current HP for Totem
-	float	_TotemCurrentHP;
+	/// Current ChaScore1 for Totem
+	float	_TotemCurrentChaScore1;
 
 	/// Builder of totem
 	TDataSetRow  _Builder;

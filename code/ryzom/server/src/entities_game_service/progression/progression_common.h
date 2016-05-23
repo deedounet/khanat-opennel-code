@@ -41,10 +41,10 @@ struct TReportAction
 	SKILLS::ESkills				Skill;			// Skill used by actor (useful only if PJ is actor), if unknown no xp will be gained
 	uint16						SkillLevel;		// if not zero, use this value as the skill level instead of the real player skill level (needed for the enchantment special case)
 	float						factor;			// for gain a part of xp due to a partial success action performed [ 0... 1.2 (for critical) ]
-	uint32						Hp;				// > 0 due to attack suffer (PNJ attack) or adding by curative action
-	uint32						Sta;			// > 0 reduce due to attack suffer (PNJ attack) or adding by curative action
-	uint32						Sap;			// > 0 reduce due to attack suffer (PNJ attack) or adding by curative action
-	uint32						Focus;			// > 0 reduce due to attack suffer (PNJ attack) or adding by curative action
+	uint32						ChaScore1;				// > 0 due to attack suffer (PNJ attack) or adding by curative action
+	uint32						ChaScore2;			// > 0 reduce due to attack suffer (PNJ attack) or adding by curative action
+	uint32						ChaScore3;			// > 0 reduce due to attack suffer (PNJ attack) or adding by curative action
+	uint32						ChaScore4;			// > 0 reduce due to attack suffer (PNJ attack) or adding by curative action
 	
 	TReportAction()
 	{
@@ -55,10 +55,10 @@ struct TReportAction
 		Skill = SKILLS::unknown;
 		SkillLevel = 0;
 		factor = 1.0f;
-		Hp = 0;
-		Sta = 0;
-		Sap = 0;
-		Focus = 0;
+		ChaScore1 = 0;
+		ChaScore2 = 0;
+		ChaScore3 = 0;
+		ChaScore4 = 0;
 	}
 };
 

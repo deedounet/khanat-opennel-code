@@ -54,10 +54,10 @@ bool CCombatBleedEffect::update( uint32 & updateFlag )
 	{
 		_NextCycleDate = time + _CycleLength;
 		
-		// remove hp
+		// remove ChaScore1
 		if (_BleedingEntity)
 		{
-			_BleedingEntity->changeCurrentHp( (-1) * _CycleDamage, _CreatorRowId);
+			_BleedingEntity->changeCurrentChaScore1( (-1) * _CycleDamage, _CreatorRowId);
 
 			// send messages
 			// to target
@@ -65,7 +65,7 @@ bool CCombatBleedEffect::update( uint32 & updateFlag )
 			{
 				SM_STATIC_PARAMS_1(params, STRING_MANAGER::integer)
 				params[0].Int = _CycleDamage;
-				PHRASE_UTILITIES::sendDynamicSystemMessage( _BleedingEntity->getEntityRowId(), "EFFECT_BLEED_LOSE_HP", params);
+				PHRASE_UTILITIES::sendDynamicSystemMessage( _BleedingEntity->getEntityRowId(), "EFFECT_BLEED_LOSE_ChaScore1", params);
 			}
 			// to actor
 			if ( _CreatorRowId != _TargetRowId && TheDataset.isAccessible(_CreatorRowId))
@@ -76,7 +76,7 @@ bool CCombatBleedEffect::update( uint32 & updateFlag )
 					SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer)
 					params[0].EId = _BleedingEntity->getId();
 					params[1].Int = _CycleDamage;
-					PHRASE_UTILITIES::sendDynamicSystemMessage( actor->getEntityRowId(), "EFFECT_BLEED_LOSE_HP_ACTOR", params);
+					PHRASE_UTILITIES::sendDynamicSystemMessage( actor->getEntityRowId(), "EFFECT_BLEED_LOSE_ChaScore1_ACTOR", params);
 				}
 			}
 		}

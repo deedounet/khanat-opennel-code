@@ -51,7 +51,7 @@ SKILLS::ESkills EcoTypeToUsedSkill [ECOSYSTEM::NUM_ECOSYSTEM+1] =
 CForagePhrase::CForagePhrase() : CSPhrase()
 {
 	// Set initial values
-	_FocusCost = 0;
+	_ChaScore4Cost = 0;
 	//_SabrinaImbalance = 0;
 }
 

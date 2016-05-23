@@ -70,18 +70,18 @@ bool CSLinkEffectDot::update(CTimerEvent * event, bool applyEffect)
 	}
 	float mult = _ResistFactor;
 		
-	sint32 realDmg = sint32( _DmgHp * mult );
+	sint32 realDmg = sint32( _DmgChaScore1 * mult );
 	realDmg = target->applyDamageOnArmor( _DmgType, realDmg );
 
 	if ( caster != NULL && _Vampirise && caster->getId().getType() == RYZOMID::player)
 	{
-		SCharacteristicsAndScores &scoreHp = target->getScores()._PhysicalScores[SCORES::hit_points];
+		SCharacteristicsAndScores &scoreChaScore1 = target->getScores()._PhysicalScores[SCORES::cha_score1];
 		sint32 vampirise = (sint32)(realDmg * _VampiriseRatio);
-		if ( realDmg > scoreHp.Current )
-			vampirise = scoreHp.Current;
+		if ( realDmg > scoreChaScore1.Current )
+			vampirise = scoreChaScore1.Current;
 		if ( vampirise > _Vampirise )
 			vampirise = _Vampirise;
-		caster->changeCurrentHp( vampirise, caster->getEntityRowId() );
+		caster->changeCurrentChaScore1( vampirise, caster->getEntityRowId() );
 		SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);
 		params[0].setEIdAIAlias( target->getId(), CAIAliasTranslator::getInstance()->getAIAlias(target->getId()) );
 		params[1].Int = vampirise;
@@ -96,83 +96,83 @@ bool CSLinkEffectDot::update(CTimerEvent * event, bool applyEffect)
 	
 	
 	// compute aggro
-	sint32 max = target->getPhysScores()._PhysicalScores[SCORES::hit_points].Max;		
+	sint32 max = target->getPhysScores()._PhysicalScores[SCORES::cha_score1].Max;		
 	if (max)
 	{
 		float aggro = (-1) * float(realDmg)/float(max);
 		if (aggro < -1 ) aggro = -1.0f;
 		report.AggroAdd = (float)aggro;
-		report.addDelta(AI_EVENT_REPORT::HitPoints, (-1)*realDmg);
+		report.addDelta(AI_EVENT_REPORT::ChaScore1, (-1)*realDmg);
 		CPhraseManager::getInstance().addAiEventReport(report);
 	}
 	
-	// sap
-	sint32 realDmgSap = 0;
+	// ChaScore3
+	sint32 realDmgChaScore3 = 0;
 	{
-		SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::sap];
-		realDmgSap = sint32( _DmgSap * mult );
-		realDmgSap = target->applyDamageOnArmor( _DmgType, realDmgSap );
-		if ( realDmgSap != 0)
+		SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score3];
+		realDmgChaScore3 = sint32( _DmgChaScore3 * mult );
+		realDmgChaScore3 = target->applyDamageOnArmor( _DmgType, realDmgChaScore3 );
+		if ( realDmgChaScore3 != 0)
 		{
-			score.Current = score.Current - realDmgSap;
+			score.Current = score.Current - realDmgChaScore3;
 			if ( score.Current <= 0)
 				score.Current = 0;
-			PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmgSap , -sint32( _DmgSap * mult ), SCORES::sap , ACTNATURE::OFFENSIVE_MAGIC);
-			_Report.Sap = realDmgSap;
+			PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmgChaScore3 , -sint32( _DmgChaScore3 * mult ), SCORES::cha_score3 , ACTNATURE::OFFENSIVE_MAGIC);
+			_Report.ChaScore3 = realDmgChaScore3;
 			
 			// aggro
-			max = target->getPhysScores()._PhysicalScores[SCORES::sap].Max;		
+			max = target->getPhysScores()._PhysicalScores[SCORES::cha_score3].Max;		
 			if (max)
 			{
-				float aggro = (-1) * float(realDmgSap)/float(max);
+				float aggro = (-1) * float(realDmgChaScore3)/float(max);
 				if (aggro < -1 ) aggro = -1.0f;
 				report.AggroAdd = (float)aggro;
-				report.addDelta(AI_EVENT_REPORT::Sap, -realDmgSap);
+				report.addDelta(AI_EVENT_REPORT::ChaScore3, -realDmgChaScore3);
 				CPhraseManager::getInstance().addAiEventReport(report);
 			}
 		}
 	}
 	
-	// stamina
-	sint32 realDmgSta = 0;
+	// ChaScore2
+	sint32 realDmgChaScore2 = 0;
 	{
-		SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::stamina];
-		realDmgSta = sint32( _DmgSta * mult );
-		realDmgSta = target->applyDamageOnArmor( _DmgType, realDmgSta );
-		if (realDmgSta != 0)
+		SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score2];
+		realDmgChaScore2 = sint32( _DmgChaScore2 * mult );
+		realDmgChaScore2 = target->applyDamageOnArmor( _DmgType, realDmgChaScore2 );
+		if (realDmgChaScore2 != 0)
 		{
-			score.Current = score.Current - realDmgSta;
+			score.Current = score.Current - realDmgChaScore2;
 			if ( score.Current <= 0)
 				score.Current = 0;
-			PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmgSta, -sint32( _DmgSta * mult ), SCORES::stamina , ACTNATURE::OFFENSIVE_MAGIC);
-			_Report.Sta = realDmgSta;
+			PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmgChaScore2, -sint32( _DmgChaScore2 * mult ), SCORES::cha_score2 , ACTNATURE::OFFENSIVE_MAGIC);
+			_Report.ChaScore2 = realDmgChaScore2;
 			
 			// aggro
-			max = target->getPhysScores()._PhysicalScores[SCORES::stamina].Max;		
+			max = target->getPhysScores()._PhysicalScores[SCORES::cha_score2].Max;		
 			if (max)
 			{
-				float aggro = (-1) * float(realDmgSta)/float(max);
+				float aggro = (-1) * float(realDmgChaScore2)/float(max);
 				if (aggro < -1 ) aggro = -1.0f;
 				report.AggroAdd = (float)aggro;
-				report.addDelta(AI_EVENT_REPORT::Stamina, (-1)*realDmgSta);
+				report.addDelta(AI_EVENT_REPORT::ChaScore2, (-1)*realDmgChaScore2);
 				CPhraseManager::getInstance().addAiEventReport(report);
 			}
 		}
 	}
 	
-	_Report.Hp = realDmg;
+	_Report.ChaScore1 = realDmg;
 	PROGRESSIONPVE::CCharacterProgressionPVE::getInstance()->actionReport( _Report );
 	PROGRESSIONPVP::CCharacterProgressionPVP::getInstance()->reportAction(_Report);
 	
-	if ( target->changeCurrentHp( - realDmg, caster->getEntityRowId() ) )
+	if ( target->changeCurrentChaScore1( - realDmg, caster->getEntityRowId() ) )
 	{
-		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmg, -sint32( _DmgHp * mult ), SCORES::hit_points , ACTNATURE::OFFENSIVE_MAGIC);
+		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmg, -sint32( _DmgChaScore1 * mult ), SCORES::cha_score1 , ACTNATURE::OFFENSIVE_MAGIC);
 		PHRASE_UTILITIES::sendDeathMessages( caster->getId(), target->getId() );
 		
 	}
 	else
 	{
-		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmg, -sint32( _DmgHp * mult ), SCORES::hit_points , ACTNATURE::OFFENSIVE_MAGIC);
+		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster->getId(), target->getId(), -realDmg, -sint32( _DmgChaScore1 * mult ), SCORES::cha_score1 , ACTNATURE::OFFENSIVE_MAGIC);
 	}
 
 	return false;

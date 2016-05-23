@@ -92,7 +92,7 @@ void CSpecialPowerEnchantWeapon::apply()
 	TGameCycle const endDate = _Duration + CTickEventHandler::getGameCycle();
 	float damageBonus = _DpsBonus * 10.f / item->hitRate();
 	
-	CEnchantWeaponEffect* effect = new CEnchantWeaponEffect(_ActorRowId, _ActorRowId, _EffectFamily, _ParamValue, endDate, _DamageType, SCORES::hit_points, damageBonus, DMGTYPE::UNDEFINED);
+	CEnchantWeaponEffect* effect = new CEnchantWeaponEffect(_ActorRowId, _ActorRowId, _EffectFamily, _ParamValue, endDate, _DamageType, SCORES::cha_score1, damageBonus, DMGTYPE::UNDEFINED);
 	if (effect)
 	{
 		effect->endsAtCasterDeath(true);

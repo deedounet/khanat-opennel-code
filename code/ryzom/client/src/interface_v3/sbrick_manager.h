@@ -128,11 +128,11 @@ public:
 	// get a prop Id from its name.
 	uint			getBrickPropId(const std::string &name);
 	// Important Ids for properties (to compute cost, range etc...).
-	uint			HpPropId;
-	uint			SapPropId;
-	uint			StaPropId;
-	uint			StaWeightFactorId;
-	uint			FocusPropId;
+	uint			ChaScore1PropId;
+	uint			ChaScore3PropId;
+	uint			ChaScore2PropId;
+	uint			ChaScore2WeightFactorId;
+	uint			ChaScore4PropId;
 	uint			CastTimePropId;
 	uint			RangePropId;
 	// @}

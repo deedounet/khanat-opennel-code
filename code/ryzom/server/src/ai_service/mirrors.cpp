@@ -52,8 +52,8 @@ uint32				*IsolatedSheetServer = NULL;
 TDataSetRow			*IsolatedTarget = NULL;	//	sint32
 uint32				*IsolatedMode = NULL; // only mode enum
 uint32				*IsolatedBehaviour = NULL;
-uint32				*IsolatedCurrentHitPoints = NULL;
-uint32				*IsolatedMaxHitPoints = NULL;
+uint32				*IsolatedCurrentChaScore1 = NULL;
+uint32				*IsolatedMaxChaScore1 = NULL;
 uint32				*IsolatedBestRoleLevel = NULL;
 uint8				*IsolatedCombatState = NULL;
 
@@ -122,10 +122,10 @@ void CMirrors::initMirror()
 	DataSet->declareProperty( "Mode", PSOReadWrite | PSONotifyChanges );
 	DataSet->declareProperty( "Behaviour", PSOReadWrite | PSONotifyChanges );
 	DataSet->declareProperty( "Target", PSOReadWrite | PSONotifyChanges );
-	DataSet->declareProperty( "CurrentHitPoints", PSOReadOnly );
+	DataSet->declareProperty( "CurrentChaScore1", PSOReadOnly );
 	DataSet->declareProperty( "CurrentRunSpeed", PSOReadOnly );
 	DataSet->declareProperty( "CurrentWalkSpeed", PSOReadOnly );
-	DataSet->declareProperty( "MaxHitPoints", PSOReadOnly );
+	DataSet->declareProperty( "MaxChaScore1", PSOReadOnly );
 	DataSet->declareProperty( "BestRoleLevel", PSOReadOnly );
 	DataSet->declareProperty( "CombatState", PSOReadOnly );
 	DataSet->declareProperty( "TeamId", PSOReadOnly | PSONotifyChanges );

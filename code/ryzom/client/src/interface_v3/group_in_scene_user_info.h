@@ -63,10 +63,10 @@ protected:
 	enum TBar
 	{
 		// Living entity	Forage source
-		HP = 0,				Time = HP,		// If making changes to this enum, please update
-		SAP,				Amount = SAP,	// CForageSourceCL::updateVisualPropertyBars() and
-		STA,				Life = STA,		// updateVisiblePostPos() because the HP/SAP/STA
-		Focus,				Danger = Focus, // properties are *not* in an array in CEntityCL.
+		ChaScore1 = 0,				Time = ChaScore1,		// If making changes to this enum, please update
+		ChaScore3,				Amount = ChaScore3,	// CForageSourceCL::updateVisualPropertyBars() and
+		ChaScore2,				Life = ChaScore2,		// updateVisiblePostPos() because the ChaScore1/ChaScore3/ChaScore2
+		ChaScore4,				Danger = ChaScore4, // properties are *not* in an array in CEntityCL.
 		Action,				Spawn = Action,
 		NumBars
 	};
@@ -90,7 +90,7 @@ protected:
 	class CViewBitmap *_MissionTarget;
 	static uint	_BatLength;
 	static NLMISC::CRGBA BarColor[NumBars];
-	static NLMISC::CRGBA BarColorHPNegative;
+	static NLMISC::CRGBA BarColorChaScore1Negative;
 
 	// Node user leaf
 	static NLMISC::CCDBNodeLeaf	*_Value;

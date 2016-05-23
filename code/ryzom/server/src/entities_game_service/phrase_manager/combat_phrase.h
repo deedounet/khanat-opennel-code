@@ -405,7 +405,7 @@ protected:
 	/**
 	 * apply special effect due to localisation of the hit
 	 */
-	void applyLocalisationSpecialEffect( CCombatDefenderPtr &defender, SLOT_EQUIPMENT::TSlotEquipment slot, sint32 damage, sint32 &lostStamina);
+	void applyLocalisationSpecialEffect( CCombatDefenderPtr &defender, SLOT_EQUIPMENT::TSlotEquipment slot, sint32 damage, sint32 &lostChaScore2);
 
 	/**
 	 * apply defender armor damage reduction
@@ -431,7 +431,7 @@ protected:
 	void applyBounceEffect(CEntityBase *actingEntity, sint32 attackerLevel, CSEffectPtr effect, sint32 damage, DMGTYPE::EDamageType dmgType);
 
 	/// compute and send aggro
-	void computeAggro(CAiEventReport &aiEventReport, CEntityBase *target, sint32 hpDamage, sint32 staDamage = 0, sint32 sapDamage = 0);
+	void computeAggro(CAiEventReport &aiEventReport, CEntityBase *target, sint32 ChaScore1Damage, sint32 ChaScore2Damage = 0, sint32 ChaScore3Damage = 0);
 
 	/// compute base damage
 	void computeBaseDamage(bool rightHand, EGSPD::CPeople::TPeople targetRace);
@@ -477,14 +477,14 @@ protected:
 	// Relative credit must be added to total credit
 	float					_SabrinaRelativeCredit;
 
-	/// stamina cost of the attack
-	sint32					_StaminaCost;
+	/// ChaScore2 cost of the attack
+	sint32					_ChaScore2Cost;
 
-	/// Stamina weapon weight cost factor
-	float					_StaminaWeightFactorCost;
+	/// ChaScore2 weapon weight cost factor
+	float					_ChaScore2WeightFactorCost;
 
-	// hp cost
-	sint32					_HPCost;
+	// ChaScore1 cost
+	sint32					_ChaScore1Cost;
 
 	/// execution length modifier (in ticks)
 	sint32					_ExecutionLengthModifier;
@@ -527,10 +527,10 @@ protected:
 	/// special hit, set to true to use special fx
 	bool					_SpecialHit;
 
-	/// stamina loss factor
-	CDynValue<float,1>		_StaminaLossDynFactor;
-	/// sap loss factor
-	CDynValue<float,1>		_SapLossDynFactor;
+	/// ChaScore2 loss factor
+	CDynValue<float,1>		_ChaScore2LossDynFactor;
+	/// ChaScore3 loss factor
+	CDynValue<float,1>		_ChaScore3LossDynFactor;
 
 	/// opening needed
 	std::vector<BRICK_FLAGS::TBrickFlag> _OpeningNeededFlags;
@@ -589,8 +589,8 @@ protected:
 	/// \name flags indicated if an error message has been sent already (when in idle mode)
 	//@{
 	bool					_TargetTooFarMsg;
-	bool					_NotEnoughHpMsg;
-	bool					_NotEnoughStaminaMsg;
+	bool					_NotEnoughChaScore1Msg;
+	bool					_NotEnoughChaScore2Msg;
 	bool					_NoAmmoMsg;
 	bool					_BadOrientationMsg;
 	//}@
@@ -598,10 +598,10 @@ protected:
 	bool					_CurrentTargetIsValid;
 	/// melee or range combat
 	bool					_MeleeCombat;
-	/// total stamina cost
-	sint32					_TotalStaminaCost;
-	/// total hp cost
-	sint32					_TotalHPCost;
+	/// total ChaScore2 cost
+	sint32					_TotalChaScore2Cost;
+	/// total ChaScore1 cost
+	sint32					_TotalChaScore1Cost;
 	/// the total sabrina cost
 	sint32					_TotalSabrinaCost;
 	/// right weapon sabrina value

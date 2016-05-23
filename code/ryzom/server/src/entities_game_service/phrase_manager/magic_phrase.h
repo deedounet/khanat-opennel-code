@@ -60,9 +60,9 @@ public:
 	, _SabrinaRelativeCost(1.f)
 	, _SabrinaCredit(0)
 	, _SabrinaRelativeCredit(1.f)
-	, _SapCost(0)
+	, _ChaScore3Cost(0)
 	, _BrickMaxSabrinaCost(0)
-	, _HPCost(0)
+	, _ChaScore1Cost(0)
 	, _RangeIndex(0)
 	, _CastingTime(0)
 	, _BaseCastingTime(0)
@@ -111,8 +111,8 @@ public:
 	//@{
 	inline uint16	getSabrinaCost() const							{ return (uint16)(_SabrinaCost * _SabrinaRelativeCost);	}
 	inline uint		getNbActions() const							{ return (uint)_Actions.size();	}
-	inline sint32	getSapCost() const								{ return _SapCost;			}
-	inline sint32	getHPCost() const								{ return _HPCost;			}
+	inline sint32	getChaScore3Cost() const								{ return _ChaScore3Cost;			}
+	inline sint32	getChaScore1Cost() const								{ return _ChaScore1Cost;			}
 	inline ACTNATURE::TActionNature getNature()	const				{ return _Nature;			}
 
 	inline const	std::vector<CSpellTarget> & getTargets() const	{ return _Targets;			}
@@ -246,10 +246,10 @@ private:
 	uint16						_SabrinaCredit;
 	/// total relative credit (sabrina system), must be added to total credit
 	float						_SabrinaRelativeCredit;
-	/// sap cost of the attack
-	uint16						_SapCost;
-	/// hp cost
-	uint16						_HPCost;
+	/// ChaScore3 cost of the attack
+	uint16						_ChaScore3Cost;
+	/// ChaScore1 cost
+	uint16						_ChaScore1Cost;
 	/// casting time in ticks
 	NLMISC::TGameCycle			_CastingTime;
 	/// casting time in ticks without time credits

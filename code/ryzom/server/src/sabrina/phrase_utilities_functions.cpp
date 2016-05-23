@@ -1041,18 +1041,18 @@ void sendDeathMessages( const NLMISC::CEntityId &killerId, const NLMISC::CEntity
 //--------------------------------------------------------------
 //					sendHitMessages()  
 //--------------------------------------------------------------
-void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, sint32 amount, sint32 lostStamina, sint32 lostSap)
+void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, sint32 amount, sint32 lostChaScore2, sint32 lostChaScore3)
 {
 	// at least the victim or the agressor must be a player, otherwise do not send any messages
 	if ( (aggressorId.getType() != RYZOMID::player) && ( victimId.getType() != RYZOMID::player ))
 		return;
 
-	if ( !amount && !lostStamina && !lostSap)
+	if ( !amount && !lostChaScore2 && !lostChaScore3)
 		return;
 
 	amount = abs(amount);
-	lostStamina = abs(lostStamina);
-	lostSap = abs(lostSap);
+	lostChaScore2 = abs(lostChaScore2);
+	lostChaScore3 = abs(lostChaScore3);
 
 	string msgName;
 
@@ -1073,29 +1073,29 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, s
 		sendMessageViaMirror ("IOS", msgAggressor);
 		INFOLOG("<sendHitMessages>send BS_YOU_HIT_EI with param e=%s and i=%i for entity %s",victimId.toString().c_str(), amount, aggressorId.toString().c_str());
 
-		// lost stamina
-		if (lostStamina>0)
+		// lost ChaScore2
+		if (lostChaScore2>0)
 		{
-			msgName = "EGS_LOSE_STA_EI";
-			CMessage msgSta("STATIC_STRING");
-			msgSta.serial( const_cast<CEntityId&> (aggressorId) );
-			msgSta.serialCont( excluded );
-			msgSta.serial( msgName );
-			msgSta.serial( const_cast<CEntityId&> (victimId) );
-			msgSta.serial( lostStamina );
-			sendMessageViaMirror ("IOS", msgSta);
+			msgName = "EGS_LOSE_ChaScore2_EI";
+			CMessage msgChaScore2("STATIC_STRING");
+			msgChaScore2.serial( const_cast<CEntityId&> (aggressorId) );
+			msgChaScore2.serialCont( excluded );
+			msgChaScore2.serial( msgName );
+			msgChaScore2.serial( const_cast<CEntityId&> (victimId) );
+			msgChaScore2.serial( lostChaScore2 );
+			sendMessageViaMirror ("IOS", msgChaScore2);
 		}
-		// lost sap
-		if (lostSap>0)
+		// lost ChaScore3
+		if (lostChaScore3>0)
 		{
-			msgName = "EGS_LOSE_SAP_EI";
-			CMessage msgSap("STATIC_STRING");
-			msgSap.serial( const_cast<CEntityId&> (aggressorId) );
-			msgSap.serialCont( excluded );
-			msgSap.serial( msgName );
-			msgSap.serial( const_cast<CEntityId&> (victimId) );
-			msgSap.serial( lostSap );
-			sendMessageViaMirror ("IOS", msgSap);
+			msgName = "EGS_LOSE_ChaScore3_EI";
+			CMessage msgChaScore3("STATIC_STRING");
+			msgChaScore3.serial( const_cast<CEntityId&> (aggressorId) );
+			msgChaScore3.serialCont( excluded );
+			msgChaScore3.serial( msgName );
+			msgChaScore.serial( const_cast<CEntityId&> (victimId) );
+			msgChaScore.serial( lostChaScore3 );
+			sendMessageViaMirror ("IOS", msgChaScore3);
 		}
 	}
 
@@ -1116,29 +1116,29 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, s
 
 		INFOLOG("<sendHitMessages>send BS_HITS_YOU_EI with param e=%s and i=%i for entity %s",aggressorId.toString().c_str(), amount, victimId.toString().c_str());
 
-		// lost stamina
-		if (lostStamina>0)
+		// lost ChaScore2
+		if (lostChaScore2>0)
 		{
-			msgName = "EGS_U_LOSE_STA_EI";
-			CMessage msgSta("STATIC_STRING");
-			msgSta.serial( const_cast<CEntityId&> (victimId) );
-			msgSta.serialCont( excluded );
-			msgSta.serial( msgName );
-			msgSta.serial( const_cast<CEntityId&> (aggressorId) );
-			msgSta.serial( lostStamina );
-			sendMessageViaMirror ("IOS", msgSta);
+			msgName = "EGS_U_LOSE_ChaScore2_EI";
+			CMessage msgChaScore2("STATIC_STRING");
+			msgChaScore2.serial( const_cast<CEntityId&> (victimId) );
+			msgChaScore2.serialCont( excluded );
+			msgChaScore2.serial( msgName );
+			msgChaScore2.serial( const_cast<CEntityId&> (aggressorId) );
+			msgChaScore2.serial( lostChaScore2 );
+			sendMessageViaMirror ("IOS", msgChaScore2);
 		}
-		// lost sap
-		if (lostSap>0)
+		// lost ChaScore3
+		if (lostChaScore3>0)
 		{
-			msgName = "EGS_U_LOSE_SAP_EI";
-			CMessage msgSap("STATIC_STRING");
-			msgSap.serial( const_cast<CEntityId&> (victimId) );
-			msgSap.serialCont( excluded );
-			msgSap.serial( msgName );
-			msgSap.serial( const_cast<CEntityId&> (aggressorId) );
-			msgSap.serial( lostSap );
-			sendMessageViaMirror ("IOS", msgSap);
+			msgName = "EGS_U_LOSE_ChaScore3_EI";
+			CMessage msgChaScore3("STATIC_STRING");
+			msgChaScore3.serial( const_cast<CEntityId&> (victimId) );
+			msgChaScore3.serialCont( excluded );
+			msgChaScore3.serial( msgName );
+			msgChaScore3.serial( const_cast<CEntityId&> (aggressorId) );
+			msgChaScore3.serial( lostChaScore3 );
+			sendMessageViaMirror ("IOS", msgChaScore3);
 		}
 	}
 
@@ -1844,17 +1844,17 @@ void sendScoreModifierSpellMessage( CEntityBase * aggressor, CEntityBase* victim
 	case ACTNATURE::OFFENSIVE:
 		switch(score)
 		{
-		case SCORES::sap:
-			msgVictim	= "MAGIC_U_SUFFER_OFFENSIVE_SPELL_E_SAP";
-			msgAgressor = "MAGIC_U_CAST_OFFENSIVE_SPELL_E_SAP";
+		case SCORES::cha_score3:
+			msgVictim	= "MAGIC_U_SUFFER_OFFENSIVE_SPELL_E_ChaScore3";
+			msgAgressor = "MAGIC_U_CAST_OFFENSIVE_SPELL_E_ChaScore3";
 			break;
-		case SCORES::stamina:
-			msgVictim	= "MAGIC_U_SUFFER_OFFENSIVE_SPELL_E_STA";
-			msgAgressor = "MAGIC_U_CAST_OFFENSIVE_SPELL_E_STA";
+		case SCORES::cha_score2:
+			msgVictim	= "MAGIC_U_SUFFER_OFFENSIVE_SPELL_E_ChaScore2";
+			msgAgressor = "MAGIC_U_CAST_OFFENSIVE_SPELL_E_ChaScore2";
 			break;
-		case SCORES::hit_points:
-			msgVictim	= "MAGIC_U_SUFFER_OFFENSIVE_SPELL_E_HP";
-			msgAgressor = "MAGIC_U_CAST_OFFENSIVE_SPELL_E_HP";
+		case SCORES::cha_score1:
+			msgVictim	= "MAGIC_U_SUFFER_OFFENSIVE_SPELL_E_ChaScore1";
+			msgAgressor = "MAGIC_U_CAST_OFFENSIVE_SPELL_E_ChaScore1";
 			break;
 		default:
 			nlwarning("<PHRASE_UTILITIES sendScoreModifierSpellMessage> invalid scrore %s", SCORES::toString(score).c_str() );
@@ -1863,17 +1863,17 @@ void sendScoreModifierSpellMessage( CEntityBase * aggressor, CEntityBase* victim
 		case ACTNATURE::DEFENSIVE:
 		switch(score)
 		{
-		case SCORES::sap:
-			msgVictim	= "MAGIC_U_SUFFER_HEAL_SPELL_E_SAP";
-			msgAgressor = "MAGIC_U_CAST_HEAL_SPELL_E_SAP";
+		case SCORES::cha_score3:
+			msgVictim	= "MAGIC_U_SUFFER_HEAL_SPELL_E_ChaScore3";
+			msgAgressor = "MAGIC_U_CAST_HEAL_SPELL_E_ChaScore3";
 			break;
-			case SCORES::stamina:
-			msgVictim	= "MAGIC_U_SUFFER_HEAL_SPELL_E_STA";
-			msgAgressor = "MAGIC_U_CAST_HEAL_SPELL_E_STA";
+			case SCORES::cha_score2:
+			msgVictim	= "MAGIC_U_SUFFER_HEAL_SPELL_E_ChaScore2";
+			msgAgressor = "MAGIC_U_CAST_HEAL_SPELL_E_ChaScore2";
 			break;
-		case SCORES::hit_points:
-			msgVictim	= "MAGIC_U_SUFFER_HEAL_SPELL_E_HP";
-			msgAgressor = "MAGIC_U_CAST_HEAL_SPELL_E_HP";
+		case SCORES::cha_score1:
+			msgVictim	= "MAGIC_U_SUFFER_HEAL_SPELL_E_ChaScore1";
+			msgAgressor = "MAGIC_U_CAST_HEAL_SPELL_E_ChaScore1";
 			break;
 		default:
 			nlwarning("<PHRASE_UTILITIES sendScoreModifierSpellMessage> invalid scrore %s", SCORES::toString(score).c_str() );

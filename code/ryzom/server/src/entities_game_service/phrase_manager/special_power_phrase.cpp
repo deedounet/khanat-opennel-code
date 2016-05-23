@@ -178,98 +178,98 @@ void CSpecialPowerPhrase::processParams(const vector<TBrickParam::IIdPtr> &param
 			break;
 			}
 
-		case TBrickParam::SP_LIFE_AURA:
+		case TBrickParam::SP_ChaScore1_AURA:
 			{
-			// $*STRUCT CSBrickParamLifeAura: public TBrickParam::CId <TBrickParam::SP_LIFE_AURA>
+			// $*STRUCT CSBrickParamChaScore1Aura: public TBrickParam::CId <TBrickParam::SP_ChaScore1_AURA>
 			// $*-i uint16	RegenMod			// regen modifier
 			// $*-f float	Duration			// duration in seconds
 			// $*-f float	Radius				// aura radius in meters
-			// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-			// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-				CSpecialPowerBasicAura *lifeAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamLifeAura *)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamLifeAura *)param)->TargetDisableTime, POWERS::LifeAura);
-				if (lifeAura)
+			// $*-f float	TargetDisableTime	// disable ChaScore1 aura for x seconds on targets
+			// $*-f float	UserDisableTime		// disable ChaScore1 aura for x seconds on user
+				CSpecialPowerBasicAura *ChaScore1Aura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamChaScore1Aura *)param)->Duration, ((CSBrickParamChaScore1Aura *)param)->UserDisableTime, ((CSBrickParamChaScore1Aura *)param)->TargetDisableTime, POWERS::ChaScore1Aura);
+				if (ChaScore1Aura)
 				{
-					lifeAura->setRadius(((CSBrickParamLifeAura *)param)->Radius);
-					lifeAura->setFamilies(EFFECT_FAMILIES::PowerRootLifeAura,EFFECT_FAMILIES::PowerLifeAura );
-					lifeAura->setParamValue(((CSBrickParamLifeAura *)param)->RegenMod);
-					lifeAura->setByPass(isConsumable);
-					_Powers.push_back(lifeAura);
+					ChaScore1Aura->setRadius(((CSBrickParamChaScore1Aura *)param)->Radius);
+					ChaScore1Aura->setFamilies(EFFECT_FAMILIES::PowerRootChaScore1Aura,EFFECT_FAMILIES::PowerChaScore1Aura );
+					ChaScore1Aura->setParamValue(((CSBrickParamChaScore1Aura *)param)->RegenMod);
+					ChaScore1Aura->setByPass(isConsumable);
+					_Powers.push_back(ChaScore1Aura);
 				}
 			}
 			break;
 
-		case TBrickParam::SP_LIFE_AURA2:
+		case TBrickParam::SP_ChaScore1_AURA2:
 			{
-			// $*STRUCT CSBrickParamLifeAura: public TBrickParam::CId <TBrickParam::SP_LIFE_AURA2>
+			// $*STRUCT CSBrickParamChaSCore1Aura: public TBrickParam::CId <TBrickParam::SP_ChaScore1_AURA2>
 			// $*-i uint16	RegenMod			// regen modifier proportionally to item level
 			// $*-f float	Duration			// duration in seconds
 			// $*-f float	Radius				// aura radius in meters
-			// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-			// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-				CSpecialPowerBasicAura *lifeAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamLifeAura *)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamLifeAura *)param)->TargetDisableTime, POWERS::LifeAura);
-				if (lifeAura)
+			// $*-f float	TargetDisableTime	// disable ChaScore1 aura for x seconds on targets
+			// $*-f float	UserDisableTime		// disable ChaScore1 aura for x seconds on user
+				CSpecialPowerBasicAura *ChaScore1Aura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamChaScore1Aura *)param)->Duration, ((CSBrickParamChaScore1Aura *)param)->UserDisableTime, ((CSBrickParamChaScore1Aura *)param)->TargetDisableTime, POWERS::ChaScore1Aura);
+				if (ChaScore1Aura)
 				{
-					lifeAura->setRadius(((CSBrickParamLifeAura *)param)->Radius);
-					lifeAura->setFamilies(EFFECT_FAMILIES::PowerRootLifeAura,EFFECT_FAMILIES::PowerLifeAura );
-					lifeAura->setParamValue(((CSBrickParamLifeAura *)param)->RegenMod*quality);
-					lifeAura->setByPass(isConsumable);
-					_Powers.push_back(lifeAura);
+					ChaScore1Aura->setRadius(((CSBrickParamChaScore1Aura *)param)->Radius);
+					ChaScore1Aura->setFamilies(EFFECT_FAMILIES::PowerRootChaScore1Aura,EFFECT_FAMILIES::PowerChaScore1Aura );
+					ChaScore1Aura->setParamValue(((CSBrickParamChaScore1Aura *)param)->RegenMod*quality);
+					ChaScore1Aura->setByPass(isConsumable);
+					_Powers.push_back(ChaScore1Aura);
 				}
 			}
 			break;
 
-		case TBrickParam::SP_STAMINA_AURA:
+		case TBrickParam::SP_ChaScore2_AURA:
 			{
-				CSpecialPowerBasicAura *staminaAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamStaminaAura*)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamStaminaAura *)param)->TargetDisableTime, POWERS::StaminaAura);
-				if (staminaAura)
+				CSpecialPowerBasicAura *ChaScore2Aura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamChaScore2Aura*)param)->Duration, ((CSBrickParamChaScore1Aura *)param)->UserDisableTime, ((CSBrickParamChaScore2Aura *)param)->TargetDisableTime, POWERS::ChaScore2Aura);
+				if (ChaScore2Aura)
 				{
-					staminaAura->setRadius(((CSBrickParamStaminaAura *)param)->Radius);
-					staminaAura->setFamilies(EFFECT_FAMILIES::PowerRootStaminaAura,EFFECT_FAMILIES::PowerStaminaAura );
-					staminaAura->setParamValue(((CSBrickParamStaminaAura *)param)->RegenMod);
-					staminaAura->setByPass(isConsumable);
-					_Powers.push_back(staminaAura);
+					ChaScore2Aura->setRadius(((CSBrickParamChaScore2Aura *)param)->Radius);
+					ChaScore2Aura->setFamilies(EFFECT_FAMILIES::PowerRootChaScore2Aura,EFFECT_FAMILIES::PowerChaScore2Aura );
+					ChaScore2Aura->setParamValue(((CSBrickParamChaScore2Aura *)param)->RegenMod);
+					ChaScore2Aura->setByPass(isConsumable);
+					_Powers.push_back(ChaScore2Aura);
 				}
 			}
 			break;
 
-		case TBrickParam::SP_STAMINA_AURA2:
+		case TBrickParam::SP_ChaScore2_AURA2:
 			{
-				CSpecialPowerBasicAura *staminaAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamStaminaAura*)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamStaminaAura *)param)->TargetDisableTime, POWERS::StaminaAura);
-				if (staminaAura)
+				CSpecialPowerBasicAura *ChaScore2Aura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamChaScore2Aura*)param)->Duration, ((CSBrickParamChaScore1Aura *)param)->UserDisableTime, ((CSBrickParamChaScore2Aura *)param)->TargetDisableTime, POWERS::ChaScore2Aura);
+				if (ChaScore2Aura)
 				{
-					staminaAura->setRadius(((CSBrickParamStaminaAura *)param)->Radius);
-					staminaAura->setFamilies(EFFECT_FAMILIES::PowerRootStaminaAura,EFFECT_FAMILIES::PowerStaminaAura );
-					staminaAura->setParamValue(((CSBrickParamStaminaAura *)param)->RegenMod*quality);
-					staminaAura->setByPass(isConsumable);
-					_Powers.push_back(staminaAura);
+					ChaScore2Aura->setRadius(((CSBrickParamChaScore2Aura *)param)->Radius);
+					ChaScore2Aura->setFamilies(EFFECT_FAMILIES::PowerRootChaScore2Aura,EFFECT_FAMILIES::PowerChaScore2Aura );
+					ChaScore2Aura->setParamValue(((CSBrickParamChaScore2Aura *)param)->RegenMod*quality);
+					ChaScore2Aura->setByPass(isConsumable);
+					_Powers.push_back(ChaScore2Aura);
 				}
 			}
 			break;
 
-		case TBrickParam::SP_SAP_AURA:
+		case TBrickParam::SP_ChaScore3_AURA:
 			{
-				CSpecialPowerBasicAura *sapAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamSapAura*)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamSapAura *)param)->TargetDisableTime, POWERS::SapAura);
-				if (sapAura)
+				CSpecialPowerBasicAura *ChaScore3Aura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamChaScore3Aura*)param)->Duration, ((CSBrickParamChaScore1Aura *)param)->UserDisableTime, ((CSBrickParamChaScore3Aura *)param)->TargetDisableTime, POWERS::ChaScore3Aura);
+				if (ChaScore3Aura)
 				{
-					sapAura->setRadius(((CSBrickParamSapAura *)param)->Radius);
-					sapAura->setFamilies(EFFECT_FAMILIES::PowerRootSapAura,EFFECT_FAMILIES::PowerSapAura );
-					sapAura->setParamValue(((CSBrickParamSapAura *)param)->RegenMod);
-					sapAura->setByPass(isConsumable);
-					_Powers.push_back(sapAura);
+					ChaScore3Aura->setRadius(((CSBrickParamChaScore3Aura *)param)->Radius);
+				        ChaScore3Aura->setFamilies(EFFECT_FAMILIES::PowerRootChaScore3Aura,EFFECT_FAMILIES::PowerChaScore3Aura );
+					ChaScore3Aura->setParamValue(((CSBrickParamChaScore3Aura *)param)->RegenMod);
+					ChaScore3Aura->setByPass(isConsumable);
+					_Powers.push_back(ChaScore3Aura);
 				}
 			}
 			break;
 
-		case TBrickParam::SP_SAP_AURA2:
+		case TBrickParam::SP_ChaScore3_AURA2:
 			{
-				CSpecialPowerBasicAura *sapAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamSapAura*)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamSapAura *)param)->TargetDisableTime, POWERS::SapAura);
-				if (sapAura)
+				CSpecialPowerBasicAura *ChaScore3Aura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamChaScore3Aura*)param)->Duration, ((CSBrickParamChaScore1Aura *)param)->UserDisableTime, ((CSBrickParamChaScore3Aura *)param)->TargetDisableTime, POWERS::ChaScore3Aura);
+				if (ChaScore3Aura)
 				{
-					sapAura->setRadius(((CSBrickParamSapAura *)param)->Radius);
-					sapAura->setFamilies(EFFECT_FAMILIES::PowerRootSapAura,EFFECT_FAMILIES::PowerSapAura );
-					sapAura->setParamValue(((CSBrickParamSapAura *)param)->RegenMod*quality);
-					sapAura->setByPass(isConsumable);
-					_Powers.push_back(sapAura);
+					ChaScore3Aura->setRadius(((CSBrickParamChaScore3Aura *)param)->Radius);
+					ChaScore3Aura->setFamilies(EFFECT_FAMILIES::PowerRootChaScore3Aura,EFFECT_FAMILIES::PowerChaScore3Aura );
+					ChaScore3Aura->setParamValue(((CSBrickParamChaScore3Aura *)param)->RegenMod*quality);
+					ChaScore3Aura->setByPass(isConsumable);
+					_Powers.push_back(ChaScore3Aura);
 				}
 			}
 			break;
@@ -507,7 +507,7 @@ void CSpecialPowerPhrase::processParams(const vector<TBrickParam::IIdPtr> &param
 				// $*-f float		Range				// power range
 				// $*-f float		LossFactor			// score loss factor (0.5 = 50%, 0.3 = 30% loss..)
 				const CSBrickParamBalance *cp = (CSBrickParamBalance*) (param);
-				CSpecialPowerBalance *power = new CSpecialPowerBalance( _ActorRowId, this, cp->DisableTime, cp->LossFactor/100.0f, cp->Range,  POWERS::BalanceHp );
+				CSpecialPowerBalance *power = new CSpecialPowerBalance( _ActorRowId, this, cp->DisableTime, cp->LossFactor/100.0f, cp->Range,  POWERS::BalanceChaScore1 );
 				if (power)
 				{
 					power->setAffectedScore( SCORES::toScore(cp->AffectedScore) );
@@ -524,7 +524,7 @@ void CSpecialPowerPhrase::processParams(const vector<TBrickParam::IIdPtr> &param
 				// $*-i sint32		HealValue			// value added to affected score
 				// $*-f float		HealFactorValue		// value added to affected score in % of max target score
 				// $*-f float		DisableTime			// disable power for x seconds
-				// $*-s std::string	PowerType			// type of power (Heal, HealHpC ...)
+				// $*-s std::string	PowerType			// type of power (Heal, HealChaScore1C ...)
 				const CSBrickParamHeal *cp = (CSBrickParamHeal*) (param);
 				if ( cp->HealValue > 0 || cp->HealFactorValue > 0.0f)
 				{

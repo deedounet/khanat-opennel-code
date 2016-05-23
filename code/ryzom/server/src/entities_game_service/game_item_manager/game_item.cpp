@@ -138,10 +138,10 @@ CCraftParameters::CCraftParameters()
 	DefensiveAfflictionPowerFactor = 0.0f;
 	nbDefensiveAfflictionPowerFactor = 0;
 	
-	HpBuff = 0;
-	SapBuff = 0;
-	StaBuff = 0;
-	FocusBuff = 0;
+	ChaScore1Buff = 0;
+	ChaScore2Buff = 0;
+	ChaScore3Buff = 0;
+	ChaScore4Buff = 0;
 }
 
 // ****************************************************************************
@@ -197,10 +197,10 @@ void CItemCraftParameters::clear()
 	DefensiveAfflictionCastingTimeFactor = 0.0f;
 	DefensiveAfflictionPowerFactor = 0.0f;
 	
-	HpBuff = 0;
-	SapBuff = 0;
-	StaBuff = 0;
-	FocusBuff = 0;
+	ChaScore1Buff = 0;
+	ChaScore2Buff = 0;
+	ChaScore3Buff = 0;
+	ChaScore4Buff = 0;
 }
 
 float CItemCraftParameters::getCraftParameterValue( RM_FABER_STAT_TYPE::TRMStatType statType ) const
@@ -357,10 +357,10 @@ void CItemCraftParameters::serial(NLMISC::IStream &f) throw(NLMISC::EStream)
 		f.serial( DefensiveAfflictionPowerFactor );
 	}
 	
-	f.serial( HpBuff );
-	f.serial( SapBuff );
-	f.serial( StaBuff );
-	f.serial( FocusBuff );
+	f.serial( ChaScore1Buff );
+	f.serial( ChaScore3Buff );
+	f.serial( ChaScore2Buff );
+	f.serial( ChaScore4Buff );
 }
 
 // operator !=
@@ -432,13 +432,13 @@ bool CItemCraftParameters::operator==(const CItemCraftParameters &p) const
 		return false;
 	if ( DefensiveAfflictionPowerFactor != p.DefensiveAfflictionPowerFactor )
 		return false;
-	if ( HpBuff != p.HpBuff )
+	if ( ChaScore1Buff != p.ChaScore1Buff )
 		return false;
-	if ( SapBuff != p.SapBuff )
+	if ( ChaScore2Buff != p.ChaScore2Buff )
 		return false;
-	if ( StaBuff != p.StaBuff )
+	if ( ChaScore3Buff != p.ChaScore3Buff )
 		return false;
-	if ( FocusBuff != p.FocusBuff )
+	if ( ChaScore4Buff != p.ChaScore4Buff )
 		return false;
 
 	return true;
@@ -489,10 +489,10 @@ const CItemCraftParameters& CItemCraftParameters::operator = ( const CCraftParam
 	}
 	Color = DominanteColor;
 	
-	HpBuff = p.HpBuff;
-	SapBuff = p.SapBuff;
-	StaBuff = p.StaBuff;
-	FocusBuff = p.FocusBuff;
+	ChaScore1Buff = p.ChaScore1Buff;
+	ChaScore2Buff = p.ChaScore2Buff;
+	ChaScore3Buff = p.ChaScore3Buff;
+	ChaScore3Buff = p.ChaScore3Buff;
 
 	return *this;
 }
@@ -875,7 +875,7 @@ void CGameItem::computeRequiredLevel()
 				case ITEM_TYPE::MEDIUM_SLEEVES:
 				case ITEM_TYPE::MEDIUM_VEST:
 				case ITEM_TYPE::BUCKLER:
-					// Constitution requirement
+					// Cha1 requirement
 					_RequiredCharacLevel = (uint16)floor(_Recommended / 1.5f);
 					break;
 				case ITEM_TYPE::HEAVY_BOOTS:
@@ -885,7 +885,7 @@ void CGameItem::computeRequiredLevel()
 				case ITEM_TYPE::HEAVY_VEST:
 				case ITEM_TYPE::HEAVY_HELMET:
 				case ITEM_TYPE::SHIELD:
-					// Constitution requirement
+					// Cha1 requirement
 					_RequiredCharacLevel = (uint16)(max(0, ((sint)_Recommended-10)));
 					break;
 				default:
@@ -899,11 +899,11 @@ void CGameItem::computeRequiredLevel()
 				switch( _Form->Type )
 				{
 				case ITEM_TYPE::MAGICIAN_STAFF:
-					// Intelligence requirement
+					// Cha3 requirement
 					_RequiredCharacLevel = (uint16)(max(0, ((sint)_Recommended-10)));
 					break;
 				default:
-					// Strength requirement
+					// Cha2 requirement
 					_RequiredCharacLevel = (uint16)(max(0, ((sint)_Recommended-10)));
 					break;
 				}
@@ -979,8 +979,8 @@ void CGameItem::computeRequirementFromOldSystem()
 			case ITEM_TYPE::MEDIUM_SLEEVES:
 			case ITEM_TYPE::MEDIUM_VEST:
 			case ITEM_TYPE::BUCKLER:
-				// Constitution requirement
-				_RequiredCharac = CHARACTERISTICS::constitution;
+				// Cha1 requirement
+				_RequiredCharac = CHARACTERISTICS::cha1;
 				_RequiredCharacLevel = (uint16)floor(_Recommended / 1.5f);
 				break;
 			case ITEM_TYPE::HEAVY_BOOTS:
@@ -990,8 +990,8 @@ void CGameItem::computeRequirementFromOldSystem()
 			case ITEM_TYPE::HEAVY_VEST:
 			case ITEM_TYPE::HEAVY_HELMET:
 			case ITEM_TYPE::SHIELD:
-				// Constitution requirement
-				_RequiredCharac = CHARACTERISTICS::constitution;
+				// Cha1 requirement
+				_RequiredCharac = CHARACTERISTICS::cha1;
 				_RequiredCharacLevel = (uint16)(max(0, ((sint)_Recommended-10)));
 				break;
 			default:
@@ -1005,13 +1005,13 @@ void CGameItem::computeRequirementFromOldSystem()
 			switch( _Form->Type )
 			{
 			case ITEM_TYPE::MAGICIAN_STAFF:
-				// Intelligence requirement
-				_RequiredCharac = CHARACTERISTICS::intelligence;
+				// Cha3 requirement
+				_RequiredCharac = CHARACTERISTICS::cha3;
 				_RequiredCharacLevel = (uint16)(max(0, ((sint)_Recommended-10)));
 				break;
 			default:
-				// Strength requirement
-				_RequiredCharac = CHARACTERISTICS::strength;
+				// Cha2 requirement
+				_RequiredCharac = CHARACTERISTICS::cha2;
 				_RequiredCharacLevel = (uint16)(max(0, ((sint)_Recommended-10)));
 				break;
 			}
@@ -1019,7 +1019,7 @@ void CGameItem::computeRequirementFromOldSystem()
 				
 		// **** RANGE_WEAPON
 		case ITEMFAMILY::RANGE_WEAPON:
-			_RequiredCharac = CHARACTERISTICS::well_balanced;
+			_RequiredCharac = CHARACTERISTICS::cha2_reg;
 			_RequiredCharacLevel = (uint16)(max(0, ((sint)_Recommended-10)));
 			break;
 
@@ -2564,7 +2564,8 @@ void CGameItem::dumpGameItemStats( const string& fileName )
 {
 	if( !fileName.empty() )
 	{
-		FILE *f = nlfopen(fileName, "w");
+		FILE * f;
+		f = fopen(fileName.c_str(),"w");
 		
 		if(f)
 		{
@@ -3947,32 +3948,32 @@ uint32 CGameItem::magicResistance(RESISTANCE_TYPE::TResistanceType resistanceTyp
 }
 
 //-----------------------------------------------
-// armorHpBuff
+// armorChaScore1Buff
 //-----------------------------------------------
-sint32 CGameItem::armorHpBuff() const
+sint32 CGameItem::armorChaScore1Buff() const
 {
 	if (_Form == NULL || _Form->Family != ITEMFAMILY::ARMOR)
 		return 0;
 
 	nlassert(_Form->Armor != NULL);
 
-	sint32 hpBuff;
+	sint32 ChaScore1Buff;
 	switch (_Form->Armor->ArmorType)
 	{
 	case ARMORTYPE::MEDIUM:
-		hpBuff = quality() / 2;
+		ChaScore1Buff = quality() / 2;
 		break;
 
 	case ARMORTYPE::HEAVY:
-		hpBuff = quality();
+		ChaScore1Buff = quality();
 		break;
 
 	default:
-		hpBuff = 0;
+		ChaScore1Buff = 0;
 		break;
 	}
 
-	return hpBuff;
+	return ChaScore1Buff;
 }
 
 //-----------------------------------------------

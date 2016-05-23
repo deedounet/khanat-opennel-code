@@ -726,17 +726,17 @@ void CGroupNpc::addParameter(std::string const& parameter)
 	}
 }
 
-void CGroupNpc::addHpUpTrigger(float threshold, int eventId)
+void CGroupNpc::addChaScore1UpTrigger(float threshold, int eventId)
 {
-	_hpUpTriggers.insert(std::make_pair(threshold, eventId));
+	_ChaScore1UpTriggers.insert(std::make_pair(threshold, eventId));
 }
 
-void CGroupNpc::delHpUpTrigger(float threshold, int eventId)
+void CGroupNpc::delChaScore1UpTrigger(float threshold, int eventId)
 {
-	CGroupNpc::THpTriggerList& hpTriggers = _hpUpTriggers;
-	CGroupNpc::THpTriggerList::iterator first, last, trigger;
-	first = hpTriggers.lower_bound(threshold);
-	last = hpTriggers.upper_bound(threshold);
+	CGroupNpc::TChaScore1TriggerList& ChaScore1Triggers = _ChaScore1UpTriggers;
+	CGroupNpc::TChaScore1TriggerList::iterator first, last, trigger;
+	first = ChaScore1Triggers.lower_bound(threshold);
+	last = ChaScore1Triggers.upper_bound(threshold);
 	
 	for (; first!=last; ++first)
 	{
@@ -744,20 +744,20 @@ void CGroupNpc::delHpUpTrigger(float threshold, int eventId)
 			break;
 	}
 	if (first!=last)
-		hpTriggers.erase(first);
+		ChaScore1Triggers.erase(first);
 }
 
-void CGroupNpc::addHpDownTrigger(float threshold, int eventId)
+void CGroupNpc::addChaScore1DownTrigger(float threshold, int eventId)
 {
-	_hpDownTriggers.insert(std::make_pair(threshold, eventId));
+	_ChaScore1DownTriggers.insert(std::make_pair(threshold, eventId));
 }
 
-void CGroupNpc::delHpDownTrigger(float threshold, int eventId)
+void CGroupNpc::delChaScore1DownTrigger(float threshold, int eventId)
 {
-	CGroupNpc::THpTriggerList& hpTriggers = _hpDownTriggers;
-	CGroupNpc::THpTriggerList::iterator first, last, trigger;
-	first = hpTriggers.lower_bound(threshold);
-	last = hpTriggers.upper_bound(threshold);
+	CGroupNpc::TChaScore1TriggerList& ChaScore1Triggers = _ChaScore1DownTriggers;
+	CGroupNpc::TChaScore1TriggerList::iterator first, last, trigger;
+	first = ChaScore1Triggers.lower_bound(threshold);
+	last = ChaScore1Triggers.upper_bound(threshold);
 	
 	for (; first!=last; ++first)
 	{
@@ -765,20 +765,20 @@ void CGroupNpc::delHpDownTrigger(float threshold, int eventId)
 			break;
 	}
 	if (first!=last)
-		hpTriggers.erase(first);
+		ChaScore1Triggers.erase(first);
 }
 
-void CGroupNpc::addHpUpTrigger(float threshold, std::string cbFunc)
+void CGroupNpc::addChaScore1UpTrigger(float threshold, std::string cbFunc)
 {
-	_hpUpTriggers2.insert(std::make_pair(threshold, cbFunc));
+	_ChaScore1UpTriggers2.insert(std::make_pair(threshold, cbFunc));
 }
 
-void CGroupNpc::delHpUpTrigger(float threshold, std::string cbFunc)
+void CGroupNpc::delChaScore1UpTrigger(float threshold, std::string cbFunc)
 {
-	CGroupNpc::THpTriggerList2& hpTriggers = _hpUpTriggers2;
-	CGroupNpc::THpTriggerList2::iterator first, last, trigger;
-	first = hpTriggers.lower_bound(threshold);
-	last = hpTriggers.upper_bound(threshold);
+	CGroupNpc::TChaScore1TriggerList2& ChaScore1Triggers = _ChaScore1UpTriggers2;
+	CGroupNpc::TChaScore1TriggerList2::iterator first, last, trigger;
+	first = ChaScore1Triggers.lower_bound(threshold);
+	last = ChaScore1Triggers.upper_bound(threshold);
 	
 	for (; first!=last; ++first)
 	{
@@ -786,20 +786,20 @@ void CGroupNpc::delHpUpTrigger(float threshold, std::string cbFunc)
 			break;
 	}
 	if (first!=last)
-		hpTriggers.erase(first);
+		ChaScore1Triggers.erase(first);
 }
 
-void CGroupNpc::addHpDownTrigger(float threshold, std::string cbFunc)
+void CGroupNpc::addChaScore1DownTrigger(float threshold, std::string cbFunc)
 {
-	_hpDownTriggers2.insert(std::make_pair(threshold, cbFunc));
+	_ChaScore1DownTriggers2.insert(std::make_pair(threshold, cbFunc));
 }
 
-void CGroupNpc::delHpDownTrigger(float threshold, std::string cbFunc)
+void CGroupNpc::delChaScore1DownTrigger(float threshold, std::string cbFunc)
 {
-	CGroupNpc::THpTriggerList2& hpTriggers = _hpDownTriggers2;
-	CGroupNpc::THpTriggerList2::iterator first, last, trigger;
-	first = hpTriggers.lower_bound(threshold);
-	last = hpTriggers.upper_bound(threshold);
+	CGroupNpc::TChaScore1TriggerList2& ChaScore1Triggers = _ChaScore1DownTriggers2;
+	CGroupNpc::TChaScore1TriggerList2::iterator first, last, trigger;
+	first = ChaScore1Triggers.lower_bound(threshold);
+	last = ChaScore1Triggers.upper_bound(threshold);
 	
 	for (; first!=last; ++first)
 	{
@@ -807,30 +807,30 @@ void CGroupNpc::delHpDownTrigger(float threshold, std::string cbFunc)
 			break;
 	}
 	if (first!=last)
-		hpTriggers.erase(first);
+		ChaScore1Triggers.erase(first);
 }
 
-bool CGroupNpc::haveHpTriggers()
+bool CGroupNpc::haveChaScore1Triggers()
 {
-	return (_hpUpTriggers.size()+_hpDownTriggers.size()+_hpUpTriggers2.size()+_hpDownTriggers2.size())>0;
+	return (_ChaScore1UpTriggers.size()+_ChaScore1DownTriggers.size()+_ChaScore1UpTriggers2.size()+_ChaScore1DownTriggers2.size())>0;
 }
 
-void CGroupNpc::hpTriggerCb(float oldVal, float newVal)
+void CGroupNpc::ChaScore1TriggerCb(float oldVal, float newVal)
 {
 	if (newVal>oldVal)
 	{
-		CGroupNpc::THpTriggerList::const_iterator first, last, trigger, triggerProcessed;
-		first = _hpUpTriggers.upper_bound(oldVal);
-		last = _hpUpTriggers.upper_bound(newVal);
+		CGroupNpc::TChaScore1TriggerList::const_iterator first, last, trigger, triggerProcessed;
+		first = _ChaScore1UpTriggers.upper_bound(oldVal);
+		last = _ChaScore1UpTriggers.upper_bound(newVal);
 		for (trigger=first; trigger!=last;)
 		{
 			triggerProcessed = trigger;
 			++trigger;
 			processStateEvent(getEventContainer().EventUserEvent[triggerProcessed->second]);
 		}
-		CGroupNpc::THpTriggerList2::const_iterator first2, last2, trigger2, triggerProcessed2;
-		first2 = _hpUpTriggers2.upper_bound(oldVal);
-		last2 = _hpUpTriggers2.upper_bound(newVal);
+		CGroupNpc::TChaScore1TriggerList2::const_iterator first2, last2, trigger2, triggerProcessed2;
+		first2 = _ChaScore1UpTriggers2.upper_bound(oldVal);
+		last2 = _ChaScore1UpTriggers2.upper_bound(newVal);
 		for (trigger2=first2; trigger2!=last2;)
 		{
 			triggerProcessed2 = trigger2;
@@ -840,18 +840,18 @@ void CGroupNpc::hpTriggerCb(float oldVal, float newVal)
 	}
 	if (newVal<oldVal)
 	{
-		CGroupNpc::THpTriggerList::const_iterator first, last, trigger, triggerProcessed;
-		first = _hpDownTriggers.lower_bound(newVal);
-		last = _hpDownTriggers.lower_bound(oldVal);
+		CGroupNpc::TChaScore1TriggerList::const_iterator first, last, trigger, triggerProcessed;
+		first = _ChaScore1DownTriggers.lower_bound(newVal);
+		last = _ChaScore1DownTriggers.lower_bound(oldVal);
 		for (trigger=first; trigger!=last;)
 		{
 			triggerProcessed = trigger;
 			++trigger;
 			processStateEvent(getEventContainer().EventUserEvent[triggerProcessed->second]);
 		}
-		CGroupNpc::THpTriggerList2::const_iterator first2, last2, trigger2, triggerProcessed2;
-		first2 = _hpDownTriggers2.lower_bound(newVal);
-		last2 = _hpDownTriggers2.lower_bound(oldVal);
+		CGroupNpc::TChaScore1TriggerList2::const_iterator first2, last2, trigger2, triggerProcessed2;
+		first2 = _ChaScore1DownTriggers2.lower_bound(newVal);
+		last2 = _ChaScore1DownTriggers2.lower_bound(oldVal);
 		for (trigger2=first2; trigger2!=last2;)
 		{
 			triggerProcessed2 = trigger2;

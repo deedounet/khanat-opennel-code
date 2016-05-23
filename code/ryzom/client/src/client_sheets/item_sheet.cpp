@@ -838,8 +838,8 @@ bool	CItemSheet::hasCharacRequirement(uint itemLevel, CHARACTERISTICS::TCharacte
 		case ITEM_TYPE::MEDIUM_SLEEVES:
 		case ITEM_TYPE::MEDIUM_VEST:
 		case ITEM_TYPE::BUCKLER:
-			// Constitution requirement
-			caracType= CHARACTERISTICS::constitution;
+			// Cha1 requirement
+			caracType= CHARACTERISTICS::cha1;
 			caracValue= itemLevel / 1.5f;
 			return true;
 		case ITEM_TYPE::HEAVY_BOOTS:
@@ -849,8 +849,8 @@ bool	CItemSheet::hasCharacRequirement(uint itemLevel, CHARACTERISTICS::TCharacte
 		case ITEM_TYPE::HEAVY_VEST:
 		case ITEM_TYPE::HEAVY_HELMET:
 		case ITEM_TYPE::SHIELD:
-			// Constitution requirement
-			caracType= CHARACTERISTICS::constitution;
+			// Cha1 requirement
+			caracType= CHARACTERISTICS::cha1;
 			caracValue= float((sint)itemLevel - 10);
 			caracValue= max(caracValue, 0.f);
 			return true;
@@ -865,14 +865,14 @@ bool	CItemSheet::hasCharacRequirement(uint itemLevel, CHARACTERISTICS::TCharacte
 		switch( ItemType )
 		{
 		case ITEM_TYPE::MAGICIAN_STAFF:
-			// Intelligence requirement
-			caracType= CHARACTERISTICS::intelligence;
+			// Cha3 requirement
+			caracType= CHARACTERISTICS::cha3;
 			caracValue= float((sint)itemLevel - 10);
 			caracValue= max(caracValue, 0.f);
 			return true;
 		default:
-			// Strength requirement
-			caracType= CHARACTERISTICS::strength;
+			// Cha2 requirement
+			caracType= CHARACTERISTICS::cha2;
 			caracValue= float((sint)itemLevel - 10);
 			caracValue= max(caracValue, 0.f);
 			return true;
@@ -881,7 +881,7 @@ bool	CItemSheet::hasCharacRequirement(uint itemLevel, CHARACTERISTICS::TCharacte
 
 	// **** RANGE_WEAPON
 	case ITEMFAMILY::RANGE_WEAPON:
-		caracType= CHARACTERISTICS::well_balanced;
+		caracType= CHARACTERISTICS::cha2_reg;
 		caracValue= float((sint)itemLevel - 10);
 		caracValue= max(caracValue, 0.f);
 		return true;

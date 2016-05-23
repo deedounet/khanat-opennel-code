@@ -96,10 +96,10 @@ namespace EFFECT_FAMILIES
 		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffCombatSkills )
 		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffDodge )
 
-		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffStaminaRegen )
-		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffSapRegen )
-		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffHitPointsRegen )
-		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffFocusRegen )
+		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffChaScore2Regen )
+		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffChaScore3Regen )
+		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffChaScore1Regen )
+		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDebuffChaScore4Regen )
 
 		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDoTRot )
 		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDoTCold )
@@ -110,9 +110,9 @@ namespace EFFECT_FAMILIES
 		NL_STRING_CONVERSION_TABLE_ENTRY( CombatDoTShock )
 
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerShielding )
-		NL_STRING_CONVERSION_TABLE_ENTRY( PowerLifeAura )
-		NL_STRING_CONVERSION_TABLE_ENTRY( PowerStaminaAura )
-		NL_STRING_CONVERSION_TABLE_ENTRY( PowerSapAura )
+		NL_STRING_CONVERSION_TABLE_ENTRY( PowerChaScore1Aura )
+		NL_STRING_CONVERSION_TABLE_ENTRY( PowerChaScore2Aura )
+		NL_STRING_CONVERSION_TABLE_ENTRY( PowerChaScore3Aura )
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerUmbrella )
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerProtection )
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerAntiMagicShield )
@@ -122,9 +122,9 @@ namespace EFFECT_FAMILIES
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerWaterWall )
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerLightningWall )
 
-		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootLifeAura )
-		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootStaminaAura )
-		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootSapAura )
+		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootChaScore1Aura )
+		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootChaScore2Aura )
+		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootChaScore3Aura )
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootUmbrella )
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootProtection )
 		NL_STRING_CONVERSION_TABLE_ENTRY( PowerRootAntiMagicShield )
@@ -162,14 +162,14 @@ namespace EFFECT_FAMILIES
 
 		NL_STRING_CONVERSION_TABLE_ENTRY( ForageLocateDeposit )
 
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsHP )
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsSap )
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsSta )
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsFoc )
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenHP )
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenSap )
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenSta )
-		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenFoc )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsChaScore1 )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsChaScore3 )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsChaScore2 )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemStatsChaScore4 )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenChaScore1 )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenChaScore3 )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenChaScore2 )
+		NL_STRING_CONVERSION_TABLE_ENTRY( TotemRegenChaScore4 )
 		NL_STRING_CONVERSION_TABLE_ENTRY( TotemHarvestAgg )
 		NL_STRING_CONVERSION_TABLE_ENTRY( TotemHarvestQty )
 		NL_STRING_CONVERSION_TABLE_ENTRY( TotemHarvestZRs )
@@ -311,9 +311,9 @@ namespace EFFECT_FAMILIES
 		{ "debuff_combat_skills.sbrick",CombatDebuffCombatSkills },
 
 		{ "shielding.sbrick",			PowerShielding },
-		{ "life_aura.sbrick",			PowerLifeAura },
-		{ "stamina_aura.sbrick",		PowerStaminaAura },
-		{ "sap_aura.sbrick",			PowerSapAura },
+		{ "cha_score1_aura.sbrick",			PowerChaScore1Aura },
+		{ "cha_score2_aura.sbrick",		PowerChaScore2Aura },
+		{ "cha_score3_aura.sbrick",			PowerChaScore3Aura },
 		{ "umbrella_aura.sbrick",		PowerUmbrella },
 		{ "melee_protection_aura.sbrick",PowerProtection },
 		{ "anti_magic_shield_aura.sbrick",PowerAntiMagicShield },

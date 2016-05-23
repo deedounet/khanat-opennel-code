@@ -88,7 +88,7 @@ private:
 	/// cycle lenght in ticks
 	NLMISC::TGameCycle		_CycleLength;
 
-	/// number of hp lost by surrounding entities each cycle
+	/// number of ChaScore1 lost by surrounding entities each cycle
 	uint16					_CycleDamage;
 
 	/// aura radius in meters

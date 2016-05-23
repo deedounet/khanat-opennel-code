@@ -245,24 +245,24 @@ INFO_EXTRACTOR(Sessions,"home session id and current session id","home,session")
 			NLMISC::toString("%s%u",shardNames.empty()?"":"Ring:",curSessionId));
 }
 
-INFO_EXTRACTOR(Characs,"constitution, strength, etc","Constitution,Metabolism,Intelligence,Wisdom,Strength,WellBalanced,Dexterity,Will")
+INFO_EXTRACTOR(Characs,"Cha1, Cha2, etc","Cha1,Cha1Reg,Cha3,Cha3Reg,Cha2,Cha2Reg,Cha4,Cha4Reg")
 {
-	job->charTblSetEntry("Constitution",NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Constitution")->second));
-	job->charTblSetEntry("Metabolism",	NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Metabolism")->second));
-	job->charTblSetEntry("Intelligence",NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Intelligence")->second));
-	job->charTblSetEntry("Wisdom",		NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Wisdom")->second));
-	job->charTblSetEntry("Strength",	NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Strength")->second));
-	job->charTblSetEntry("WellBalanced",NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("WellBalanced")->second));
-	job->charTblSetEntry("Dexterity",	NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Dexterity")->second));
-	job->charTblSetEntry("Will",		NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Will")->second));
+	job->charTblSetEntry("Cha1",NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha1")->second));
+	job->charTblSetEntry("Cha1Reg",	NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha1Reg")->second));
+	job->charTblSetEntry("Cha3",NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha3")->second));
+	job->charTblSetEntry("Cha3Reg",		NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha3Reg")->second));
+	job->charTblSetEntry("Cha2",	NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha2")->second));
+	job->charTblSetEntry("Cha2Reg",NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha2Reg")->second));
+	job->charTblSetEntry("Cha4",	NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha4")->second));
+	job->charTblSetEntry("Cha4Reg",		NLMISC::toString(c->EntityBase._PhysCharacs._PhysicalCharacteristics.find("Cha4Reg")->second));
 }
 
-INFO_EXTRACTOR(Stats,"hp, sap, sta, focus","HP,Stamina,Sap,Focus")
+INFO_EXTRACTOR(Stats,"ChaScore1, ChaScore3, ChaScore2, ChaScore4","ChaScore1,ChaScore2,ChaScore3,ChaScore4")
 {
-	job->charTblSetEntry("HP",		NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("HitPoints")->second.Current));
-	job->charTblSetEntry("Stamina",	NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("Stamina")->second.Current));
-	job->charTblSetEntry("Sap",		NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("Sap")->second.Current));
-	job->charTblSetEntry("Focus",	NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("Focus")->second.Current));
+	job->charTblSetEntry("ChaScore1",		NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("ChaScore1")->second.Current));
+	job->charTblSetEntry("ChaScore2",	NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("ChaScore2")->second.Current));
+	job->charTblSetEntry("ChaScore3",		NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("ChaScore3")->second.Current));
+	job->charTblSetEntry("ChaScore4",	NLMISC::toString(c->EntityBase._PhysScores.PhysicalScores.find("ChaScore4")->second.Current));
 }
 
 INFO_EXTRACTOR(Fames,"main fame scores","Fyros,Kami,Karavan,Matis,Tryker,Zorai")

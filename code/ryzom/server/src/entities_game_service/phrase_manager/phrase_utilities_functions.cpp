@@ -720,14 +720,14 @@ void sendDeathMessages( const NLMISC::CEntityId &killerId, const NLMISC::CEntity
 //--------------------------------------------------------------
 //					sendHitMessages()  
 //--------------------------------------------------------------
-void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, bool self, sint32 amount, sint32 maxDamage, sint32 lostStamina, sint32 lostSap, BODY::TBodyPart bodyPart)
+void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, bool self, sint32 amount, sint32 maxDamage, sint32 lostChaScore2, sint32 lostChaScore3, BODY::TBodyPart bodyPart)
 {
 	if (!self)
 		self = (aggressorId == victimId);
 
 	amount = abs(amount);
-	lostStamina = abs(lostStamina);
-	lostSap = abs(lostSap);
+	lostChaScore2 = abs(lostChaScore2);
+	lostChaScore3 = abs(lostChaScore3);
 
 	if (maxDamage == amount)
 		maxDamage = 0;
@@ -756,21 +756,21 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, b
 				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_ACTOR_HIT", params);
 			}
 
-			// lost stamina
-			if (lostStamina>0)
+			// lost ChaScore2
+			if (lostChaScore2>0)
 			{
 				SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);				
 				params[0].setEIdAIAlias( victimId, CAIAliasTranslator::getInstance()->getAIAlias( victimId ) );
-				params[1].Int = lostStamina;
-				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_STA_ACTOR", params);
+				params[1].Int = lostChaScore2;
+				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_ChaScore2_ACTOR", params);
 			}
-			// lost sap
-			if (lostSap>0)
+			// lost ChaScore3
+			if (lostChaScore3>0)
 			{	
 				SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);				
 				params[0].setEIdAIAlias( victimId, CAIAliasTranslator::getInstance()->getAIAlias( victimId) );
-				params[1].Int = lostSap;
-				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_SAP_ACTOR", params);
+				params[1].Int = lostChaScore3;
+				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_ChaScore3_ACTOR", params);
 			}
 		}
 		else
@@ -780,17 +780,17 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, b
 			params[1].Int = maxDamage;
 			sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_ACTOR_HIT_SELF", params);
 
-			// lost stamina
-			if (lostStamina>0)
+			// lost ChaScore2
+			if (lostChaScore2>0)
 			{				
-				params[0].Int = lostStamina;
-				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_STA_SELF", params);
+				params[0].Int = lostChaScore2;
+				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_ChaScore2_SELF", params);
 			}
-			// lost sap
-			if (lostSap>0)
+			// lost ChaScore3
+			if (lostChaScore3>0)
 			{				
-				params[0].Int = lostSap;
-				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_SAP_SELF", params);
+				params[0].Int = lostChaScore3;
+				sendDynamicSystemMessage(TheDataset.getDataSetRow(aggressorId), "COMBAT_LOSE_ChaScore3_SELF", params);
 			}
 		}
 	}
@@ -815,21 +815,21 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, b
 			sendDynamicSystemMessage(TheDataset.getDataSetRow(victimId), "COMBAT_DEFENDER_HIT", params);
 		}
 
-		// lost stamina
-		if (lostStamina>0)
+		// lost ChaScore2
+		if (lostChaScore2>0)
 		{				
 			SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);			
 			params[0].setEIdAIAlias( aggressorId, CAIAliasTranslator::getInstance()->getAIAlias( aggressorId ) );
-			params[1].Int = lostStamina;
-			sendDynamicSystemMessage(TheDataset.getDataSetRow(victimId), "COMBAT_LOSE_STA_TARGET", params);
+			params[1].Int = lostChaScore2;
+			sendDynamicSystemMessage(TheDataset.getDataSetRow(victimId), "COMBAT_LOSE_ChaScore2_TARGET", params);
 		}
-		// lost sap
-		if (lostSap>0)
+		// lost ChaScore2
+		if (lostChaScore2>0)
 		{
 			SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);			
 			params[0].setEIdAIAlias( aggressorId, CAIAliasTranslator::getInstance()->getAIAlias( aggressorId) );
-			params[1].Int = lostSap;
-			sendDynamicSystemMessage(TheDataset.getDataSetRow(victimId), "COMBAT_LOSE_SAP_TARGET", params);
+			params[1].Int = lostChaScore2;
+			sendDynamicSystemMessage(TheDataset.getDataSetRow(victimId), "COMBAT_LOSE_ChaScore2_TARGET", params);
 		}
 	}
 	
@@ -863,17 +863,17 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, b
 //		params[3].Int = maxDamage;
 //		sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_SPECTATOR_HIT", params);
 //
-//		// lost stamina
-//		if (lostStamina>0)
+//		// lost ChaScore2
+//		if (lostChaScore2>0)
 //		{				
-//			params[2].Int = lostStamina;
-//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_STA_SPECTATORS", params);
+//			params[2].Int = lostChaScore2;
+//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_ChaScore2_SPECTATORS", params);
 //		}
-//		// lost sap
-//		if (lostSap>0)
+//		// lost ChaScore3
+//		if (lostChaScore3>0)
 //		{				
-//			params[2].Int = lostSap;
-//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_SAP_SPECTATORS", params);
+//			params[2].Int = lostChaScore3;
+//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_ChaScore3_SPECTATORS", params);
 //		}
 //	}
 //	else
@@ -900,17 +900,17 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, b
 //		params[1].Type = STRING_MANAGER::integer;
 //		params[1].Int = amount;
 //		sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_SPECTATOR_HIT_SELF" + type, params);
-//		// lost stamina
-//		if (lostStamina>0)
+//		// lost ChaScore2
+//		if (lostChaScore2>0)
 //		{				
-//			params[1].Int = lostStamina;
-//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_STA_SELF_SPECTATORS" + type, params);
+//			params[1].Int = lostChaScore2;
+//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_ChaScore2_SELF_SPECTATORS" + type, params);
 //		}
-//		// lost sap
-//		if (lostSap>0)
+//		// lost ChaScore3
+//		if (lostChaScore3>0)
 //		{				
-//			params[1].Int = lostSap;
-//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_SAP_SELF_SPECTATORS" + type, params);
+//			params[1].Int = lostChaScore3;
+//			sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_LOSE_ChaScore3_SELF_SPECTATORS" + type, params);
 //		}
 //	}	
 } // sendHitMessages //
@@ -918,9 +918,9 @@ void sendHitMessages( const CEntityId &aggressorId, const CEntityId &victimId, b
 /**
  * an entity is wounded by a damage shield
  */
-void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, const NLMISC::CEntityId &defender, uint16 damage, uint16 hpDrain)
+void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, const NLMISC::CEntityId &defender, uint16 damage, uint16 ChaScore1Drain)
 {
-	if (!damage && !hpDrain)
+	if (!damage && !ChaScore1Drain)
 		return;
 	
 //	TVectorParamCheck params;
@@ -929,7 +929,7 @@ void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, cons
 		SM_STATIC_PARAMS_3(params, STRING_MANAGER::entity, STRING_MANAGER::integer, STRING_MANAGER::integer);
 		params[0].setEIdAIAlias( defender, CAIAliasTranslator::getInstance()->getAIAlias( defender) );
 		params[1].Int = damage;
-		params[2].Int = hpDrain;
+		params[2].Int = ChaScore1Drain;
 		sendDynamicSystemMessage(TheDataset.getDataSetRow(woundedEntity), "COMBAT_DMG_SHIELD_ATTACKER", params);
 	}
 
@@ -938,7 +938,7 @@ void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, cons
 		SM_STATIC_PARAMS_3(params, STRING_MANAGER::entity, STRING_MANAGER::integer, STRING_MANAGER::integer);		
 		params[0].setEIdAIAlias( woundedEntity, CAIAliasTranslator::getInstance()->getAIAlias( woundedEntity) );
 		params[1].Int = damage;
-		params[2].Int = hpDrain;
+		params[2].Int = ChaScore1Drain;
 		sendDynamicSystemMessage(TheDataset.getDataSetRow(defender), "COMBAT_DMG_SHIELD_DEFENDER", params);
 	}
 	
@@ -964,7 +964,7 @@ void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, cons
 	params[0].setEIdAIAlias( woundedEntity, CAIAliasTranslator::getInstance()->getAIAlias( woundedEntity) );
 	params[1].setEIdAIAlias( defender, CAIAliasTranslator::getInstance()->getAIAlias( defender) );
 	params[2].Int = damage;
-	params[3].Int = hpDrain;
+	params[3].Int = ChaScore1Drain;
 	sendDynamicSystemMessage(TheDataset.getDataSetRow(defender), "COMBAT_DMG_SHIELD_SPECTATORS", params);
 	
 } // sendDamageShieldDamageMessages //
@@ -972,23 +972,23 @@ void sendDamageShieldDamageMessages(const NLMISC::CEntityId &woundedEntity, cons
 /**
  * an vampirism proc has been triggered
  */
-void sendVampirismProcMessages(const NLMISC::CEntityId &actingEntity, const NLMISC::CEntityId &defender, sint32 hpDrain)
+void sendVampirismProcMessages(const NLMISC::CEntityId &actingEntity, const NLMISC::CEntityId &defender, sint32 ChaScore1Drain)
 {
-	if (!hpDrain)
+	if (!ChaScore1Drain)
 		return;
 	
 	if (actingEntity.getType() == RYZOMID::player)
 	{
 		SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);
 		params[0].setEIdAIAlias(defender, CAIAliasTranslator::getInstance()->getAIAlias(defender));
-		params[1].Int = hpDrain;
+		params[1].Int = ChaScore1Drain;
 		sendDynamicSystemMessage(TheDataset.getDataSetRow(actingEntity), "COMBAT_PROC_VAMPIRISM_ATTACKER", params);
 	}
 	if (defender.getType() == RYZOMID::player)
 	{
 		SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);
 		params[0].setEIdAIAlias(actingEntity, CAIAliasTranslator::getInstance()->getAIAlias(actingEntity));
-		params[1].Int = hpDrain;
+		params[1].Int = ChaScore1Drain;
 		sendDynamicSystemMessage(TheDataset.getDataSetRow(defender), "COMBAT_PROC_VAMPIRISM_DEFENDER", params);
 	}
 	// spectators
@@ -1017,7 +1017,7 @@ void sendVampirismProcMessages(const NLMISC::CEntityId &actingEntity, const NLMI
 		SM_STATIC_PARAMS_3(params, STRING_MANAGER::entity, STRING_MANAGER::entity, STRING_MANAGER::integer);
 		params[0].setEIdAIAlias(actingEntity, CAIAliasTranslator::getInstance()->getAIAlias(actingEntity));
 		params[1].setEIdAIAlias(defender, CAIAliasTranslator::getInstance()->getAIAlias(defender));
-		params[2].Int = hpDrain;
+		params[2].Int = ChaScore1Drain;
 		sendDynamicGroupSystemMessage(TheDataset.getDataSetRow(speechGroupId), excluded, "COMBAT_PROC_VAMPIRISM_SPECTATORS", params);
 	}
 }
@@ -1712,7 +1712,7 @@ bool validateSpellTarget( const TDataSetRow &actorRowId, const TDataSetRow &targ
 		// test entity isn't dead already (unless it's a player)
 		if	(target->isDead())
 		{
-			if (target->getId().getType() == RYZOMID::player && mainTarget && target->currentHp() > (-target->maxHp()) )
+			if (target->getId().getType() == RYZOMID::player && mainTarget && target->currentChaScore1() > (-target->maxChaScore1()) )
 			{
 				// possible as a player in a 'coma' can still be healed (only main target)
 			}
@@ -1819,29 +1819,29 @@ void sendScoreModifierSpellMessage( const CEntityId &aggressorId, const CEntityI
 	{
 		switch( score )
 		{
-		case SCORES::hit_points:
+		case SCORES::cha_score1:
 			if ( damage > 0)
-				msgName = self ? "MAGIC_SELF_HEAL_HP" : "MAGIC_HEAL_HP_CASTER";
+				msgName = self ? "MAGIC_SELF_HEAL_ChaScore1" : "MAGIC_HEAL_ChaScore1_CASTER";
 			else
-				msgName = self ? "MAGIC_SELF_DAMAGE_HP" : "MAGIC_DAMAGE_HP_CASTER";
+				msgName = self ? "MAGIC_SELF_DAMAGE_ChaScore1" : "MAGIC_DAMAGE_ChaScore1_CASTER";
 			break;
-		case SCORES::stamina:
+		case SCORES::cha_score2:
 			if (damage > 0)
-				msgName = self ? "MAGIC_SELF_HEAL_STA" : "MAGIC_HEAL_STA_CASTER";
+				msgName = self ? "MAGIC_SELF_HEAL_ChaScore2" : "MAGIC_HEAL_ChaScore2_CASTER";
 			else
-				msgName = self ? "MAGIC_SELF_DAMAGE_STA" : "MAGIC_DAMAGE_STA_CASTER";
+				msgName = self ? "MAGIC_SELF_DAMAGE_ChaScore2" : "MAGIC_DAMAGE_ChaScore2_CASTER";
 			break;
-		case SCORES::sap:
+		case SCORES::cha_score3:
 			if (damage > 0)
-				msgName = self ? "MAGIC_SELF_HEAL_SAP" : "MAGIC_HEAL_SAP_CASTER";
+				msgName = self ? "MAGIC_SELF_HEAL_ChaScore3" : "MAGIC_HEAL_ChaScore3_CASTER";
 			else
-				msgName = self ? "MAGIC_SELF_DAMAGE_SAP" : "MAGIC_DAMAGE_SAP_CASTER";
+				msgName = self ? "MAGIC_SELF_DAMAGE_ChaScore3" : "MAGIC_DAMAGE_ChaScore3_CASTER";
 			break;
-		case SCORES::focus:
+		case SCORES::cha_score4:
 			if (damage > 0)
-				msgName = self ? "MAGIC_SELF_HEAL_FOCUS" : "MAGIC_HEAL_FOCUS_CASTER";
+				msgName = self ? "MAGIC_SELF_HEAL_ChaScore4" : "MAGIC_HEAL_ChaScore4_CASTER";
 			else
-				msgName = self ? "MAGIC_SELF_DAMAGE_FOCUS" : "MAGIC_DAMAGE_FOCUS_CASTER";
+				msgName = self ? "MAGIC_SELF_DAMAGE_ChaScore4" : "MAGIC_DAMAGE_ChaScore4_CASTER";
 			break;
 		default:
 			return;
@@ -1874,29 +1874,29 @@ void sendScoreModifierSpellMessage( const CEntityId &aggressorId, const CEntityI
 	{
 		switch( score )
 		{
-		case SCORES::hit_points:
+		case SCORES::cha_score1:
 			if ( damage > 0)
-				msgName = "MAGIC_HEAL_HP_TARGET";
+				msgName = "MAGIC_HEAL_ChaScore1_TARGET";
 			else
-				msgName = "MAGIC_DAMAGE_HP_TARGET";
+				msgName = "MAGIC_DAMAGE_ChaScore1_TARGET";
 			break;
-		case SCORES::stamina:
+		case SCORES::cha_score2:
 			if (damage > 0)
-				msgName = "MAGIC_HEAL_STA_TARGET";
+				msgName = "MAGIC_HEAL_ChaScore2_TARGET";
 			else
-				msgName = "MAGIC_DAMAGE_STA_TARGET";
+				msgName = "MAGIC_DAMAGE_ChaScore2_TARGET";
 			break;
-		case SCORES::sap:
+		case SCORES::cha_score3:
 			if (damage > 0)
-				msgName = "MAGIC_HEAL_SAP_TARGET";
+				msgName = "MAGIC_HEAL_ChaScore3_TARGET";
 			else
-				msgName = "MAGIC_DAMAGE_SAP_TARGET";
+				msgName = "MAGIC_DAMAGE_ChaScore3_TARGET";
 			break;
-		case SCORES::focus:
+		case SCORES::cha_score4:
 			if (damage > 0)
-				msgName = "MAGIC_HEAL_FOCUS_TARGET";
+				msgName = "MAGIC_HEAL_ChaScore4_TARGET";
 			else
-				msgName = "MAGIC_DAMAGE_FOCUS_TARGET";
+				msgName = "MAGIC_DAMAGE_ChaScore4_TARGET";
 			break;
 		default:
 			return;
@@ -1941,23 +1941,23 @@ void sendScoreModifierSpellMessage( const CEntityId &aggressorId, const CEntityI
 //	// Send to 'speech' group
 //	switch( score )
 //	{
-//	case SCORES::hit_points:
+//	case SCORES::cha_score1:
 //		if ( value > 0)
-//			msgName = self ? "MAGIC_SELF_HEAL_HP_SPECTATORS" : "MAGIC_HEAL_HP_SPECTATORS";
+//			msgName = self ? "MAGIC_SELF_HEAL_ChaScore1_SPECTATORS" : "MAGIC_HEAL_ChaScore1_SPECTATORS";
 //		else
-//			msgName = self ? "MAGIC_SELF_DAMAGE_HP_SPECTATORS" : "MAGIC_DAMAGE_HP_SPECTATORS";
+//			msgName = self ? "MAGIC_SELF_DAMAGE_ChaScore1_SPECTATORS" : "MAGIC_DAMAGE_ChaScore1_SPECTATORS";
 //		break;
-//	case SCORES::stamina:
+//	case SCORES::ChaScore2:
 //		if (value > 0)
-//			msgName = self ? "MAGIC_SELF_HEAL_STA_SPECTATORS" : "MAGIC_HEAL_STA_SPECTATORS";
+//			msgName = self ? "MAGIC_SELF_HEAL_ChaScore2_SPECTATORS" : "MAGIC_HEAL_ChaScore2_SPECTATORS";
 //		else
-//			msgName = self ? "MAGIC_SELF_DAMAGE_STA_SPECTATORS" : "MAGIC_DAMAGE_STA_SPECTATORS";
+//			msgName = self ? "MAGIC_SELF_DAMAGE_ChaScore2_SPECTATORS" : "MAGIC_DAMAGE_ChaScore2_SPECTATORS";
 //		break;
-//	case SCORES::sap:
+//	case SCORES::ChaScore3:
 //		if (value > 0)
-//			msgName = self ? "MAGIC_SELF_HEAL_SAP_SPECTATORS" : "MAGIC_HEAL_SAP_SPECTATORS";
+//			msgName = self ? "MAGIC_SELF_HEAL_ChaScore3_SPECTATORS" : "MAGIC_HEAL_ChaScore3_SPECTATORS";
 //		else
-//			msgName = self ? "MAGIC_SELF_DAMAGE_SAP_SPECTATORS" : "MAGIC_DAMAGE_SAP_SPECTATORS";
+//			msgName = self ? "MAGIC_SELF_DAMAGE_ChaScore3_SPECTATORS" : "MAGIC_DAMAGE_ChaScore3_SPECTATORS";
 //		break;
 //	default:
 //		return;

@@ -46,7 +46,7 @@ static bool VerboseLog = false;
 CSpawnBotNpc::CSpawnBotNpc(TDataSetRow const& row, CBot& owner, NLMISC::CEntityId const& id, float radius, uint32 level, RYAI_MAP_CRUNCH::TAStarFlag denyFlags)
 : CSpawnBot(row, owner, id, radius, level, denyFlags)
 {
-	_OldHpPercentage = -1.f;
+	_OldChaScore1Percentage = -1.f;
 	_NbCurrentDynChats = 0;
 	_FacingTheta = 0;
 	_FacingTick = 0;
@@ -115,22 +115,22 @@ void CSpawnBotNpc::processEvent(CCombatInterface::CEvent const& event)
 	++AISStat::BotNpcUpdCtr;
 	
 	{
-		H_AUTO(AIHpTrig);
-		// Fix for HP triggers
+		H_AUTO(AIChaScore1Trig);
+		// Fix for ChaScore1 triggers
 		// :FIXME: Clean that triggering stuff, make it generic
 		CGroupNpc& persGrp = spawnGrp().getPersistent();
-		if (persGrp.haveHpTriggers())
+		if (persGrp.haveChaScore1Triggers())
 		{
-			float newHpPercentage = getPhysical().hpPercentage();
-			if (_OldHpPercentage>=0.f && newHpPercentage!=_OldHpPercentage)
+			float newChaScore1Percentage = getPhysical().ChaScore1Percentage();
+			if (_OldChaScore1Percentage>=0.f && newChaScore1Percentage!=_OldChaScore1Percentage)
 			{
-				persGrp.hpTriggerCb(_OldHpPercentage, newHpPercentage);
+				persGrp.ChaScore1TriggerCb(_OldChaScore1Percentage, newChaScore1Percentage);
 			}
-			_OldHpPercentage = newHpPercentage;
+			_OldChaScore1Percentage = newChaScore1Percentage;
 		}
 		else
 		{
-			_OldHpPercentage = getPhysical().hpPercentage();
+			_OldChaScore1Percentage = getPhysical().ChaScore1Percentage();
 		}
 	}
 	

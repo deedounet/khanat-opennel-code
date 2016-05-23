@@ -468,10 +468,10 @@ public:
 		DefensiveAfflictionCastingTimeFactor=0.0f;
 		DefensiveAfflictionPowerFactor=0.0f;
 		Color=0;
-		HpBuff=0;
-		SapBuff=0;
-		StaBuff=0;
-		FocusBuff=0;
+		ChaScore1Buff=0;
+		ChaScore3Buff=0;
+		ChaScore2Buff=0;
+		ChaScore4Buff=0;
 	}
 
 	float Durability;
@@ -498,10 +498,10 @@ public:
 	float DefensiveAfflictionCastingTimeFactor;
 	float DefensiveAfflictionPowerFactor;
 	uint8 Color;
-	sint32 HpBuff;
-	sint32 SapBuff;
-	sint32 StaBuff;
-	sint32 FocusBuff;
+	sint32 ChaScore1Buff;
+	sint32 ChaScore3Buff;
+	sint32 ChaScore2Buff;
+	sint32 ChaScore4Buff;
 	NLMISC::CSString Protection;
 };
 

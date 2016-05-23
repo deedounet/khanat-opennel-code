@@ -1101,7 +1101,7 @@
   <branch name="USER">
     <leaf name="BARS"
           format="u8 s16 s16 s16 s16"
-          description="server update the players Bars (fast message) $msgNumber $hp $sap $sta $focus" />
+          description="server update the players Bars (fast message) $msgNumber $cha_score1 $cha_score3 $cha_score2 $cha_score4" />
     <leaf name="POPUP"
           format="u32 u32"
           description="server display an important info message on the client (u32 titleDynString u32 textDynString)" />

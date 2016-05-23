@@ -1,7 +1,7 @@
 // Ryzom - MMORPG Framework <http://dev.ryzom.com/projects/ryzom/>
 // Copyright (C) 2010  Winch Gate Property Limited
 //
-// This program is free software: you can redistribute it and/or modify
+// This program is fee software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as
 // published by the Free Software Foundation, either version 3 of the
 // License, or (at your option) any later version.
@@ -52,9 +52,9 @@ END_MAGIC_ACTION_FACTORY(CMagicActionBasicDamage)
 
 
 CMagicActionBasicDamage::CMagicActionBasicDamage()
-: _DmgHp(0)
-, _DmgSap(0)
-, _DmgSta(0)
+: _DmgChaScore1(0)
+, _DmgChaScore3(0)
+, _DmgChaScore2(0)
 , _VampirismValue(0)
 , _DmgType(DMGTYPE::UNDEFINED)
 {
@@ -75,14 +75,14 @@ bool CMagicActionBasicDamage::initFromAiAction(CStaticAiAction const* aiAction, 
 	
 	switch(aiAction->getData().Spell.AffectedScore)
 	{
-	case SCORES::sap:
-		_DmgSap = sint32(aiAction->getData().Spell.SpellParamValue + damageBonus);
+	case SCORES::cha_score3:
+		_DmgChaScore3 = sint32(aiAction->getData().Spell.SpellParamValue + damageBonus);
 		break;
-	case SCORES::stamina:
-		_DmgSta = sint32(aiAction->getData().Spell.SpellParamValue + damageBonus);
+	case SCORES::cha_score2:
+		_DmgChaScore2 = sint32(aiAction->getData().Spell.SpellParamValue + damageBonus);
 		break;
-	case SCORES::hit_points:
-		_DmgHp = sint32(aiAction->getData().Spell.SpellParamValue + damageBonus);
+	case SCORES::cha_score1:
+		_DmgChaScore1 = sint32(aiAction->getData().Spell.SpellParamValue + damageBonus);
 		break;
 	default:
 		return false;
@@ -121,10 +121,10 @@ bool CMagicActionBasicDamage::addBrick(CStaticBrick const& brick, CMagicPhrase* 
 			break;
 			
 		case TBrickParam::MA_DMG:
-			INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)param)->Hp,((CSBrickParamMagicDmg *)param)->Sap,((CSBrickParamMagicDmg *)param)->Sta);
-			_DmgHp = ((CSBrickParamMagicDmg *)param)->Hp;
-			_DmgSap = ((CSBrickParamMagicDmg *)param)->Sap;
-			_DmgSta = ((CSBrickParamMagicDmg *)param)->Sta;
+			INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)param)->ChaScore1,((CSBrickParamMagicDmg *)param)->ChaScore3,((CSBrickParamMagicDmg *)param)->ChaScore2);
+			_DmgChaScore1 = ((CSBrickParamMagicDmg *)param)->ChaScore1;
+			_DmgChaScore3 = ((CSBrickParamMagicDmg *)param)->ChaScore3;
+			_DmgChaScore2 = ((CSBrickParamMagicDmg *)param)->ChaScore2;
 			break;
 		default:
 			// unused param, can be useful in the phrase
@@ -180,7 +180,7 @@ bool CMagicActionBasicDamage::launchOnEntity(
 	// init target infos
 	targetInfos.RowId			= target->getEntityRowId();
 	targetInfos.MainTarget		= mainTarget;
-	targetInfos.DmgHp			= 0;
+	targetInfos.DmgChaScore1			= 0;
 	targetInfos.ResistFactor	= 1.0f;
 	targetInfos.DmgFactor		= 1.0f;
 	targetInfos.Immune			= false;
@@ -280,26 +280,26 @@ bool CMagicActionBasicDamage::launchOnEntity(
 			}
 		}
 		
-		sint32 maxDmgHp =  sint32 ( _DmgHp * dmgFactor );
-		sint32 realDmgHp = target->applyDamageOnArmor( _DmgType, maxDmgHp );
+		sint32 maxDmgChaScore1 =  sint32 ( _DmgChaScore1 * dmgFactor );
+		sint32 realDmgChaScore1 = target->applyDamageOnArmor( _DmgType, maxDmgChaScore1 );
 		
-		// update behaviour for lost Hp
+		// update behaviour for lost ChaScore1
 		CCreature * npc = dynamic_cast<CCreature*>(target);
 		CCharacter * c = dynamic_cast<CCharacter*>(actor);
 		if(npc && c)
 		{
 			if(PHRASE_UTILITIES::testRange(*actor, *target, (uint32)npc->getMaxHitRangeForPC()*1000))
 			{
-				behav.DeltaHP -= (sint16)realDmgHp;
+				behav.DeltaChaScore1 -= (sint16)realDmgChaScore1;
 			}
 			else
 			{
-				behav.DeltaHP = 0;
+				behav.DeltaChaScore1 = 0;
 			}
 		}
 		
 		// update target infos
-		targetInfos.DmgHp			= maxDmgHp;
+		targetInfos.DmgChaScore1			= maxDmgChaScore1;
 		targetInfos.ResistFactor	= resistFactor;
 		targetInfos.DmgFactor		= dmgFactor;
 		
@@ -332,7 +332,7 @@ bool CMagicActionBasicDamage::computeMagicResistance(
 	CTargetInfos& targetInfos,
 	uint32 const casterSkillvalue,
 	DMGTYPE::EDamageType const _DmgType,
-	sint32 _DmgHp,
+	sint32 _DmgChaScore1,
 	CEntityBase const* const actor,
 	float rangeFactor,
 	float powerFactor)
@@ -421,10 +421,10 @@ bool CMagicActionBasicDamage::computeMagicResistance(
 			}
 		}
 		
-		sint32 realDmgHp =  sint32 ( _DmgHp * dmgFactor );
+		sint32 realDmgChaScore1 =  sint32 ( _DmgChaScore1 * dmgFactor );
 		
 		// update target infos
-		targetInfos.DmgHp			= realDmgHp;
+		targetInfos.DmgChaScore1			= realDmgChaScore1;
 		targetInfos.ResistFactor	= resistFactor;
 		targetInfos.DmgFactor		= dmgFactor;
 		
@@ -448,9 +448,9 @@ bool CMagicActionBasicDamage::applyOnEntity(
 	CTargetInfos&	targetInfos,
 	
 	DMGTYPE::EDamageType const	_DmgType,
-	sint32 const				_DmgHp,
-	sint32 const				_DmgSap,
-	sint32 const				_DmgSta,
+	sint32 const				_DmgChaScore1,
+	sint32 const				_DmgChaScore3,
+	sint32 const				_DmgChaScore2,
 	sint32 const				_VampirismValue)
 {
 	// If target is immune to magic tell player and return
@@ -477,82 +477,82 @@ bool CMagicActionBasicDamage::applyOnEntity(
 	{
 		if(!PHRASE_UTILITIES::testRange(*actor, *target, (uint32)npc->getMaxHitRangeForPC()*1000))
 		{
-			const_cast<sint32&>(_DmgHp) = 0;
-			const_cast<sint32&>(_DmgSap) = 0;
-			const_cast<sint32&>(_DmgSta) = 0;
+			const_cast<sint32&>(_DmgChaScore1) = 0;
+			const_cast<sint32&>(_DmgChaScore3) = 0;
+			const_cast<sint32&>(_DmgChaScore2) = 0;
 			const_cast<sint32&>(_VampirismValue) = 0;
-			targetInfos.DmgHp = 0;
+			targetInfos.DmgChaScore1 = 0;
 			sendAggro = false;
 			c->sendDynamicSystemMessage(c->getId(), "UNEFFICENT_RANGE");
 		}
 	}
 
-	sint32 realDmgHp = targetInfos.DmgHp;
-	realDmgHp = sint32( target->applyDamageOnArmor( _DmgType, realDmgHp ) );
-	if (realDmgHp > target->currentHp())
-		realDmgHp = target->currentHp();
+	sint32 realDmgChaScore1 = targetInfos.DmgChaScore1;
+	realDmgChaScore1 = sint32( target->applyDamageOnArmor( _DmgType, realDmgChaScore1 ) );
+	if (realDmgChaScore1 > target->currentChaScore1())
+		realDmgChaScore1 = target->currentChaScore1();
 	
-	targetInfos.ReportAction.Hp += realDmgHp;
+	targetInfos.ReportAction.ChaScore1 += realDmgChaScore1;
 	
 	// apply vampirism
 	vamp += _VampirismValue;
 	if (vamp && actor->getId().getType() == RYZOMID::player)
 	{
-		sint32 vampirise = (sint32) (realDmgHp * vampRatio);
+		sint32 vampirise = (sint32) (realDmgChaScore1 * vampRatio);
 		if (vampirise > vamp)
 			vampirise = vamp;
 		
-		actor->changeCurrentHp(vampirise);
+		actor->changeCurrentChaScore1(vampirise);
 		SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);
 		params[0].setEIdAIAlias(target->getId(), CAIAliasTranslator::getInstance()->getAIAlias(target->getId()));
 		params[1].Int = vampirise;
 		CCharacter::sendDynamicSystemMessage(actor->getId(),"EGS_ACTOR_VAMPIRISE_EI", params);
 	}
 	
-	// apply Sap damage
-	sint32 realDmgSap = 0;
+	// apply ChaScore3 damage
+	sint32 realDmgChaScore3 = 0;
 	{
-		SCharacteristicsAndScores& score = target->getScores()._PhysicalScores[SCORES::sap];
-		sint32 maxRealDmgSap = (sint32)( _DmgSap * targetInfos.DmgFactor );
-		realDmgSap = target->applyDamageOnArmor(_DmgType, maxRealDmgSap);
-		if (realDmgSap != 0)
+		SCharacteristicsAndScores& score = target->getScores()._PhysicalScores[SCORES::cha_score3];
+		sint32 maxRealDmgChaScore3 = (sint32)( _DmgChaScore3 * targetInfos.DmgFactor );
+		realDmgChaScore3 = target->applyDamageOnArmor(_DmgType, maxRealDmgChaScore3);
+		if (realDmgChaScore3 != 0)
 		{
-			PHRASE_UTILITIES::sendScoreModifierSpellMessage(actor->getId(), target->getId(), -realDmgSap, -maxRealDmgSap, SCORES::sap, ACTNATURE::OFFENSIVE_MAGIC);
+			PHRASE_UTILITIES::sendScoreModifierSpellMessage(actor->getId(), target->getId(), -realDmgChaScore3, -maxRealDmgChaScore3, SCORES::cha_score3, ACTNATURE::OFFENSIVE_MAGIC);
 			
-			if (realDmgSap > score.Current)
-				realDmgSap = score.Current;
-			score.Current = score.Current - realDmgSap;
+			if (realDmgChaScore3 > score.Current)
+				realDmgChaScore3 = score.Current;
+			score.Current = score.Current - realDmgChaScore3;
 			
-			targetInfos.ReportAction.Sap += realDmgSap;
+			targetInfos.ReportAction.ChaScore3 += realDmgChaScore3;
 		}
 	}
 	
-	// apply Stamina damage
-	sint32 realDmgSta = 0;
+	// apply ChaScore2 damage
+	sint32 realDmgChaScore2 = 0;
 	{
-		SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::stamina];
-		sint32 maxRealDmgSta =  sint32( _DmgSta * targetInfos.DmgFactor );
-		realDmgSta = target->applyDamageOnArmor( _DmgType, maxRealDmgSta );
-		if (realDmgSta != 0)
+		SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score2];
+		sint32 maxRealDmgChaScore2 =  sint32( _DmgChaScore2 * targetInfos.DmgFactor );
+		realDmgChaScore2 = target->applyDamageOnArmor( _DmgType, maxRealDmgChaScore2 );
+		if (realDmgChaScore2 != 0)
 		{
-			PHRASE_UTILITIES::sendScoreModifierSpellMessage(actor->getId(), target->getId(), -realDmgSta, -maxRealDmgSta, SCORES::stamina, ACTNATURE::OFFENSIVE_MAGIC);
+			PHRASE_UTILITIES::sendScoreModifierSpellMessage(actor->getId(), target->getId(), -realDmgChaScore2, -maxRealDmgChaScore2, SCORES::cha_score2, ACTNATURE::OFFENSIVE_MAGIC);
 			
-			if (realDmgSta > score.Current)
-				realDmgSta = score.Current;
-			score.Current = score.Current - realDmgSta;
+			if (realDmgChaScore2 > score.Current)
+				realDmgChaScore2 = score.Current;
+			score.Current = score.Current - realDmgChaScore2;
 			
-			targetInfos.ReportAction.Sta += realDmgSta;
+			targetInfos.ReportAction.ChaScore2 += realDmgChaScore2;
 		}
 	}
 	
 	targetInfos.ReportAction.ActionNature = ACTNATURE::OFFENSIVE_MAGIC;
 	
 	// compute aggro
-	sint32 max = target->maxHp();
+	sint32 max = target->maxChaScore1();
 	
-	float aggroHp = 0.0f;
-	float aggroSap = 0.0f;
-	float aggroSta = 0.0f;
+	float aggroChaScore1 = 0.0f;
+	float aggroChaScore3 = 0.0f;
+	float aggroChaScore2 = 0.0f;
 	
 	CAiEventReport report;
 	if (phrase)
@@ -561,43 +561,43 @@ bool CMagicActionBasicDamage::applyOnEntity(
 		report.Originator = actor->getEntityRowId();
 	report.Target = target->getEntityRowId();
 	report.Type = ACTNATURE::OFFENSIVE_MAGIC;
-	if (max && _DmgHp != 0)
+	if (max && _DmgChaScore1 != 0)
 	{
-		aggroHp = min(1.0f, float(realDmgHp)/float(max) );
-		report.addDelta(AI_EVENT_REPORT::HitPoints, (-1)*realDmgHp);
+		aggroChaScore1 = min(1.0f, float(realDmgChaScore1)/float(max) );
+		report.addDelta(AI_EVENT_REPORT::ChaScore1, (-1)*realDmgChaScore1);
 	}
 	
-	max = target->getPhysScores()._PhysicalScores[SCORES::sap].Max;
-	if (max && _DmgSap != 0)
+	max = target->getPhysScores()._PhysicalScores[SCORES::cha_score3].Max;
+	if (max && _DmgChaScore3 != 0)
 	{
-		aggroSap = min(1.0f, float(realDmgSap)/float(max) );
-		report.addDelta(AI_EVENT_REPORT::Sap, (-1)*realDmgSap);
+		aggroChaScore3 = min(1.0f, float(realDmgChaScore3)/float(max) );
+		report.addDelta(AI_EVENT_REPORT::ChaScore3, (-1)*realDmgChaScore3);
 	}
 	
-	max = target->getPhysScores()._PhysicalScores[SCORES::stamina].Max;
-	if (max && _DmgSta != 0)
+	max = target->getPhysScores()._PhysicalScores[SCORES::cha_score2].Max;
+	if (max && _DmgChaScore2 != 0)
 	{
-		aggroSta = min(1.0f,float(realDmgSta)/float(max));
-		report.addDelta(AI_EVENT_REPORT::Stamina, (-1)*realDmgSta);
+		aggroChaScore2 = min(1.0f,float(realDmgChaScore2)/float(max));
+		report.addDelta(AI_EVENT_REPORT::ChaScore2, (-1)*realDmgChaScore2);
 	}
 	
 	// send report
-	report.AggroAdd = - min(1.0f, 1.0f - (1.0f-aggroHp)*(1.0f-aggroSap)*(1.0f-aggroSta) );
+	report.AggroAdd = - min(1.0f, 1.0f - (1.0f-aggroChaScore1)*(1.0f-aggroChaScore3)*(1.0f-aggroChaScore2) );
 	
 	if(sendAggro)
 		CPhraseManager::getInstance().addAiEventReport(report);
 	
-	// apply Hp damage
-	if (realDmgHp > 0)
+	// apply ChaScore1 damage
+	if (realDmgChaScore1 > 0)
 	{
-		if ( target->changeCurrentHp( -realDmgHp, actor->getEntityRowId()) )
+		if ( target->changeCurrentChaScore1( -realDmgChaScore1, actor->getEntityRowId()) )
 		{
-			PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), -realDmgHp, -targetInfos.DmgHp ,SCORES::hit_points , ACTNATURE::OFFENSIVE_MAGIC);
+			PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), -realDmgChaScore1, -targetInfos.DmgChaScore1 ,SCORES::cha_score1 , ACTNATURE::OFFENSIVE_MAGIC);
 			PHRASE_UTILITIES::sendDeathMessages( actor->getEntityRowId(), target->getEntityRowId() );
 		}
 		else
 		{
-			PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), -realDmgHp, -targetInfos.DmgHp ,SCORES::hit_points , ACTNATURE::OFFENSIVE_MAGIC);
+			PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor->getId(), target->getId(), -realDmgChaScore1, -targetInfos.DmgChaScore1 ,SCORES::cha_score1 , ACTNATURE::OFFENSIVE_MAGIC);
 		}
 	}
 	
@@ -734,7 +734,7 @@ void CMagicActionBasicDamage::launch(
 					targetInfos.ReportAction.Skill = _Skill;
 					launchOnEntity(phrase, actor, bounceTarget,false, skillValue, skillBaseValue, behav, isMad, 1.0f, targetInfos);
 
-					if ( _DmgSap || _DmgSta || targetInfos.needsApply() )
+					if ( _DmgChaScore3 || _DmgChaScore2 || targetInfos.needsApply() )
 					{
 						_ApplyTargets.push_back(targetInfos);
 					}
@@ -796,7 +796,7 @@ void CMagicActionBasicDamage::launch(
 			resists.clear(i);
 		}
 
-		if ( _DmgSap || _DmgSta || targetInfos.needsApply() )
+		if ( _DmgChaScore3 || _DmgChaScore2 || targetInfos.needsApply() )
 		{
 			// insert the main target at the first position because there may already be a bounce target
 			if (i == 0)
@@ -852,7 +852,7 @@ void CMagicActionBasicDamage::apply(
 		
 		bool reportXpForEntity = true;
 		// true if target has resisted or is immune
-		if (applyOnEntity(phrase, actor, target, vamp, vampRatio, _ApplyTargets[i], _DmgType, _DmgHp, _DmgSap, _DmgSta, _VampirismValue))
+		if (applyOnEntity(phrase, actor, target, vamp, vampRatio, _ApplyTargets[i], _DmgType, _DmgChaScore1, _DmgChaScore3, _DmgChaScore2, _VampirismValue))
 			reportXpForEntity = false;
 		
 		if (reportXpForEntity)
@@ -869,7 +869,7 @@ void CMagicActionBasicDamage::apply(
 		}
 		
 		// only send report if damage have been made
-		if (actionReports[i].Hp != 0 || actionReports[i].Sap != 0 || actionReports[i].Sta != 0 || actionReports[i].Focus != 0)
+		if (actionReports[i].ChaScore1 != 0 || actionReports[i].ChaScore3 != 0 || actionReports[i].ChaScore2 != 0 || actionReports[i].ChaScore4 != 0)
 		{
 			PROGRESSIONPVE::CCharacterProgressionPVE::getInstance()->actionReport(actionReports[i], (i==0));
 			PROGRESSIONPVP::CCharacterProgressionPVP::getInstance()->reportAction(actionReports[i]);

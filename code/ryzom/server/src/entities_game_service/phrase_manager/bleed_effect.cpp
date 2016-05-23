@@ -64,7 +64,7 @@ bool CBleedEffect::update(CTimerEvent * event, bool applyEffect)
 		++damage;
 	}
 	
-	// remove hp
+	// remove ChaScore1
 	if ( damage > 0 && _BleedingEntity != NULL)
 	{
 		// send messages
@@ -73,7 +73,7 @@ bool CBleedEffect::update(CTimerEvent * event, bool applyEffect)
 		{
 			SM_STATIC_PARAMS_1(params, STRING_MANAGER::integer);
 			params[0].Int = damage;
-			PHRASE_UTILITIES::sendDynamicSystemMessage( _BleedingEntity->getEntityRowId(), "EFFECT_BLEED_LOSE_HP", params);
+			PHRASE_UTILITIES::sendDynamicSystemMessage( _BleedingEntity->getEntityRowId(), "EFFECT_BLEED_LOSE_ChaScore1", params);
 		}
 		// to actor
 		if ( _CreatorRowId != _TargetRowId && _CreatorRowId.isValid() && TheDataset.isDataSetRowStillValid(_CreatorRowId))
@@ -84,12 +84,12 @@ bool CBleedEffect::update(CTimerEvent * event, bool applyEffect)
 				SM_STATIC_PARAMS_2(params, STRING_MANAGER::entity, STRING_MANAGER::integer);
 				params[0].setEIdAIAlias( _BleedingEntity->getId(), CAIAliasTranslator::getInstance()->getAIAlias(_BleedingEntity->getId()) );
 				params[1].Int = damage;
-				PHRASE_UTILITIES::sendDynamicSystemMessage( actor->getEntityRowId(), "EFFECT_BLEED_LOSE_HP_ACTOR", params);
+				PHRASE_UTILITIES::sendDynamicSystemMessage( actor->getEntityRowId(), "EFFECT_BLEED_LOSE_ChaScore1_ACTOR", params);
 			}
 		}
 
-		// remove HP
-		if (_BleedingEntity->changeCurrentHp( (-1) * damage, _CreatorRowId))
+		// remove ChaScore1
+		if (_BleedingEntity->changeCurrentChaScore1( (-1) * damage, _CreatorRowId))
 		{
 			// killed entity, so this effect and all other effects have been cleared send kill message and return true
 			PHRASE_UTILITIES::sendDeathMessages( _CreatorRowId, _TargetRowId);

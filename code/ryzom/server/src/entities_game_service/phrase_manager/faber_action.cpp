@@ -260,7 +260,7 @@ public:
 					report.DeltaLvl = deltaLvl;
 					report.Skill = skill;
 					report.factor = successFactor;
-					report.Focus = (uint32) phrase->getFocusCost();
+					report.ChaScore4 = (uint32) phrase->getChaScore4Cost();
 
 					// as this is a craft action, the player must have a crafting tool in right hand
 					CGameItemPtr tool = c->getRightHandItem();
@@ -487,16 +487,16 @@ protected:
 
 				float buffFactor = successFactor * ((float)((sint32)min((sint32)phrase->getLowerRmQuality(),(sint32)phrase->getRecommendedSkill()))) / (float)phrase->getRecommendedSkill();
 
-				Params.HpBuff = (sint32)( ( Params.HpBuff + phrase->getMBOHitPoint() ) *  buffFactor );
-				Params.SapBuff = (sint32)( ( Params.SapBuff + phrase->getMBOSap() ) * buffFactor );
-				Params.StaBuff = (sint32)( ( Params.StaBuff + phrase->getMBOStamina() ) * buffFactor );
-				Params.FocusBuff = (sint32)( ( Params.FocusBuff + phrase->getMBOFocus() ) * buffFactor );
+				Params.ChaScore1Buff = (sint32)( ( Params.ChaScore1Buff + phrase->getMBOChaScore1() ) *  buffFactor );
+				Params.ChaScore2Buff = (sint32)( ( Params.ChaScore2Buff + phrase->getMBOChaScore2() ) * buffFactor );
+				Params.ChaScore3Buff = (sint32)( ( Params.ChaScore3Buff + phrase->getMBOChaScore3() ) * buffFactor );
+				Params.ChaScore4Buff = (sint32)( ( Params.ChaScore4Buff + phrase->getMBOChaScore4() ) * buffFactor );
 
 				// apply plan stat bonus
-				Params.HpBuff += sint32(phrase->getRootFaberPlan()->Faber->HpBonusPerLevel * finalItemQuality);
-				Params.SapBuff += sint32(phrase->getRootFaberPlan()->Faber->SapBonusPerLevel * finalItemQuality);
-				Params.StaBuff += sint32(phrase->getRootFaberPlan()->Faber->StaBonusPerLevel * finalItemQuality);
-				Params.FocusBuff += sint32(phrase->getRootFaberPlan()->Faber->FocusBonusPerLevel * finalItemQuality);
+				Params.ChaScore1Buff += sint32(phrase->getRootFaberPlan()->Faber->ChaScore1BonusPerLevel * finalItemQuality);
+				Params.ChaScore2Buff += sint32(phrase->getRootFaberPlan()->Faber->ChaScore2BonusPerLevel * finalItemQuality);
+				Params.ChaScore3Buff += sint32(phrase->getRootFaberPlan()->Faber->ChaScore3BonusPerLevel * finalItemQuality);
+				Params.ChaScore4Buff += sint32(phrase->getRootFaberPlan()->Faber->ChaScore4BonusPerLevel * finalItemQuality);
 				
 				// apply procs
 				{
@@ -516,29 +516,29 @@ protected:
 							ITEM_TYPE::TItemType	type	= phrase->getCraftedItemStaticForm()->Type;
 							if( type == ITEM_TYPE::MAGICIAN_STAFF )
 							{
-								scoresAllowed[SCORES::stamina]=false;
-								scoresAllowed[SCORES::focus]=false;
+								scoresAllowed[SCORES::cha_score2]=false;
+								scoresAllowed[SCORES::cha_score4]=false;
 							}
 							else if( type==ITEM_TYPE::HEAVY_BOOTS || type==ITEM_TYPE::HEAVY_GLOVES || type==ITEM_TYPE::HEAVY_PANTS ||
 									 type==ITEM_TYPE::HEAVY_SLEEVES || type==ITEM_TYPE::HEAVY_VEST || type==ITEM_TYPE::HEAVY_HELMET )
 							{
-								scoresAllowed[SCORES::focus]=false;
-								scoresAllowed[SCORES::sap]=false;
+								scoresAllowed[SCORES::cha_score4]=false;
+								scoresAllowed[SCORES::cha_score3]=false;
 							}
 							else if( type==ITEM_TYPE::MEDIUM_BOOTS || type==ITEM_TYPE::MEDIUM_GLOVES || type==ITEM_TYPE::MEDIUM_PANTS ||
 									 type==ITEM_TYPE::MEDIUM_SLEEVES || type==ITEM_TYPE::MEDIUM_VEST )
 							{
-								scoresAllowed[SCORES::focus]=false;
+								scoresAllowed[SCORES::cha_score4]=false;
 							}
 							else if( family==ITEMFAMILY::MELEE_WEAPON || family==ITEMFAMILY::RANGE_WEAPON || family==ITEMFAMILY::SHIELD )
 							{
-								scoresAllowed[SCORES::focus]=false;
-								scoresAllowed[SCORES::sap]=false;
+								scoresAllowed[SCORES::cha_score4]=false;
+								scoresAllowed[SCORES::cha_score3]=false;
 							}
 							else if( family==ITEMFAMILY::CRAFTING_TOOL || family==ITEMFAMILY::HARVEST_TOOL )
 							{
-								scoresAllowed[SCORES::hit_points]=false;
-								scoresAllowed[SCORES::stamina]=false;
+								scoresAllowed[SCORES::cha_score1]=false;
+								scoresAllowed[SCORES::cha_score2]=false;
 							}
 							// choose score using filtered random
 							uint32 randomScoreIndex = (uint32)RandomGenerator.rand((uint16)(SCORES::NUM_SCORES-1));
@@ -550,10 +550,10 @@ protected:
 
 							switch (stat)
 							{
-							case SCORES::hit_points: pbuff = &Params.HpBuff; break;
-							case SCORES::stamina: pbuff = &Params.StaBuff; break;
-							case SCORES::sap: pbuff = &Params.SapBuff; break;
-							case SCORES::focus: pbuff = &Params.FocusBuff; break;
+							case SCORES::cha_score1: pbuff = &Params.ChaScore1Buff; break;
+							case SCORES::cha_score2: pbuff = &Params.ChaScore2Buff; break;
+							case SCORES::cha_score3: pbuff = &Params.ChaScore3Buff; break;
+							case SCORES::cha_score4: pbuff = &Params.ChaScore4Buff; break;
 							}
 							if (pbuff)
 								*pbuff += (sint32)it->EffectArgFloat[1] + (sint32)max((uint16)1,(uint16)(finalItemQuality/10));
@@ -1301,11 +1301,11 @@ protected:
 			params.nbStatEnergy += 1;
 		}
 			
-		// Add always impact on HpBuff (should always be NULL in MPs for now)
-		params.HpBuff += fp.HpBuff;
-		params.SapBuff += fp.SapBuff;
-		params.StaBuff += fp.StaBuff;
-		params.FocusBuff += fp.FocusBuff;
+		// Add always impact on ChaScore1Buff (should always be NULL in MPs for now)
+		params.ChaScore1Buff += fp.ChaScore1Buff;
+		params.ChaScore2Buff += fp.ChaScore2Buff;
+		params.ChaScore3Buff += fp.ChaScore3Buff;
+		params.ChaScore4Buff += fp.ChaScore4Buff;
 	}
 	
 };
@@ -1485,11 +1485,11 @@ protected:
 		// Generic
 		CFaberActionMakeGeneric::specializedApply(phrase, mpOccurence, mpParameters, params, statBF);
 
-		// Ensure no HpBuff etc...
-		params.HpBuff = 0;
-		params.SapBuff = 0;
-		params.StaBuff = 0;
-		params.FocusBuff = 0;
+		// Ensure no ChaScore1Buff etc...
+		params.ChaScore1Buff = 0;
+		params.ChaScore2Buff = 0;
+		params.ChaScore3Buff = 0;
+		params.ChaScore4Buff = 0;
 	}
 };
 
@@ -1534,11 +1534,11 @@ protected:
 		// Generic
 		CFaberActionMakeGeneric::specializedApply(phrase, mpOccurence, mpParameters, params, statBF);
 		
-		// Ensure no HpBuff etc...
-		params.HpBuff = 0;
-		params.SapBuff = 0;
-		params.StaBuff = 0;
-		params.FocusBuff = 0;
+		// Ensure no ChaScore1Buff etc...
+		params.ChaScore1Buff = 0;
+		params.ChaScore2Buff = 0;
+		params.ChaScore3Buff = 0;
+		params.ChaScore4Buff = 0;
 	}
 };
 

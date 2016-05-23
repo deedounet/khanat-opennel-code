@@ -138,7 +138,7 @@ struct CCombatParams
 		EffectTime = 0;
 		EffectUpdateFrequency = 10;
 		EffectDamageType = DMGTYPE::UNDEFINED;
-		EffectAffectedScore = SCORES::hit_points;
+		EffectAffectedScore = SCORES::cha_score1;
 		Critic = 0.0f;
 		Behaviour = MBEHAV::UNKNOWN_BEHAVIOUR;
 		ArmorFactor = 1.0f;
@@ -193,10 +193,10 @@ struct CSpellParams
 	{
 		CastingTime = 0;
 		PostActionTime = 0;
-		SapCost = 0;
-		HpCost = 0;
+		ChaScore3Cost = 0;
+		ChaScore1Cost = 0;
 		Skill = SKILLS::unknown;
-		AffectedScore = SCORES::hit_points;
+		AffectedScore = SCORES::cha_score1;
 		DamageType = DMGTYPE::UNDEFINED;
 		SpellParamValue = 0;
 		SpellParamValue2 = 0;
@@ -215,8 +215,8 @@ struct CSpellParams
 	NLMISC::TGameCycle	CastingTime; // in ticks
 	NLMISC::TGameCycle	PostActionTime; // in ticks
 	SKILLS::ESkills		Skill;
-	uint16				SapCost;
-	uint16				HpCost;
+	uint16				ChaScore3Cost;
+	uint16				ChaScore1Cost;
 	SCORES::TScores		AffectedScore;
 	float				SpellParamValue;
 	float				SpellParamValue2;

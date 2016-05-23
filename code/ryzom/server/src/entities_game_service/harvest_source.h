@@ -202,7 +202,7 @@ public:
 	void		reduceBlowingUpDmg( float ratio );
 
 	/// Damage an entity
-	static void	hitEntity( RYZOMID::TTypeId aggressorType, CEntityBase *entity, sint32 hpDamageAmount, sint32 hpDamageAmountWithoutArmour, bool isIntentional, sint32 hpAvoided=0 );
+	static void	hitEntity( RYZOMID::TTypeId aggressorType, CEntityBase *entity, sint32 ChaScore1DamageAmount, sint32 ChaScore1DamageAmountWithoutArmour, bool isIntentional, sint32 ChaScore1Avoided=0 );
 
 	/// Recalculate the remaining extraction time depending on the requested quality
 	void		recalcExtractionTime( float requestedQuality );

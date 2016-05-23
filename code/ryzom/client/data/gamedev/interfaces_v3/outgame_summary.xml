@@ -545,10 +545,10 @@
 		<view type="text" id="max" posref="TR TR" x="-36" y="-4" hardtext="uiSumMax" 	shadow="true" fontsize="16" color="255 255 255 255" />
 		<view type="text" id="reg" posref="TR TR" x="-4" y="-4" 	hardtext="uiSumReg" 	shadow="true" fontsize="16" color="255 255 255 255" />
 	
-		<instance template="sum_caracs" id="c_hpmax" 	posref="TL TL" x="4" y="-24" 					 	title="uiSumHp"	  color="%hp_color"	max="mul(@UI:TEMP:CARACS:HPMAX,10)"  reg="div(@UI:TEMP:CARACS:HPREG,10)" />
-		<instance template="sum_caracs" id="c_stamax" 	posref="BL TL" 	posparent="c_hpmax" x="0" y="-2" 	title="uiSumSta"  color="%sta_color"	max="mul(@UI:TEMP:CARACS:STAMAX,10)" reg="div(@UI:TEMP:CARACS:STAREG,10)" />
-		<instance template="sum_caracs" id="c_sapmax" 	posref="BL TL" 	posparent="c_stamax" x="0" y="-2" 	title="uiSumSap"  color="%sap_color"	max="mul(@UI:TEMP:CARACS:SAPMAX,10)" reg="div(@UI:TEMP:CARACS:SAPREG,10)" />
-		<instance template="sum_caracs" id="c_wishmax" 	posref="BL TL" 	posparent="c_sapmax" x="0" y="-2" 	title="uiSumWish" color="%focus_color"	max="mul(@UI:TEMP:CARACS:WISHMAX,10)" reg="div(@UI:TEMP:CARACS:WISHREG,10)" />
+		<instance template="sum_caracs" id="c_ChaScore1max" 	posref="TL TL" x="4" y="-24" 					 	title="uiSumChaScore1"	  color="%ChaScore1_color"	max="mul(@UI:TEMP:CARACS:ChaScore1MAX,10)"  reg="div(@UI:TEMP:CARACS:ChaScore1REG,10)" />
+		<instance template="sum_caracs" id="c_ChaScore2max" 	posref="BL TL" 	posparent="c_ChaScore1max" x="0" y="-2" 	title="uiSumChaScore2"  color="%ChaScore2_color"	max="mul(@UI:TEMP:CARACS:ChaScore2MAX,10)" reg="div(@UI:TEMP:CARACS:ChaScore2REG,10)" />
+		<instance template="sum_caracs" id="c_ChaScore3max" 	posref="BL TL" 	posparent="c_ChaScore2max" x="0" y="-2" 	title="uiSumChaScore3"  color="%ChaScore3_color"	max="mul(@UI:TEMP:CARACS:ChaScore3MAX,10)" reg="div(@UI:TEMP:CARACS:ChaScore3REG,10)" />
+		<instance template="sum_caracs" id="c_ChaScore4max" 	posref="BL TL" 	posparent="c_ChaScore3max" x="0" y="-2" 	title="uiSumChaScore4" color="%ChaScore4_color"	max="mul(@UI:TEMP:CARACS:ChaScore4MAX,10)" reg="div(@UI:TEMP:CARACS:ChaScore4REG,10)" />
 		-->
 	</group>
 	

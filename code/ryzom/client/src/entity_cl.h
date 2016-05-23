@@ -86,7 +86,7 @@ namespace NL3D
 
 class CEntitySheet;
 class CEntityCL;
-struct CAttackInfo;
+class CAttackInfo;
 
 class CItemSheet;
 
@@ -261,7 +261,7 @@ public:
 
 	/// Display the entity name.
 	virtual void displayName() {}
-	/// Display the Hp Modifiers
+	/// Display the ChaScore1 Modifiers
 	virtual void displayModifiers() {}
 	/// Draw Path
 	virtual void drawPath() {}
@@ -631,9 +631,9 @@ public:
 	/// Return true if the character is really dead. With no lag because of anim or LCT
 	virtual bool isReallyDead() const {return false;}
 
-	// Add hit points gain/lost by this entity.
-	void addHPOutput(sint16 hp, NLMISC::CRGBA color, float dt=0.0f) { if(_HPModifiers.size()<20) _HPModifiers.push_back(CHPModifier(hp,color,dt));}
-	void addHPOutput(const ucstring &text, NLMISC::CRGBA color, float dt=0.0f) { if(_HPModifiers.size()<20 && !text.empty()) _HPModifiers.push_back(CHPModifier(text,color,dt));}
+	// Add ChaScore1 gain/lost by this entity.
+	void addChaScore1Output(sint16 ChaScore1, NLMISC::CRGBA color, float dt=0.0f) { if(_ChaScore1Modifiers.size()<20) _ChaScore1Modifiers.push_back(CChaScore1Modifier(ChaScore1,color,dt));}
+	void addChaScore1Output(const ucstring &text, NLMISC::CRGBA color, float dt=0.0f) { if(_ChaScore1Modifiers.size()<20 && !text.empty()) _ChaScore1Modifiers.push_back(CChaScore1Modifier(text,color,dt));}
 
 	/// Return the entity sheet scale. (return 1.0 if there is any problem).
 	virtual float getSheetScale() const {return 1.0f;}
@@ -984,33 +984,33 @@ protected:
 	// Local selection box
 	NLMISC::CAABBox					_LocalSelectBox;
 	// List of modifiers taken by this entity.
-	class CHPModifier
+	class CChaScore1Modifier
 	{
 	public:
-		CHPModifier() {}
-		virtual ~CHPModifier() {}
-		CHPModifier (sint16 value, NLMISC::CRGBA color, float dt) : Value(value), Color(color), DeltaT(dt) {}
-		CHPModifier (const ucstring &text, NLMISC::CRGBA color, float dt) : Text(text), Color(color), DeltaT(dt) {}
+		CChaScore1Modifier() {}
+		virtual ~CChaScore1Modifier() {}
+		CChaScore1Modifier (sint16 value, NLMISC::CRGBA color, float dt) : Value(value), Color(color), DeltaT(dt) {}
+		CChaScore1Modifier (const ucstring &text, NLMISC::CRGBA color, float dt) : Text(text), Color(color), DeltaT(dt) {}
 
 		sint16			Value;		// If Text.empty(), take the Value
 		ucstring		Text;
 		NLMISC::CRGBA	Color;
 		float			DeltaT;
 	};
-	std::list<CHPModifier>			_HPModifiers;
+	std::list<CChaScore1Modifier>			_ChaScore1Modifiers;
 	//
-	class HPMD : public CHPModifier
+	class ChaScore1MD : public CChaScore1Modifier
 	{
 	public:
 		double	Time;
 		// DeltaZ between pos() and namePos(). computed only one time
 		float	DeltaZ;
-		HPMD()
+		ChaScore1MD()
 		{
 			DeltaZ= -FLT_MAX;
 		}
 	};
-	std::list<HPMD>				_HPDisplayed;
+	std::list<ChaScore1MD>				_ChaScore1Displayed;
 
 	// The transparency factor
 	float _TranspFactor; // 0 - opaque 1 - transparent

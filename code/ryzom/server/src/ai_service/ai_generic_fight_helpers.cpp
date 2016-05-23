@@ -374,7 +374,7 @@ bool s_move(
 					0.5f);
 			// If we can't follow the path or the computed pos is invalid
 			if (	status==CFollowPath::FOLLOW_NO_PATH
-				||	(_Bot->wpos().isValid() && !isPlaceAllowed(_Bot->getAStarFlag(), _Bot->wpos().getFlags())))
+				||	(_Bot->wpos().isValid() && (_Bot->wpos().getFlags()&_Bot->getAStarFlag())!=0))
 			{
 				// Restore position
 				_Bot->setPos(lastPos);
@@ -534,7 +534,7 @@ static void s_updateProfile(
 		target = _Bot->getTarget();
 	}
 	// Assert target is valid and alive
-	if (!target || !target->isAlive() || (heal && target->hpPercentage()>.9f))
+	if (!target || !target->isAlive() || (heal && target->ChaScore1Percentage()>.9f))
 	{
 		// If we are hitting an invalid or dead target just wait we finish hitting, else disengage
 		if (!_Bot->isHitting())
@@ -605,7 +605,7 @@ static void s_updateProfile(
 	_AtAttackDist = norm < _RangeMax;
 	
 	// Check if target can be attacked
-	bool const targetInForbiddenZone = ((!target->wpos().isValid())||!isPlaceAllowed(_Bot->getAStarFlag(), target->wpos().getFlags()));
+	bool const targetInForbiddenZone = ((!target->wpos().isValid())||(target->wpos().getFlags()&_Bot->getAStarFlag())!=0);
 	
 /****************************************************************************/
 /* Profile main processing                                                  */

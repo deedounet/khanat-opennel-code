@@ -144,9 +144,9 @@ void CCharacterProgressionPVE::actionReport( TReportAction& reportAction, bool i
 	CEntityBase * target = CEntityBaseManager::getEntityBasePtr( reportAction.TargetRowId );
 
 	// memorize damage
-	if (target && reportAction.Hp > 0)
+	if (target && reportAction.ChaScore1 > 0)
 	{
-		addDamage(actor->getId(), target->getId(), reportAction.Hp);
+		addDamage(actor->getId(), target->getId(), reportAction.ChaScore1);
 	}
 
 	// used skill will be considered for delta level of the action during a combat
@@ -167,7 +167,7 @@ void CCharacterProgressionPVE::actionReport( TReportAction& reportAction, bool i
 
 		case ACTNATURE::FIGHT:
 			// if no damage done on a fight action, do not consider it, juste returns
-			if (reportAction.Hp == 0)
+			if (reportAction.ChaScore1 == 0)
 			{
 				return;
 			}
@@ -192,7 +192,7 @@ void CCharacterProgressionPVE::actionReport( TReportAction& reportAction, bool i
 					if (useSkillForDeltaLevel)
 					{
 						// if no damage reported yet, report it now to add target creature as team ennemy
-						if (reportAction.Hp == 0)
+						if (reportAction.ChaScore1 == 0)
 							addDamage(actor->getId(), target->getId(), 0);
 
 						uint16 skillValue = (uint16)playerChar->getSkillBaseValue(reportAction.Skill);
@@ -592,7 +592,7 @@ void CCharacterProgressionPVE::offensiveActionReported( const TReportAction& rep
 				}
 
 				// PJ perform offensive action against PNJ
-//				crea->getCreatureOpponent().storeAggressor( reportAction.ActorRowId, reportAction.Hp );
+//				crea->getCreatureOpponent().storeAggressor( reportAction.ActorRowId, reportAction.ChaScore1 );
 				TCharacterActionsContainer::iterator it = _CharacterActions.find( reportAction.ActorRowId );
 				if( it == _CharacterActions.end() )
 				{
@@ -633,7 +633,7 @@ void CCharacterProgressionPVE::offensiveActionReported( const TReportAction& rep
 		CCreature * crea = dynamic_cast< CCreature * >( target );
 		if( crea != 0 )
 		{
-			crea->getCreatureOpponent().storeAggressor( reportAction.ActorRowId, reportAction.Hp );
+			crea->getCreatureOpponent().storeAggressor( reportAction.ActorRowId, reportAction.ChaScore1 );
 		}
 	}
 */
@@ -1678,14 +1678,14 @@ void CCharacterProgressionPVE::removeCreature(TDataSetRow creature)
 //----------------------------------------------------------------------------
 // CCharacterProgressionPVE::removeCreature
 //----------------------------------------------------------------------------
-void CCharacterProgressionPVE::applyRegenHP(TDataSetRow creature, sint32 regenHP)
+void CCharacterProgressionPVE::applyRegenChaScore1(TDataSetRow creature, sint32 regenChaScore1)
 {
 	// get damage inflicted on creature
 	TCreatureTakenDamageContainer::iterator itCreatureDamage = _CreatureTakenDamage.find(creature);
 	if (itCreatureDamage == _CreatureTakenDamage.end())
 		return;
 
-	(*itCreatureDamage).second.applyRegenHP(regenHP);
+	(*itCreatureDamage).second.applyRegenChaScore1(regenChaScore1);
 }
 
 //----------------------------------------------------------------------------
@@ -1884,31 +1884,31 @@ void CCharacterActions::addAction( const TDataSetRow& target, SKILLS::ESkills sk
 /*void CCharacterActions::addCurativeAction( const TReportAction& reportAction )
 {
 	// no xp gain if curative action restore no energy
-	/*if( reportAction.Hp + reportAction.Sap + reportAction.Sta + reportAction.Focus == 0 )
+	/*if( reportAction.ChaScore1 + reportAction.ChaScore3 + reportAction.ChaScore2 + reportAction.ChaScore4 == 0 )
 		return 0;
 
-	uint32 TotalHpDmg = 0;
-	uint32 TotalSapDmg = 0;
-	uint32 TotalStaDmg = 0;
-	uint32 TotalFocusDmg = 0;
+	uint32 TotalChaScore1Dmg = 0;
+	uint32 TotalChaScore3Dmg = 0;
+	uint32 TotalChaScore2Dmg = 0;
+	uint32 TotalChaSCore4Dmg = 0;
 
-	double xpGainForHpRestore = 0.0f;
-	double xpGainForSapRestore = 0.0f;
-	double xpGainForStaRestore = 0.0f;
-	double xpGainForFocusRestore = 0.0f;
+	double xpGainForChaScore1Restore = 0.0f;
+	double xpGainForChaScore3Restore = 0.0f;
+	double xpGainForChaScore2Restore = 0.0f;
+	double xpGainForChaScore4Restore = 0.0f;
 
 	for( TSkillProgressPerOpponentContainer::iterator it = _SkillProgressPerOpponent.begin(); it != _SkillProgressPerOpponent.end(); ++it )
 	{
-		TotalHpDmg += (*it).second->hp();
-		TotalSapDmg += (*it).second->sap();
-		TotalStaDmg += (*it).second->sta();
-		TotalFocusDmg += (*it).second->focus();
+		TotalChaScore1Dmg += (*it).second->ChaScore1();
+		TotalChaScore3Dmg += (*it).second->ChaScore3();
+		TotalChaScore2Dmg += (*it).second->ChaScore2();
+		TotalChaScore4Dmg += (*it).second->ChaScore4();
 	}
 
-	xpGainForHpRestore = xpGain * reportAction.Hp / ( reportAction.Hp + reportAction.Sap + reportAction.Sta + reportAction.Focus );
-	xpGainForSapRestore = xpGain * reportAction.Sap / ( reportAction.Hp + reportAction.Sap + reportAction.Sta + reportAction.Focus );
-	xpGainForStaRestore = xpGain * reportAction.Sta / ( reportAction.Hp + reportAction.Sap + reportAction.Sta + reportAction.Focus );
-	xpGainForFocusRestore = xpGain * reportAction.Focus / ( reportAction.Hp + reportAction.Sap + reportAction.Sta + reportAction.Focus );
+	xpGainForChaScore1Restore = xpGain * reportAction.ChaScore1 / ( reportAction.ChaScore1 + reportAction.ChaScore3 + reportAction.ChaScore2 + reportAction.ChaScore4 );
+	xpGainForChaScore3Restore = xpGain * reportAction.ChaScore3 / ( reportAction.ChaScore1 + reportAction.ChaScore3 + reportAction.ChaScore2 + reportAction.ChaScore4 );
+	xpGainForChaScore2Restore = xpGain * reportAction.ChaScore2 / ( reportAction.ChaScore1 + reportAction.ChaScore3 + reportAction.ChaScore2 + reportAction.ChaScore4 );
+	xpGainForChaScore4Restore = xpGain * reportAction.ChaScore4 / ( reportAction.ChaScore1 + reportAction.ChaScore3 + reportAction.ChaScore2 + reportAction.ChaScore4 );
 
 	uint32 Healed;
 	double dispatchedXpGain = 0.0f;

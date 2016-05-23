@@ -153,8 +153,8 @@ bool CMagicPhrase::initPhraseFromAiAction( const TDataSetRow & actorRowId, const
 	case AI_ACTION::DamageSpell:
 	case AI_ACTION::ToxicCloud:
 		{
-			_SapCost += data.Spell.SapCost;
-			_HPCost += data.Spell.HpCost;
+			_ChaScore3Cost += data.Spell.ChaScore3Cost;
+			_ChaScore1Cost += data.Spell.ChaScore1Cost;
 			actionLatency = data.Spell.CastingTime;
 			_PostCastTime += data.Spell.PostActionTime;
 			
@@ -180,8 +180,8 @@ bool CMagicPhrase::initPhraseFromAiAction( const TDataSetRow & actorRowId, const
 	case AI_ACTION::DoTSpell:
 	case AI_ACTION::HoTSpell:
 		{
-			_SapCost += data.OTSpell.SapCost;
-			_HPCost += data.OTSpell.HpCost;
+			_ChaScore3Cost += data.OTSpell.ChaScore3Cost;
+			_ChaScore1Cost += data.OTSpell.ChaScore1Cost;
 			actionLatency = data.OTSpell.CastingTime;
 			_PostCastTime += data.OTSpell.PostActionTime;
 			
@@ -206,8 +206,8 @@ bool CMagicPhrase::initPhraseFromAiAction( const TDataSetRow & actorRowId, const
 
 	case AI_ACTION::EffectSpell:
 		{
-			_SapCost += data.EffectSpell.SapCost;
-			_HPCost += data.EffectSpell.HpCost;
+			_ChaScore3Cost += data.EffectSpell.ChaScore3Cost;
+			_ChaScore1Cost += data.EffectSpell.ChaScore1Cost;
 			actionLatency = data.EffectSpell.CastingTime;
 			_PostCastTime += data.EffectSpell.PostActionTime;
 			
@@ -231,8 +231,8 @@ bool CMagicPhrase::initPhraseFromAiAction( const TDataSetRow & actorRowId, const
 		break;
 	case AI_ACTION::EoTSpell:
 		{
-			_SapCost += data.OTEffectSpell.SapCost;
-			_HPCost += data.OTEffectSpell.HpCost;
+			_ChaScore3Cost += data.OTEffectSpell.ChaScore3Cost;
+			_ChaScore1Cost += data.OTEffectSpell.ChaScore1Cost;
 			actionLatency = data.OTEffectSpell.CastingTime;
 			_PostCastTime += data.OTEffectSpell.PostActionTime;
 			
@@ -320,13 +320,13 @@ void CMagicPhrase::applyBrickParam( const TBrickParam::IId * param, const CStati
 		}
 		break;
 
-	case TBrickParam::HP:
-		INFOLOG("HP: %i",((CSBrickParamHp *)param)->Hp);
-		_HPCost += ((CSBrickParamHp *)param)->Hp;
+	case TBrickParam::ChaScore1:
+		INFOLOG("ChaScore1: %i",((CSBrickParamChaScore1 *)param)->ChaScore1);
+		_ChaScore1Cost += ((CSBrickParamChaScore1 *)param)->ChaScore1;
 		break;				
-	case TBrickParam::SAP:
-		INFOLOG("SAP: %i",((CSBrickParamSap *)param)->Sap);
-		_SapCost += ((CSBrickParamSap *)param)->Sap;
+	case TBrickParam::ChaScore3:
+		INFOLOG("ChaScore3: %i",((CSBrickParamChaScore3 *)param)->ChaScore3);
+		_ChaScore3Cost += ((CSBrickParamChaScore3 *)param)->ChaScore3;
 		break;
 	case TBrickParam::MA_BREAK_RES:
 		INFOLOG("MA_BREAK_RES: %u",((CSBrickParamMagicBreakResist *)param)->BreakResist);
@@ -620,8 +620,8 @@ bool CMagicPhrase::build( const TDataSetRow & actorRowId, const std::vector< con
 	if( c )
 	{
 		WearMalus += c->wearMalus();
-		_SapCost = (uint16)(_SapCost * WearMalus);
-		_HPCost = (uint16)(_HPCost * WearMalus);
+		_ChaScore3Cost = (uint16)(_ChaScore3Cost * WearMalus);
+		_ChaScore1Cost = (uint16)(_ChaScore1Cost * WearMalus);
 	}
 		
 	// Compute the casting time for the phrase.
@@ -712,18 +712,18 @@ bool CMagicPhrase::validate()
 		// test caster scores (only for players)
 		CCharacter *character = (CCharacter *) (entity);		
 		
-		const sint32 hp = entity->currentHp();
-		if ( hp <= _HPCost  )
+		const sint32 ChaScore1 = entity->currentChaScore1();
+		if ( ChaScore1 <= _ChaScore1Cost  )
 		{
 			if ( entity->getId().getType() == RYZOMID::player )
-				PHRASE_UTILITIES::sendDynamicSystemMessage(entity->getEntityRowId(),"EGS_MAGIC_LACK_HP" );
+				PHRASE_UTILITIES::sendDynamicSystemMessage(entity->getEntityRowId(),"EGS_MAGIC_LACK_ChaScore1" );
 			return false;
 		}
-		const sint32 sap = entity->getScores()._PhysicalScores[ SCORES::sap ].Current;
-		if ( sap < _SapCost  )
+		const sint32 ChaScore3 = entity->getScores()._PhysicalScores[ SCORES::cha_score3 ].Current;
+		if ( ChaScore3 < _ChaScore3Cost  )
 		{
 			if ( entity->getId().getType() == RYZOMID::player )
-				PHRASE_UTILITIES::sendDynamicSystemMessage(entity->getEntityRowId(),"EGS_MAGIC_LACK_SAP" );
+				PHRASE_UTILITIES::sendDynamicSystemMessage(entity->getEntityRowId(),"EGS_MAGIC_LACK_ChaScore3" );
 			return false;
 		}
 
@@ -748,7 +748,7 @@ bool CMagicPhrase::validate()
 			return false;
 		}
 		// test target is still alive
-		if( target->isDead() && (!( ( target->getId().getType() == RYZOMID::player ) && ( target->currentHp() > - target->maxHp() ) ) ) )
+		if( target->isDead() && (!( ( target->getId().getType() == RYZOMID::player ) && ( target->currentChaScore1() > - target->maxChaScore1() ) ) ) )
 		{
 			// target is dead
 			PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "MAGIC_TARGET_DEAD");
@@ -1013,7 +1013,7 @@ void  CMagicPhrase::execute()
 // and properly handling it if you do.
 bool CMagicPhrase::spendResources(CEntityBase* entity)
 {
-	// Entity is not a player? => creature/npc don't have sap/hp/sta for spell!
+	// Entity is not a player? => creature/npc don't have ChaScore3/ChaScore1/ChaScore2 for spell!
 	if (entity->getId().getType() != RYZOMID::player)
 		return true;
 
@@ -1022,33 +1022,33 @@ bool CMagicPhrase::spendResources(CEntityBase* entity)
 		return true;
 
 	// Spend Resources. Spend all reseources, or spend none.
-	nlassert(SCORES::hit_points < entity->getScores()._PhysicalScores.size());
-	nlassert(SCORES::sap < entity->getScores()._PhysicalScores.size());
+	nlassert(SCORES::cha_score1 < entity->getScores()._PhysicalScores.size());
+	nlassert(SCORES::cha_score3 < entity->getScores()._PhysicalScores.size());
 
-	SCharacteristicsAndScores &hp = entity->getScores()._PhysicalScores[SCORES::hit_points];
-	SCharacteristicsAndScores &sap = entity->getScores()._PhysicalScores[SCORES::sap];
+	SCharacteristicsAndScores &ChaScore1 = entity->getScores()._PhysicalScores[SCORES::cha_score1];
+	SCharacteristicsAndScores &ChaScore3 = entity->getScores()._PhysicalScores[SCORES::cha_score3];
 
 	// do not allow player to die
-	if ((sint32)_HPCost >= sint32(hp.Current))
+	if ((sint32)_ChaScore1Cost >= sint32(ChaScore1.Current))
 		return false;
-	if ((sint32)_SapCost > sint32(sap.Current))
+	if ((sint32)_ChaScore3Cost > sint32(ChaScore3.Current))
 		return false;
 
 	
-	if ( _HPCost != 0 )
+	if ( _ChaScore1Cost != 0 )
 	{
-		// changeCurrentHp returns "true" if the change kills the entity. why yes, this IS stupid in the extreme.
+		// changeCurrentChaScore1 returns "true" if the change kills the entity. why yes, this IS stupid in the extreme.
 		// because of the line above, this should never be relevant, but wtf. it's only two lines of code.
-		if ( entity->changeCurrentHp( (_HPCost) * (-1) ) )
+		if ( entity->changeCurrentChaScore1( (_ChaScore1Cost) * (-1) ) )
 		{
 			PHRASE_UTILITIES::sendDeathMessages( entity->getEntityRowId(), entity->getEntityRowId() );
 			return false;
 		}
 	}
 	
-	if ( _SapCost != 0 )
+	if ( _ChaScore3Cost != 0 )
 	{
-		entity->changeScore(SCORES::sap, -_SapCost);
+		entity->changeScore(SCORES::cha_score3, -_ChaScore3Cost);
 	}
 
 	return true;
@@ -1078,7 +1078,7 @@ bool CMagicPhrase::launch()
 		PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "MAGIC_MAGICIAN_STAFF_LOW_REQ");
 	}
 	
-	// spend sap, hp
+	// spend ChaScore3, ChaScore1
 	// returns false if the spell would either kill the caster, or any cost is more than the caster has available.
 	if (spendResources(entity) == false)
 		return false;

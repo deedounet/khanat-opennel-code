@@ -224,7 +224,7 @@ float						MaxHarvestDistance = 5.5f;
 // max mount distance
 float						MaxMountDistance = 2.f;
 
-// the max value if Team members hp/sta/sap status window (represents 100% of max value)
+// the max value of Team members ChaScore1/ChaScore2/ChaScore3 status window (represents 100% of max value)
 uint8						TeamMembersStatusMaxValue = 127;
 
 // Globals variables for the brick manager
@@ -237,7 +237,7 @@ float						MaxEngageMeleeDistance = 20.0f;
 float						MaxEngageRangeDistance = 100.0f;
 
 // Item decay related values
-float						CarriedItemsDecayRatio = 0.01f; // 1% of maxHp lot every 'rate' s
+float						CarriedItemsDecayRatio = 0.01f; // 1% of maxHP lot every 'rate' s
 float						CarriedItemsDecayRate = 360.0; // rate of decay in seconds (default = 6 minutes (so 10%/hour))
 
 bool						UnlimitedDeathPact = false;
@@ -380,7 +380,7 @@ void processMirrorUpdates()
 			{
 				const bool previous = user->isInWater();
 				user->updateIsInWater();
-				// if player is going in water, remove all stored Xp from it's attackers and set thier Hp to max value
+				// if player is going in water, remove all stored Xp from it's attackers and set their ChaScore1 to max value
 				if ( ! previous && user->isInWater())
 				{
 					user->entersWater();
@@ -1384,8 +1384,8 @@ void CPlayerService::init()
 	TRANSPORT_CLASS_REGISTER (CReportAIInstanceDespawnMsgImp);
 	TRANSPORT_CLASS_REGISTER (CWarnBadInstanceMsg);
 	TRANSPORT_CLASS_REGISTER (CCreatureCompleteHealImp);
-	TRANSPORT_CLASS_REGISTER (CChangeCreatureMaxHPImp);
-	TRANSPORT_CLASS_REGISTER (CChangeCreatureHPImp);
+	TRANSPORT_CLASS_REGISTER (CChangeCreatureMaxChaScore1Imp);
+	TRANSPORT_CLASS_REGISTER (CChangeCreatureChaScore1Imp);
 	TRANSPORT_CLASS_REGISTER (CCreatureSetUrlImp);
 	TRANSPORT_CLASS_REGISTER (CChangeCreatureModeMsg);
 	TRANSPORT_CLASS_REGISTER (CGiveItemRequestMsgImp);
@@ -4732,7 +4732,7 @@ NLMISC_COMMAND(teleportPlayerCharacter,"Teleport online player character","<char
 //-----------------------------------------------
 // set the life bar of an entity
 //-----------------------------------------------
-NLMISC_COMMAND(setHPBar,"set the value of an entity HP bar (0..100)","<entity id(id:type:crea:dyn)> <bar value>")
+NLMISC_COMMAND(setChaScore1Bar,"set the value of an entity ChaScore1 bar (0..100)","<entity id(id:type:crea:dyn)> <bar value>")
 {
 	if( args.size() == 2 )
 	{
@@ -4767,8 +4767,8 @@ NLMISC_COMMAND(setHPBar,"set the value of an entity HP bar (0..100)","<entity id
 		sint32 barValue;
 		NLMISC::fromString(args[1], barValue);
 
-		entity->setScoreBar( SCORES::hit_points, (uint32)(barValue * 1023 / 100) );
-		log.displayNL("for entity id %s, new hpBar value : %d", id.toString().c_str(), barValue );
+		entity->setScoreBar( SCORES::cha_score1, (uint32)(barValue * 1023 / 100) );
+		log.displayNL("for entity id %s, new ChaScore1Bar value : %d", id.toString().c_str(), barValue );
 
 		return true;
 	}

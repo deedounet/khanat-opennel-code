@@ -332,16 +332,16 @@ inline void sendDeathMessages( const TDataSetRow &killerRowId, const TDataSetRow
  * \param victimId NLMISC::CEntityId of the victim entity
  * \param sentence pointer on the calling sentence if any
  * \param amount the amount of damage dealt to the victim entity
- * \param lostStamina the amount of stamina lost by the victim entity
- * \param lostSap the amount of sap lost by the victim entity
+ * \param lostChaScore2 the amount of ChaScore2 lost by the victim entity
+ * \param lostChaScore3 the amount of ChaScore3 lost by the victim entity
  */
-void sendHitMessages( const NLMISC::CEntityId &aggressorId, const NLMISC::CEntityId &victimId, sint32 amount, sint32 lostStamina = 0, sint32 lostSap = 0);
+void sendHitMessages( const NLMISC::CEntityId &aggressorId, const NLMISC::CEntityId &victimId, sint32 amount, sint32 lostChaScore2 = 0, sint32 lostChaScore3 = 0);
 
-inline void sendHitMessages( const TDataSetRow &aggressorRowId, const TDataSetRow &victimRowId, sint32 amount, sint32 lostStamina = 0, sint32 lostSap = 0)
+inline void sendHitMessages( const TDataSetRow &aggressorRowId, const TDataSetRow &victimRowId, sint32 amount, sint32 lostChaScore2 = 0, sint32 lostChaScore3 = 0)
 {
 	if (aggressorRowId.isValid() && TheDataset.isDataSetRowStillValid(aggressorRowId) && victimRowId.isValid() && TheDataset.isDataSetRowStillValid(victimRowId) )
 	{
-		sendHitMessages( TheDataset.getEntityId( aggressorRowId ), TheDataset.getEntityId( victimRowId ), amount, lostStamina, lostSap );
+		sendHitMessages( TheDataset.getEntityId( aggressorRowId ), TheDataset.getEntityId( victimRowId ), amount, lostChaScore2, lostChaScore3 );
 	}
 }
 
@@ -543,7 +543,7 @@ inline void sendCriticalHitMessage( const TDataSetRow &aggressorRowId, const TDa
  * \param score the affected score
  * \return the impact intensity
  */
-INTENSITY_TYPE::TImpactIntensity getImpactIntensity( sint32 impact, const TDataSetRow &victimRowId, SCORES::TScores score = SCORES::hit_points );
+INTENSITY_TYPE::TImpactIntensity getImpactIntensity( sint32 impact, const TDataSetRow &victimRowId, SCORES::TScores score = SCORES::cha_score1 );
 
 /**
  * get the intensity of the attack

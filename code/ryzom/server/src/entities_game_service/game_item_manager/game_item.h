@@ -141,10 +141,10 @@ struct CCraftParameters
 	uint32	nbPrimaryRootResistanceFactor;
 
 	// armor and jewel buff
-	sint32	HpBuff;
-	sint32	SapBuff;
-	sint32	StaBuff;
-	sint32	FocusBuff;
+	sint32	ChaScore1Buff;
+	sint32	ChaScore2Buff;
+	sint32	ChaScore3Buff;
+	sint32	ChaScore4Buff;
 
 	CCraftParameters();
 };
@@ -213,10 +213,10 @@ struct CItemCraftParameters
 	float	DefensiveAfflictionPowerFactor;
 
 	// armor and jewel buff
-	sint32	HpBuff;
-	sint32	SapBuff;
-	sint32	StaBuff;
-	sint32	FocusBuff;
+	sint32	ChaScore1Buff;
+	sint32	ChaScore2Buff;
+	sint32	ChaScore3Buff;
+	sint32	ChaScore4Buff;
 
 	CItemCraftParameters();
 
@@ -470,18 +470,18 @@ public :
 	// return resistance gived by item for a resistance type
 	uint32 magicResistance(RESISTANCE_TYPE::TResistanceType resistanceType) const;
 
-	// get Hit points buff
-	sint32 hpBuff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->HpBuff; }
-	// get Sap points buff
-	sint32 sapBuff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->SapBuff; }
-	// get Sta points buff
-	sint32 staBuff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->StaBuff; }
-	// get Hit points buff
-	sint32 focusBuff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->FocusBuff; }
+	// get ChaScore1 points buff
+	sint32 ChaScore1Buff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->ChaScore1Buff; }
+	// get ChaScore2 points buff
+	sint32 ChaScore2Buff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->ChaScore2Buff; }
+	// get ChaScore3 points buff
+	sint32 ChaScore3Buff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->ChaScore3Buff; }
+	// get ChaScore4 points buff
+	sint32 ChaScore4Buff() const { return _CraftParameters == 0 ? 0 : _CraftParameters->ChaScore4Buff; }
 
-	/// get the Hit points buff provided by armors
-	/// it must be added to hpBuff() which does not include this bonus
-	sint32 armorHpBuff() const;
+	/// get the ChaScore1 points buff provided by armors
+	/// it must be added to ChaScore1Buff() which does not include this bonus
+	sint32 armorChaScore1Buff() const;
 
 	//get casting time factor for elemental spells
 	float getElementalCastingTimeFactor() const;// { return _CraftParameters.ElementalCastingTimeFactor; }
@@ -922,9 +922,9 @@ private:
 
 	/// Recommended skill for use
 	uint32				_Recommended;
-	/// current hit points
+	/// current HP
 	mutable uint32		_HP;
-	/// lost hp floating part (kept for wear)
+	/// lost HP floating part (kept for wear)
 	float				_LostHPremains;
 	/// current worn state
 	ITEM_WORN_STATE::TItemWornState _CurrentWornState;

@@ -70,8 +70,8 @@ void	cbMirrorIsReady( CMirror *mirror )
 	CMirrors::DataSet->declareProperty( "Mode", PSOReadOnly | PSONotifyChanges );
 	CMirrors::DataSet->declareProperty( "Behaviour", PSOReadOnly | PSONotifyChanges );
 	CMirrors::DataSet->declareProperty( "Target", PSOReadOnly );
-	CMirrors::DataSet->declareProperty( "CurrentHitPoints", PSOReadOnly | PSONotifyChanges );
-	CMirrors::DataSet->declareProperty( "MaxHitPoints", PSOReadOnly | PSONotifyChanges );
+	CMirrors::DataSet->declareProperty( "CurrentChaScore1Points", PSOReadOnly | PSONotifyChanges );
+	CMirrors::DataSet->declareProperty( "MaxChaScore1", PSOReadOnly | PSONotifyChanges );
 	CMirrors::DataSet->declareProperty( "BestRoleLevel", PSOReadOnly );
 	CMirrors::DataSet->declareProperty( "CombatState", PSOReadOnly );
 	CMirrors::DataSet->declareProperty( "TeamId", PSOReadOnly );
@@ -235,8 +235,8 @@ void	CMirrors::processMirrorUpdates()
 			// deals with others less frequently updated properties
 			if (wasPresent)
 			{
-				if (propIndex == DSPropertyCURRENT_HIT_POINTS || 
-					propIndex == DSPropertyMAX_HIT_POINTS ||
+				if (propIndex == DSPropertyCURRENT_ChaScore1 || 
+					propIndex == DSPropertyMAX_ChaScore1 ||
 					propIndex == DSPropertyMODE ||
 					propIndex == DSPropertyBEHAVIOUR
 				   )

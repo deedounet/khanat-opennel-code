@@ -893,10 +893,10 @@ void loadRawMaterial( UFormElm &root, CStaticItem *item, const CSheetId &sheetId
 							mpFaberParameter->getValueByName( civS, "CraftCivSpec" );
 							v.CraftCivSpec = ITEM_ORIGIN::stringToEnum( civS );
 
-							mpFaberParameter->getValueByName( v.HpBuff, "HpBuff" );
-							mpFaberParameter->getValueByName( v.SapBuff, "SapBuff" );
-							mpFaberParameter->getValueByName( v.StaBuff, "StaBuff" );
-							mpFaberParameter->getValueByName( v.FocusBuff, "FocusBuff" );
+							mpFaberParameter->getValueByName( v.ChaScore1Buff, "ChaScore1Buff" );
+							mpFaberParameter->getValueByName( v.ChaScore2Buff, "ChaScore2Buff" );
+							mpFaberParameter->getValueByName( v.ChaScore3Buff, "ChaScore3Buff" );
+							mpFaberParameter->getValueByName( v.ChaScore3Buff, "ChaScore3Buff" );
 							
 							item->Mp->MpFaberParameters.push_back( v );
 						}

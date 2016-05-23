@@ -135,7 +135,7 @@ CVariable<float> ForageKamiAngerThreshold2(
 
 CVariable<sint32> ForageKamiAngerPunishDamage(
 	"egs",
-	"ForageKamiPunishDamage", "Max HP hit once by an angry (invisible) kami",
+	"ForageKamiPunishDamage", "Max ChaScore1 hit once by an angry (invisible) kami",
 	6000,
 	0, true );
 
@@ -304,7 +304,7 @@ CVariable<uint16>			MaxCharacteristicValue("egs","MaxCharacteristicValue", "Max 
 // factor on creature and npc damage
 CVariable<float>			BotDamageFactor("egs","BotDamageFactor", "Factor applied on all Bots (creature and npcs) damage", 1.0f, 0, true );
 
-CVariable<float>			HitChestStaLossFactor("egs","HitChestStaLossFactor", "factor of damage also lost in sta when hit to chest", 0.5f, 0, true );
+CVariable<float>			HitChestChaScore2LossFactor("egs","HitChestChaScore2LossFactor", "factor of damage also lost in ChaScore2 when hit to chest", 0.5f, 0, true );
 CVariable<float>			HitHeadStunDuration("egs","HitHeadStunDuration", "duration (in seconds) of a stun when hit to head", 2.5f, 0, true );
 CVariable<float>			HitArmsSlowDuration("egs","HitArmsSlowDuration", "duration (in seconds) of a slow attack when hit to arms", 5.0f, 0, true );
 CVariable<sint16>			HitArmsSlowFactor("egs","HitArmsSlowFactor", "slowing factor when hit to arms (+20 = +20% to attack latency)", 50, 0, true );
@@ -375,7 +375,7 @@ CVariable<float> ForageExtractionCareEcoSpecFactor( "egs", "ForageExtractionCare
 
 CVariable<float> ForageExtractionNaturalDDeltaPerTick( "egs", "ForageExtractionNaturalDDeltaPerTick", "D increase per tick", 0.1f, 0, true );
 CVariable<float> ForageExtractionNaturalEDeltaPerTick( "egs", "ForageExtractionNaturalEDeltaPerTick", "E increase per tick", 0.1f, 0, true );
-CVariable<float> ForageHPRatioPerSourceLifeImpact( "egs", "HPRatioPerSourceLifeImpact", "Ratio of HP damaged per source life (D) impact value", 0.003937f, 0, true ); // 1/127 / 2
+CVariable<float> ForageChaScore1RatioPerSourceLifeImpact( "egs", "ChaScore1RatioPerSourceLifeImpact", "Ratio of ChaScore1 damaged per source life (D) impact value", 0.003937f, 0, true ); // 1/127 / 2
 CVariable<float> ForageCareFactor( "egs","ForageCareFactor","Factor for care delta", 4.0f,0, true );
 
 CVariable<float> ForageCareBeginZone( "egs", "ForageCareBeginZone", "", 5.0f, 0, true );
@@ -384,8 +384,8 @@ CVariable<float> ForageExtractionXPFactor( "egs", "ForageExtractionXPFactor", ""
 CVariable<float> ForageExtractionNbParticipantsXPBonusRatio( "egs", "ForageExtractionNbParticipantsXPBonusRatio", "", 0.1f, 0, true );
 CVariable<float> ForageExtractionNastyEventXPMalusRatio( "egs", "ForageExtractionNastyEventXPMalusRatio", "", 0.1f, 0, true );
 
-CVariable<float> ToxicCloudDamage( "egs","ToxicCloudDamage", "Max HP hit by a toxic cloud at ToxicCloudUpdateFrequency", 800.0f, true );
-CVariable<float> ForageExplosionDamage( "egs","ForageExplosionDamage", "Max HP hit once by a forage explosion", 4000.0f, true );
+CVariable<float> ToxicCloudDamage( "egs","ToxicCloudDamage", "Max ChaScore1 hit by a toxic cloud at ToxicCloudUpdateFrequency", 800.0f, true );
+CVariable<float> ForageExplosionDamage( "egs","ForageExplosionDamage", "Max ChaScore1 hit once by a forage explosion", 4000.0f, true );
 
 CVariable<sint32> FameByKill( "egs","FameByKill", "Number of fame point lost for a kill", -5000, true );
 
@@ -441,7 +441,7 @@ CVariable<float> ForageKamiOfferingSpeed( "egs","ForageKamiOfferingSpeed",
 CVariable<uint32> ForageReduceDamageTimeWindow( "egs", "ForageReduceDamageTimeWindow", "Time in tick before a blowing up when Reduce Damage actions are taken into account", 30, 0, true ); // 3 s
 
 CVariable<uint32> ForageDebug( "egs","ForageDebug",
-							  "Debug mode for forage phrases (0=normal 2=focusOnly 5=focus+skill 7=prospectionWithVariables 10=fullCheat)", 0,
+							  "Debug mode for forage phrases (0=normal 2=ChaScore4Only 5=ChaScore4+skill 7=prospectionWithVariables 10=fullCheat)", 0,
 							  0, true );
 CVariable<uint32> ForageSourceSpawnDelay( "egs","ForageSourceSpawnDelay",
 										 "Time (ticks) between end of prospection & spawning the source(s)",
@@ -453,7 +453,7 @@ CVariable<bool> ForageValidateSourcesSpawnPos( "egs", "ForageValidateSourcesSpaw
 CVariable<uint8> ForageRange( "egs","ForageRange", "", 0, 0, false );
 CVariable<uint8> ForageAngle( "egs","ForageAngle", "", 0, 0, false );
 CVariable<uint8> ForageLevel( "egs","ForageLevel", "", 0, 0, false );
-CVariable<sint32> ForageFocusRatioOfLocateDeposit( "egs", "ForageFocusRatioOfLocateDeposit", "", 10, 0, true );
+CVariable<sint32> ForageChaScore4RatioOfLocateDeposit( "egs", "ForageChaScore4RatioOfLocateDeposit", "", 10, 0, true );
 CVariable<float> ForageQuantityXPDeltaLevelBonusRate( "egs", "ForageQuantityXPDeltaLevelBonusRate", "Delta level increase per qtty unit (except 1st one)", 2.0f, 0, true );
 
 CVariable<float> QuarteringQuantityAverageForCraftHerbivore( "egs", "QuarteringQuantityAverageForCraftHerbivore", "Control the global quantity in quartering for craft RMs of herbivores (H/B/P)", 1.0f, 0, true );
@@ -488,7 +488,7 @@ NLMISC::CVariable<std::string> MessageOfTheDay("egs","MessageOfTheDay", "Message
 
 NLMISC::CVariable<float> MaxDistanceGooDamage("egs","MaxDistanceGooDamage", "the maximum distance when character take damage from goo path", 100.0f, 0, true );
 NLMISC::CVariable<float> DeathGooDistance("egs","DeathGooDistance", "the distance when character take 100% damage from goo path", 1.0f, 0, true );
-NLMISC::CVariable<float> MaxGooDamageRatio("egs","MaxGooDamageRatio", "the factor applied goo damage for calculate effective goo damage (distance = 0 - 100% * ratio * base hp = damages)", 0.5f, 0, true );
+NLMISC::CVariable<float> MaxGooDamageRatio("egs","MaxGooDamageRatio", "the factor applied goo damage for calculate effective goo damage (distance = 0 - 100% * ratio * base ChaScore1 = damages)", 0.5f, 0, true );
 NLMISC::CVariable<uint32> NBTickForGooDamageRate("egs","NBTickForGooDamageRate", "nb tick needed for apply goo damage again", 5, 0, true );
 NLMISC::CVariable<uint32> NBTickForNewbieGooDamageRate("egs","NBTickForNewbieGooDamageRate", "nb tick needed for apply goo damage again in newbieland", 10, 0, true );
 NLMISC::CVariable<float> NewbieGooDamageFactor("egs","NewbieGooDamageFactor", "percentage of life lost at maximum from goo in newbieland", .2f, 0, true );

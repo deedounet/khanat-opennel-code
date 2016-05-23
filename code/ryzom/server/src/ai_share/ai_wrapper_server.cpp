@@ -219,39 +219,39 @@ void CAiWrapperServer::despawnEntity(NLMISC::CEntityId entityId, uint32 alias)
 	CUnifiedNetwork::getInstance()->send("AIS",msgout);
 }
 
-void CAiWrapperServer::setGrpHPLevel(NLMISC::CEntityId entityId, uint32 alias,  float hp)
+void CAiWrapperServer::setGrpChaScore1Level(NLMISC::CEntityId entityId, uint32 alias,  float ChaScore1)
 {
 		uint32 messageVersion = 1;
 	uint32 nbString=2;
 	std::string eid  =  entityId.toString();
 
-	std::string hpstr = NLMISC::toString("()setHPScale(%f);", hp);
+	std::string ChaScore1str = NLMISC::toString("()setChaScore1Scale(%f);", ChaScore1);
 
 	//CMessage msgout("EVENT_NPC_GROUP_SCRIPT");
 	CMessage msgout("R2_NPC_BOT_SCRIPT_BY_ID");
 	msgout.serial(messageVersion);
 	msgout.serial(nbString);
 	msgout.serial(eid);
-	msgout.serial(hpstr);
+	msgout.serial(ChaScore1str);
 
 	CUnifiedNetwork::getInstance()->send("AIS",msgout);
 }
 
-void CAiWrapperServer::setHPLevel(NLMISC::CEntityId entityId, uint32 alias, float hp)
+void CAiWrapperServer::setChaScore1Level(NLMISC::CEntityId entityId, uint32 alias, float ChaScore1)
 {
 
 	uint32 messageVersion = 1;
 	uint32 nbString=2;
 	std::string eid  =  entityId.toString();
 
-	std::string hpstr = NLMISC::toString("()setBotHPScaleByAlias(%f, \"%s\");", hp, aliasToString(alias).c_str());
+	std::string ChaScore1str = NLMISC::toString("()setBotChaScore1ScaleByAlias(%f, \"%s\");", ChaScore1, aliasToString(alias).c_str());
 
 	//CMessage msgout("EVENT_NPC_GROUP_SCRIPT");
 	CMessage msgout("R2_NPC_BOT_SCRIPT_BY_ID");
 	msgout.serial(messageVersion);
 	msgout.serial(nbString);
 	msgout.serial(eid);
-	msgout.serial(hpstr);
+	msgout.serial(ChaScore1str);
 
 	CUnifiedNetwork::getInstance()->send("AIS",msgout);
 }

@@ -205,17 +205,17 @@ void CCharacterVersionAdapter::adaptToVersion2(CCharacter &character) const
 	{
 		switch( i )
 		{
-		case SCORES::hit_points:
-			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::constitution ].Base * 10;
+		case SCORES::cha_score1:
+			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha1 ].Base * 10;
 			break;
-		case SCORES::sap:
-			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::intelligence ].Base * 10;
+		case SCORES::cha_score2:
+			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha2 ].Base * 10;
 			break;
-		case SCORES::stamina:
-			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::strength ].Base * 10;
+		case SCORES::cha_score3:
+			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha3 ].Base * 10;
 			break;
-		case SCORES::focus:
-			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::dexterity ].Base * 10;
+		case SCORES::cha_score4:
+			character._PhysScores._PhysicalScores[ i ].Base = character._PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha4 ].Base * 10;
 			break;
 		default:;
 		}
@@ -1065,19 +1065,19 @@ void CCharacterVersionAdapter::adaptToVersion23(CCharacter &character) const
 //---------------------------------------------------
 void CCharacterVersionAdapter::adaptToVersion24(CCharacter &character) const
 {
-	// HP
+	// ChaScore1
 	uint32 bonus;
 	vector<string> bricks;
-	bricks.push_back("bthp01");
-	bricks.push_back("bthp04");
-	bricks.push_back("bthp06");
-	bricks.push_back("bthp08");
-	bricks.push_back("bthp12");
-	bricks.push_back("bthp13");
-	bricks.push_back("bthp16");
-	bricks.push_back("bthp17");
-	bricks.push_back("bthp18");
-	bricks.push_back("bthp20");
+	bricks.push_back("btchs101");
+	bricks.push_back("btchs104");
+	bricks.push_back("btchs106");
+	bricks.push_back("btchs108");
+	bricks.push_back("btchs112");
+	bricks.push_back("btchs113");
+	bricks.push_back("btchs116");
+	bricks.push_back("btchs117");
+	bricks.push_back("btchs118");
+	bricks.push_back("btchs120");
 	
 	bonus = 0;
 	for (uint i = 0; i < bricks.size(); i++)
@@ -1089,19 +1089,19 @@ void CCharacterVersionAdapter::adaptToVersion24(CCharacter &character) const
 		}
 	}
 	
-	if (character.getScorePermanentModifiers(SCORES::hit_points) < bonus)
+	if (character.getScorePermanentModifiers(SCORES::cha_score1) < bonus)
 	{
-		nlinfo("RITE BONUS FIX: Player %s need %d (hp) but have %d !", character.getName().toString().c_str(), bonus, character.getScorePermanentModifiers(SCORES::hit_points));
-		character.setScorePermanentModifiers(SCORES::hit_points, bonus);
+		nlinfo("RITE BONUS FIX: Player %s need %d (ChaScore1) but have %d !", character.getName().toString().c_str(), bonus, character.getScorePermanentModifiers(SCORES::cha_score1));
+		character.setScorePermanentModifiers(SCORES::cha_score1, bonus);
 	}
 	
-	// SAP
+	// ChaScore3
 	bricks.clear();
-	bricks.push_back("btsap03");
-	bricks.push_back("btsap04");
-	bricks.push_back("btsap12");
-	bricks.push_back("btsap16");
-	bricks.push_back("btsap18");
+	bricks.push_back("btchs303");
+	bricks.push_back("btchs304");
+	bricks.push_back("btchs312");
+	bricks.push_back("btchs316");
+	bricks.push_back("btchs318");
 	
 	bonus = 0;
 	for (uint i = 0; i < bricks.size(); i++)
@@ -1113,22 +1113,22 @@ void CCharacterVersionAdapter::adaptToVersion24(CCharacter &character) const
 		}
 	}
 	
-	if (character.getScorePermanentModifiers(SCORES::sap) < bonus)
+	if (character.getScorePermanentModifiers(SCORES::cha_score3) < bonus)
 	{
-		nlinfo("RITE BONUS FIX: Player %s need %d (sap) but have %d !", character.getName().toString().c_str(),bonus, character.getScorePermanentModifiers(SCORES::sap));
-		character.setScorePermanentModifiers(SCORES::sap, bonus);
+		nlinfo("RITE BONUS FIX: Player %s need %d (ChaScore3) but have %d !", character.getName().toString().c_str(),bonus, character.getScorePermanentModifiers(SCORES::cha_score3));
+		character.setScorePermanentModifiers(SCORES::cha_score3, bonus);
 	}
 	
-	// FOCUS
+	// ChaScore3
 	bricks.clear();
-	bricks.push_back("btfoc01");
-	bricks.push_back("btfoc04");
-	bricks.push_back("btfoc09");
-	bricks.push_back("btfoc11");
-	bricks.push_back("btfoc15");
-	bricks.push_back("btfoc17");
-	bricks.push_back("btfoc19");
-	bricks.push_back("btfoc20");
+	bricks.push_back("btchs401");
+	bricks.push_back("btchs404");
+	bricks.push_back("btchs409");
+	bricks.push_back("btchs411");
+	bricks.push_back("btchs415");
+	bricks.push_back("btchs417");
+	bricks.push_back("btchs419");
+	bricks.push_back("btchs420");
 	
 	bonus = 0;
 	for (uint i = 0; i < bricks.size(); i++)
@@ -1140,20 +1140,20 @@ void CCharacterVersionAdapter::adaptToVersion24(CCharacter &character) const
 		}
 	}
 	
-	if (character.getScorePermanentModifiers(SCORES::focus) < bonus)
+	if (character.getScorePermanentModifiers(SCORES::cha_score4) < bonus)
 	{
-		nlinfo("RITE BONUS FIX: Player %s need %d (focus) but have %d !", character.getName().toString().c_str(),bonus, character.getScorePermanentModifiers(SCORES::focus));
-		character.setScorePermanentModifiers(SCORES::focus, bonus);
+		nlinfo("RITE BONUS FIX: Player %s need %d (ChaScore4) but have %d !", character.getName().toString().c_str(),bonus, character.getScorePermanentModifiers(SCORES::cha_score4));
+		character.setScorePermanentModifiers(SCORES::cha_score4, bonus);
 	}
 	
-	// STA
+	// ChaScore2
 	bricks.clear();
-	bricks.push_back("btsta13");
-	bricks.push_back("btsta14");
-	bricks.push_back("btsta15");
-	bricks.push_back("btsta16");
-	bricks.push_back("btsta17");
-	bricks.push_back("btsta20");
+	bricks.push_back("btchs13");
+	bricks.push_back("btchs14");
+	bricks.push_back("btchs15");
+	bricks.push_back("btchs16");
+	bricks.push_back("btchs17");
+	bricks.push_back("btchs20");
 	
 	bonus = 0;
 	for (uint i = 0; i < bricks.size(); i++)
@@ -1165,10 +1165,10 @@ void CCharacterVersionAdapter::adaptToVersion24(CCharacter &character) const
 		}
 	}
 	
-	if (character.getScorePermanentModifiers(SCORES::stamina) < bonus)
+	if (character.getScorePermanentModifiers(SCORES::cha_score2) < bonus)
 	{
-		nlinfo("RITE BONUS FIX: Player %s need %d (stamina) but have %d !", character.getName().toString().c_str(),bonus, character.getScorePermanentModifiers(SCORES::stamina));
-		character.setScorePermanentModifiers(SCORES::stamina, bonus);
+		nlinfo("RITE BONUS FIX: Player %s need %d (ChaScore1) but have %d !", character.getName().toString().c_str(),bonus, character.getScorePermanentModifiers(SCORES::cha_score2));
+		character.setScorePermanentModifiers(SCORES::cha_score2, bonus);
 	}
 }
 

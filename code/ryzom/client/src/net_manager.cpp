@@ -3168,18 +3168,18 @@ void impulseItemCloseRoomInventory(NLMISC::CBitMemStream &impulse)
 void impulseUserBars(NLMISC::CBitMemStream &impulse)
 {
 	uint8	msgNumber;
-	sint32	hp, sap, sta, focus;
+	sint32	ChaScore1, ChaScore3, ChaScore2, ChaScore4;
 	impulse.serial(msgNumber);
-	impulse.serial(hp);
-	impulse.serial(sap);
-	impulse.serial(sta);
-	impulse.serial(focus);
+	impulse.serial(ChaScore1);
+	impulse.serial(ChaScore3);
+	impulse.serial(ChaScore2);
+	impulse.serial(ChaScore4);
 
 	if (PermanentlyBanned) return;
 
 	// Setup the user Bars
 	CBarManager::CBarInfo	bi;
-	CBarManager::getInstance()->setupUserBarInfo(msgNumber, hp, sap, sta, focus);
+	CBarManager::getInstance()->setupUserBarInfo(msgNumber, ChaScore1, ChaScore3, ChaScore2, ChaScore4);
 }
 
 //-----------------------------------------------
@@ -3437,19 +3437,19 @@ void	impulseUserPopup(NLMISC::CBitMemStream &impulse)
 
 //-----------------------------------------------
 //-----------------------------------------------
-//extern void impulseCombatFlyingHpDelta(NLMISC::CBitMemStream &impulse);
-void impulseCombatFlyingHpDelta(NLMISC::CBitMemStream &impulse)
+//extern void impulseCombatFlyingChaScore1Delta(NLMISC::CBitMemStream &impulse);
+void impulseCombatFlyingChaScore1Delta(NLMISC::CBitMemStream &impulse)
 {
 	uint32 entityID;
 	uint32 rgba;
-	sint16 hpDelta;
+	sint16 ChaScore1Delta;
 	impulse.serial(entityID);
 	impulse.serial(rgba);
-	impulse.serial(hpDelta);
+	impulse.serial(ChaScore1Delta);
 	CRGBA color((uint8)(rgba>>24&255), (uint8)(rgba>>16&255), (uint8)(rgba>>8&255), (uint8)(rgba&255));
 	CEntityCL *entity = EntitiesMngr.getEntityByCompressedIndex(entityID);
 	if (entity)
-		entity->addHPOutput(ucstring(toString("%d", hpDelta)), color);
+		entity->addChaScore1Output(ucstring(toString("%d", ChaScore1Delta)), color);
 }
 
 void impulseCombatFlyingTextItemSpecialEffectProc(NLMISC::CBitMemStream &impulse)
@@ -3467,7 +3467,7 @@ void impulseCombatFlyingTextItemSpecialEffectProc(NLMISC::CBitMemStream &impulse
 	strFindReplace(text, "%param", toString("%d", param));
 	CEntityCL *entity = EntitiesMngr.getEntityByCompressedIndex(entityID);
 	if (entity)
-		entity->addHPOutput(text, color);
+		entity->addChaScore1Output(text, color);
 }
 
 void impulseCombatFlyingText(NLMISC::CBitMemStream &impulse)
@@ -3532,7 +3532,7 @@ void impulseCombatFlyingText(NLMISC::CBitMemStream &impulse)
 
 	CEntityCL *entity = EntitiesMngr.getEntityByCompressedIndex(entityID);
 	if (entity)
-		entity->addHPOutput(text, color, dt);
+		entity->addChaScore1Output(text, color, dt);
 }
 
 void  impulseSetSeason(NLMISC::CBitMemStream &impulse)
@@ -3716,7 +3716,7 @@ void initializeNetwork()
 	GenericMsgHeaderMngr.setCallback( "OUTPOST:CHOOSE_SIDE",		impulseOutpostChooseSide );
 	GenericMsgHeaderMngr.setCallback( "OUTPOST:DECLARE_WAR_ACK",	impulseOutpostDeclareWarAck );
 
-	GenericMsgHeaderMngr.setCallback( "COMBAT:FLYING_HP_DELTA",		impulseCombatFlyingHpDelta );
+	GenericMsgHeaderMngr.setCallback( "COMBAT:FLYING_ChaScore1_DELTA",		impulseCombatFlyingChaScore1Delta );
 	GenericMsgHeaderMngr.setCallback( "COMBAT:FLYING_TEXT_ISE",		impulseCombatFlyingTextItemSpecialEffectProc );
 	GenericMsgHeaderMngr.setCallback( "COMBAT:FLYING_TEXT",			impulseCombatFlyingText );
 

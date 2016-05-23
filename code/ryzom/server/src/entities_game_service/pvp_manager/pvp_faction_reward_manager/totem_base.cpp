@@ -48,9 +48,9 @@ CTotemBase::CTotemBase( std::string const& name )
 	_TotemEffect = EFFECT_FAMILIES::Unknown;
 	_BotObject = NULL;
 	_IsBuildingFinished = true;
-	_TotemCurrentHP = 1;
-	_TotemMaxHP = 1;
-	_BuildHpGain = 0;
+	_TotemCurrentChaScore1 = 1;
+	_TotemMaxChaScore1 = 1;
+	_BuildChaScore1Gain = 0;
 	_LastTickUpdate = 0;
 	_BuildingStartTime = 0;
 	_LastTickAttackMessageSended = 0;
@@ -126,14 +126,14 @@ void CTotemBase::getTotemEffect( CCharacter* user, vector<CSEffect*>& outEffects
 		switch ( _TotemEffect )
 		{
 		// characteristics modifiers
-		case TotemStatsHP :
-		case TotemStatsSap :
-		case TotemStatsSta :
-		case TotemStatsFoc :
-		case TotemRegenHP :
-		case TotemRegenSap :
-		case TotemRegenSta :
-		case TotemRegenFoc :
+		case TotemStatsChaScore1 :
+		case TotemStatsChaScore3 :
+		case TotemStatsChaScore2 :
+		case TotemStatsChaScore4 :
+		case TotemRegenChaScore1 :
+		case TotemRegenChaScore3 :
+		case TotemRegenChaScore2 :
+		case TotemRegenChaScore4 :
 		case TotemMiscMov :
 			pEffect = new CTotemCharacEffect( user->getEntityRowId(), user->getEntityRowId(), 
 											 _TotemEffect, effectValue );
@@ -188,13 +188,13 @@ void CTotemBase::startBuilding( CCharacter * builder )
 
 	if ( _BotObject )
 	{
-		_BotObject->getScores()._PhysicalScores[SCORES::hit_points].Current = 1;
-		_TotemCurrentHP = 1;
+		_BotObject->getScores()._PhysicalScores[SCORES::cha_score1].Current = 1;
+		_TotemCurrentChaScore1 = 1;
 		
 		_BotObject->getPhysCharacs()._PhysicalCharacteristics[SCharacteristicsAndScores::current_regenerate].Base = 0;
 
-		_TotemMaxHP = (float)_BotObject->getScores()._PhysicalScores[SCORES::hit_points].Max;
-		_BuildHpGain = _TotemMaxHP / (float)TotemBuildTime;
+		_TotemMaxChaScore1 = (float)_BotObject->getScores()._PhysicalScores[SCORES::cha_score1].Max;
+		_BuildChaScore1Gain = _TotemMaxChaScore1 / (float)TotemBuildTime;
 	}
 }
 
@@ -212,8 +212,8 @@ void CTotemBase::setBotObject( CCreature* botObject )
 	// we must then restore some information
 	if ( _IsBuildingFinished == false )
 	{
-		_BotObject->getScores()._PhysicalScores[SCORES::hit_points].Max = (sint32)_TotemMaxHP;
-		_BotObject->getScores()._PhysicalScores[SCORES::hit_points].Current = (sint32)_TotemCurrentHP;
+		_BotObject->getScores()._PhysicalScores[SCORES::cha_score1].Max = (sint32)_TotemMaxChaScore1;
+		_BotObject->getScores()._PhysicalScores[SCORES::cha_score1].Current = (sint32)_TotemCurrentChaScore1;
 	}
 }
 
@@ -229,9 +229,9 @@ void CTotemBase::destroyTotem()
 
 	if ( _BotObject )
 	{
-		_BotObject->getPhysCharacs()._PhysicalCharacteristics[SCORES::hit_points].CurrentRegenerate = 0;
-		_BotObject->getScores()._PhysicalScores[SCORES::hit_points].Current = 
-			_BotObject->getScores()._PhysicalScores[SCORES::hit_points].Max;
+		_BotObject->getPhysCharacs()._PhysicalCharacteristics[SCORES::cha_score1].CurrentRegenerate = 0;
+		_BotObject->getScores()._PhysicalScores[SCORES::cha_score1].Current = 
+			_BotObject->getScores()._PhysicalScores[SCORES::cha_score1].Max;
 		
 		// change the used sheet
 	
@@ -266,15 +266,15 @@ bool CTotemBase::tickUpdate()
 
 	NLMISC::TGameCycle currentCycle = CTickEventHandler::getGameCycle();
 	
-	_TotemCurrentHP += ( currentCycle - _LastTickUpdate ) * _BuildHpGain;
+	_TotemCurrentChaScore1 += ( currentCycle - _LastTickUpdate ) * _BuildChaScore1Gain;
 
-	if ( _TotemCurrentHP > _TotemMaxHP )
-		_TotemCurrentHP = _TotemMaxHP;
+	if ( _TotemCurrentChaScore1 > _TotemMaxChaScore1 )
+		_TotemCurrentChaScore1 = _TotemMaxChaScore1;
 
 	if ( _BotObject )
 	{
-		_BotObject->getScores()._PhysicalScores[SCORES::hit_points].Current = (sint32)_TotemCurrentHP;
-		nlinfo( "Totem %d HP : %d", _RegionAlias, _BotObject->currentHp() );
+		_BotObject->getScores()._PhysicalScores[SCORES::cha_score1].Current = (sint32)_TotemCurrentChaScore1;
+		nlinfo( "Totem %d ChaScore1 : %d", _RegionAlias, _BotObject->currentChaScore1() );
 	}
 	
 	if ( currentCycle - _BuildingStartTime >= TotemBuildTime )
@@ -411,9 +411,9 @@ bool CTotemBase::canStartBuilding( CCharacter* actor )
 	PROP(bool,			_IsBuildingFinished)\
 	PROP_GAME_CYCLE_COMP(_BuildingStartTime)\
 	PROP_GAME_CYCLE_COMP(_LastTickUpdate)\
-	PROP(float,			_BuildHpGain)\
-	PROP(float,			_TotemMaxHP)\
-	PROP(float,			_TotemCurrentHP)\
+	PROP(float,			_BuildChaScore1Gain)\
+	PROP(float,			_TotemMaxChaScore1)\
+	PROP(float,			_TotemCurrentChaScore1)\
 	
 //#pragma message( PERSISTENT_GENERATION_MESSAGE )
 #include "game_share/persistent_data_template.h"

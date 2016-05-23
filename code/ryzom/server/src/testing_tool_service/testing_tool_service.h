@@ -86,9 +86,9 @@ public:
 		uint32 ShieldAbsorption;
 		uint32 ArmorAbsorption;
 		uint32 GivenDamage;
-		sint32 FinalHp;
-		sint32 FinalSta;
-		sint32 FinalSap;
+		sint32 FinalChaScore1;
+		sint32 FinalChaScore2;
+		sint32 FinalChaScore3;
 
 		void init()
 		{
@@ -99,9 +99,9 @@ public:
 			ShieldAbsorption = 0;
 			ArmorAbsorption = 0;			
 			GivenDamage = 0;			
-			FinalHp = 0;
-			FinalSta = 0;
-			FinalSap = 0;
+			FinalChaScore1 = 0;
+			FinalChaScore2 = 0;
+			FinalChaScore3 = 0;
 		}
 
 		const SActorStatistics &operator + ( SActorStatistics& s )
@@ -113,9 +113,9 @@ public:
 			ShieldAbsorption += s.ShieldAbsorption;
 			ArmorAbsorption = s.ArmorAbsorption;	
 			GivenDamage = s.GivenDamage;
-			FinalHp += s.FinalHp;
-			FinalSta += s.FinalSta;
-			FinalSap += s.FinalSap;
+			FinalChaScore1 += s.FinalChaScore1;
+			FinalChaScore2 += s.FinalChaScore2;
+			FinalChaScore3 += s.FinalChaScore3;
 			return *this;
 		}
 
@@ -127,8 +127,8 @@ public:
 		uint16 NbFail;
 		uint16 NbSuccess;
 		uint16 TotalSendDamage;
-		uint16 TotalSapConsum;
-		uint16 TotalStaminaConsume;
+		uint16 TotalChaScore2Consume;
+		uint16 TotalChaSCore3Consume;
 		uint16 TotalShieldAbsorption;
 		uint16 TotalArmorAbsorption;
 		uint16 TotalGivenDamage;
@@ -139,8 +139,8 @@ public:
 			NbFail = 0;
 			NbSuccess = 0;
 			TotalSendDamage = 0;
-			TotalSapConsum = 0;
-			TotalStaminaConsume = 0;
+			TotalChaScore2Consume = 0;
+			TotalChaScore3Consume = 0;
 			TotalShieldAbsorption = 0;
 			TotalArmorAbsorption = 0;
 			TotalGivenDamage = 0;
@@ -152,8 +152,8 @@ public:
 			NbFail += s.NbFail;
 			NbSuccess += s.NbSuccess;
 			TotalSendDamage += s.TotalSendDamage;
-			TotalSapConsum += s.TotalSapConsum;
-			TotalStaminaConsume += s.TotalStaminaConsume;
+			TotalChaScore2Consume += s.TotalChaScore2Consum;
+			TotalChaScore3Consume += s.TotalChaScore3Consume;
 			TotalShieldAbsorption += s.TotalShieldAbsorption;
 			TotalArmorAbsorption += s.TotalArmorAbsorption;
 			TotalGivenDamage += s.TotalGivenDamage;

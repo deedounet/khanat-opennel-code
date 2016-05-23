@@ -34,7 +34,7 @@ public:
 	CSpecialPowerBalance(TDataSetRow actorRowId, CSpecialPowerPhrase *phrase, float disableTimeInSeconds, float lossFactor, float range, POWERS::TPowerType powerType)
 	:CSpecialPower()
 	{
-		_AffectedScore = SCORES::hit_points;
+		_AffectedScore = SCORES::cha_score1;
 		_Phrase = phrase;
 		_LossFactor = lossFactor;
 		_Range = range;
@@ -64,7 +64,7 @@ protected:
 	float			_LossFactor;
 	/// max Range in meters
 	float			_Range;
-	/// affected score (Hp, sap, sta)
+	/// affected score (ChaScore1, ChaScore2, ChaScore3)
 	SCORES::TScores	_AffectedScore;
 };
 

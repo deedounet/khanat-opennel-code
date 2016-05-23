@@ -350,13 +350,13 @@ void CSpawnBot::sendInfoToEGS() const
 	if (!EGSHasMirrorReady)
 		return;
 
-	const uint32& maxHp = getPersistent().getCustomMaxHp();
-	if (maxHp > 0.f)
+	const uint32& maxChaScore1 = getPersistent().getCustomMaxChaScore1();
+	if (maxChaScore1 > 0.f)
 	{
-		CChangeCreatureMaxHPMsg& msgList = CAIS::instance().getCreatureChangeMaxHP();
+		CChangeCreatureMaxChaScore1Msg& msgList = CAIS::instance().getCreatureChangeMaxChaScore1();
 		
 		msgList.Entities.push_back(dataSetRow());
-		msgList.MaxHp.push_back((uint32)(maxHp));
+		msgList.MaxChaScore1.push_back((uint32)(maxChaScore1));
 		msgList.SetFull.push_back((uint8)(1));
 	}
 }
@@ -377,7 +377,7 @@ CBot::CBot(CGroup* owner, CAIAliasDescriptionNode* alias)
 , _SetSheetData(NULL)
 , _Observers(NULL)
 , _ProfileData(NULL)
-, _CustomMaxHp(0)
+, _CustomMaxChaScore1(0)
 {
 }
 
@@ -392,7 +392,7 @@ CBot::CBot(CGroup* owner, uint32 alias, std::string const& name)
 , _SetSheetData(NULL)
 , _Observers(NULL)
 , _ProfileData(NULL)
-, _CustomMaxHp(0.f)
+, _CustomMaxChaScore1(0.f)
 {
 }
 

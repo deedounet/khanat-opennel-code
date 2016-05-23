@@ -88,7 +88,7 @@ void CSpecialPowerBalance::apply()
 		return;
 
 #if !FINAL_VERSION
-	nlassert(_AffectedScore==SCORES::hit_points || _AffectedScore==SCORES::sap || _AffectedScore==SCORES::stamina);
+	nlassert(_AffectedScore==SCORES::cha_score1 || _AffectedScore==SCORES::cha_score2 || _AffectedScore==SCORES::cha_score3);
 #endif
 
 	CCharacter *actor = PlayerManager.getChar(_ActorRowId);

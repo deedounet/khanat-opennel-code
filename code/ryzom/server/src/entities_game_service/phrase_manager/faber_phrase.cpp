@@ -49,7 +49,7 @@ CFaberPhrase::CFaberPhrase()
 	_FaberAction = 0;
 	_SabrinaCost = 0;
 	_SabrinaRelativeCost = 1.0f;
-	_FocusCost = 0;
+	_ChaScore4Cost = 0;
 	_FaberTime = 0;
 	_CraftedItemStaticForm = 0;
 	_RootFaberBricks = false;
@@ -69,10 +69,10 @@ CFaberPhrase::CFaberPhrase()
 	_MBOSapLoad = 0.0f;
 
 	// energy buff on item
-	_MBOHitPoint = 0;
-	_MBOSap = 0;
-	_MBOStamina = 0;
-	_MBOFocus = 0;
+	_MBOChaScore1 = 0;
+	_MBOChaScore2 = 0;
+	_MBOChaScore3 = 0;
+	_MBOChaScore4 = 0;
 
 	_IsStatic = true;
 	_PhraseType = BRICK_TYPE::FABER;
@@ -121,29 +121,29 @@ bool CFaberPhrase::build( const TDataSetRow & actorRowId, const std::vector< con
 
 				switch(param->id())
 				{
-					case TBrickParam::FOCUS:
-						INFOLOG("FOCUS: %i",((CSBrickParamCraftFocus *)param)->Focus);
-						_FocusCost += ((CSBrickParamCraftFocus *)param)->Focus;
+					case TBrickParam::ChaScore4:
+						INFOLOG("ChaScore4: %i",((CSBrickParamCraftChaScore4 *)param)->ChaScore4);
+						_ChaScore4Cost += ((CSBrickParamCraftChaScore4 *)param)->ChaScore4;
 						break;
 					case TBrickParam::CR_RECOMMENDED:
 						INFOLOG("RECOMMENDED: %i",((CSBrickParamCraftRecommended *)param)->Recommended);
 						_Recommended = ((CSBrickParamCraftRecommended *)param)->Recommended;
 						break;
-					case TBrickParam::CR_HP:
-						INFOLOG("HP: %i",((CSBrickParamCraftHP *)param)->HitPoint);
-						_MBOHitPoint += ((CSBrickParamCraftHP *)param)->HitPoint;
+					case TBrickParam::CR_ChaScore1:
+						INFOLOG("ChaScore1: %i",((CSBrickParamCraftChaScore1 *)param)->ChaScore1);
+						_MBOChaScore1 += ((CSBrickParamCraftChaScore1 *)param)->ChaScore1;
 						break;
-					case TBrickParam::CR_SAP:
-						INFOLOG("SAP: %i",((CSBrickParamCraftSap *)param)->Sap);
-						_MBOSap = ((CSBrickParamCraftSap *)param)->Sap;
+					case TBrickParam::CR_ChaScore2:
+						INFOLOG("ChaScore2: %i",((CSBrickParamCraftChaScore2 *)param)->ChaScore2);
+						_MBOChaScore2 = ((CSBrickParamCraftChaScore2 *)param)->ChaScore2;
 						break;
-					case TBrickParam::CR_STA:
-						INFOLOG("STA: %i",((CSBrickParamCraftSta *)param)->Stamina);
-						_MBOStamina += ((CSBrickParamCraftSta *)param)->Stamina;
+					case TBrickParam::CR_ChaScore3:
+						INFOLOG("ChaScore3: %i",((CSBrickParamCraftChaScore3 *)param)->ChaScore3);
+						_MBOChaScore3 += ((CSBrickParamCraftChaScore3 *)param)->ChaScore3;
 						break;
-					case TBrickParam::CR_FOCUS:
-						INFOLOG("FOCUS: %i",((CSBrickParamCraftFocus *)param)->Focus);
-						_MBOFocus += ((CSBrickParamCraftFocus *)param)->Focus;
+					case TBrickParam::CR_ChaScore4:
+						INFOLOG("ChaScore4: %i",((CSBrickParamCraftChaScore4 *)param)->ChaScore4);
+						_MBOChaScore4 += ((CSBrickParamCraftChaScore4 *)param)->ChaScore4;
 						break;
 					case TBrickParam::CR_QUALITY:
 						INFOLOG("QUALITY: %d", ((CSBrickParamCraftQuality *)param)->Quality);
@@ -267,16 +267,16 @@ bool CFaberPhrase::validate()
 	}
 	*/
 
-	const sint32 focus = c->getScores()._PhysicalScores[ SCORES::focus ].Current;
-	if ( focus < _FocusCost  )
+	const sint32 ChaScore4 = c->getScores()._PhysicalScores[ SCORES::cha_score4 ].Current;
+	if ( ChaScore4 < _ChaScore4Cost  )
 	{
-		PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "CANT_CRAFT_NOT_ENOUGHT_FOCUS");
+		PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "CANT_CRAFT_NOT_ENOUGHT_ChaScore4");
 		c->unlockFaberRms();
 		return false;
 	}
 
-	const sint32 hp = c->currentHp();
-	if (hp <= 0	||	c->isDead())
+	const sint32 ChaScore1 = c->currentChaScore1();
+	if (ChaScore1 <= 0	||	c->isDead())
 	{
 		PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "CANT_CRAFT_WHEN_DEAD");
 		c->unlockFaberRms();
@@ -559,12 +559,12 @@ void CFaberPhrase::apply()
 	}
 
 	// spend energies
-	SCharacteristicsAndScores &focus = c->getScores()._PhysicalScores[SCORES::focus];
-	if ( focus.Current != 0)
+	SCharacteristicsAndScores &ChaScore4 = c->getScores()._PhysicalScores[SCORES::cha_score4];
+	if ( ChaScore4.Current != 0)
 	{
-		focus.Current = focus.Current - _FocusCost;
-		if (focus.Current < 0)
-			focus.Current = 0;
+		ChaScore4.Current = ChaScore4.Current - _ChaScore4Cost;
+		if (ChaScore4.Current < 0)
+			ChaScore4.Current = 0;
 	}
 
 	// apply action of the sentence

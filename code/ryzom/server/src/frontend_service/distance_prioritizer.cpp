@@ -628,7 +628,7 @@ void CDistancePrioritizer::arbitrateDiscreetBehaviourProperty(const CPropertyHis
 		case MBEHAV::CAST_FIRE:
 			refDistanceProperty = PROPERTY_TARGET_LIST;
 		break;
-		case MBEHAV::CAST_HEALHP:
+		case MBEHAV::CAST_HEALChaScore1:
 			refDistanceProperty = PROPERTY_TARGET_LIST;
 		break;
 		case MBEHAV::CAST_MAD:

@@ -524,10 +524,10 @@ public:
 		float	DefensiveAfflictionPowerFactor;
 		
 		// armor and jewel buff
-		sint32	HpBuff;
-		sint32	SapBuff;
-		sint32	StaBuff;
-		sint32	FocusBuff;
+		sint32	ChaScore1Buff;
+		sint32	ChaScore2Buff;
+		sint32	ChaScore3Buff;
+		sint32	ChaScore4Buff;
 
 		TMpFaberParameters()
 		{
@@ -574,10 +574,10 @@ public:
 			DefensiveAfflictionPowerFactor			= 0.0f;
 			
 			// armor and jewel buff
-			HpBuff = 0;
-			SapBuff = 0;
-			StaBuff = 0;
-			FocusBuff = 0;
+			ChaScore1Buff = 0;
+			ChaScore2Buff = 0;
+			ChaScore3Buff = 0;
+			ChaScore4Buff = 0;
 		}
 
 		inline void serial(class NLMISC::IStream &f)
@@ -623,10 +623,10 @@ public:
 			f.serial( DefensiveAfflictionPowerFactor );
 			
 			// armor and jewel buff
-			f.serial( HpBuff );
-			f.serial( SapBuff );
-			f.serial( StaBuff );
-			f.serial( FocusBuff );
+			f.serial( ChaScore1Buff );
+			f.serial( ChaScore2Buff );
+			f.serial( ChaScore3Buff );
+			f.serial( ChaScore4Buff );
 
 			if (f.isReading())
 			{

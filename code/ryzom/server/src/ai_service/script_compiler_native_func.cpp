@@ -190,14 +190,14 @@ arguments.
 
 @subsection nativeFunctionsTriggers Event handler creation
 
-- @ref addHpUpTrigger_ff_
-- @ref addHpDownTrigger_ff_
-- @ref delHpUpTrigger_ff_
-- @ref delHpDownTrigger_ff_
-- @ref addHpUpTrigger_fs_
-- @ref addHpDownTrigger_fs_
-- @ref delHpUpTrigger_fs_
-- @ref delHpDownTrigger_fs_
+- @ref addChaScore1UpTrigger_ff_
+- @ref addChaScore1DownTrigger_ff_
+- @ref delChaScore1UpTrigger_ff_
+- @ref delChaScore1DownTrigger_ff_
+- @ref addChaScore1UpTrigger_fs_
+- @ref addChaScore1DownTrigger_fs_
+- @ref delChaScore1UpTrigger_fs_
+- @ref delChaScore1DownTrigger_fs_
 - @ref addNamedEntityListener_ssf_
 - @ref delNamedEntityListener_ssf_
 - @ref addNamedEntityListener_sss_
@@ -223,12 +223,12 @@ arguments.
 - @ref stopMoving__
 - @ref followPlayer_sf_
 - @ref wander__
-- @ref downScaleHP_f_
-- @ref upScaleHP_f_
-- @ref scaleHP_f_
-- @ref setMaxHP_ff_
-- @ref setHPLevel_f_
-- @ref addHP_f_
+- @ref downScaleChaScore1_f_
+- @ref upScaleChaScore1_f_
+- @ref scaleChaScore1_f_
+- @ref setMaxChaScore1_ff_
+- @ref setChaScore1Level_f_
+- @ref addChaSCore1_f_
 - @ref aiAction_s_
 - @ref aiActionSelf_s_
 - @ref setPlayerController_ss_
@@ -507,11 +507,11 @@ setAutoSpawn_f_
 	
 setFactionProp_ss_
 	
-downScaleHP_f_
-upScaleHP_f_
-scaleHP_f_
-setHPLevel_f_
-addHP_f_
+downScaleChaScore1_f_
+upScaleChaScore1_f_
+scaleChaScore1_f_
+setChaScore1Level_f_
+addChaScore1_f_
 	
 clamp_fff_f
 min_ff_f
@@ -546,14 +546,14 @@ loadFile_s_
 break__
 groupName_c_s
 	
-addHpUpTrigger_ff_
-addHpDownTrigger_ff_
-delHpUpTrigger_ff_
-delHpDownTrigger_ff_
-addHpUpTrigger_fs_
-addHpDownTrigger_fs_
-delHpUpTrigger_fs_
-delHpDownTrigger_fs_
+addChaScore1UpTrigger_ff_
+addChaScore1DownTrigger_ff_
+delChaScore1UpTrigger_ff_
+delChaScore1DownTrigger_ff_
+addChaScore1UpTrigger_fs_
+addChaScore1DownTrigger_fs_
+delChaScore1UpTrigger_fs_
+delChaScore1DownTrigger_fs_
 	
 aiAction_s_
 aiActionSelf_s_

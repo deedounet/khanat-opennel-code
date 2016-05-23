@@ -39,8 +39,8 @@ CFaberPhrase::CFaberPhrase()
 	_FaberAction = 0;
 	_SabrinaCost = 0;
 	_SabrinaCredit = 0;
-	_StaminaCost = 0;
-	_HPCost = 0;
+	_ChaScore2Cost = 0;
+	_ChaScore1Cost = 0;
 	_FaberTime = 0;
 	_RootFaberPlan = 0;
 	_Tool = 0;
@@ -89,15 +89,15 @@ bool CFaberPhrase::build( const TDataSetRow & actorRowId, const std::vector< con
 			{
 				switch(brick.Params[i]->id())
 				{	
-					case TBrickParam::SAP:
+					case TBrickParam::ChaScore3:
 						return false;
-					case TBrickParam::HP:
-						INFOLOG("HP: %i",((CSBrickParamHp *)brick.Params[i])->Hp);
-						_HPCost += ((CSBrickParamHp *)brick.Params[i])->Hp;
+					case TBrickParam::ChaScore1:
+						INFOLOG("ChaScore1: %i",((CSBrickParamChaScore1 *)brick.Params[i])->ChaScore1);
+						_ChaScore1Cost += ((CSBrickParamChaScore1 *)brick.Params[i])->ChaScore1;
 						break;
-					case TBrickParam::STA:
-						INFOLOG("STA: %i",((CSBrickParamSta *)brick.Params[i])->Sta);
-						_StaminaCost += ((CSBrickParamSta *)brick.Params[i])->Sta;
+					case TBrickParam::ChaScore2:
+						INFOLOG("ChaScore2: %i",((CSBrickParamChaScore2 *)brick.Params[i])->ChaScore2);
+						_ChaScore2Cost += ((CSBrickParamChaScore2 *)brick.Params[i])->ChaScore2;
 						break;
 					default:
 						// unused param ?
@@ -144,19 +144,19 @@ bool CFaberPhrase::validate()
 		return false;
 	}
 	CEntityBase * entity = CEntityBaseManager::getEntityBasePtr( _ActorRowId );
-	const sint32 hp = entity->getScores()._PhysicalScores[ SCORES::hit_points ].Current;
-	if ( hp < _HPCost  )
+	const sint32 ChaScore1 = entity->getScores()._PhysicalScores[ SCORES::cha_score1 ].Current;
+	if ( ChaScore1 < _ChaScore1Cost  )
 	{
 		///\todo alain : send message
 		return false;
 	}
-	const sint32 sta = entity->getScores()._PhysicalScores[ SCORES::stamina ].Current;
-	if ( sta < _StaminaCost  )
+	const sint32 ChaScore2 = entity->getScores()._PhysicalScores[ SCORES::cha_score2 ].Current;
+	if ( ChaScore2 < _ChaScore2Cost  )
 	{
 		///\todo alain : send message
 		return false;
 	}
-	if (hp <= 0	||	entity->getMode()==MBEHAV::DEATH)
+	if (ChaScore1 <= 0	||	entity->getMode()==MBEHAV::DEATH)
 	{
 		///\todo alain : send message
 		return false;
@@ -225,20 +225,20 @@ void CFaberPhrase::apply()
 		nlwarning("<CFaberPhrase::apply> Invalid entity Id %s", TheDataset.getEntityId(_ActorRowId).toString().c_str() );		
 		return;
 	}
-	RY_GAME_SHARE::SCharacteristicsAndScores &sta = entity->getScores()._PhysicalScores[SCORES::stamina];
-	if ( sta.Current != 0)
+	RY_GAME_SHARE::SCharacteristicsAndScores &ChaScore2 = entity->getScores()._PhysicalScores[SCORES::cha_score2];
+	if ( ChaScore2.Current != 0)
 	{
-		sta.Current = sta.Current - _StaminaCost;
-		if (sta.Current < 0)
-			sta.Current = 0;
+		ChaScore2.Current = ChaScore2.Current - _ChaScore2Cost;
+		if (ChaScore2.Current < 0)
+			ChaScore2.Current = 0;
 	}
 
-	RY_GAME_SHARE::SCharacteristicsAndScores &hp = entity->getScores()._PhysicalScores[SCORES::hit_points];
-	if ( hp.Current != 0)
+	RY_GAME_SHARE::SCharacteristicsAndScores &ChaScore1 = entity->getScores()._PhysicalScores[SCORES::cha_score1];
+	if ( ChaScore1.Current != 0)
 	{
-		hp.Current = hp.Current - _HPCost;
-		if (hp.Current < 0)
-			hp.Current = 0;
+		ChaScore1.Current = ChaScore1.Current - _ChaScore1Cost;
+		if (ChaScore1.Current < 0)
+			ChaScore1.Current = 0;
 	}
 
 	// apply action of the sentence

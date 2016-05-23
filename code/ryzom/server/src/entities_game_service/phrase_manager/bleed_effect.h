@@ -28,7 +28,7 @@ struct CSlaveBleedEffect
 {
 	CSlaveBleedEffect() : CycleDamage(0.0f), EndDate(0) {}
 
-	/// number of hp lost by target each cycle
+	/// number of ChaScore1 lost by target each cycle
 	float				CycleDamage;
 	/// effect end date
 	NLMISC::TGameCycle	EndDate;
@@ -100,9 +100,9 @@ private:
 	/// cycle lenght in ticks
 	NLMISC::TGameCycle		_CycleLength;
 
-	/// number of hp lost by target each cycle
+	/// number of ChaScore1 lost by target each cycle
 	float					_CycleDamage;
-	/// fraction of hp when not integer (0-1)
+	/// fraction of ChaScore1 when not integer (0-1)
 	float					_RemainingDamage;
 
 	/// affected entity

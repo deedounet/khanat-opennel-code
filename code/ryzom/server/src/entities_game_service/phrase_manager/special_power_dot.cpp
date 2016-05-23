@@ -63,7 +63,7 @@ void CSpecialPowerDoT::apply()
 	// create effect and apply it on actor
 	const TGameCycle endDate = _Duration + CTickEventHandler::getGameCycle();
 	
-	CNoLinkDOTEffect *effect = new CNoLinkDOTEffect(_ActorRowId, _ActorRowId, _EffectFamily, _ParamValue, endDate, _UpdateFrequency, SCORES::hit_points, _DamagePerUpdate, DMGTYPE::UNDEFINED);
+	CNoLinkDOTEffect *effect = new CNoLinkDOTEffect(_ActorRowId, _ActorRowId, _EffectFamily, _ParamValue, endDate, _UpdateFrequency, SCORES::cha_score1, _DamagePerUpdate, DMGTYPE::UNDEFINED);
 	if (effect)
 	{
 		effect->endsAtCasterDeath(false);

@@ -27,17 +27,17 @@ namespace CHARACTERISTICS
 {
 	enum TCharacteristics
 	{
-		constitution = 0, //HP max
-		metabolism, //Hp Regen
+		cha1 = 0, //Trauma max
+		cha1_reg, //Trauma Regeneration
 
-		intelligence, //Sap Max
-		wisdom,	//Sap regen
+		cha3, //Oblivion Max
+		cha3_reg,	//Oblivion Regeneration
 
-		strength, //Stamina Max
-		well_balanced, //Stamina regen
+		cha2, //Pain Max
+		cha2_reg, //Pain Regeneration
 
-		dexterity, //Focus Max
-		will, //Focus regen
+		cha4, //Focus Max
+		cha4_reg, //Focus regen
 
 		NUM_CHARACTERISTICS,
 		Unknown = NUM_CHARACTERISTICS
@@ -46,7 +46,7 @@ namespace CHARACTERISTICS
 	/**
 	 * get the right characteristic enum from the input string
 	 * \param str the input string
-	 * \return the ECharacteristics associated to this string (unknown if the string cannot be interpreted)
+	 * \return the TCharacteristics associated to this string (unknown if the string cannot be interpreted)
 	 */
 	TCharacteristics toCharacteristic( const std::string &str );
 

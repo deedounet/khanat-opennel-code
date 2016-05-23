@@ -24,18 +24,18 @@ class TBrickParam
 public:
 	enum TValueType
 	{
-		SAP,
-		HP,
-		STA,
-		STA_WEIGHT_FACTOR,
-		FOCUS,
+		ChaScore3,
+		ChaScore1,
+		ChaScore2,
+		ChaScore2_WEIGHT_FACTOR,
+		ChaScore4,
 		SET_BEHAVIOUR,
 		DEFINE_FLAG,
 		BYPASS_CHECK,
 		LATENCY_FACTOR,
-		STA_LOSS_FACTOR,
+		ChaScore2_LOSS_FACTOR,
 		DEBUFF_REGEN,
-		SAP_LOSS_FACTOR,
+		ChaScore3_LOSS_FACTOR,
 		AIM,
 		ATT_SKILL_MOD,
 		DEFENSE_MOD,
@@ -78,10 +78,10 @@ public:
 		MA_VAMPIRISE,
 		MA_VAMPIRISE_RATIO,
 		CR_RECOMMENDED,
-		CR_HP,
-		CR_SAP,
-		CR_STA,
-		CR_FOCUS,
+		CR_ChaScore1,
+		CR_ChaScore3,
+		CR_ChaScore2,
+		CR_ChaScore4,
 		CR_QUALITY,
 		CR_DURABILITY,
 		CR_DAMAGE,
@@ -122,12 +122,12 @@ public:
 		FG_ITEMPART_FILT,
 		SP_TAUNT,
 		SP_SHIELDING,
-		SP_LIFE_AURA,
-		SP_LIFE_AURA2,
-		SP_STAMINA_AURA,
-		SP_STAMINA_AURA2,
-		SP_SAP_AURA,
-		SP_SAP_AURA2,
+		SP_ChaScore1_AURA,
+		SP_ChaScore1_AURA2,
+		SP_ChaScore2_AURA,
+		SP_ChaScore2_AURA2,
+		SP_ChaScore3_AURA,
+		SP_ChaScore3_AURA2,
 		SP_SPEEDING_UP,
 		SP_INVULNERABILITY,
 		SP_MELEE_PROTECTION_AURA,
@@ -203,18 +203,18 @@ public:
 			if (copyOfStr[i]>='A' && copyOfStr[i]<='Z')
 				copyOfStr[i]^=('A'^'a');
 
-		if (copyOfStr=="sap") {_Value=SAP; return *this;}
-		if (copyOfStr=="hp") {_Value=HP; return *this;}
-		if (copyOfStr=="sta") {_Value=STA; return *this;}
-		if (copyOfStr=="sta_weight_factor") {_Value=STA_WEIGHT_FACTOR; return *this;}
-		if (copyOfStr=="focus") {_Value=FOCUS; return *this;}
+		if (copyOfStr=="ChaScore3") {_Value=ChaScore3; return *this;}
+		if (copyOfStr=="ChaScore1") {_Value=ChaScore1; return *this;}
+		if (copyOfStr=="ChaScore2") {_Value=ChaScore2; return *this;}
+		if (copyOfStr=="ChaScore2_weight_factor") {_Value=ChaScore2_WEIGHT_FACTOR; return *this;}
+		if (copyOfStr=="ChaScore4") {_Value=ChaScore4; return *this;}
 		if (copyOfStr=="set_behaviour") {_Value=SET_BEHAVIOUR; return *this;}
 		if (copyOfStr=="define_flag") {_Value=DEFINE_FLAG; return *this;}
 		if (copyOfStr=="bypass_check") {_Value=BYPASS_CHECK; return *this;}
 		if (copyOfStr=="latency_factor") {_Value=LATENCY_FACTOR; return *this;}
-		if (copyOfStr=="sta_loss_factor") {_Value=STA_LOSS_FACTOR; return *this;}
+		if (copyOfStr=="ChaScore2_loss_factor") {_Value=ChaScore2_LOSS_FACTOR; return *this;}
 		if (copyOfStr=="debuff_regen") {_Value=DEBUFF_REGEN; return *this;}
-		if (copyOfStr=="sap_loss_factor") {_Value=SAP_LOSS_FACTOR; return *this;}
+		if (copyOfStr=="ChaScore3_loss_factor") {_Value=ChaScore3_LOSS_FACTOR; return *this;}
 		if (copyOfStr=="aim") {_Value=AIM; return *this;}
 		if (copyOfStr=="att_skill_mod") {_Value=ATT_SKILL_MOD; return *this;}
 		if (copyOfStr=="defense_mod") {_Value=DEFENSE_MOD; return *this;}
@@ -257,10 +257,10 @@ public:
 		if (copyOfStr=="ma_vampirise") {_Value=MA_VAMPIRISE; return *this;}
 		if (copyOfStr=="ma_vampirise_ratio") {_Value=MA_VAMPIRISE_RATIO; return *this;}
 		if (copyOfStr=="cr_recommended") {_Value=CR_RECOMMENDED; return *this;}
-		if (copyOfStr=="cr_hp") {_Value=CR_HP; return *this;}
-		if (copyOfStr=="cr_sap") {_Value=CR_SAP; return *this;}
-		if (copyOfStr=="cr_sta") {_Value=CR_STA; return *this;}
-		if (copyOfStr=="cr_focus") {_Value=CR_FOCUS; return *this;}
+		if (copyOfStr=="cr_ChaScore1") {_Value=CR_ChaScore1; return *this;}
+		if (copyOfStr=="cr_ChaScore3") {_Value=CR_ChaScore3; return *this;}
+		if (copyOfStr=="cr_ChaScore2") {_Value=CR_ChaScore2; return *this;}
+		if (copyOfStr=="cr_ChaScore4") {_Value=CR_ChaScore4; return *this;}
 		if (copyOfStr=="cr_quality") {_Value=CR_QUALITY; return *this;}
 		if (copyOfStr=="cr_durability") {_Value=CR_DURABILITY; return *this;}
 		if (copyOfStr=="cr_damage") {_Value=CR_DAMAGE; return *this;}
@@ -301,12 +301,12 @@ public:
 		if (copyOfStr=="fg_itempart_filt") {_Value=FG_ITEMPART_FILT; return *this;}
 		if (copyOfStr=="sp_taunt") {_Value=SP_TAUNT; return *this;}
 		if (copyOfStr=="sp_shielding") {_Value=SP_SHIELDING; return *this;}
-		if (copyOfStr=="sp_life_aura") {_Value=SP_LIFE_AURA; return *this;}
-		if (copyOfStr=="sp_life_aura2") {_Value=SP_LIFE_AURA2; return *this;}
-		if (copyOfStr=="sp_stamina_aura") {_Value=SP_STAMINA_AURA; return *this;}
-		if (copyOfStr=="sp_stamina_aura2") {_Value=SP_STAMINA_AURA2; return *this;}
-		if (copyOfStr=="sp_sap_aura") {_Value=SP_SAP_AURA; return *this;} 
-		if (copyOfStr=="sp_sap_aura2") {_Value=SP_SAP_AURA2; return *this;}
+		if (copyOfStr=="sp_ChaScore1_aura") {_Value=SP_ChaScore1_AURA; return *this;}
+		if (copyOfStr=="sp_ChaScore1_aura2") {_Value=SP_ChaScore1_AURA2; return *this;}
+		if (copyOfStr=="sp_ChaScore2_aura") {_Value=SP_ChaScore2_AURA; return *this;}
+		if (copyOfStr=="sp_ChaScore2_aura2") {_Value=SP_ChaScore2_AURA2; return *this;}
+		if (copyOfStr=="sp_ChaScore3_aura") {_Value=SP_ChaScore3_AURA; return *this;} 
+		if (copyOfStr=="sp_ChaScore3_aura2") {_Value=SP_ChaScore3_AURA2; return *this;}
 		if (copyOfStr=="sp_speeding_up") {_Value=SP_SPEEDING_UP; return *this;}
 		if (copyOfStr=="sp_invulnerability") {_Value=SP_INVULNERABILITY; return *this;}
 		if (copyOfStr=="sp_melee_protection_aura") {_Value=SP_MELEE_PROTECTION_AURA; return *this;}
@@ -377,24 +377,24 @@ private:
 	TValueType _Value;
 };
 
-struct CSBrickParamSap : public TBrickParam::IId
+struct CSBrickParamChaScore3 : public TBrickParam::IId
 {
-	// quantity of SAP to use
-	unsigned Sap;
+	// quantity of ChaScore3 to use
+	unsigned ChaScore3;
 
-	CSBrickParamSap():
-		Sap(0)
+	CSBrickParamChaScore3():
+		ChaScore3(0)
 	{
-		_Id = TBrickParam::SAP;
+		_Id = TBrickParam::ChaScore3;
 	}
 
-	CSBrickParamSap(const std::string&str)
+	CSBrickParamChaScore3(const std::string&str)
 	{
-		*this=CSBrickParamSap();
+		*this=CSBrickParamChaScore3();
 		*this=str;
 	}
 
-	const CSBrickParamSap& operator=(const std::string& input)
+	const CSBrickParamChaScore3& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -403,31 +403,31 @@ struct CSBrickParamSap : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Sap);
+		NLMISC::fromString(args[0], ChaScore3);
 
 		return *this;
 	}
 };
 
 
-struct CSBrickParamHp : public TBrickParam::IId
+struct CSBrickParamChaScore1 : public TBrickParam::IId
 {
-	// quantity of HP to use
-	unsigned Hp;
+	// quantity of ChaScore1 to use
+	unsigned ChaScore1;
 
-	CSBrickParamHp():
-		Hp(0)
+	CSBrickParamChaScore1():
+		ChaScore1(0)
 	{
-		_Id = TBrickParam::HP;
+		_Id = TBrickParam::ChaScore1;
 	}
 
-	CSBrickParamHp(const std::string&str)
+	CSBrickParamChaScore1(const std::string&str)
 	{
-		*this=CSBrickParamHp();
+		*this=CSBrickParamChaScore1();
 		*this=str;
 	}
 
-	const CSBrickParamHp& operator=(const std::string& input)
+	const CSBrickParamChaScore1& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -436,31 +436,31 @@ struct CSBrickParamHp : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Hp);
+		NLMISC::fromString(args[0], ChaScore1);
 
 		return *this;
 	}
 };
 
 
-struct CSBrickParamSta : public TBrickParam::IId
+struct CSBrickParamChaScore2 : public TBrickParam::IId
 {
-	// quantity of STA to use
-	unsigned Sta;
+	// quantity of ChaScore2 to use
+	unsigned ChaScore2;
 
-	CSBrickParamSta():
-		Sta(0)
+	CSBrickParamChaScore2():
+		ChaScore2(0)
 	{
-		_Id = TBrickParam::STA;
+		_Id = TBrickParam::ChaScore2;
 	}
 
-	CSBrickParamSta(const std::string&str)
+	CSBrickParamChaScore2(const std::string&str)
 	{
-		*this=CSBrickParamSta();
+		*this=CSBrickParamChaScore2();
 		*this=str;
 	}
 
-	const CSBrickParamSta& operator=(const std::string& input)
+	const CSBrickParamChaScore2& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -469,35 +469,35 @@ struct CSBrickParamSta : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Sta);
+		NLMISC::fromString(args[0], ChaScore2);
 
 		return *this;
 	}
 };
 
 
-struct CSBrickParamStaWeightFactor : public TBrickParam::IId
+struct CSBrickParamChaScore2WeightFactor : public TBrickParam::IId
 {
-	// STA factor of weight to use
-	float StaFactor;
+	// ChaScore2 factor of weight to use
+	float ChaScore2Factor;
 
-	// STA constante used
-	unsigned StaConst;
+	// ChaScore2 constante used
+	unsigned ChaScore2Const;
 
-	CSBrickParamStaWeightFactor():
-		StaFactor(0.0f),
-		StaConst(0)
+	CSBrickParamChaScore2WeightFactor():
+		ChaScore2Factor(0.0f),
+		ChaScore2Const(0)
 	{
-		_Id = TBrickParam::STA_WEIGHT_FACTOR;
+		_Id = TBrickParam::ChaScore2_WEIGHT_FACTOR;
 	}
 	
-	CSBrickParamStaWeightFactor(const std::string&str)
+	CSBrickParamChaScore2WeightFactor(const std::string&str)
 	{
-		*this=CSBrickParamStaWeightFactor();
+		*this=CSBrickParamChaScore2WeightFactor();
 		*this=str;
 	}
 	
-	const CSBrickParamStaWeightFactor& operator=(const std::string& input)
+	const CSBrickParamChaScore2WeightFactor& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -506,32 +506,32 @@ struct CSBrickParamStaWeightFactor : public TBrickParam::IId
 			return *this;
 		
 		ParsedOk=true;
-		StaFactor=(float)atof(args[0].c_str());
-		NLMISC::fromString(args[1], StaConst);
+		ChaScore2Factor=(float)atof(args[0].c_str());
+		NLMISC::fromString(args[1], ChaScore2Const);
 		
 		return *this;
 	}
 };
 
 
-struct CSBrickParamFocus : public TBrickParam::IId
+struct CSBrickParamChaScore4 : public TBrickParam::IId
 {
-	// quantity of FOCUS to use
-	unsigned Focus;
+	// quantity of ChaScore4 to use
+	unsigned ChaScore4;
 
-	CSBrickParamFocus():
-		Focus(0)
+	CSBrickParamChaScore4():
+		ChaScore4(0)
 	{
-		_Id = TBrickParam::FOCUS;
+		_Id = TBrickParam::ChaScore4;
 	}
 
-	CSBrickParamFocus(const std::string&str)
+	CSBrickParamChaScore4(const std::string&str)
 	{
-		*this=CSBrickParamFocus();
+		*this=CSBrickParamChaScore4();
 		*this=str;
 	}
 
-	const CSBrickParamFocus& operator=(const std::string& input)
+	const CSBrickParamChaScore4& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -540,7 +540,7 @@ struct CSBrickParamFocus : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Focus);
+		NLMISC::fromString(args[0], ChaScore4);
 
 		return *this;
 	}
@@ -683,27 +683,27 @@ struct CSBrickParamLatencyFactor : public TBrickParam::IId
 };
 
 
-struct CSBrickParamStaLossFactor : public TBrickParam::IId
+struct CSBrickParamChaScore2LossFactor : public TBrickParam::IId
 {
-	// min factor of damage also applied to stamina
+	// min factor of damage also applied to ChaScore2
 	float MinFactor;
-	// max factor of damage also applied to stamina
+	// max factor of damage also applied to ChaScore2
 	float MaxFactor;
 
-	CSBrickParamStaLossFactor():
+	CSBrickParamChaScore2LossFactor():
 		MinFactor(0.0),
 		MaxFactor(0.0)
 	{
-		_Id = TBrickParam::STA_LOSS_FACTOR;
+		_Id = TBrickParam::ChaScore2_LOSS_FACTOR;
 	}
 
-	CSBrickParamStaLossFactor(const std::string&str)
+	CSBrickParamChaScore2LossFactor(const std::string&str)
 	{
-		*this=CSBrickParamStaLossFactor();
+		*this=CSBrickParamChaScore2LossFactor();
 		*this=str;
 	}
 
-	const CSBrickParamStaLossFactor& operator=(const std::string& input)
+	const CSBrickParamChaScore2LossFactor& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -722,7 +722,7 @@ struct CSBrickParamStaLossFactor : public TBrickParam::IId
 
 struct CSBrickParamDebuffRegen : public TBrickParam::IId
 {
-	// affected score regen (Sap, Stamina, HitPoints, Focus)
+	// affected score regen (ChaScore3, ChaScore2, ChaScore1, ChaScore4)
 	std::string Score;
 	// duration in seconds
 	float Duration;
@@ -765,27 +765,27 @@ struct CSBrickParamDebuffRegen : public TBrickParam::IId
 };
 
 
-struct CSBrickParamSapLossFactor : public TBrickParam::IId
+struct CSBrickParamChaScore3LossFactor : public TBrickParam::IId
 {
-	// min factor of damage also applied to sap
+	// min factor of damage also applied to ChaScore3
 	float MinFactor;
-	// max factor of damage also applied to sap
+	// max factor of damage also applied to ChaScore3
 	float MaxFactor;
 
-	CSBrickParamSapLossFactor():
+	CSBrickParamChaScore3LossFactor():
 		MinFactor(0.0),
 		MaxFactor(0.0)
 	{
-		_Id = TBrickParam::SAP_LOSS_FACTOR;
+		_Id = TBrickParam::ChaScore3_LOSS_FACTOR;
 	}
 
-	CSBrickParamSapLossFactor(const std::string&str)
+	CSBrickParamChaScore3LossFactor(const std::string&str)
 	{
-		*this=CSBrickParamSapLossFactor();
+		*this=CSBrickParamChaScore3LossFactor();
 		*this=str;
 	}
 
-	const CSBrickParamSapLossFactor& operator=(const std::string& input)
+	const CSBrickParamChaScore3LossFactor& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -1899,16 +1899,16 @@ struct CSBrickParamMagicDmgType : public TBrickParam::IId
 struct CSBrickParamMagicDmg : public TBrickParam::IId
 {
 	// fixed modifier on energy
-	sint32 Hp;
+	sint32 ChaScore1;
 	// fixed modifier on energy
-	sint32 Sap;
+	sint32 ChaScore3;
 	// fixed modifier on energy
-	sint32 Sta;
+	sint32 ChaScore2;
 
 	CSBrickParamMagicDmg():
-		Hp(0),
-		Sap(0),
-		Sta(0)
+		ChaScore1(0),
+		ChaScore3(0),
+		ChaScore2(0)
 	{
 		_Id = TBrickParam::MA_DMG;
 	}
@@ -1928,9 +1928,9 @@ struct CSBrickParamMagicDmg : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Hp);
-		NLMISC::fromString(args[1], Sap);
-		NLMISC::fromString(args[2], Sta);
+		NLMISC::fromString(args[0], ChaScore1);
+		NLMISC::fromString(args[1], ChaScore3);
+		NLMISC::fromString(args[2], ChaScore2);
 
 		return *this;
 	}
@@ -1940,16 +1940,16 @@ struct CSBrickParamMagicDmg : public TBrickParam::IId
 struct CSBrickParamMagicHeal : public TBrickParam::IId
 {
 	// fixed modifier on energy
-	sint32 Hp;
+	sint32 ChaScore1;
 	// fixed modifier on energy
-	sint32 Sap;
+	sint32 ChaScore3;
 	// fixed modifier on energy
-	sint32 Sta;
+	sint32 ChaScore2;
 
 	CSBrickParamMagicHeal():
-		Hp(0),
-		Sap(0),
-		Sta(0)
+		ChaScore1(0),
+		ChaScore3(0),
+		ChaScore2(0)
 	{
 		_Id = TBrickParam::MA_HEAL;
 	}
@@ -1969,9 +1969,9 @@ struct CSBrickParamMagicHeal : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Hp);
-		NLMISC::fromString(args[1], Sap);
-		NLMISC::fromString(args[2], Sta);
+		NLMISC::fromString(args[0], ChaScore1);
+		NLMISC::fromString(args[1], ChaScore3);
+		NLMISC::fromString(args[2], ChaScore2);
 
 		return *this;
 	}
@@ -2312,24 +2312,24 @@ struct CSBrickParamCraftRecommended : public TBrickParam::IId
 };
 
 
-struct CSBrickParamCraftHP : public TBrickParam::IId
+struct CSBrickParamCraftChaScore1 : public TBrickParam::IId
 {
 	
-	sint32 HitPoint;
+	sint32 ChaScore1;
 
-	CSBrickParamCraftHP():
-		HitPoint()
+	CSBrickParamCraftChaScore1():
+		ChaScore1()
 	{
-		_Id = TBrickParam::CR_HP;
+		_Id = TBrickParam::CR_ChaScore1;
 	}
 
-	CSBrickParamCraftHP(const std::string&str)
+	CSBrickParamCraftChaScore1(const std::string&str)
 	{
-		*this=CSBrickParamCraftHP();
+		*this=CSBrickParamCraftChaScore1();
 		*this=str;
 	}
 
-	const CSBrickParamCraftHP& operator=(const std::string& input)
+	const CSBrickParamCraftChaScore1& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -2338,31 +2338,31 @@ struct CSBrickParamCraftHP : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], HitPoint);
+		NLMISC::fromString(args[0], ChaScore1);
 
 		return *this;
 	}
 };
 
 
-struct CSBrickParamCraftSap : public TBrickParam::IId
+struct CSBrickParamCraftChaScore3 : public TBrickParam::IId
 {
 	
-	sint32 Sap;
+	sint32 ChaScore3;
 
-	CSBrickParamCraftSap():
-		Sap()
+	CSBrickParamCraftChaScore3():
+		ChaScore3()
 	{
-		_Id = TBrickParam::CR_SAP;
+		_Id = TBrickParam::CR_ChaScore3;
 	}
 
-	CSBrickParamCraftSap(const std::string&str)
+	CSBrickParamCraftChaScore3(const std::string&str)
 	{
-		*this=CSBrickParamCraftSap();
+		*this=CSBrickParamCraftChaScore3();
 		*this=str;
 	}
 
-	const CSBrickParamCraftSap& operator=(const std::string& input)
+	const CSBrickParamCraftChaScore3& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -2371,31 +2371,31 @@ struct CSBrickParamCraftSap : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Sap);
+		NLMISC::fromString(args[0], ChaScore3);
 
 		return *this;
 	}
 };
 
 
-struct CSBrickParamCraftSta : public TBrickParam::IId
+struct CSBrickParamCraftChaScore2 : public TBrickParam::IId
 {
 	
-	sint32 Stamina;
+	sint32 ChaScore2;
 
-	CSBrickParamCraftSta():
-		Stamina()
+	CSBrickParamCraftChaScore2():
+		ChaScore2()
 	{
-		_Id = TBrickParam::CR_STA;
+		_Id = TBrickParam::CR_ChaScore2;
 	}
 
-	CSBrickParamCraftSta(const std::string&str)
+	CSBrickParamCraftChaScore2(const std::string&str)
 	{
-		*this=CSBrickParamCraftSta();
+		*this=CSBrickParamCraftChaScore2();
 		*this=str;
 	}
 
-	const CSBrickParamCraftSta& operator=(const std::string& input)
+	const CSBrickParamCraftChaScore2& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -2404,31 +2404,31 @@ struct CSBrickParamCraftSta : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Stamina);
+		NLMISC::fromString(args[0], ChaScore2);
 
 		return *this;
 	}
 };
 
 
-struct CSBrickParamCraftFocus : public TBrickParam::IId
+struct CSBrickParamCraftChaScore4 : public TBrickParam::IId
 {
 	
-	uint32 Focus;
+	uint32 ChaScore4;
 
-	CSBrickParamCraftFocus():
-		Focus()
+	CSBrickParamCraftChaScore4():
+		ChaScore4()
 	{
-		_Id = TBrickParam::CR_FOCUS;
+		_Id = TBrickParam::CR_ChaScore4;
 	}
 
-	CSBrickParamCraftFocus(const std::string&str)
+	CSBrickParamCraftChaScore4(const std::string&str)
 	{
-		*this=CSBrickParamCraftFocus();
+		*this=CSBrickParamCraftChaScore4();
 		*this=str;
 	}
 
-	const CSBrickParamCraftFocus& operator=(const std::string& input)
+	const CSBrickParamCraftChaScore4& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -2437,7 +2437,7 @@ struct CSBrickParamCraftFocus : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		NLMISC::fromString(args[0], Focus);
+		NLMISC::fromString(args[0], ChaScore4);
 
 		return *this;
 	}
@@ -3800,7 +3800,7 @@ struct CSBrickParamShielding : public TBrickParam::IId
 };
 
 
-struct CSBrickParamLifeAura : public TBrickParam::IId
+struct CSBrickParamChaScore1Aura : public TBrickParam::IId
 {
 	// regen modifier (in %)
 	uint16 RegenMod;
@@ -3808,28 +3808,28 @@ struct CSBrickParamLifeAura : public TBrickParam::IId
 	float Duration;
 	// aura radius in meters
 	float Radius;
-	// disable life aura for x seconds on targets
+	// disable ChaScore1 aura for x seconds on targets
 	float TargetDisableTime;
-	// disable life aura for x seconds on user
+	// disable ChaScore1 aura for x seconds on user
 	float UserDisableTime;
 
-	CSBrickParamLifeAura():
+	CSBrickParamChaScore1Aura():
 		RegenMod(),
 		Duration(),
 		Radius(),
 		TargetDisableTime(),
 		UserDisableTime()
 	{
-		_Id = TBrickParam::SP_LIFE_AURA;
+		_Id = TBrickParam::SP_ChaScore1_AURA;
 	}
 
-	CSBrickParamLifeAura(const std::string&str)
+	CSBrickParamChaScore1Aura(const std::string&str)
 	{
-		*this=CSBrickParamLifeAura();
+		*this=CSBrickParamChaScore1Aura();
 		*this=str;
 	}
 
-	const CSBrickParamLifeAura& operator=(const std::string& input)
+	const CSBrickParamChaScore1Aura& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -3849,7 +3849,7 @@ struct CSBrickParamLifeAura : public TBrickParam::IId
 };
 
 
-struct CSBrickParamLifeAura2 : public TBrickParam::IId
+struct CSBrickParamChaScore1Aura2 : public TBrickParam::IId
 {
 	// regen modifier (in %)
 	uint16 RegenMod;
@@ -3857,28 +3857,28 @@ struct CSBrickParamLifeAura2 : public TBrickParam::IId
 	float Duration;
 	// aura radius in meters
 	float Radius;
-	// disable life aura for x seconds on targets
+	// disable ChaScore1 aura for x seconds on targets
 	float TargetDisableTime;
-	// disable life aura for x seconds on user
+	// disable ChaScore1 aura for x seconds on user
 	float UserDisableTime;
 
-	CSBrickParamLifeAura2():
+	CSBrickParamChaScore1Aura2():
 		RegenMod(),
 		Duration(),
 		Radius(),
 		TargetDisableTime(),
 		UserDisableTime()
 	{
-		_Id = TBrickParam::SP_LIFE_AURA2;
+		_Id = TBrickParam::SP_ChaScore1_AURA2;
 	}
 
-	CSBrickParamLifeAura2(const std::string&str)
+	CSBrickParamChaScore1Aura2(const std::string&str)
 	{
-		*this=CSBrickParamLifeAura2();
+		*this=CSBrickParamChaScore1Aura2();
 		*this=str;
 	}
 
-	const CSBrickParamLifeAura2& operator=(const std::string& input)
+	const CSBrickParamChaScore1Aura2& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -3897,7 +3897,7 @@ struct CSBrickParamLifeAura2 : public TBrickParam::IId
 	}
 };
 
-struct CSBrickParamStaminaAura : public TBrickParam::IId
+struct CSBrickParamChaScore2Aura : public TBrickParam::IId
 {
 	// regen modifier (in %)
 	uint16 RegenMod;
@@ -3905,28 +3905,28 @@ struct CSBrickParamStaminaAura : public TBrickParam::IId
 	float Duration;
 	// aura radius in meters
 	float Radius;
-	// disable life aura for x seconds on targets
+	// disable ChaScore2 aura for x seconds on targets
 	float TargetDisableTime;
-	// disable life aura for x seconds on user
+	// disable ChaScore2 aura for x seconds on user
 	float UserDisableTime;
 
-	CSBrickParamStaminaAura():
+	CSBrickParamChaScore2Aura():
 		RegenMod(),
 		Duration(),
 		Radius(),
 		TargetDisableTime(),
 		UserDisableTime()
 	{
-		_Id = TBrickParam::SP_STAMINA_AURA;
+		_Id = TBrickParam::SP_ChaScore2_AURA;
 	}
 
-	CSBrickParamStaminaAura(const std::string&str)
+	CSBrickParamChaScore2Aura(const std::string&str)
 	{
-		*this=CSBrickParamStaminaAura();
+		*this=CSBrickParamChaScore2Aura();
 		*this=str;
 	}
 
-	const CSBrickParamStaminaAura& operator=(const std::string& input)
+	const CSBrickParamChaScore2Aura& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -3945,7 +3945,7 @@ struct CSBrickParamStaminaAura : public TBrickParam::IId
 	}
 };
 
-struct CSBrickParamStaminaAura2 : public TBrickParam::IId
+struct CSBrickParamChaScore2Aura2 : public TBrickParam::IId
 {
 	// regen modifier (in %)
 	uint16 RegenMod;
@@ -3953,28 +3953,28 @@ struct CSBrickParamStaminaAura2 : public TBrickParam::IId
 	float Duration;
 	// aura radius in meters
 	float Radius;
-	// disable life aura for x seconds on targets
+	// disable ChaScore2 aura for x seconds on targets
 	float TargetDisableTime;
-	// disable life aura for x seconds on user
+	// disable ChaScore2 aura for x seconds on user
 	float UserDisableTime;
 
-	CSBrickParamStaminaAura2():
+	CSBrickParamChaScore2Aura2():
 		RegenMod(),
 		Duration(),
 		Radius(),
 		TargetDisableTime(),
 		UserDisableTime()
 	{
-		_Id = TBrickParam::SP_STAMINA_AURA2;
+		_Id = TBrickParam::SP_ChaScore2_AURA2;
 	}
 
-	CSBrickParamStaminaAura2(const std::string&str)
+	CSBrickParamChaScore2Aura2(const std::string&str)
 	{
-		*this=CSBrickParamStaminaAura2();
+		*this=CSBrickParamChaScore2Aura2();
 		*this=str;
 	}
 
-	const CSBrickParamStaminaAura2& operator=(const std::string& input)
+	const CSBrickParamChaScore2Aura2& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -3992,7 +3992,7 @@ struct CSBrickParamStaminaAura2 : public TBrickParam::IId
 		return *this;
 	}
 };
-struct CSBrickParamSapAura : public TBrickParam::IId
+struct CSBrickParamChaScore3Aura : public TBrickParam::IId
 {
 	// regen modifier (in %)
 	uint16 RegenMod;
@@ -4000,28 +4000,28 @@ struct CSBrickParamSapAura : public TBrickParam::IId
 	float Duration;
 	// aura radius in meters
 	float Radius;
-	// disable life aura for x seconds on targets
+	// disable ChaScore3 aura for x seconds on targets
 	float TargetDisableTime;
-	// disable life aura for x seconds on user
+	// disable ChaScore3 aura for x seconds on user
 	float UserDisableTime;
 
-	CSBrickParamSapAura():
+	CSBrickParamChaScore3Aura():
 		RegenMod(),
 		Duration(),
 		Radius(),
 		TargetDisableTime(),
 		UserDisableTime()
 	{
-		_Id = TBrickParam::SP_SAP_AURA;
+		_Id = TBrickParam::SP_ChaScore3_AURA;
 	}
 
-	CSBrickParamSapAura(const std::string&str)
+	CSBrickParamChaScore3Aura(const std::string&str)
 	{
-		*this=CSBrickParamSapAura();
+		*this=CSBrickParamChaScore3Aura();
 		*this=str;
 	}
 
-	const CSBrickParamSapAura& operator=(const std::string& input)
+	const CSBrickParamChaScore3Aura& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -4040,7 +4040,7 @@ struct CSBrickParamSapAura : public TBrickParam::IId
 	}
 };
 
-struct CSBrickParamSapAura2 : public TBrickParam::IId
+struct CSBrickParamChaScore3Aura2 : public TBrickParam::IId
 {
 	// regen modifier (in %)
 	uint16 RegenMod;
@@ -4048,28 +4048,28 @@ struct CSBrickParamSapAura2 : public TBrickParam::IId
 	float Duration;
 	// aura radius in meters
 	float Radius;
-	// disable life aura for x seconds on targets
+	// disable ChaScore3 aura for x seconds on targets
 	float TargetDisableTime;
-	// disable life aura for x seconds on user
+	// disable ChaScore3 aura for x seconds on user
 	float UserDisableTime;
 
-	CSBrickParamSapAura2():
+	CSBrickParamChaScore3Aura2():
 		RegenMod(),
 		Duration(),
 		Radius(),
 		TargetDisableTime(),
 		UserDisableTime()
 	{
-		_Id = TBrickParam::SP_SAP_AURA2;
+		_Id = TBrickParam::SP_ChaScore3_AURA2;
 	}
 
-	CSBrickParamSapAura2(const std::string&str)
+	CSBrickParamChaScore3Aura2(const std::string&str)
 	{
-		*this=CSBrickParamSapAura2();
+		*this=CSBrickParamChaScore3Aura2();
 		*this=str;
 	}
 
-	const CSBrickParamSapAura2& operator=(const std::string& input)
+	const CSBrickParamChaScore3Aura2& operator=(const std::string& input)
 	{
 		std::vector<std::string> args;
 		convertInput(args, input);
@@ -4772,7 +4772,7 @@ struct CSBrickParamHeal : public TBrickParam::IId
 	float HealFactorValue;
 	// disable power for x seconds
 	float DisableTime;
-	// type of power (Heal, HealHpC ...)
+	// type of power (Heal, HealChaScore1C ...)
 	std::string PowerType;
 
 	CSBrickParamHeal():

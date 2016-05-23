@@ -51,7 +51,7 @@ private:
 };
 
 // ***************************************************************************
-// frequent update of the player HP/STA/SAP/FOCUS bars
+// frequent update of the player ChaScore1/ChaScore2/ChaScore3/ChaScore4 bars
 class CCharacterBarUpdateTimerEvent : public CTimerEvent
 {
 	NL_INSTANCE_COUNTER_DECL(CCharacterBarUpdateTimerEvent);
