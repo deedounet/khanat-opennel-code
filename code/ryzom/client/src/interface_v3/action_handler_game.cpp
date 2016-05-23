@@ -3968,8 +3968,8 @@ static	void	fillPlayerBarText(ucstring &str, const string &dbScore, SCORES::TSco
 }
 
 // ***************************************************************************
-// Life
-class CHandlerPlayerTTLife : public IActionHandler
+// ChaScore1
+class CHandlerPlayerTTChaScore1 : public IActionHandler
 {
 public:
 	void execute (CCtrlBase * /* pCaller */, const std::string &/* sParams */)
@@ -3977,16 +3977,16 @@ public:
 		CInterfaceManager	*pIM= CInterfaceManager::getInstance();
 
 		ucstring	str;
-		fillPlayerBarText(str, "HP", SCORES::hit_points, "uittPlayerLifeFormat");
+		fillPlayerBarText(str, "ChaScore1", SCORES::cha_score1, "uittPlayerChaScore1Format");
 
 		CWidgetManager::getInstance()->setContextHelpText(str);
 	}
 };
-REGISTER_ACTION_HANDLER(CHandlerPlayerTTLife, "player_tt_life");
+REGISTER_ACTION_HANDLER(CHandlerPlayerTTChaScore1, "player_tt_cha_score1");
 
 // ***************************************************************************
-// Stamina
-class CHandlerPlayerTTStamina : public IActionHandler
+// ChaScore2
+class CHandlerPlayerTTChaScore2 : public IActionHandler
 {
 public:
 	void execute (CCtrlBase * /* pCaller */, const std::string &/* sParams */)
@@ -3994,16 +3994,16 @@ public:
 		CInterfaceManager	*pIM= CInterfaceManager::getInstance();
 
 		ucstring	str;
-		fillPlayerBarText(str, "STA", SCORES::stamina, "uittPlayerStaminaFormat");
+		fillPlayerBarText(str, "ChaScore2", SCORES::cha_score1, "uittPlayerChaScore2Format");
 
 		CWidgetManager::getInstance()->setContextHelpText(str);
 	}
 };
-REGISTER_ACTION_HANDLER(CHandlerPlayerTTStamina, "player_tt_stamina");
+REGISTER_ACTION_HANDLER(CHandlerPlayerTTChaScore2, "player_tt_cha_score2");
 
 // ***************************************************************************
-// Sap
-class CHandlerPlayerTTSap : public IActionHandler
+// ChaScore3
+class CHandlerPlayerTTChaScore3 : public IActionHandler
 {
 public:
 	void execute (CCtrlBase * /* pCaller */, const std::string &/* sParams */)
@@ -4011,16 +4011,16 @@ public:
 		CInterfaceManager	*pIM= CInterfaceManager::getInstance();
 
 		ucstring	str;
-		fillPlayerBarText(str, "SAP", SCORES::sap, "uittPlayerSapFormat");
+		fillPlayerBarText(str, "ChaScore3", SCORES::cha_score3, "uittPlayerChaScore3Format");
 
 		CWidgetManager::getInstance()->setContextHelpText(str);
 	}
 };
-REGISTER_ACTION_HANDLER(CHandlerPlayerTTSap, "player_tt_sap");
+REGISTER_ACTION_HANDLER(CHandlerPlayerTTChaScore3, "player_tt_cha_score3");
 
 // ***************************************************************************
-// Focus
-class CHandlerPlayerTTFocus : public IActionHandler
+// ChaScore4
+class CHandlerPlayerTTChaScore4 : public IActionHandler
 {
 public:
 	void execute (CCtrlBase * /* pCaller */, const std::string &/* sParams */)
@@ -4028,12 +4028,12 @@ public:
 		CInterfaceManager	*pIM= CInterfaceManager::getInstance();
 
 		ucstring	str;
-		fillPlayerBarText(str, "FOCUS", SCORES::focus, "uittPlayerFocusFormat");
+		fillPlayerBarText(str, "ChaScore4", SCORES::cha_score4, "uittPlayerChaScore4Format");
 
 		CWidgetManager::getInstance()->setContextHelpText(str);
 	}
 };
-REGISTER_ACTION_HANDLER(CHandlerPlayerTTFocus, "player_tt_focus");
+REGISTER_ACTION_HANDLER(CHandlerPlayerTTChaScore4, "player_tt_cha_score4");
 
 // ***************************************************************************
 // Bulk: NB: work for player / animal
@@ -4179,7 +4179,7 @@ public:
 
 		CRGBA color = CRGBA::stringToRGBA(getParam(sParams, "color").c_str());
 		if (entity < 256)
-			EntitiesMngr.entity (entity)->addHPOutput (CI18N::get (text), color);
+			EntitiesMngr.entity (entity)->addChaScore1Output (CI18N::get (text), color);
 	}
 };
 REGISTER_ACTION_HANDLER(CHandlerEntityFlyingText, "entity_flying_text");

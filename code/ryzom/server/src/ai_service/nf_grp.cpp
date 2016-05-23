@@ -1494,65 +1494,65 @@ void setAutoSpawn_f_(CStateInstance* entity, CScriptStack& stack)
 }
 
 //----------------------------------------------------------------------------
-// HP related methods
+// ChaScore1 related methods
 /** @page code
 
-@subsection setMaxHP_ff_
-Sets the Max HP level of each bot of the group.
+@subsection setMaxChaScore1_ff_
+Sets the Max ChaScore1 level of each bot of the group.
 
-Arguments: f(MaxHp) f(SetFull) ->
-@param[in] MaxHP is the new maximum HP for each bot
-@param[in] SetFull if not 0, will set the HP to the new maximum
+Arguments: f(MaxChaScore1) f(SetFull) ->
+@param[in] MaxChaScore1 is the new maximum ChaScore1 for each bot
+@param[in] SetFull if not 0, will set the ChaScore1 to the new maximum
 
 @code
-()setMaxHP(50000,1);
+()setMaxChaScore1(50000,1);
 @endcode
 
 */
 // CGroup
-void setMaxHP_ff_(CStateInstance* entity, CScriptStack& stack)
+void setMaxChaScore1_ff_(CStateInstance* entity, CScriptStack& stack)
 {
 	bool  setFull = ((float)stack.top() != 0.f); stack.pop();
-	float maxHp = ((float)stack.top()); stack.pop();
+	float maxChaScore1 = ((float)stack.top()); stack.pop();
 	
-	CChangeCreatureMaxHPMsg& msgList = CAIS::instance().getCreatureChangeMaxHP();
+	CChangeCreatureMaxChaScore1Msg& msgList = CAIS::instance().getCreatureChangeMaxChaScore1();
 	
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
 	{
 		if (!bot->isSpawned())
 			continue;
 		
-		if (maxHp > 0)
+		if (maxChaScore1 > 0)
 		{
 			CSpawnBot* const sbot = bot->getSpawnObj();
 			msgList.Entities.push_back(sbot->dataSetRow());
-			msgList.MaxHp.push_back((uint32)(maxHp));
+			msgList.MaxChaScore1.push_back((uint32)(maxChaScore1));
 			msgList.SetFull.push_back((uint8)(setFull?1:0));
 		}
-		bot->setCustomMaxHp((uint32)maxHp);
+		bot->setCustomMaxChaScore1((uint32)maxChaScore1);
 	}
 }
 
 /** @page code
 
-@subsection setHPLevel_f_
-Sets the current HP level of each bot of the group.
+@subsection setChaScore1Level_f_
+Sets the current ChaScore1 level of each bot of the group.
 
 Arguments: f(Coef) ->
-@param[in] Coef is the percentage of its max HP each creature will have
+@param[in] Coef is the percentage of its max ChaScore1 each creature will have
 
 @code
-()setHPLevel(0.8);
+()setChaScore1Level(0.8);
 @endcode
 
 */
 // CGroup
-void setHPLevel_f_(CStateInstance* entity, CScriptStack& stack)
+void setChaScore1Level_f_(CStateInstance* entity, CScriptStack& stack)
 {
 	float coef = stack.top();
 	stack.pop();
 	
-	CChangeCreatureHPMsg& msgList = CAIS::instance().getCreatureChangeHP();
+	CChangeCreatureChaScore1Msg& msgList = CAIS::instance().getCreatureChangeChaScore1();
 	
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
 	{
@@ -1562,7 +1562,7 @@ void setHPLevel_f_(CStateInstance* entity, CScriptStack& stack)
 		CSpawnBot* const sbot = bot->getSpawnObj();
 		
 		msgList.Entities.push_back(sbot->dataSetRow());
-		msgList.DeltaHp.push_back((sint32)(sbot->maxHitPoints()*coef));
+		msgList.DeltaChaScore1.push_back((sint32)(sbot->maxChaScore1()*coef));
 	}
 }
 
@@ -1570,34 +1570,34 @@ void setHPLevel_f_(CStateInstance* entity, CScriptStack& stack)
 
 
 //----------------------------------------------------------------------------
-// HP related methods
+// ChaScore1 related methods
 /** @page code
 
-@subsection setHPScale_f__f_
-Sets the current HP level of level of each bot of the group. its maxHitPoints
+@subsection setChaScore1Scale_f__f_
+Sets the current ChaScore1 level of level of each bot of the group. its maxChaScore1
 eg:
-for a bot HP = 850 and MaxHP = 1000
-()setHPScale_f_(0);  HP will be 0 so DeltaHp = 850
-()setHPScale_f_(1);  HP will be 100 so DeltaHp = 150
-()setHPScale_f_(0.5);  HP will be 500 so DeltaHp = 350
-if bot HP = 840 and Max   abd setHpRatio(0)  HP will be 0
+for a bot ChaScore1 = 850 and MaxChaScore1 = 1000
+()setChaScore1Scale_f_(0);  ChaScore1 will be 0 so DeltaChaScore1 = 850
+()setChaScore1Scale_f_(1);  ChaScore1 will be 100 so DeltaChaScore1 = 150
+()setChaScore1Scale_f_(0.5);  ChaScore1 will be 500 so DeltaChaScore1 = 350
+if bot ChaScore1 = 840 and Max   abd setChaScore1Ratio(0)  ChaScore1 will be 0
 
 
 Arguments: f(Coef) ->
-@param[in] Coef is the percentage of its max HP each creature will *BE*
+@param[in] Coef is the percentage of its max ChaScore1 each creature will *BE*
 
 @code
-()setHPLevel(0.8);
+()setChaScore1Level(0.8);
 @endcode
 
 */
 // CGroup
-void setHPScale_f_(CStateInstance* entity, CScriptStack& stack)
+void setChaScore1Scale_f_(CStateInstance* entity, CScriptStack& stack)
 {
 	float coef = stack.top();
 	stack.pop();
 	
-	CChangeCreatureHPMsg& msgList = CAIS::instance().getCreatureChangeHP();
+	CChangeCreatureChaScore1Msg& msgList = CAIS::instance().getCreatureChangeChaScore1();
 	
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
 	{
@@ -1607,7 +1607,7 @@ void setHPScale_f_(CStateInstance* entity, CScriptStack& stack)
 		CSpawnBot* const sbot = bot->getSpawnObj();
 		
 		msgList.Entities.push_back(sbot->dataSetRow());
-		msgList.DeltaHp.push_back((sint32)( sbot->maxHitPoints() *coef - sbot->currentHitPoints())  );
+		msgList.DeltaChaScore1.push_back((sint32)( sbot->maxChaScore1() *coef - sbot->currentChaScore1())  );
 	}
 }
 
@@ -1623,7 +1623,7 @@ Arguments: s(actionName),s(url) ->
 @param[in] url of action when player mouse over
 
 @code
-()setUrl("Click on Me", "http://www.domain.com/script.php");
+()setUrl("Click on Me", "http://www.domain.com/script.pChaScore1");
 @endcode
 
 */
@@ -1652,24 +1652,24 @@ void setUrl_ss_(CStateInstance* entity, CScriptStack& stack)
 
 /** @page code
 
-@subsection scaleHP_f_
-Scales the bots HP.
+@subsection scaleChaScore1_f_
+Scales the bots ChaScore1.
 
 Arguments: f(Coef) ->
-@param[in] Coef is the percentage of its current HP each creature will have
+@param[in] Coef is the percentage of its current ChaScore1 each creature will have
 
 @code
-()scaleHP(2);
+()scaleChaScore1(2);
 @endcode
 
 */
 // CGroup
-void scaleHP_f_(CStateInstance* entity, CScriptStack& stack)
+void scaleChaScore1_f_(CStateInstance* entity, CScriptStack& stack)
 {
 	float coef = stack.top();
 	stack.pop();
 	
-	CChangeCreatureHPMsg& msgList = CAIS::instance().getCreatureChangeHP();
+	CChangeCreatureChaScore1Msg& msgList = CAIS::instance().getCreatureChangeChaScore1();
 	
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
 	{
@@ -1679,34 +1679,34 @@ void scaleHP_f_(CStateInstance* entity, CScriptStack& stack)
 		CSpawnBot* const sbot = bot->getSpawnObj();
 		
 		msgList.Entities.push_back(sbot->dataSetRow());
-		msgList.DeltaHp.push_back((sint32)(sbot->currentHitPoints()*coef));
+		msgList.DeltaChaScore1.push_back((sint32)(sbot->currentChaScore1()*coef));
 	}
 }
 
 
 /** @page code
 
-@subsection setBotHPScaleByAlias_fs_
-Same as setHpSacale but only on a specific bot of a groupe from the current group by its bot alias
+@subsection setBotChaScore1ScaleByAlias_fs_
+Same as setChaScore1Sacale but only on a specific bot of a groupe from the current group by its bot alias
 
 Arguments:  f(alias),f(Coef), ->
 @param[in] alias is the alias of the bot
-@param[in] Coef is the percentage of its current HP each creature will have
+@param[in] Coef is the percentage of its current ChaScore1 each creature will have
 
 
 @code
-()scaleHpByAlias(2, '(A:1000:10560)');
+()scaleChaScore1ByAlias(2, '(A:1000:10560)');
 @endcode
 
 */
 // CGroup
-void setBotHPScaleByAlias_fs_(CStateInstance* entity, CScriptStack& stack)
+void setBotChaScore1ScaleByAlias_fs_(CStateInstance* entity, CScriptStack& stack)
 {
 	uint32 alias =  LigoConfig.aliasFromString((string)stack.top()) ; stack.pop();
 		
 	float coef = stack.top(); stack.pop();
 	
-	CChangeCreatureHPMsg& msgList = CAIS::instance().getCreatureChangeHP();
+	CChangeCreatureChaScore1Msg& msgList = CAIS::instance().getCreatureChangeChaScore1();
 	
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
 	{
@@ -1717,31 +1717,31 @@ void setBotHPScaleByAlias_fs_(CStateInstance* entity, CScriptStack& stack)
 		CSpawnBot* const sbot = bot->getSpawnObj();
 		
 		msgList.Entities.push_back(sbot->dataSetRow());
-		msgList.DeltaHp.push_back((sint32)( sbot->maxHitPoints() *coef - sbot->currentHitPoints())  );
+		msgList.DeltaChaScore1.push_back((sint32)( sbot->maxChaScore1() *coef - sbot->currentChaScore1())  );
 	}
 }
 
 
 /** @page code
 
-@subsection downScaleHP_f_	
-Scales the bots HP down.
+@subsection downScaleChaScore1_f_	
+Scales the bots ChaScore1 down.
 
 Arguments: f(Coef) ->
 @param[in] Coef is a value
 
 @code
-()downScaleHP(2);
+()downScaleChaScore1(2);
 @endcode
 
 */
 // CGroup
-void downScaleHP_f_(CStateInstance* entity, CScriptStack& stack)
+void downScaleChaScore1_f_(CStateInstance* entity, CScriptStack& stack)
 {
 	float coef = stack.top();
 	stack.pop();
 	
-	CChangeCreatureHPMsg& msgList = CAIS::instance().getCreatureChangeHP();
+	CChangeCreatureChaScore1Msg& msgList = CAIS::instance().getCreatureChangeChaScore1();
 	
 	clamp(coef, 0.f, 1.f);
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
@@ -1752,30 +1752,30 @@ void downScaleHP_f_(CStateInstance* entity, CScriptStack& stack)
 		CSpawnBot* const sbot = bot->getSpawnObj();
 		
 		msgList.Entities.push_back(sbot->dataSetRow());
-		msgList.DeltaHp.push_back((sint32)(sbot->currentHitPoints()*(coef-1)));
+		msgList.DeltaChaScore1.push_back((sint32)(sbot->currentChaScore1()*(coef-1)));
 	}
 }
 
 /** @page code
 
-@subsection upScaleHP_f_
-Scales the bots HP up.
+@subsection upScaleChaScore1_f_
+Scales the bots ChaScore1 up.
 
 Arguments: f(Coef) ->
 @param[in] Coef is a value
 
 @code
-()upScaleHP(2);
+()upScaleChaScore1(2);
 @endcode
 
 */
 // CGroup
-void upScaleHP_f_(CStateInstance* entity, CScriptStack& stack)
+void upScaleChaScore1_f_(CStateInstance* entity, CScriptStack& stack)
 {
 	float coef = stack.top();
 	stack.pop();
 	
-	CChangeCreatureHPMsg& msgList = CAIS::instance().getCreatureChangeHP();
+	CChangeCreatureChaScore1Msg& msgList = CAIS::instance().getCreatureChangeChaScore1();
 	
 	clamp(coef, 0.f, 1.f);
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
@@ -1786,31 +1786,31 @@ void upScaleHP_f_(CStateInstance* entity, CScriptStack& stack)
 		if (spBot)
 		{
 			msgList.Entities.push_back(spBot->dataSetRow());
-			msgList.DeltaHp.push_back((sint32)((spBot->maxHitPoints()-spBot->currentHitPoints())*coef));
+			msgList.DeltaChaScore1.push_back((sint32)((spBot->maxChaScore1()-spBot->currentChaScore1())*coef));
 		}
 	}
 }
 
 /** @page code
 
-@subsection addHP_f_
-Add HP to the bots.
+@subsection addChaScore1_f_
+Add ChaScore1 to the bots.
 
-Arguments: f(HP) ->
-@param[in] HP is the amount of hit points to add to each bot
+Arguments: f(ChaScore1) ->
+@param[in] ChaScore1 is the amount of ChaScore1 to add to each bot
 
 @code
-()addHP(500);
+()addChaScore1(500);
 @endcode
 
 */
 // CGroup
-void addHP_f_(CStateInstance* entity, CScriptStack& stack)
+void addChaScore1_f_(CStateInstance* entity, CScriptStack& stack)
 {
-	float addHP = stack.top();
+	float addChaScore1 = stack.top();
 	stack.pop();
 	
-	CChangeCreatureHPMsg& msgList = CAIS::instance().getCreatureChangeHP();
+	CChangeCreatureChaScore1Msg& msgList = CAIS::instance().getCreatureChangeChaScore1();
 	
 	FOREACH(bot, CCont<CBot>, entity->getGroup()->bots())
 	{
@@ -1820,7 +1820,7 @@ void addHP_f_(CStateInstance* entity, CScriptStack& stack)
 		CSpawnBot* const sbot = bot->getSpawnObj();
 		
 		msgList.Entities.push_back(sbot->dataSetRow());
-		msgList.DeltaHp.push_back((sint32)(sbot->currentHitPoints()+addHP));
+		msgList.DeltaChaScore1.push_back((sint32)(sbot->currentChaScore1()+addChaScore1));
 	}
 }
 
@@ -2335,21 +2335,21 @@ Get some player stat.
 A player EntityId is used to identify the player. This EntityId is passed as string as argument. The EntityId can be obtains via getCurrentPlayerAggroListTarget or getRandomPlayerAggroListTarget.
 The player must be in the same AI Instance (same continent).
 If the player is not in the same Ai Instance or the input string is empty the function return zero and *display* a warning message on the log. You can think of using isPlayerAlived to be sure that the id is still a valid value.
-If param is not one of "HP", "MaxHp", "RatioHp" zero is return and a warning message is printed on the log.
-- The "Hp" stat is the property CURRENT_HIT_POINTS as seen in the mirror.
-- The "MaxHp" stat is the property MAX_HIT_POINTS as seen in the mirror.
-- The "RatioHp" stat is (Hp * 100) / MaxHp
+If param is not one of "ChaScore1", "MaxChaScore1", "RatioChaScore1" zero is return and a warning message is printed on the log.
+- The "ChaScore1" stat is the property CURRENT_ChaScore1 as seen in the mirror.
+- The "MaxChaScore1" stat is the property MAX_ChaScore1 as seen in the mirror.
+- The "RatioChaScore1" stat is (ChaScore1 * 100) / MaxChaScore1
 Be careful the argument is case sensitive.
 
 Arguments: s(playerEidAsString), s(statName) -> s(result)
 @param[in] playerEidAsString is EntityId as string from the player we want infos
-@param[in] statName is the name of the property (can be "HP", "MaxHp", "RatioHp")
+@param[in] statName is the name of the property (can be "ChaScore1", "MaxChaScore1", "RatioChaScore1")
 @param[out] value is a the value of the parameter
 
 @code
 ($playerEid)getCurrentPlayerEid();
 print($playerEid); //log (0x00001fbd50:00:00:81)
-(maxHp)getPlayerStat($playerEid, "MaxHp");
+(maxChaScore1)getPlayerStat($playerEid, "MaxChaScore1");
 @endcode
 */
 void getPlayerStat_ss_f(CStateInstance* entity, CScriptStack& stack)
@@ -2371,25 +2371,25 @@ void getPlayerStat_ss_f(CStateInstance* entity, CScriptStack& stack)
 		return;
 	}
 
-	if (statName == "Hp" )
+	if (statName == "ChaScore1" )
 	{	
-		// return DSPropertyCURRENT_HIT_POINTS Mirror value
-		CMirrorPropValue<sint32> mirrorSymbol( TheDataset, playerRow, DSPropertyCURRENT_HIT_POINTS );
+		// return DSPropertyCURRENT_ChaScore1 Mirror value
+		CMirrorPropValue<sint32> mirrorSymbol( TheDataset, playerRow, DSPropertyCURRENT_ChaScore1 );
 		stack.push((float)mirrorSymbol.getValue());
 		return;
 	}
-	else if (statName == "MaxHp")
+	else if (statName == "MaxChaScore1")
 	{
-		// return DSPropertyMAX_HIT_POINTS Mirror value
-		CMirrorPropValue<sint32> mirrorSymbol( TheDataset, playerRow, DSPropertyMAX_HIT_POINTS );
+		// return DSPropertyMAX_ChaScore1 Mirror value
+		CMirrorPropValue<sint32> mirrorSymbol( TheDataset, playerRow, DSPropertyMAX_ChaScore1 );
 		stack.push((float)mirrorSymbol.getValue());
 		return;
 	}
-	else if (statName == "RatioHp")
+	else if (statName == "RatioChaScore1")
 	{
 		// return percentage of live (read from mirror values)
-		CMirrorPropValue<sint32> mirrorSymbol( TheDataset, playerRow, DSPropertyCURRENT_HIT_POINTS );
-		CMirrorPropValue<sint32> mirrorSymbol2( TheDataset, playerRow, DSPropertyMAX_HIT_POINTS );
+		CMirrorPropValue<sint32> mirrorSymbol( TheDataset, playerRow, DSPropertyCURRENT_ChaScore1 );
+		CMirrorPropValue<sint32> mirrorSymbol2( TheDataset, playerRow, DSPropertyMAX_ChaScore1 );
 
 		stack.push((float)(100.0*mirrorSymbol.getValue() / mirrorSymbol2.getValue()));
 		return;
@@ -3942,18 +3942,18 @@ Answer is asynchronous so we have to indicates a group and a user event that wil
 
 Possible info to know are 
 - Name
-- Hp
-- MaxHp
-- RatioHp
-- Sap
-- MaxSap
-- RatioSap
-- Focus
-- MaxFocus
-- RatioFocus
-- Stamina
-- MaxStamina
-- RatioStamina
+- ChaScore1
+- MaxChaScore1
+- RatioChaScore1
+- ChaScore3
+- MaxChaScore3
+- RatioChaScore3
+- ChaScore4
+- MaxChaScore4
+- RatioChaScore4
+- ChaScore2
+- MaxChaScore2
+- RatioChaScore2
 
 
 Arguments: s(botIndex), s(query), c(groupThatWillBeTriggered), f(idOfTheUserEvent), s(msgId)
@@ -3969,18 +3969,18 @@ Answer will be given by the getParam
 	//Sening msg to EGS
 	(@groupToNotify)boss_group.context();
 	()queryEgs("Name", $playerEid, @groupToNotify, 4, "MSG_NAME");
-	()queryEgs("Hp", $playerEid, @groupToNotify, 4, "msg1");
-	()queryEgs("MaxHp", $playerEid, @groupToNotify, 4, "msg2");
-	()queryEgs("RatioHp", $playerEid, @groupToNotify, 4, "msg3");
-	()queryEgs("Sap", $playerEid, @groupToNotify, 4,  "msg4");
-	()queryEgs("MaxSap", $playerEid, @groupToNotify, 4,  "msg5");
-	()queryEgs("RatioSap", $playerEid, @groupToNotify, 4,  "msg6");
-	()queryEgs("Focus", $playerEid, @groupToNotify, 4,  "msg7");
-	()queryEgs("MaxFocus", $playerEid, @groupToNotify, 4,  "msg8");
-	()queryEgs("RatioFocus", $playerEid, @groupToNotify, 4,  "msg9");
-	()queryEgs("Stamina", $playerEid, @groupToNotify, 4,  "msg10");
-	()queryEgs("MaxStamina", $playerEid, @groupToNotify, 4,  "msg11");
-	()queryEgs("RatioStamina", $playerEid, @groupToNotify, 4,  "msg12");
+	()queryEgs("ChaScore1", $playerEid, @groupToNotify, 4, "msg1");
+	()queryEgs("MaxChaScore1", $playerEid, @groupToNotify, 4, "msg2");
+	()queryEgs("RatioChaScore1", $playerEid, @groupToNotify, 4, "msg3");
+	()queryEgs("ChaScore3", $playerEid, @groupToNotify, 4,  "msg4");
+	()queryEgs("MaxChaScore3", $playerEid, @groupToNotify, 4,  "msg5");
+	()queryEgs("RatioChaScore3", $playerEid, @groupToNotify, 4,  "msg6");
+	()queryEgs("ChaScore4", $playerEid, @groupToNotify, 4,  "msg7");
+	()queryEgs("MaxChaScore4", $playerEid, @groupToNotify, 4,  "msg8");
+	()queryEgs("RatioChaScore4", $playerEid, @groupToNotify, 4,  "msg9");
+	()queryEgs("ChaScore2", $playerEid, @groupToNotify, 4,  "msg10");
+	()queryEgs("MaxChaScore2", $playerEid, @groupToNotify, 4,  "msg11");
+	()queryEgs("RatioChaScore2", $playerEid, @groupToNotify, 4,  "msg12");
 	()queryEgs("BestSkillLevel", $playerEid, @groupToNotify, 4, "msg13");
 @endcode
 Answer of the EGS
@@ -4783,14 +4783,14 @@ std::map<std::string, FScrptNativeFunc> nfGetGroupNativeFunctions()
 	REGISTER_NATIVE_FUNC(functions, clearAggroList__);
 	REGISTER_NATIVE_FUNC(functions, setMode_s_);
 	REGISTER_NATIVE_FUNC(functions, setAutoSpawn_f_);
-	REGISTER_NATIVE_FUNC(functions, setMaxHP_ff_);
-	REGISTER_NATIVE_FUNC(functions, setHPLevel_f_);
-	REGISTER_NATIVE_FUNC(functions, setHPScale_f_);
-	REGISTER_NATIVE_FUNC(functions, scaleHP_f_);
-	REGISTER_NATIVE_FUNC(functions, setBotHPScaleByAlias_fs_);
-	REGISTER_NATIVE_FUNC(functions, downScaleHP_f_);
-	REGISTER_NATIVE_FUNC(functions, upScaleHP_f_);
-	REGISTER_NATIVE_FUNC(functions, addHP_f_);
+	REGISTER_NATIVE_FUNC(functions, setMaxChaScore1_ff_);
+	REGISTER_NATIVE_FUNC(functions, setChaScore1Level_f_);
+	REGISTER_NATIVE_FUNC(functions, setChaScore1Scale_f_);
+	REGISTER_NATIVE_FUNC(functions, scaleChaScore1_f_);
+	REGISTER_NATIVE_FUNC(functions, setBotChaScore1ScaleByAlias_fs_);
+	REGISTER_NATIVE_FUNC(functions, downScaleChaScore1_f_);
+	REGISTER_NATIVE_FUNC(functions, upScaleChaScore1_f_);
+	REGISTER_NATIVE_FUNC(functions, addChaScore1_f_);
 	REGISTER_NATIVE_FUNC(functions, aiAction_s_);
 	REGISTER_NATIVE_FUNC(functions, aiActionSelf_s_);
 	REGISTER_NATIVE_FUNC(functions, addProfileParameter_s_);

@@ -117,10 +117,10 @@ namespace EFFECT_FAMILIES
 			CombatDebuffCombatSkills,
 			CombatDebuffDodge,
 
-			CombatDebuffStaminaRegen,
-			CombatDebuffSapRegen,
-			CombatDebuffHitPointsRegen,
-			CombatDebuffFocusRegen,
+			CombatDebuffChaScore2Regen,
+			CombatDebuffChaScore3Regen,
+			CombatDebuffChaScore1Regen,
+			CombatDebuffChaScore4Regen,
 
 			CombatDoTRot,
 			CombatDoTCold,
@@ -134,9 +134,9 @@ namespace EFFECT_FAMILIES
 
 		BeginPowerEffects,
 			PowerShielding = BeginPowerEffects,
-			PowerLifeAura,
-			PowerStaminaAura,
-			PowerSapAura,
+			PowerChaScore1Aura,
+			PowerChaScore2Aura,
+			PowerChaScore3Aura,
 			PowerUmbrella,
 			PowerProtection,
 			PowerAntiMagicShield,
@@ -147,9 +147,9 @@ namespace EFFECT_FAMILIES
 			PowerWaterWall,
 			PowerLightningWall,
 
-			PowerRootLifeAura,
-			PowerRootStaminaAura,
-			PowerRootSapAura,
+			PowerRootChaScore1Aura,
+			PowerRootChaScore2Aura,
+			PowerRootChaScore3Aura,
 			PowerRootUmbrella,
 			PowerRootProtection,
 			PowerRootAntiMagicShield,
@@ -192,16 +192,16 @@ namespace EFFECT_FAMILIES
 
 		BeginTotemEffects,
 			// stats
-			TotemStatsHP = BeginTotemEffects,
-			TotemStatsSap,
-			TotemStatsSta,
-			TotemStatsFoc,
+			TotemStatsChaScore1 = BeginTotemEffects,
+			TotemStatsChaScore2,
+			TotemStatsChaScore3,
+			TotemStatsChaScore4,
 
 			// regen
-			TotemRegenHP,
-			TotemRegenSap,
-			TotemRegenSta,
-			TotemRegenFoc,
+			TotemRegenChaScore1,
+			TotemRegenChaScore2,
+			TotemRegenChaScore3,
+			TotemRegenChaScore4,
 
 			// harvest
 			TotemHarvestAgg,

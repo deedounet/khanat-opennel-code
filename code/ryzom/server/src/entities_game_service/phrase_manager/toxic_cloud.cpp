@@ -129,7 +129,7 @@ bool CToxicCloud::update()
 
 				if ( !entity->isDead())
 				{
-					bool killed = entity->changeCurrentHp( -_DmgPerHit ); // is not blocked by any armor
+					bool killed = entity->changeCurrentChaScore1( -_DmgPerHit ); // is not blocked by any armor
 					PHRASE_UTILITIES::sendNaturalEventHitMessages( RYZOMID::fx_entity, entity->getEntityRowId(), _DmgPerHit, _DmgPerHit );
 					if ( killed )
 					{

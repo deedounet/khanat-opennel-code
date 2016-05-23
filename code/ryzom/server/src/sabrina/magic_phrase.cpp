@@ -75,13 +75,13 @@ void CMagicPhrase::applyBrickParam( TBrickParam::IId * param )
 		INFOLOG("MA_CASTING_TIME: %f",((CSBrickParamCastingTime *)param)->CastingTime);
 		_CastingTime += NLMISC::TGameCycle( ((CSBrickParamCastingTime *)param)->CastingTime / CTickEventHandler::getGameTimeStep() );
 		break;
-	case TBrickParam::HP:
-		INFOLOG("HP: %i",((CSBrickParamHp *)param)->Hp);
-		_HPCost += ((CSBrickParamHp *)param)->Hp;
+	case TBrickParam::ChaScore1:
+		INFOLOG("ChaScore1: %i",((CSBrickParamChaScore1 *)param)->ChaScore1);
+		_ChaScore1Cost += ((CSBrickParamChaScore1 *)param)->ChaScore1;
 		break;				
-	case TBrickParam::SAP:
-		INFOLOG("SAP: %i",((CSBrickParamSap *)param)->Sap);
-		_SapCost += ((CSBrickParamSap *)param)->Sap;
+	case TBrickParam::ChaScore3:
+		INFOLOG("ChaScore3: %i",((CSBrickParamChaScore3 *)param)->ChaScore3);
+		_ChaScore3 += ((CSBrickParamChaScore3 *)param)->ChaScore3;
 		break;
 	case TBrickParam::MA_RANGES:
 		INFOLOG("MA_RANGES: %u",((CSBrickParamMagicRanges *)param)->RangeIndex);
@@ -254,23 +254,23 @@ bool CMagicPhrase::validate()
 	}
 
 	// test caster scores
-	const sint32 hp = entity->getScores()._PhysicalScores[ SCORES::hit_points ].Current;
-	if (hp <= 0	||	entity->getMode()==MBEHAV::DEATH)
+	const sint32 ChaScore1 = entity->getScores()._PhysicalScores[ SCORES::cha_score1 ].Current;
+	if (ChaScore1 <= 0	||	entity->getMode()==MBEHAV::DEATH)
 	{
 		return false;
 	}
 	
-	if ( hp < _HPCost  )
+	if ( ChaScore1 < ChaScore1  )
 	{
 		if ( entity->getId().getType() == RYZOMID::player )
-			CCharacter::sendMessageToClient( entity->getId(),"MAGIC_LACK_HP" );
+			CCharacter::sendMessageToClient( entity->getId(),"MAGIC_LACK_ChaScore1" );
 		return false;
 	}
-	const sint32 sap = entity->getScores()._PhysicalScores[ SCORES::sap ].Current;
-	if ( sap < _SapCost  )
+	const sint32 ChaScore3 = entity->getScores()._PhysicalScores[ SCORES::ChaScore3 ].Current;
+	if ( ChaScore3 < _ChaScore3Cost  )
 	{
 		if ( entity->getId().getType() == RYZOMID::player )
-			CCharacter::sendMessageToClient( entity->getId(),"MAGIC_LACK_SAP" );
+			CCharacter::sendMessageToClient( entity->getId(),"MAGIC_LACK_ChaScore3" );
 		return false;
 	}
 
@@ -397,25 +397,25 @@ void  CMagicPhrase::execute()
 //-----------------------------------------------
 void CMagicPhrase::apply()
 {
-	// spend sap, hp
+	// spend ChaScore3, ChaScore1
 	CEntityBase* entity = PHRASE_UTILITIES::entityPtrFromId( _ActorRowId );
 	if (entity == NULL)
 	{
 		nlwarning("<CCombatPhrase::apply> Invalid entity Id %s", TheDataset.getEntityId(_ActorRowId).toString().c_str() );		
 		return;
 	}
-	RY_GAME_SHARE::SCharacteristicsAndScores &sap = entity->getScores()._PhysicalScores[SCORES::sap];
-	if ( _SapCost )
+	RY_GAME_SHARE::SCharacteristicsAndScores &ChaScore3 = entity->getScores()._PhysicalScores[SCORES::cha_score3];
+	if ( _ChaScore3Cost )
 	{
-		sap.Current = sap.Current - _SapCost;
-		if (sap.Current < 0)
-			sap.Current = 0;
+		ChaScore3.Current = ChaScore3.Current - _ChaScore3;
+		if (ChaScore3.Current < 0)
+			ChaScore3.Current = 0;
 	}
 
-	RY_GAME_SHARE::SCharacteristicsAndScores &hp = entity->getScores()._PhysicalScores[SCORES::hit_points];
-	if ( _HPCost != 0)
+	RY_GAME_SHARE::SCharacteristicsAndScores &ChaScore1 = entity->getScores()._PhysicalScores[SCORES::cha_score1];
+	if ( _ChaScore1Cost != 0)
 	{
-		entity->changeCurrentHp(-_HPCost);
+		entity->changeCurrentChaScore1(-_ChaScore1Cost);
 	}
 
 	// compute average skill value

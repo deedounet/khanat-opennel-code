@@ -161,7 +161,7 @@ public:
 
 	/// Display the entity name.
 	virtual void displayName();
-	/// Display the Hp Modifiers
+	/// Display the ChaScore1 Modifiers
 	virtual void displayModifiers();
 	/// Draw Path
 	virtual void drawPath();
@@ -1062,8 +1062,8 @@ private:
 	// remove attached fxs that depends on another slot when it has been removed
 	void updateAttachedFXListForSlotRemoved(std::list<CAttachedFX::TSmartPtr> &fxList, const CLFECOMMON::TCLEntityId &slotRemoved);
 
-	// apply the flying HP related to behaviour
-	void applyBehaviourFlyingHPs(const CBehaviourContext &bc, const MBEHAV::CBehaviour &behaviour, const std::vector<double> &targetHitDates);
+	// apply the flying ChaScore1 related to behaviour
+	void applyBehaviourFlyingChaScore1s(const CBehaviourContext &bc, const MBEHAV::CBehaviour &behaviour, const std::vector<double> &targetHitDates);
 
 protected:
 	// retrieve attack from an id and a list of attack lists filenames

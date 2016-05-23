@@ -120,12 +120,12 @@ protected:
 		const std::vector< TDataSetRow > & targets = phrase->getTargets();
 
 		SCORES::TScores linkEnergy;
-		if ( phrase->getHPCost() > 0 )
+		if ( phrase->getChaScore1Cost() > 0 )
 		{
-			linkEnergy = SCORES::hit_points;
+			linkEnergy = SCORES::cha_score1;
 		}
 		else
-			linkEnergy = SCORES::sap;
+			linkEnergy = SCORES::cha_score3;
 
 		for ( uint i = 0; i < targets.size(); i++ )
 		{

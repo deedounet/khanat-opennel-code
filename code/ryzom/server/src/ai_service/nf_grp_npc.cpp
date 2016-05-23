@@ -1037,22 +1037,22 @@ void setRespawnTime_f_(CStateInstance* entity, CScriptStack& stack)
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection addHpUpTrigger_ff_
-Registers a trigger on HP increases. Whenever the HP level of a bot upcross
+@subsection addChaScore1UpTrigger_ff_
+Registers a trigger on ChaScore1 increases. Whenever the ChaScore1 level of a bot upcross
 the threshold it triggers the specified user event. Several triggers can be
 registered on the same group, even with the same threshold and event.
 
 Arguments: f(threshold),f(user_event_n) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] user_event_n is the user event to trigger
 
 @code
-()addHpUpTrigger(0.5, 4);
+()addChaScore1UpTrigger(0.5, 4);
 @endcode
 
 */
 // CGroupNpc
-void addHpUpTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
+void addChaScore1UpTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 {
 	int eventId = (int)(float)stack.top();
 	stack.pop();
@@ -1061,31 +1061,31 @@ void addHpUpTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to add a hp up trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
+		nlwarning("Trying to add a ChaScore1 up trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
 		return;
 	}
-	grpNpc->addHpUpTrigger(threshold, eventId);
+	grpNpc->addChaScore1UpTrigger(threshold, eventId);
 }
 
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection delHpUpTrigger_ff_
-Unregisters a trigger on HP increases. The same values used when registering
+@subsection delChaScore1UpTrigger_ff_
+Unregisters a trigger on ChaScore1 increases. The same values used when registering
 the trigger must be passed. If several triggers were defined with the same
 parameters only one is removed.
 
 Arguments: f(threshold),f(user_event_n) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] user_event_n is the user event to trigger
 
 @code
-()delHpUpTrigger(0.5, 4);
+()delChaScore1UpTrigger(0.5, 4);
 @endcode
 
 */
 // CGroupNpc
-void delHpUpTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
+void delChaScore1UpTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 {
 	int eventId = (int)(float)stack.top();
 	stack.pop();
@@ -1094,31 +1094,31 @@ void delHpUpTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to delete a hp up trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
+		nlwarning("Trying to delete a ChaScore1 up trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
 		return;
 	}
-	grpNpc->delHpUpTrigger(threshold, eventId);
+	grpNpc->delChaScore1UpTrigger(threshold, eventId);
 }
 
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection addHpDownTrigger_ff_
-Registers a trigger on HP decreases. Whenever the HP level of a bot downcross
+@subsection addChaScore1DownTrigger_ff_
+Registers a trigger on ChaScore1 decreases. Whenever the ChaScore1 level of a bot downcross
 the threshold it triggers the specified user event. Several triggers can be
 registered on the same group, even with the same threshold and event.
 
 Arguments: f(threshold),f(user_event_n) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] user_event_n is the user event to trigger
 
 @code
-()addHpDownTrigger(0.5, 5);
+()addChaScore1DownTrigger(0.5, 5);
 @endcode
 
 */
 // CGroupNpc
-void addHpDownTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
+void addChaScore1DownTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 {
 	int eventId = (int)(float)stack.top();
 	stack.pop();
@@ -1127,31 +1127,31 @@ void addHpDownTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to add a hp down trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
+		nlwarning("Trying to add a ChaScore1 down trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
 		return;
 	}
-	grpNpc->addHpDownTrigger(threshold, eventId);
+	grpNpc->addChaScore1DownTrigger(threshold, eventId);
 }
 
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection delHpDownTrigger_ff_
-Unregisters a trigger on HP decreases. The same values used when registering
+@subsection delChaScore1DownTrigger_ff_
+Unregisters a trigger on ChaScore1 decreases. The same values used when registering
 the trigger must be passed. If several triggers were defined with the same
 parameters only one is removed.
 
 Arguments: f(threshold),f(user_event_n) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] user_event_n is the user event to trigger
 
 @code
-()delHpDownTrigger(0.5, 5);
+()delChaScore1DownTrigger(0.5, 5);
 @endcode
 
 */
 // CGroupNpc
-void delHpDownTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
+void delChaScore1DownTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 {
 	int eventId = (int)(float)stack.top();
 	stack.pop();
@@ -1160,31 +1160,31 @@ void delHpDownTrigger_ff_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to delete a hp down trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
+		nlwarning("Trying to delete a ChaScore1 down trigger (%f) listener (user event %d) in a group which is not an NPC group.", threshold, eventId);
 		return;
 	}
-	grpNpc->delHpDownTrigger(threshold, eventId);
+	grpNpc->delChaScore1DownTrigger(threshold, eventId);
 }
 
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection addHpUpTrigger_fs_
-@sa @ref addHpUpTrigger_ff_
+@subsection addChaScore1UpTrigger_fs_
+@sa @ref addChaScore1UpTrigger_ff_
 
 These triggers call a script function instead of trigger a user event.
 
 Arguments: f(threshold),s(callback) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] callback is the script callback to trigger
 
 @code
-()addHpUpTrigger(0.5, "onHPIncrease");
+()addChaScore1UpTrigger(0.5, "onChaScore1Increase");
 @endcode
 
 */
 // CGroupNpc
-void addHpUpTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
+void addChaScore1UpTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 {
 	std::string cbFunc = (std::string)stack.top();
 	stack.pop();
@@ -1193,31 +1193,31 @@ void addHpUpTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to add a hp up trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
+		nlwarning("Trying to add a ChaScore1 up trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
 		return;
 	}
-	grpNpc->addHpUpTrigger(threshold, cbFunc);
+	grpNpc->addChaScore1UpTrigger(threshold, cbFunc);
 }
 
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection delHpUpTrigger_fs_
-@sa @ref delHpUpTrigger_ff_
+@subsection delChaScore1UpTrigger_fs_
+@sa @ref delChaScore1UpTrigger_ff_
 
 This function is used to remove script function triggers.
 
 Arguments: f(threshold),s(callback) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] callback is the script callback to trigger
 
 @code
-()delHpUpTrigger(0.5, "onHPIncrease");
+()delChaScore1UpTrigger(0.5, "onChaScore1Increase");
 @endcode
 
 */
 // CGroupNpc
-void delHpUpTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
+void delChaScore1UpTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 {
 	std::string cbFunc = (std::string)stack.top();
 	stack.pop();
@@ -1226,31 +1226,31 @@ void delHpUpTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to delete a hp up trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
+		nlwarning("Trying to delete a ChaScore1 up trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
 		return;
 	}
-	grpNpc->delHpUpTrigger(threshold, cbFunc);
+	grpNpc->delChaScore1UpTrigger(threshold, cbFunc);
 }
 
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection addHpDownTrigger_fs_
-@sa @ref addHpDownTrigger_ff_
+@subsection addChaScore1DownTrigger_fs_
+@sa @ref addChaScore1DownTrigger_ff_
 
 These triggers call a script function instead of trigger a user event.
 
 Arguments: f(threshold),s(callback) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] callback is the script callback to trigger
 
 @code
-()addHpDownTrigger(0.5, "onHPDecrease");
+()addChaScore1DownTrigger(0.5, "onChaScore1Decrease");
 @endcode
 
 */
 // CGroupNpc
-void addHpDownTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
+void addChaScore1DownTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 {
 	std::string cbFunc = (std::string)stack.top();
 	stack.pop();
@@ -1259,31 +1259,31 @@ void addHpDownTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to add a hp down trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
+		nlwarning("Trying to add a ChaScore1 down trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
 		return;
 	}
-	grpNpc->addHpDownTrigger(threshold, cbFunc);
+	grpNpc->addChaScore1DownTrigger(threshold, cbFunc);
 }
 
 //----------------------------------------------------------------------------
 /** @page code
 
-@subsection delHpDownTrigger_fs_
-@sa @ref delHpDownTrigger_ff_
+@subsection delChaScore1DownTrigger_fs_
+@sa @ref delChaScore1DownTrigger_ff_
 
 This function is used to remove script function triggers.
 
 Arguments: f(threshold),s(callback) ->
-@param[in] threshold is a HP threshold
+@param[in] threshold is a ChaScore1 threshold
 @param[in] callback is the script callback to trigger
 
 @code
-()delHpDownTrigger(0.5, "onHPDecrease");
+()delChaScore1DownTrigger(0.5, "onChaScore1Decrease");
 @endcode
 
 */
 // CGroupNpc
-void delHpDownTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
+void delChaScore1DownTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 {
 	std::string cbFunc = (std::string)stack.top();
 	stack.pop();
@@ -1292,10 +1292,10 @@ void delHpDownTrigger_fs_(CStateInstance* entity, CScriptStack& stack)
 	CGroupNpc* const grpNpc = dynamic_cast<CGroupNpc*>(entity->getGroup());
 	if (!grpNpc)
 	{
-		nlwarning("Trying to delete a hp down trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
+		nlwarning("Trying to delete a ChaScore1 down trigger (%f) listener (%s) in a group which is not an NPC group.", threshold, cbFunc.c_str());
 		return;
 	}
-	grpNpc->delHpDownTrigger(threshold, cbFunc);
+	grpNpc->delChaScore1DownTrigger(threshold, cbFunc);
 }
 
 //----------------------------------------------------------------------------
@@ -2752,14 +2752,14 @@ std::map<std::string, FScrptNativeFunc> nfGetNpcGroupNativeFunctions()
 	REGISTER_NATIVE_FUNC(functions, ignoreOffensiveActions_f_);
 	REGISTER_NATIVE_FUNC(functions, setDespawnTime_f_);
 	REGISTER_NATIVE_FUNC(functions, setRespawnTime_f_);
-	REGISTER_NATIVE_FUNC(functions, addHpUpTrigger_ff_);
-	REGISTER_NATIVE_FUNC(functions, delHpUpTrigger_ff_);
-	REGISTER_NATIVE_FUNC(functions, addHpDownTrigger_ff_);
-	REGISTER_NATIVE_FUNC(functions, delHpDownTrigger_ff_);
-	REGISTER_NATIVE_FUNC(functions, addHpUpTrigger_fs_);
-	REGISTER_NATIVE_FUNC(functions, delHpUpTrigger_fs_);
-	REGISTER_NATIVE_FUNC(functions, addHpDownTrigger_fs_);
-	REGISTER_NATIVE_FUNC(functions, delHpDownTrigger_fs_);
+	REGISTER_NATIVE_FUNC(functions, addChaScore1UpTrigger_ff_);
+	REGISTER_NATIVE_FUNC(functions, delChaScore1UpTrigger_ff_);
+	REGISTER_NATIVE_FUNC(functions, addChaScore1DownTrigger_ff_);
+	REGISTER_NATIVE_FUNC(functions, delChaScore1DownTrigger_ff_);
+	REGISTER_NATIVE_FUNC(functions, addChaScore1UpTrigger_fs_);
+	REGISTER_NATIVE_FUNC(functions, delChaScore1UpTrigger_fs_);
+	REGISTER_NATIVE_FUNC(functions, addChaScore1DownTrigger_fs_);
+	REGISTER_NATIVE_FUNC(functions, delChaScore1DownTrigger_fs_);
 	REGISTER_NATIVE_FUNC(functions, addNamedEntityListener_ssf_);
 	REGISTER_NATIVE_FUNC(functions, delNamedEntityListener_ssf_);
 	REGISTER_NATIVE_FUNC(functions, addNamedEntityListener_sss_);

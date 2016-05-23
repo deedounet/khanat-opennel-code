@@ -89,7 +89,7 @@ extern CGenericXmlMsgHeaderManager	GenericMsgManager;
 extern float						MaxHarvestDistance;
 extern SKILLS::ESkills				BarehandCombatSkill;
 
-CVariable<uint32>			DefaultWeightHands("egs", "DefaultWeightHands", "Weight of hands for calculate STA consumed by action for handed fight", 500,0,true);
+CVariable<uint32>			DefaultWeightHands("egs", "DefaultWeightHands", "Weight of hands for calculate ChaScore2 consumed by action for handed fight", 500,0,true);
 
 // ****************************************************************************
 void CCharacter::initInventories()
@@ -307,7 +307,7 @@ void CCharacter::itemPickup( const NLMISC::CEntityId& entity, bool harvest )
 						}
 						
 						// check creature is dead
-						if (creature->getScores()._PhysicalScores[SCORES::hit_points].Current > 0 )
+						if (creature->getScores()._PhysicalScores[SCORES::cha_score1].Current > 0 )
 						{
 							nlwarning("<CCharacter::itemPickup> Creature %s isn't dead, cancel", entity.toString().c_str() );
 							sendCloseTempInventoryImpulsion();
@@ -2441,10 +2441,10 @@ void CCharacter::sendItemInfos( uint16 slotId )
 		infos.JungleMagicResistance = item->magicResistance(RESISTANCE_TYPE::Jungle);
 		infos.PrimaryRootMagicResistance = item->magicResistance(RESISTANCE_TYPE::PrimaryRoot);
 		
-		infos.HpBuff = item->hpBuff();
-		infos.SapBuff = item->sapBuff();
-		infos.StaBuff = item->staBuff();
-		infos.FocusBuff = item->focusBuff();
+		infos.ChaScore1Buff = item->ChaScore1Buff();
+		infos.ChaScore2Buff = item->ChaScore2Buff();
+		infos.ChaScore3Buff = item->ChaScore3Buff();
+		infos.ChaScore4Buff = item->ChaScore4Buff();
 		infos.Enchantment.Bricks = item->getEnchantment();
 
 		infos.CastingSpeedFactor[CItemInfos::OffensiveElemental] = item->getElementalCastingTimeFactor();
@@ -3178,10 +3178,10 @@ void CCharacter::applyItemModifiers(const CGameItemPtr &item)
 	CBankAccessor_PLR::getCHARACTER_INFO().getPARRY().setCurrent(_PropertyDatabase, checkedCast<uint16>(_CurrentParryLevel) );
 	
 	// modifiers on scores
-	_PhysScores._PhysicalScores[ SCORES::hit_points ].Modifier += (item->hpBuff() + item->armorHpBuff());
-	_PhysScores._PhysicalScores[ SCORES::stamina ].Modifier += item->staBuff();
-	_PhysScores._PhysicalScores[ SCORES::sap ].Modifier += item->sapBuff();
-	_PhysScores._PhysicalScores[ SCORES::focus ].Modifier += item->focusBuff();
+	_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Modifier += (item->ChaScore1Buff() + item->armorChaScore1Buff());
+	_PhysScores._PhysicalScores[ SCORES::cha_score2 ].Modifier += item->ChaScore2Buff();
+	_PhysScores._PhysicalScores[ SCORES::cha_score3 ].Modifier += item->ChaScore3Buff();
+	_PhysScores._PhysicalScores[ SCORES::cha_score4 ].Modifier += item->ChaScore4Buff();
 
 	// specific modifiers
 	if ( !item->getTypeSkillMods().empty() )
@@ -3223,10 +3223,10 @@ void CCharacter::removeItemModifiers(const CGameItemPtr &item)
 	CBankAccessor_PLR::getCHARACTER_INFO().getPARRY().setCurrent(_PropertyDatabase, checkedCast<uint16>(_CurrentParryLevel) );
 	
 	// modifiers on scores
-	_PhysScores._PhysicalScores[ SCORES::hit_points ].Modifier -= (item->hpBuff() + item->armorHpBuff());
-	_PhysScores._PhysicalScores[ SCORES::stamina ].Modifier -= item->staBuff();
-	_PhysScores._PhysicalScores[ SCORES::sap ].Modifier -= item->sapBuff();
-	_PhysScores._PhysicalScores[ SCORES::focus ].Modifier -= item->focusBuff();
+	_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Modifier -= (item->ChaScore1Buff() + item->armorChaScore1Buff());
+	_PhysScores._PhysicalScores[ SCORES::cha_score2 ].Modifier -= item->ChaScore2Buff();
+	_PhysScores._PhysicalScores[ SCORES::cha_score3 ].Modifier -= item->ChaScore3Buff();
+	_PhysScores._PhysicalScores[ SCORES::cha_score4 ].Modifier -= item->ChaScore4Buff();
 
 	// specific modifiers
 	if ( !item->getTypeSkillMods().empty() )

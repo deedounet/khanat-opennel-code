@@ -101,7 +101,7 @@ public:
 
 private:
 	std::vector<CBotPlayer*> _ActiveChats;	// vector of ptrs to players currently chatting with bot
-	float _OldHpPercentage; // Fix for HP triggers
+	float _OldChaScore1Percentage; // Fix for ChaScore1 triggers
 	
 	CNpcChatProfileImp	_CurrentChatProfile;
 	sint32				_NbCurrentDynChats;

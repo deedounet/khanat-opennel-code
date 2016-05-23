@@ -138,9 +138,9 @@ bool CFgExtractionPhrase::build( const TDataSetRow & actorRowId, const std::vect
 			TBrickParam::IId* param = (*ip);
 			switch ( param->id() )
 			{
-			case TBrickParam::FOCUS:
-				INFOLOG("CR_FOCUS: %i",((CSBrickParamFocus *)param)->Focus);
-				_FocusCost += ((CSBrickParamFocus *)param)->Focus;
+			case TBrickParam::ChaScore4:
+				INFOLOG("CR_ChaScore4: %i",((CSBrickParamChaScore4 *)param)->ChaScore4);
+				_ChaScore4Cost += ((CSBrickParamChaScore4 *)param)->ChaScore4;
 				break;
 			case TBrickParam::FG_ABS_S:
 				INFOLOG("FG_ABS_S: %g",((CSBrickParamForageAbsorptionS *)param)->Absorption);
@@ -242,7 +242,7 @@ bool CFgExtractionPhrase::build( const TDataSetRow & actorRowId, const std::vect
 		if (!player)
 			return false;
 
-		_FocusCost = (sint32)(((float)_FocusCost) * (1.0f + player->wearMalus()));
+		_ChaScore4Cost = (sint32)(((float)_ChaScore4Cost) * (1.0f + player->wearMalus()));
 
 		// Set the source (if the target is a source)
 		if ( player->getTarget().getType() == RYZOMID::forageSource )
@@ -493,11 +493,11 @@ bool CFgExtractionPhrase::validate()
 		return false;
 	}
 
-	// Check focus
-	const sint32 focus = player->getScores()._PhysicalScores[ SCORES::focus ].Current;
-	if ( focus < _FocusCost )
+	// Check ChaScore4
+	const sint32 ChaScore4 = player->getScores()._PhysicalScores[ SCORES::cha_score4 ].Current;
+	if ( ChaScore4 < _ChaScore4Cost )
 	{
-		PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "PHRASE_NOT_ENOUGH_FOCUS");
+		PHRASE_UTILITIES::sendDynamicSystemMessage(_ActorRowId, "PHRASE_NOT_ENOUGH_ChaScore4");
 		if ( ForageDebug.get() == 0 )
 		{
 			return false;
@@ -505,8 +505,8 @@ bool CFgExtractionPhrase::validate()
 	}
 
 	// Check death
-	const sint32 hp = player->getScores()._PhysicalScores[ SCORES::hit_points ].Current;
-	if (hp <= 0	||	player->getMode()==MBEHAV::DEATH)
+	const sint32 ChaScore1 = player->getScores()._PhysicalScores[ SCORES::cha_score1 ].Current;
+	if (ChaScore1 <= 0	||	player->getMode()==MBEHAV::DEATH)
 	{
 		return false;
 	}
@@ -757,12 +757,12 @@ void CFgExtractionPhrase::apply()
 		return;
 
 	// Spend energies
-	SCharacteristicsAndScores &focus = player->getScores()._PhysicalScores[SCORES::focus];
-	if ( focus.Current != 0)
+	SCharacteristicsAndScores &ChaScore4 = player->getScores()._PhysicalScores[SCORES::cha_score4];
+	if ( ChaScore4.Current != 0)
 	{
-		focus.Current = focus.Current - _FocusCost;
-		if (focus.Current < 0)
-			focus.Current = 0;
+		ChaScore4.Current = ChaScore4.Current - _ChaScore4Cost;
+		if (ChaScore4.Current < 0)
+			ChaScore4.Current = 0;
 	}
 
 	// If not forced failure, roll success factor
@@ -827,7 +827,7 @@ void CFgExtractionPhrase::applyExtraction( CCharacter *player, float successFact
 		if ( player->forageProgress()->amount() > previousAmount )
 		{
 			MBEHAV::CBehaviour behav( MBEHAV::EXTRACTING ); // in case stop() was called (ex: cancelStaticActionInProgress(), reset the extracting behaviour)
-			behav.DeltaHP = (sint16)(player->forageProgress()->amount() |
+			behav.DeltaChaScore1 = (sint16)(player->forageProgress()->amount() |
 				(player->forageProgress()->quality() << 8));
 			behav.ForageExtraction.Level = calcLevelFromSkillValue( _SkillValue );
 			PHRASE_UTILITIES::sendUpdateBehaviour( _ActorRowId, behav );

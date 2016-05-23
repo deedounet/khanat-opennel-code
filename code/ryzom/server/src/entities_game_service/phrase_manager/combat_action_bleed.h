@@ -67,7 +67,7 @@ private:
 	/// bleed total duration (in ticks)
 	NLMISC::TGameCycle		_BleedDuration;
 
-	/// time between two hp loss (in ticks)
+	/// time between two ChaScore1 loss (in ticks)
 	NLMISC::TGameCycle		_BleedCycleDuration;
 
 	// temp vars

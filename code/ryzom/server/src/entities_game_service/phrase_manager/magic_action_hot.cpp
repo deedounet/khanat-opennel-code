@@ -36,7 +36,7 @@ class CMagicActionHot : public IMagicAction
 {
 public:
 	CMagicActionHot()
-		:_HealHp(0),_HealSap(0),_HealSta(0),_CostPerUpdate(0),_Power(0){}
+		:_HealChaScore1(0),_HealChaScore3(0),_HealChaScore2(0),_CostPerUpdate(0),_Power(0){}
 
 	/// build from an ai action
 	virtual bool initFromAiAction( const CStaticAiAction *aiAction, CMagicPhrase *phrase )
@@ -49,24 +49,24 @@ public:
 		
 		switch(aiAction->getData().LinkSpell.AffectedScore)
 		{
-		case SCORES::sap:
-			_HealSap = sint32(aiAction->getData().LinkSpell.SpellParamValue);
+		case SCORES::cha_score3:
+			_HealChaScore3 = sint32(aiAction->getData().LinkSpell.SpellParamValue);
 			break;
-		case SCORES::stamina:
-			_HealSta = sint32(aiAction->getData().LinkSpell.SpellParamValue);
+		case SCORES::cha_score2:
+			_HealChaScore2 = sint32(aiAction->getData().LinkSpell.SpellParamValue);
 			break;
-		case SCORES::hit_points:
-			_HealHp = sint32(aiAction->getData().LinkSpell.SpellParamValue);
+		case SCORES::cha_score1:
+			_HealChaScore1 = sint32(aiAction->getData().LinkSpell.SpellParamValue);
 			break;
 		default:
 			return false;
 		};
 		
-		_CostPerUpdate = max(aiAction->getData().LinkSpell.SapCostRate, aiAction->getData().LinkSpell.HpCostRate);
+		_CostPerUpdate = max(aiAction->getData().LinkSpell.ChaScore3CostRate, aiAction->getData().LinkSpell.ChaScore1CostRate);
 		_Power = (uint8)aiAction->getData().LinkSpell.SpellParamValue;
 
 		// set main phrase effect Id 
-		phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,true ),1 );
+		phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,true ),1 );
 */
 		return true;
 	}
@@ -98,11 +98,11 @@ protected:
 				return true;
 				
 			case TBrickParam::MA_HEAL:
-				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)param)->Hp,((CSBrickParamMagicHeal *)param)->Sap,((CSBrickParamMagicHeal *)param)->Sta);
-				_HealHp = ((CSBrickParamMagicHeal *)param)->Hp;
-				_HealSap = ((CSBrickParamMagicHeal *)param)->Sap;
-				_HealSta = ((CSBrickParamMagicHeal *)param)->Sta;
-				phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,true ), brick.SabrinaValue);
+				INFOLOG("MA_HEAL: %u %u %u",((CSBrickParamMagicHeal *)param)->ChaScore1,((CSBrickParamMagicHeal *)param)->ChaScore3,((CSBrickParamMagicHeal *)param)->ChaScore2);
+				_HealChaScore1 = ((CSBrickParamMagicHeal *)param)->ChaScore1;
+				_HealChaScore3 = ((CSBrickParamMagicHeal *)param)->ChaScore3;
+				_HealChaScore2 = ((CSBrickParamMagicHeal *)param)->ChaScore2;
+				phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,true ), brick.SabrinaValue);
 				// set action sheetid
 				_ActionBrickSheetId = brick.SheetId;
 				
@@ -138,7 +138,7 @@ protected:
 		}
 
 		// set main phrase effect Id 
-		phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,true ), 1 );
+		phrase->setMagicFxType( MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,true ), 1 );
 
 		return true;
 	}
@@ -199,7 +199,7 @@ protected:
 				continue;
 			}
 
-//			behav.Spell.SpellId =  MAGICFX::healtoMagicFx( _HealHp,_HealSap,_HealSta,true );
+//			behav.Spell.SpellId =  MAGICFX::healtoMagicFx( _HealChaScore1,_HealChaScore3,_HealChaScore2,true );
 
 			CTargetInfos targetInfos;
 			targetInfos.RowId		= target->getEntityRowId();
@@ -227,10 +227,10 @@ protected:
 		//behav.Spell.KillingBlow = 0;
 
 //		SCORES::TScores linkEnergy;
-//		if ( phrase->getHPCost() > 0 )
-//			linkEnergy = SCORES::hit_points;
+//		if ( phrase->getChaScore1Cost() > 0 )
+//			linkEnergy = SCORES::cha_score1;
 //		else
-//			linkEnergy = SCORES::sap;
+//			linkEnergy = SCORES::cha_score3;
 
 		const uint nbTargets = _ApplyTargets.size();
 		for ( uint i = 0; i < nbTargets; i++ )
@@ -266,14 +266,14 @@ protected:
 				phrase->getActor(),
 				_ApplyTargets[i].RowId,
 				_CostPerUpdate,
-				SCORES::sap,
+				SCORES::cha_score3,
 				_Skill,
 				phrase->getSpellRange(),
 				_Power,
 				reportAction,
-				uint32(_HealHp * factor),
-				uint32(_HealSap * factor),
-				uint32(_HealSta * factor ));
+				uint32(_HealChaScore1 * factor),
+				uint32(_HealChaScore3 * factor),
+				uint32(_HealChaScore2 * factor ));
 
 			if (phrase->breakNewLink())
 			{
@@ -289,9 +289,9 @@ protected:
 		}
 	}
 
-	sint32						_HealHp;
-	sint32						_HealSap;
-	sint32						_HealSta;
+	sint32						_HealChaScore1;
+	sint32						_HealChaScore3;
+	sint32						_HealChaScore2;
 	uint						_CostPerUpdate;
 	uint8						_Power;
 

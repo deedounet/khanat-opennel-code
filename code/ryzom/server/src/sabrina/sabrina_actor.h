@@ -99,10 +99,10 @@ public:
 	// eg: setup an event report record here
 	virtual void cbSabrinaActionApplyBegin() {}
 
-	// apply damage (to hp, sap or sta)
+	// apply damage (to ChaScore1, ChaScore3 or ChaScore2)
 	virtual void applyHeal(SABRINA::THealType healType, uint32 healQuantity)=0;
 
-	// apply damage (to hp, sap or sta)
+	// apply damage (to ChaScore1, ChaScore3 or ChaScore2)
 	virtual void applyDamage(SABRINA::TDmgType damageType, uint32 damage)=0;
 
 	// apply secondary effects (eg Stun, debuff, etc)

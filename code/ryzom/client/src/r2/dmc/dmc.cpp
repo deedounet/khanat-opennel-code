@@ -814,7 +814,7 @@ void CDynamicMapClient::onNpcAnimationTargeted(uint32 mode)
 	{
 		lua.push("r2ed_anim_kill");
 		if (mode & CAnimationProp::Grouped)	{	lua.push("r2ed_anim_grp_kill"); }
-		lua.push("r2ed_anim_add_hp");
+		lua.push("r2ed_anim_add_ChaScore1");
 		if (mode & CAnimationProp::Grouped)	{	lua.push("r2ed_anim_grp_heal"); }
 
 	}

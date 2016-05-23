@@ -501,7 +501,7 @@ void CSpawnBotFauna::getBestTarget()
 								if (	canMove()
 									&&	!player->isAggressive()
 									&&	entity->wpos().isValid()
-									&&	isPlaceAllowed(entity->getAStarFlag(), entity->wpos().getFlags()))
+									&&	(entity->wpos().getFlags()&entity->getAStarFlag())==0)
 								{
 									// Suppose we can go to him
 									bool canChange = true;
@@ -676,7 +676,7 @@ void CSpawnBotFauna::getBestTarget()
 									if (runSpeed()>entity->runSpeed())
 									{
 										//	got enought life ? (more than 75%).
-										if	((4*currentHitPoints())>(3*maxHitPoints()))
+										if	((4*currentChaScore1())>(3*maxChaScore1()))
 										{
 											// check if the herbivore is in the current place 
 											const	CAIPlace	*place=spawnGrp().targetPlace();
@@ -706,7 +706,7 @@ void CSpawnBotFauna::getBestTarget()
 										if (	profile
 											&&	profile->getAIProfileType()==ACTIVITY_CORPSE
 											&&	botCreat->wpos().isValid()
-											&&	isPlaceAllowed(botCreat->getAStarFlag(), botCreat->wpos().getFlags())
+											&&	!(botCreat->wpos().getFlags()&botCreat->getAStarFlag())
 											)
 										{
 											CCorpseFaunaProfile	*corpseProfile=NLMISC::safe_cast<CCorpseFaunaProfile*>(profile);
@@ -951,7 +951,7 @@ void CMovementMagnet::getNewDestination(RYAI_MAP_CRUNCH::CWorldPosition const& a
 				continue;
 
 			if	(	!faunaBot->wpos().isValid()
-				||	!isPlaceAllowed(denyFlag, faunaBot->wpos().getFlags()))
+				||	(faunaBot->wpos().getFlags()&denyFlag)!=0)
 				continue;
 
 			// can be optimize by in avoid inversion.
@@ -990,7 +990,7 @@ void CMovementMagnet::getNewDestination(RYAI_MAP_CRUNCH::CWorldPosition const& a
 		
 		//	check if its a nogo and water proof position.
 		if (	!wRndPos.isValid()
-			||	!isPlaceAllowed(denyFlag, wRndPos.getTopologyRef().getCstTopologyNode().getFlags()))
+			||	(wRndPos.getTopologyRef().getCstTopologyNode().getFlags()&denyFlag)!=0	)
 			continue;
 		
 	#if !FINAL_VERSION
@@ -1126,7 +1126,7 @@ CReturnMovementMagnet::CReturnMovementMagnet(RYAI_MAP_CRUNCH::CWorldPosition con
 
 void CReturnMovementMagnet::getNewDestination(RYAI_MAP_CRUNCH::CWorldPosition const& alternativePos, RYAI_MAP_CRUNCH::TAStarFlag denyFlag)
 {
-	if (_ForcedDest.isValid() && isPlaceAllowed(denyFlag, _ForcedDest.getTopologyRef().getCstTopologyNode().getFlags()))
+	if (_ForcedDest.isValid() && (_ForcedDest.getTopologyRef().getCstTopologyNode().getFlags()&denyFlag)==0)
 		_PathCont.setDestination(_ForcedDest);
 	else
 		CMovementMagnet::getNewDestination(alternativePos, denyFlag);

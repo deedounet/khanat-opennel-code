@@ -732,17 +732,17 @@
 				global_color="false" />
 			<link expr="getSPhraseName(@SERVER:EXECUTE_PHRASE:LINK:#index:PHRASE)" target="spell_name:uc_hardtext" />
 			
-			<!-- COSTS (HP, SAP, STA) -->
+			<!-- COSTS (ChaScore1, ChaScore3, ChaScore2) -->
 			<!--
 			<view type="text" id="costs" posparent="spell" posref="BR BL" x="2" y="0" shadow="true" fontsize="8" hardtext="uiLinksCosts" />
 			-->
 			<instance template="box_widget" id="box_cost" posref="BL BL" w="81" h="13" />
 			
-			<view type="text_number" id="hp_cost" posparent="box_cost" posref="ML MM" x="14" y="-2" fontsize="8" shadow="true" value="SERVER:EXECUTE_PHRASE:LINK:#index:HP_COST" color="%hp_color" global_color="false" />
+			<view type="text_number" id="ChaScore1_cost" posparent="box_cost" posref="ML MM" x="14" y="-2" fontsize="8" shadow="true" value="SERVER:EXECUTE_PHRASE:LINK:#index:ChaScore1_COST" color="%ChaScore1_color" global_color="false" />
 			<view type="text" id="sep1" posparent="box_cost" posref="ML MM" x="27" y="-1" shadow="true" fontsize="10" hardtext="/" color="255 255 255 255" />
-			<view type="text_number" id="sap_cost" posparent="box_cost" posref="MM MM" x="0" y="-2" fontsize="8" shadow="true" value="SERVER:EXECUTE_PHRASE:LINK:#index:SAP_COST" color="%sap_color" global_color="false" />
+			<view type="text_number" id="ChaScore3_cost" posparent="box_cost" posref="MM MM" x="0" y="-2" fontsize="8" shadow="true" value="SERVER:EXECUTE_PHRASE:LINK:#index:ChaScore3_COST" color="%ChaScore3_color" global_color="false" />
 			<view type="text" id="sep2" posparent="box_cost" posref="ML MM" x="54" y="-1" shadow="true" fontsize="10" hardtext="/" color="255 255 255 255" />
-			<view type="text_number" id="sta_cost" posparent="box_cost" posref="MR MM" x="-14" y="-2" fontsize="8" shadow="true" value="SERVER:EXECUTE_PHRASE:LINK:#index:STA_COST" color="%sta_color" global_color="false" />
+			<view type="text_number" id="ChaScore2_cost" posparent="box_cost" posref="MR MM" x="-14" y="-2" fontsize="8" shadow="true" value="SERVER:EXECUTE_PHRASE:LINK:#index:ChaScore2_COST" color="%ChaScore2_color" global_color="false" />
 		</group>
 		<link expr="eq(@UI:VARIABLES:LINKS_INFOS, 0)" target="name_cost:active" />	
 		
@@ -756,9 +756,9 @@
 			<view type="text_id" id="name" posref="TL TL" x="0" y="-1" h="10" shadow="true" fontsize="10" textid="SERVER:EXECUTE_PHRASE:LINK:#index:TARGET_NAME" />
 			<!-- Jauges Target -->
 			<view type="bar3" id="jauges" posref="BL BL" mini="true" y="1"
-								color1="%sta_color" 	value1="SERVER:EXECUTE_PHRASE:LINK:#index:TARGET_STA"  	range1="UI:CONST:127" 
-								color2="%sap_color"   value2="SERVER:EXECUTE_PHRASE:LINK:#index:TARGET_SAP"	range2="UI:CONST:127"
-								color3="%hp_color"   value3="SERVER:EXECUTE_PHRASE:LINK:#index:TARGET_HP" 	range3="UI:CONST:127" />
+								color1="%ChaScore2_color" 	value1="SERVER:EXECUTE_PHRASE:LINK:#index:TARGET_ChaScore2"  	range1="UI:CONST:127" 
+								color2="%ChaScore3_color"   value2="SERVER:EXECUTE_PHRASE:LINK:#index:TARGET_ChaScore3"	range2="UI:CONST:127"
+								color3="%ChaScore1_color"   value3="SERVER:EXECUTE_PHRASE:LINK:#index:TARGET_ChaScore1" 	range3="UI:CONST:127" />
 		</group>
 		<link expr="ifthenelse(eq(@UI:VARIABLES:LINKS_INFOS, 0), 154, 40)" target="target:x" />
 		

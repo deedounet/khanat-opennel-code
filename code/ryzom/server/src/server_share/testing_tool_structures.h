@@ -34,9 +34,9 @@ struct SActorBeginTest
 {
 //	uint16 Role;
 //	uint16 Level;
-	sint32 Hp;
-	sint32 Sta;
-	sint32 Sap;
+	sint32 ChaScore1;
+	sint32 ChaScore2;
+	sint32 ChaScore3;
 	NLMISC::CSheetId Armor;
 	uint16	ArmorQuality;
 	NLMISC::CSheetId RightHand;
@@ -51,9 +51,9 @@ struct SActorBeginTest
 	{
 //		f.serial( Role );
 //		f.serial( Level );
-		f.serial( Hp );
-		f.serial( Sta );
-		f.serial( Sap );
+		f.serial( ChaScore1 );
+		f.serial( ChaScore2 );
+		f.serial( ChaScore3 );
 		f.serial( Armor );
 		f.serial( ArmorQuality );
 		f.serial( RightHand );
@@ -81,14 +81,14 @@ struct SLogReport
 	uint16	Localized; //
 	uint32	ShieldAbsorption; //
  	uint32	ArmorAbsorption; //
-	uint32	HpLost; //
+	uint32	ChaScore1Lost; //
 	bool	SpecialEffectResist;
 	uint16	SpecialEffectStart;
 	uint32	SpecialEffectDuration;
-	uint32	UsedStamina; //
-	uint32	UsedSap;
-	uint32	StaminaLeft; //
-	uint32	SapLeft;
+	uint32	UsedChaScore2; //
+	uint32	UsedChaScore3;
+	uint32	ChaScore2Left; //
+	uint32	ChaScore3Left;
 
 	void serial(NLMISC::IStream &f) throw(NLMISC::EStream)
 	{
@@ -105,14 +105,14 @@ struct SLogReport
 		f.serial( Localized );
 		f.serial( ShieldAbsorption );
 		f.serial( ArmorAbsorption );
-		f.serial( HpLost );
+		f.serial( ChaScore1Lost );
 		f.serial( SpecialEffectResist );
 		f.serial( SpecialEffectStart );
 		f.serial( SpecialEffectDuration );
-		f.serial( UsedStamina );
-		f.serial( UsedSap );
-		f.serial( StaminaLeft );
-		f.serial( SapLeft );
+		f.serial( UsedChaScore2 );
+		f.serial( UsedChaScore3 );
+		f.serial( ChaScore2Left );
+		f.serial( ChaScore3Left );
 	}
 };
 

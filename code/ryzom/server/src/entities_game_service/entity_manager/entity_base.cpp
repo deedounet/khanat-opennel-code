@@ -188,7 +188,7 @@ CEntityBase::CEntityBase(bool noSkills)
 	_PreventEntityMoves = 0;
 
 	_DamageShieldDamage = 0;
-	_DamageShieldHpDrain = 0;
+	_DamageShieldChaScore1Drain = 0;
 
 	_MezzCount = 0;
 	// god mod inactive
@@ -209,7 +209,7 @@ void CEntityBase::clear()
 	_ProtectedSlot= SLOT_EQUIPMENT::UNDEFINED;
 	_PreventEntityMoves= 0;
 	_DamageShieldDamage= 0;
-	_DamageShieldHpDrain= 0;
+	_DamageShieldChaScore1Drain= 0;
 	_MezzCount= 0;
 	_Stunned= false;	
 	_IsDead= false;
@@ -283,8 +283,8 @@ void CEntityBase::addPropertiesToMirror( const TDataSetRow& entityIndex, bool ke
 	}
 
 	/// physical characteristics
-	_PhysScores._PhysicalScores[ SCORES::hit_points ].Max.tempMirrorize( TheDataset, entityIndex, DSPropertyMAX_HIT_POINTS );
-	_PhysScores._PhysicalScores[ SCORES::hit_points ].Current.tempMirrorize( TheDataset, entityIndex, DSPropertyCURRENT_HIT_POINTS );
+	_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Max.tempMirrorize( TheDataset, entityIndex, DSPropertyMAX_ChaScore1 );
+	_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current.tempMirrorize( TheDataset, entityIndex, DSPropertyCURRENT_ChaScore1 );
 	
 	/// current run speed
 	_PhysScores.CurrentRunSpeed.tempMirrorize( TheDataset, entityIndex, DSPropertyCURRENT_RUN_SPEED );
@@ -745,12 +745,12 @@ const sint32& CEntityBase::lookupStat( CSpecialModifiers::ESpecialModifiers sm )
 
 
 //---------------------------------------------------
-// changeCurrentHp :
+// changeCurrentChaScore1 :
 //
 //---------------------------------------------------
 
 // the fact that this returns "true" to indicate that the entity dies is really, really dumb.
-bool CEntityBase::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEntity)
+bool CEntityBase::changeCurrentChaScore1(sint32 deltaValue, TDataSetRow responsibleEntity)
 {
 	// test entity isn't dead already (unless it's a player)
 	if	(isDead())
@@ -777,7 +777,7 @@ bool CEntityBase::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEnti
 		}
 	}
 
-	_PhysScores._PhysicalScores[SCORES::hit_points].Current = _PhysScores._PhysicalScores[SCORES::hit_points].Current + deltaValue;
+	_PhysScores._PhysicalScores[SCORES::cha_score1].Current = _PhysScores._PhysicalScores[SCORES::cha_score1].Current + deltaValue;
 
 	// if entity is mezzed and delta is != 0 unmezz it
 	if (_MezzCount && deltaValue != 0)
@@ -785,7 +785,7 @@ bool CEntityBase::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEnti
 		unmezz();
 	}
 	
-	if (_PhysScores._PhysicalScores[SCORES::hit_points].Current <= 0)
+	if (_PhysScores._PhysicalScores[SCORES::cha_score1].Current <= 0)
 	{
 		// for god mode
 		if (!_GodMode && !_Invulnerable)
@@ -800,17 +800,17 @@ bool CEntityBase::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEnti
 		}
 		else
 		{
-			_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Base;
-			setHpBar( 1023 );
+			_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base;
+			setChaScore1Bar( 1023 );
 			return false;
 		}
 	}
 	else
 	{
-		if( _PhysScores._PhysicalScores[SCORES::hit_points].Max > 0)
-			setHpBar( (uint32) ( (1023 * _PhysScores._PhysicalScores[SCORES::hit_points].Current) / _PhysScores._PhysicalScores[SCORES::hit_points].Max) );
+		if( _PhysScores._PhysicalScores[SCORES::cha_score1].Max > 0)
+			setChaScore1Bar( (uint32) ( (1023 * _PhysScores._PhysicalScores[SCORES::cha_score1].Current) / _PhysScores._PhysicalScores[SCORES::cha_score1].Max) );
 		else
-			setHpBar(0);
+			setChaScore1Bar(0);
 
 		return false;
 	}
@@ -1262,9 +1262,9 @@ void CEntityBase::applyRegenAndClipCurrentValue()
 //		if ( _PhysScores._PhysicalScores[ i ].CurrentRegenerate < 0 ) _PhysScores._PhysicalScores[ i ].CurrentRegenerate = 0;
 //	}
 //
-	_PhysScores._PhysicalScores[ SCORES::hit_points ].CurrentRegenerate = _PhysScores._PhysicalScores[ SCORES::hit_points ].RegenerateModifier + _PhysScores._PhysicalScores[ SCORES::hit_points ].BaseRegenerateRepos;
-	if ( _PhysScores._PhysicalScores[ SCORES::hit_points ].CurrentRegenerate < 0 ) 
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].CurrentRegenerate = 0;
+	_PhysScores._PhysicalScores[ SCORES::cha_score1 ].CurrentRegenerate = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].RegenerateModifier + _PhysScores._PhysicalScores[ SCORES::cha_score1 ].BaseRegenerateRepos;
+	if ( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].CurrentRegenerate < 0 ) 
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].CurrentRegenerate = 0;
 
 
 
@@ -1310,7 +1310,7 @@ void CEntityBase::applyRegenAndClipCurrentValue()
 //		_PhysScores._PhysicalScores[ i ].RegenerateTickUpdate = CTickEventHandler::getGameCycle();
 //	}
 //
-	i= SCORES::hit_points;
+	i= SCORES::cha_score1;
 	if( _PhysScores._PhysicalScores[ i ].Current < _PhysScores._PhysicalScores[ i ].Max ) 
 	{ 
 		_PhysScores._PhysicalScores[ i ].KeepRegenerateDecimal += _PhysScores._PhysicalScores[ i ].CurrentRegenerate * ( CTickEventHandler::getGameCycle() - _PhysScores._PhysicalScores[ i ].RegenerateTickUpdate ) * 0.10f;
@@ -1320,7 +1320,7 @@ void CEntityBase::applyRegenAndClipCurrentValue()
 		{
 			_PhysScores._PhysicalScores[ i ].Current = (sint32) ( _PhysScores._PhysicalScores[ i ].Current + sintPart );
 			_PhysScores._PhysicalScores[ i ].KeepRegenerateDecimal -= sintPart;
-			PROGRESSIONPVE::CCharacterProgressionPVE::getInstance()->applyRegenHP(_EntityRowId, sintPart);
+			PROGRESSIONPVE::CCharacterProgressionPVE::getInstance()->applyRegenChaScore1(_EntityRowId, sintPart);
 		}
 	}
 	if( _PhysScores._PhysicalScores[ i ].Current > _PhysScores._PhysicalScores[ i ].Max )

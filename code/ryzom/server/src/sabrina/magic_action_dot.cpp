@@ -37,7 +37,7 @@ class CMagicActionDot : public IMagicAction
 {
 public:
 	CMagicActionDot()
-		:_DmgHp(0),_DmgSap(0),_DmgSta(0),_DmgType(DMGTYPE::UNDEFINED),_CostPerUpdate(0),_Power(0) {}
+		:_DmgChaScore1(0),_DmgChaScore3(0),_DmgChaScore2(0),_DmgType(DMGTYPE::UNDEFINED),_CostPerUpdate(0),_Power(0) {}
 protected:
 	virtual bool addBrick( const CStaticBrick & brick, CMagicPhrase * phrase, bool &effectEnd )
 	{
@@ -60,10 +60,10 @@ protected:
 				break;
 
 			case TBrickParam::MA_DMG:
-				INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)brick.Params[i])->Hp,((CSBrickParamMagicDmg *)brick.Params[i])->Sap,((CSBrickParamMagicDmg *)brick.Params[i])->Sta);
-				_DmgHp = ((CSBrickParamMagicDmg *)brick.Params[i])->Hp;
-				_DmgSap = ((CSBrickParamMagicDmg *)brick.Params[i])->Sap;
-				_DmgSta = ((CSBrickParamMagicDmg *)brick.Params[i])->Sta;
+				INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore1,((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore3,((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore2);
+				_DmgChaScore1 = ((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore1;
+				_DmgChaScore3 = ((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore3;
+				_DmgChaScore2 = ((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore2;
 				break;
 
 			case TBrickParam::MA_LINK_COST:
@@ -116,12 +116,12 @@ protected:
 		const std::vector< TDataSetRow > & targets = phrase->getTargets();
 		
 		SCORES::TScores linkEnergy;
-		if ( phrase->getHPCost() > 0 )
+		if ( phrase->getChaScore1Cost() > 0 )
 		{
-			linkEnergy = SCORES::hit_points;
+			linkEnergy = SCORES::cha_score1;
 		}
 		else
-			linkEnergy = SCORES::sap;
+			linkEnergy = SCORES::cha_score3;
 		for ( uint i = 0; i < targets.size(); i++ )
 		{
 			// check target
@@ -148,9 +148,9 @@ protected:
 																   _Skill,
 																   _DmgType,
 																   _Power,
-																   sint32(_DmgHp * successFactor* CSLinkEffect::getUpdatePeriod()),
-																  sint32(_DmgSap * successFactor* CSLinkEffect::getUpdatePeriod()),
-																  sint32(_DmgSta * successFactor* CSLinkEffect::getUpdatePeriod()) );
+																   sint32(_DmgChaScore1 * successFactor* CSLinkEffect::getUpdatePeriod()),
+																  sint32(_DmgChaScore3 * successFactor* CSLinkEffect::getUpdatePeriod()),
+																  sint32(_DmgChaScore2 * successFactor* CSLinkEffect::getUpdatePeriod()) );
 				actor->addLink( dot );
 				target->addSabrinaEffect( dot );
 				behav.Spell.SpellId =  MAGICFX::toMagicFx( _DmgType ,false);
@@ -158,9 +158,9 @@ protected:
 		}
 	}
 	DMGTYPE::EDamageType	_DmgType;
-	sint32					_DmgHp;
-	sint32					_DmgSap;
-	sint32					_DmgSta;
+	sint32					_DmgChaScore1;
+	sint32					_DmgChaScore3;
+	sint32					_DmgChaScore2;
 	sint32					_CostPerUpdate;
 	uint8					_Power;
 };

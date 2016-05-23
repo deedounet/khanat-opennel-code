@@ -644,35 +644,35 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 	/************************************************************************/
 	/* General Params														*/
 	/************************************************************************/
-	case TBrickParam::SAP:
-		// $*STRUCT CSBrickParamSap TBrickParam::SAP
-		// $*-i unsigned Sap=0		// quantity of SAP to use
-		Params.push_back(new CSBrickParamSap(tail)); 
+	case TBrickParam::ChaScore3:
+		// $*STRUCT CSBrickParamChaScore3 TBrickParam::ChaScore3
+		// $*-i unsigned ChaScore3=0		// quantity of ChaScore3 to use
+		Params.push_back(new CSBrickParamChaScore3(tail)); 
 		break;
 
-	case TBrickParam::HP:
-		// $*STRUCT CSBrickParamHp TBrickParam::HP
-		// $*-i unsigned Hp=0		// quantity of HP to use
-		Params.push_back(new CSBrickParamHp(tail)); 
+	case TBrickParam::ChaScore1:
+		// $*STRUCT CSBrickParamChaScore1 TBrickParam::ChaScore1
+		// $*-i unsigned ChaScore1=0		// quantity of ChaScore1 to use
+		Params.push_back(new CSBrickParamChaScore1(tail)); 
 		break;
 
-	case TBrickParam::STA:
-		// $*STRUCT CSBrickParamSta TBrickParam::STA
-		// $*-i unsigned Sta=0		// quantity of STA to use
-		Params.push_back(new CSBrickParamSta(tail)); 
+	case TBrickParam::ChaScore2:
+		// $*STRUCT CSBrickParamChaScore2 TBrickParam::ChaScore2
+		// $*-i unsigned ChaScore2=0		// quantity of ChaScore2 to use
+		Params.push_back(new CSBrickParamChaScore2(tail)); 
 		break;
 
-	case TBrickParam::STA_WEIGHT_FACTOR:
-		// $*STRUCT CSBrickParamStaWeightFactor TBrickParam::STA_WEIGHT_FACTOR
-		// $*-i float StaFactor=0		// quantity of STA FACTOR of WEIGHT to use
-		// $*-i unsigned StaConst=0		// quantity of STA Constante to use, used STA = StaFactor * (weight of equipped weapons) + StaConst
-		Params.push_back(new CSBrickParamStaWeightFactor(tail)); 
+	case TBrickParam::ChaScore2_WEIGHT_FACTOR:
+		// $*STRUCT CSBrickParamChaScore2WeightFactor TBrickParam::ChaScore2_WEIGHT_FACTOR
+		// $*-i float ChaScore2Factor=0		// quantity of ChaScore2 FACTOR of WEIGHT to use
+		// $*-i unsigned ChaScore2Const=0		// quantity of ChaScore2 Constante to use, used ChaScore2 = ChaScore2Factor * (weight of equipped weapons) + ChaScore2Const
+		Params.push_back(new CSBrickParamChaScore2WeightFactor(tail)); 
 		break;
 
-	case TBrickParam::FOCUS:
-		// $*STRUCT CSBrickParamFocus TBrickParam::FOCUS
-		// $*-i unsigned Focus=0		// quantity of FOCUS to use
-		Params.push_back(new CSBrickParamFocus(tail)); 
+	case TBrickParam::ChaScore4:
+		// $*STRUCT CSBrickParamChaScore4 TBrickParam::ChaScore4
+		// $*-i unsigned ChaScore4=0		// quantity of ChaScore4 to use
+		Params.push_back(new CSBrickParamChaScore4(tail)); 
 		break;
 
 	case TBrickParam::SET_BEHAVIOUR:
@@ -705,19 +705,19 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 		}
 		break;
 
-	case TBrickParam::STA_LOSS_FACTOR:
+	case TBrickParam::ChaScore2_LOSS_FACTOR:
 		{
-		// $*STRUCT CSBrickParamStaLossFactor TBrickParam::STA_LOSS_FACTOR
-		// $*-f float MinFactor = 0.0	// min factor of damage also applied to stamina
-		// $*-f float MaxFactor = 0.0	// max factor of damage also applied to stamina
-		Params.push_back(new CSBrickParamStaLossFactor(tail));
+		// $*STRUCT CSBrickParamChaScore2LossFactor TBrickParam::ChaScore2_LOSS_FACTOR
+		// $*-f float MinFactor = 0.0	// min factor of damage also applied to ChaScore2
+		// $*-f float MaxFactor = 0.0	// max factor of damage also applied to ChaScore2
+		Params.push_back(new CSBrickParamChaScore2LossFactor(tail));
 		}
 		break;
 
 	case TBrickParam::DEBUFF_REGEN:
 		{
 		// $*STRUCT CSBrickParamDebuffRegen TBrickParam::DEBUFF_REGEN
-		// $*-s std::string Score // affected score regen (Sap, Stamina, HitPoints, Focus)
+		// $*-s std::string Score // affected score regen (ChaScore3, ChaScore2, ChaScore1, ChaScore4)
 		// $*-f float Duration = 0.0	// duration in seconds
 		// $*-f float MinFactor = 0.0	// min factor of regen debuff
 		// $*-f float MaxFactor = 0.0	// max factor of regen debuff
@@ -725,12 +725,12 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 		}
 		break;
 		
-	case TBrickParam::SAP_LOSS_FACTOR:
+	case TBrickParam::ChaScore3_LOSS_FACTOR:
 		{
-		// $*STRUCT CSBrickParamSapLossFactor TBrickParam::SAP_LOSS_FACTOR
-		// $*-f float MinFactor = 0.0	// min factor of damage also applied to sap
-		// $*-f float MaxFactor = 0.0	// max factor of damage also applied to sap
-		Params.push_back(new CSBrickParamSapLossFactor(tail)); 
+		// $*STRUCT CSBrickParamChaScore3LossFactor TBrickParam::ChaScore3_LOSS_FACTOR
+		// $*-f float MinFactor = 0.0	// min factor of damage also applied to ChaScore3
+		// $*-f float MaxFactor = 0.0	// max factor of damage also applied to ChaScore3
+		Params.push_back(new CSBrickParamChaScore3LossFactor(tail)); 
 		}
 		break;
 
@@ -984,16 +984,16 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 
 	case TBrickParam::MA_DMG:
 		// $*STRUCT CSBrickParamMagicDmg TBrickParam::MA_DMG
-		// $*-i sint32 Hp = 0	// fixed modifier on energy
-		// $*-i sint32 Sap = 0	// fixed modifier on energy
-		// $*-i sint32 Sta = 0	// fixed modifier on energy
+		// $*-i sint32 ChaScore1 = 0	// fixed modifier on energy
+		// $*-i sint32 ChaScore3 = 0	// fixed modifier on energy
+		// $*-i sint32 ChaScore2 = 0	// fixed modifier on energy
 		Params.push_back(new CSBrickParamMagicDmg(tail)); 
 		break;
 	case TBrickParam::MA_HEAL:
 		// $*STRUCT CSBrickParamMagicHeal TBrickParam::MA_HEAL
-		// $*-i sint32 Hp = 0	// fixed modifier on energy
-		// $*-i sint32 Sap = 0	// fixed modifier on energy
-		// $*-i sint32 Sta = 0	// fixed modifier on energy
+		// $*-i sint32 ChaScore1 = 0	// fixed modifier on energy
+		// $*-i sint32 ChaScore3 = 0	// fixed modifier on energy
+		// $*-i sint32 ChaScore2 = 0	// fixed modifier on energy
 		Params.push_back(new CSBrickParamMagicHeal(tail)); 
 		break;
 	case TBrickParam::MA_RANGE:
@@ -1054,25 +1054,25 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 		// $*-i uint32 Recommended
 		Params.push_back(new CSBrickParamCraftRecommended(tail)); 
 		break;
-	case TBrickParam::CR_HP:
-		// $*STRUCT CSBrickParamCraftHP TBrickParam::CR_HP
-		// $*-i sint32 HitPoint
-		Params.push_back(new CSBrickParamCraftHP(tail)); 
+	case TBrickParam::CR_ChaScore1:
+		// $*STRUCT CSBrickParamCraftChaScore1 TBrickParam::CR_ChaScore1
+		// $*-i sint32 ChaScore1
+		Params.push_back(new CSBrickParamCraftChaScore1(tail)); 
 		break;
-	case TBrickParam::CR_SAP:
-		// $*STRUCT CSBrickParamCraftSap TBrickParam::CR_SAP
-		// $*-i sint32 Sap
-		Params.push_back(new CSBrickParamCraftSap(tail)); 
+	case TBrickParam::CR_ChaScore3:
+		// $*STRUCT CSBrickParamCraftChaScore3 TBrickParam::CR_ChaScore3
+		// $*-i sint32 ChaScore3
+		Params.push_back(new CSBrickParamCraftChaScore3(tail)); 
 		break;
-	case TBrickParam::CR_STA:
-		// $*STRUCT CSBrickParamCraftSta TBrickParam::CR_STA
-		// $*-i sint32 Stamina
-		Params.push_back(new CSBrickParamCraftSta(tail)); 
+	case TBrickParam::CR_ChaScore2:
+		// $*STRUCT CSBrickParamCraftChaScore2 TBrickParam::CR_ChaScore2
+		// $*-i sint32 ChaScore2
+		Params.push_back(new CSBrickParamCraftChaScore2(tail)); 
 		break;
-	case TBrickParam::CR_FOCUS:
-		// $*STRUCT CSBrickParamCraftFocus TBrickParam::CR_FOCUS
-		// $*-i uint32 Focus
-		Params.push_back(new CSBrickParamCraftFocus(tail)); 
+	case TBrickParam::CR_ChaScore4:
+		// $*STRUCT CSBrickParamCraftChaScore4 TBrickParam::CR_ChaScore4
+		// $*-i uint32 ChaScore4
+		Params.push_back(new CSBrickParamCraftChaScore4(tail)); 
 		break;
 	case TBrickParam::CR_QUALITY:
 		// $*STRUCT CSBrickParamCraftQuality TBrickParam::CR_QUALITY
@@ -1299,64 +1299,64 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 		Params.push_back(new CSBrickParamShielding(tail)); 
 		break;
 
-	case TBrickParam::SP_LIFE_AURA:
-		// $*STRUCT CSBrickParamLifeAura TBrickParam::SP_LIFE_AURA
+	case TBrickParam::SP_ChaScore1_AURA:
+		// $*STRUCT CSBrickParamChaScore1Aura TBrickParam::SP_ChaScore1_AURA
 		// $*-i uint16	RegenMod			// regen modifier (in %)
 		// $*-f float	Duration			// duration in seconds
 		// $*-f float	Radius				// aura radius in meters
-		// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-		// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-		Params.push_back(new CSBrickParamLifeAura(tail)); 
+		// $*-f float	TargetDisableTime	// disable ChaScore1 aura for x seconds on targets
+		// $*-f float	UserDisableTime		// disable ChaScore1 aura for x seconds on user
+		Params.push_back(new CSBrickParamChaScore1Aura(tail)); 
 		break;
 
-	case TBrickParam::SP_LIFE_AURA2:
-		// $*STRUCT CSBrickParamLifeAura2 TBrickParam::SP_LIFE_AURA2
+	case TBrickParam::SP_ChaScore1_AURA2:
+		// $*STRUCT CSBrickParamChaScore1Aura2 TBrickParam::SP_ChaScore1_AURA2
 		// $*-i uint16	RegenMod			// regen modifier (in %) proportionally to item level
 		// $*-f float	Duration			// duration in seconds
 		// $*-f float	Radius				// aura radius in meters
-		// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-		// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-		Params.push_back(new CSBrickParamLifeAura2(tail));
+		// $*-f float	TargetDisableTime	// disable ChaScore1 aura for x seconds on targets
+		// $*-f float	UserDisableTime		// disable ChaScore1 aura for x seconds on user
+		Params.push_back(new CSBrickParamChaScore1Aura2(tail));
 		break;
 
-	case TBrickParam::SP_STAMINA_AURA:
-		// $*STRUCT CSBrickParamStaminaAura TBrickParam::SP_STAMINA_AURA
+	case TBrickParam::SP_ChaScore2_AURA:
+		// $*STRUCT CSBrickParamChaScore2Aura TBrickParam::SP_ChaScore2_AURA
 		// $*-i uint16	RegenMod			// regen modifier (in %)
 		// $*-f float	Duration			// duration in seconds
 		// $*-f float	Radius				// aura radius in meters
-		// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-		// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-		Params.push_back(new CSBrickParamStaminaAura(tail)); 
+		// $*-f float	TargetDisableTime	// disable ChaScore2 aura for x seconds on targets
+		// $*-f float	UserDisableTime		// disable ChaScore2 aura for x seconds on user
+		Params.push_back(new CSBrickParamChaScore2Aura(tail)); 
 		break;
 
-	case TBrickParam::SP_STAMINA_AURA2:
-		// $*STRUCT CSBrickParamStaminaAura2 TBrickParam::SP_STAMINA_AURA2
+	case TBrickParam::SP_ChaScore2_AURA2:
+		// $*STRUCT CSBrickParamChaScore2Aura2 TBrickParam::SP_ChaScore2_AURA2
 		// $*-i uint16	RegenMod			// regen modifier (in %) proportionally to item level
 		// $*-f float	Duration			// duration in seconds
 		// $*-f float	Radius				// aura radius in meters
-		// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-		// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-		Params.push_back(new CSBrickParamStaminaAura2(tail)); 
+		// $*-f float	TargetDisableTime	// disable ChaScore2 aura for x seconds on targets
+		// $*-f float	UserDisableTime		// disable ChaScore2 aura for x seconds on user
+		Params.push_back(new CSBrickParamChaScore2Aura2(tail)); 
 		break;
 
-	case TBrickParam::SP_SAP_AURA:
-		// $*STRUCT CSBrickParamSapAura TBrickParam::SP_SAP_AURA
+	case TBrickParam::SP_ChaScore3_AURA:
+		// $*STRUCT CSBrickParamChaScore3Aura TBrickParam::SP_ChaScore3_AURA
 		// $*-i uint16	RegenMod			// regen modifier (in %)
 		// $*-f float	Duration			// duration in seconds
 		// $*-f float	Radius				// aura radius in meters
-		// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-		// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-		Params.push_back(new CSBrickParamSapAura(tail)); 
+		// $*-f float	TargetDisableTime	// disable ChaScore3 aura for x seconds on targets
+		// $*-f float	UserDisableTime		// disable ChaScore3 aura for x seconds on user
+		Params.push_back(new CSBrickParamChaScore3Aura(tail)); 
 		break;
 
-	case TBrickParam::SP_SAP_AURA2:
-		// $*STRUCT CSBrickParamSapAura2 TBrickParam::SP_SAP_AURA2
+	case TBrickParam::SP_ChaScore3_AURA2:
+		// $*STRUCT CSBrickParamChaScore3Aura2 TBrickParam::SP_ChaScore3_AURA2
 		// $*-i uint16	RegenMod			// regen modifier (in %) proportionally to item level
 		// $*-f float	Duration			// duration in seconds
 		// $*-f float	Radius				// aura radius in meters
-		// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-		// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-		Params.push_back(new CSBrickParamSapAura2(tail)); 
+		// $*-f float	TargetDisableTime	// disable ChaScore3 aura for x seconds on targets
+		// $*-f float	UserDisableTime		// disable ChaScore3 aura for x seconds on user
+		Params.push_back(new CSBrickParamChaScore3Aura2(tail)); 
 		break;
 
 	case TBrickParam::SP_SPEEDING_UP:
@@ -1501,7 +1501,7 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 		// $*-i sint32		HealValue			// value added to affected score
 		// $*-f float		HealFactorValue		// value added to affected score in % of max target score
 		// $*-f float		DisableTime			// disable power for x seconds
-		// $*-s std::string	PowerType			// type of power (Heal, HealHpC ...)
+		// $*-s std::string	PowerType			// type of power (Heal, HealChaScore1C ...)
 		Params.push_back(new CSBrickParamHeal(tail));
 		break;
 
@@ -1744,10 +1744,10 @@ void CStaticBrick::loadFaber( const UFormElm &root, const CSheetId &sheetId )
 	root.getValueByName( Faber->DefensiveAfflictionCastingTimeFactor, "faber.Defensive Affliction Casting Time Factor" );
 	root.getValueByName( Faber->DefensiveAfflictionPowerFactor, "faber.Defensive Affliction Power Factor" );
 
-	root.getValueByName( Faber->HpBonusPerLevel, "faber.HpBonusPerLevel" );
-	root.getValueByName( Faber->SapBonusPerLevel, "faber.SapBonusPerLevel" );
-	root.getValueByName( Faber->StaBonusPerLevel, "faber.StaBonusPerLevel" );
-	root.getValueByName( Faber->FocusBonusPerLevel, "faber.FocusBonusPerLevel" );
+	root.getValueByName( Faber->ChaScore1BonusPerLevel, "faber.ChaScore1BonusPerLevel" );
+	root.getValueByName( Faber->ChaScore3BonusPerLevel, "faber.ChaScore3BonusPerLevel" );
+	root.getValueByName( Faber->ChaScore2BonusPerLevel, "faber.ChaScore2BonusPerLevel" );
+	root.getValueByName( Faber->ChaScore4BonusPerLevel, "faber.ChaScore4BonusPerLevel" );
 
 	root.getValueByName( Faber->AllowPartialSuccess, "faber.AllowPartialSuccess" );
 	

@@ -603,20 +603,20 @@ public:
 };
 
 //----------------------------------------------------------------------------
-// AIS -> EGS ais change creature Max HP
+// AIS -> EGS ais change creature Max ChaScore1
 //----------------------------------------------------------------------------
-class CChangeCreatureMaxHPMsg : public CMirrorTransportClass
+class CChangeCreatureMaxChaScore1Msg : public CMirrorTransportClass
 {
 public:
 	std::vector<TDataSetRow>    Entities;
-	std::vector<uint32>         MaxHp;
+	std::vector<uint32>         MaxChaScore1;
 	std::vector<uint8>          SetFull;
 	
 	virtual void description ()
 	{
-		className ("CChangeCreatureMaxHPMsg");
+		className ("CChangeCreatureMaxChaScore1Msg");
 		propertyCont ("Entities", PropDataSetRow, Entities);
-		propertyCont ("MaxHp", PropUInt32, MaxHp);
+		propertyCont ("MaxChaScore1", PropUInt32, MaxChaScore1);
 		propertyCont ("SetFull", PropUInt8, SetFull);
 	}
 	
@@ -624,19 +624,19 @@ public:
 };
 
 //----------------------------------------------------------------------------
-// AIS -> EGS ais change creature HP
+// AIS -> EGS ais change creature ChaScore1
 //----------------------------------------------------------------------------
-class CChangeCreatureHPMsg : public CMirrorTransportClass
+class CChangeCreatureChaScore1Msg : public CMirrorTransportClass
 {
 public:
 	std::vector<TDataSetRow>	Entities;
-	std::vector<sint32>			DeltaHp;
+	std::vector<sint32>			DeltaChaScore1;
 	
 	virtual void description ()
 	{
-		className ("CChangeCreatureHPMsg");
+		className ("CChangeCreatureChaScore1Msg");
 		propertyCont ("Entities", PropDataSetRow, Entities);
-		propertyCont ("DeltaHp", PropSInt32, DeltaHp);
+		propertyCont ("DeltaChaScore1", PropSInt32, DeltaChaScore1);
 	}
 	
 	virtual void callback (const std::string &/* name */, NLNET::TServiceId /* id */) {}
@@ -1100,10 +1100,10 @@ public:
 	enum  TFunEnum
 	{
 		Name,
-		Hp, MaxHp, RatioHp,
-		Sap, MaxSap, RatioSap,
-		Stamina, MaxStamina, RatioStamina,
-		Focus, MaxFocus, RatioFocus,
+		ChaScore1, MaxChaScore1, RatioChaScore1,
+		ChaScore3, MaxChaScore3, RatioChaScore3,
+		ChaScore2, MaxChaScore2, RatioChaScore2,
+		ChaScore4, MaxChaScore4, RatioChaScore4,
 		BestSkillLevel, 
 		Target,
 		IsInInventory, KnowBrick,

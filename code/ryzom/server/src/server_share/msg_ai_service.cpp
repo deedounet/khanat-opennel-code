@@ -31,10 +31,10 @@ void CQueryEgs::init()
 {
 #define InsertFun(X) _Funs.insert( std::make_pair(std::string(#	X), X));
 	InsertFun(Name);
-	InsertFun(Hp); InsertFun(MaxHp); InsertFun(RatioHp);
-	InsertFun(Sap); InsertFun(MaxSap); InsertFun(RatioSap);
-	InsertFun(Stamina); InsertFun(MaxStamina); InsertFun(RatioStamina);
-	InsertFun(Focus); InsertFun(MaxFocus); InsertFun(RatioFocus);
+	InsertFun(ChaScore1); InsertFun(MaxChaScore1); InsertFun(RatioChaScore1);
+	InsertFun(ChaScore3); InsertFun(MaxChaScore3); InsertFun(RatioChaScore3);
+	InsertFun(ChaScore2); InsertFun(MaxChaScore2); InsertFun(RatioChaScore2);
+	InsertFun(ChaScore4); InsertFun(MaxChaScore4); InsertFun(RatioChaScore4);
 	InsertFun(BestSkillLevel);
 	InsertFun(Target);
 	InsertFun(IsInInventory); InsertFun(KnowBrick);

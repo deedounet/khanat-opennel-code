@@ -215,13 +215,13 @@ void CForageSourceCL::updateClipped (const NLMISC::TTime &currentTimeInMs, CEnti
 void CForageSourceCL::updateVisible(const NLMISC::TTime &time, CEntityCL *target)
 {
 	// Update Modifiers
-	if(!_HPModifiers.empty())
+	if(!_ChaScore1Modifiers.empty())
 	{
-		HPMD mod;
-		mod.CHPModifier::operator= (*_HPModifiers.begin());
+		ChaScore1MD mod;
+		mod.CChaScore1Modifier::operator= (*_ChaScore1Modifiers.begin());
 		mod.Time = TimeInSec;
-		_HPDisplayed.push_back(mod);
-		_HPModifiers.erase(_HPModifiers.begin());
+		_ChaScore1Displayed.push_back(mod);
+		_ChaScore1Modifiers.erase(_ChaScore1Modifiers.begin());
 	}
 
 	// parent
@@ -581,7 +581,7 @@ void CForageSourceCL::updateVisualPropertyTarget(const NLMISC::TGameCycle &/* ga
 void CForageSourceCL::displayModifiers()
 {
 	// if none, no op
-	if(	_HPDisplayed.empty())
+	if(	_ChaScore1Displayed.empty())
 		return;
 
 	// **** get the name pos
@@ -598,13 +598,13 @@ void CForageSourceCL::displayModifiers()
 		scale = ClientCfg.ConstNameSizeDist / dist;
 
 
-	// **** Display HP modifiers.
+	// **** Display ChaScore1 modifiers.
 	CInterfaceManager	*pIM= CInterfaceManager::getInstance();
-	std::list<HPMD>::iterator itTmp;
-	std::list<HPMD>::iterator it = _HPDisplayed.begin();
-	while(it != _HPDisplayed.end())
+	std::list<ChaScore1MD>::iterator itTmp;
+	std::list<ChaScore1MD>::iterator it = _ChaScore1Displayed.begin();
+	while(it != _ChaScore1Displayed.end())
 	{
-		HPMD &mod = *it;
+		ChaScore1MD &mod = *it;
 		//
 		const	float totalDuration= 3.f;
 		const	float noFadeDuration= 1.f;
@@ -613,13 +613,13 @@ void CForageSourceCL::displayModifiers()
 		{
 			itTmp = it;
 			++it;
-			_HPDisplayed.erase(itTmp);
+			_ChaScore1Displayed.erase(itTmp);
 		}
 		else
 		{
 			uint16 qttyDelta = ((uint16)mod.Value) & 0xFF;
 			uint16 qlty = ((uint16)mod.Value) >> 8;
-			ucstring hpModifier = ucstring(toString("%u ", qttyDelta) + CI18N::get("uittQualityAbbrev") + toString(" %u", qlty));
+			ucstring ChaScore1Modifier = ucstring(toString("%u ", qttyDelta) + CI18N::get("uittQualityAbbrev") + toString(" %u", qlty));
 			double t = TimeInSec-mod.Time;
 			// Compute the position for the Modifier.
 			CVector		pos= namePos + CVector(0.0f, 0.0f, 0.3f+(float)t*1.0f/totalDuration);
@@ -636,7 +636,7 @@ void CForageSourceCL::displayModifiers()
 				color.A= 255-(uint8)((t-noFadeDuration)*255.0/fadeDuration);
 
 			// Display the name
-			pIM->FlyingTextManager.addFlyingText(&mod, hpModifier, pos, color, scale);
+			pIM->FlyingTextManager.addFlyingText(&mod, ChaScore1Modifier, pos, color, scale);
 
 			// Next
 			++it;

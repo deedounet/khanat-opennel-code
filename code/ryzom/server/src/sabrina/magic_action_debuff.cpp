@@ -102,12 +102,12 @@ protected:
 			return;
 
 		SCORES::EScores linkEnergy;
-		if ( phrase->getSapCost() > 0 )
+		if ( phrase->getChaScore3Cost() > 0 )
 		{
-			linkEnergy = SCORES::sap;
+			linkEnergy = SCORES::cha_score3;
 		}
 		else
-			linkEnergy = SCORES::hit_points;;
+			linkEnergy = SCORES::cha_score1;;
 		for ( uint i = 0; i < targets.size(); i++ )
 		{
 			// check target

@@ -64,8 +64,8 @@ bool CNoLinkHoTEffect::update(CTimerEvent * event, bool applyEffect)
 
 		switch(_AffectedScore)
 		{
-		case SCORES::hit_points:
-			_TargetEntity->changeCurrentHp(heal, _CreatorRowId);
+		case SCORES::cha_score1:
+			_TargetEntity->changeCurrentChaScore1(heal, _CreatorRowId);
 			break;
 		default:
 			_TargetEntity->changeScore(_AffectedScore, heal);

@@ -37,13 +37,13 @@ public:
 		/// returns true if the target needs to be treated by apply()
 		bool needsApply() const
 		{
-			return (DmgHp > 0 || Immune || ResistFactor<=0.f);
+			return (DmgChaScore1 > 0 || Immune || ResistFactor<=0.f);
 		}
 		
 	public:
 		TDataSetRow		RowId;
 		bool			MainTarget;
-		sint32			DmgHp;
+		sint32			DmgChaScore1;
 		float			ResistFactor;
 		float			DmgFactor;
 		bool			Immune;
@@ -114,9 +114,9 @@ public:
 		CTargetInfos&	targetInfos,
 		
 		DMGTYPE::EDamageType const	_DmgType,
-		sint32 const				_DmgHp,
-		sint32 const				_DmgSap,
-		sint32 const				_DmgSta,
+		sint32 const				_DmgChaScore1,
+		sint32 const				_DmgChaScore3,
+		sint32 const				_DmgChaScore2,
 		sint32 const				_VampirismValue);
 
 	static bool computeMagicResistance(
@@ -124,16 +124,16 @@ public:
 		CTargetInfos& targetInfos, //< modified
 		uint32 const casterSkillvalue,
 		DMGTYPE::EDamageType const _DmgType,
-		sint32 _DmgHp,
+		sint32 _DmgChaScore1,
 		CEntityBase const* const actor,
 		float rangeFactor,
 		float powerFactor);
 		
 private:
 	DMGTYPE::EDamageType	_DmgType;
-	sint32					_DmgHp;
-	sint32					_DmgSap;
-	sint32					_DmgSta;
+	sint32					_DmgChaScore1;
+	sint32					_DmgChaScore3;
+	sint32					_DmgChaScore2;
 	sint32					_VampirismValue;
 	
 	/// targets that need to be treated by apply()

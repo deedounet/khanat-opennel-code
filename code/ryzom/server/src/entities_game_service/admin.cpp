@@ -299,8 +299,8 @@ AdminCommandsInit[] =
 		"Invulnerable",						true,
 		"ShowFactionChannels",				true,
 		"CreateCharacterStartSkillsValue",	false,
-		"HP",								true,
-		"MaxHP",							true,
+		"ChaScore1",								true,
+		"MaxChaScore1",							true,
 		"Speed",							true,
 		"Money",							true,
 		"MoneyGuild",						true,
@@ -936,35 +936,35 @@ void GET_CHARACTER_Helper(std::string& command, const NLMISC::CEntityId& id, con
 // Don't forget to add your command in the AdminCommandsInit array if you want the command to be executed on the client
 //
 
-ENTITY_VARIABLE(HP, "Hit points of a player")
+ENTITY_VARIABLE(ChaScore1, "ChaScore1 of a player")
 {
 	ENTITY_GET_ENTITY
 
 	if (get)
 	{
-		value = toString (e->currentHp());
+		value = toString (e->currentChaScore1());
 	}
 	else
 	{
 		sint32 v;
 		NLMISC::fromString(value, v);
-		e->getScores()._PhysicalScores[SCORES::hit_points].Current = v;
+		e->getScores()._PhysicalScores[SCORES::cha_score1].Current = v;
 	}
 }
 
-ENTITY_VARIABLE(MaxHP, "Max hit points of a player")
+ENTITY_VARIABLE(MaxChaScore1, "Max ChaScore1 of a player")
 {
 	ENTITY_GET_ENTITY
 
 	if (get)
 	{
-		value = toString (e->maxHp());
+		value = toString (e->maxChaScore1());
 	}
 	else
 	{
 		sint32 v;
 		NLMISC::fromString(value, v);
-		e->getScores()._PhysicalScores[SCORES::hit_points].Max = v;
+		e->getScores()._PhysicalScores[SCORES::cha_score1].Max = v;
 	}
 }
 
@@ -1821,7 +1821,7 @@ NLMISC_COMMAND (forceTargetToDie, "(debug) Force entity target to die", "<eid>")
 	if (target)
 	{
 		if (!target->isDead())
-			target->changeCurrentHp(-100000);
+			target->changeCurrentChaScore1(-100000);
 
 		BotDeathReport.Bots.push_back(target->getEntityRowId());
 		TDataSetRow emptyRow;
@@ -2801,7 +2801,7 @@ NLMISC_COMMAND(respawnAfterDeath,"respawnAfterDeath at re-spawn point name, it m
 //-----------------------------------------------
 // Simulate Resurrection by other PC until UI is ready
 //-----------------------------------------------
-NLMISC_COMMAND(resurrected,"Another PC resurrect PC by giving some energy","<player id(id:type:crea:dyn)><Hp gived><Sta gived><Sap gived><Focus gived>")
+NLMISC_COMMAND(resurrected,"Another PC resurrect PC by giving some energy","<player id(id:type:crea:dyn)><ChaScore1 removed><ChaScore2 removed><ChaScore3 removed><ChaScore4 gived>")
 {
 	if( args.size() == 1 )
 	{
@@ -3716,7 +3716,7 @@ NLMISC_COMMAND( killMob, "kill a mob ( /a killMob )", "<CSR eId>" )
 			return true;
 		}
 	}
-	creature->getScores()._PhysicalScores[SCORES::hit_points].Current = 0;
+	creature->getScores()._PhysicalScores[SCORES::cha_score1].Current = 0;
 	return true;
 }
 
@@ -4121,9 +4121,9 @@ NLMISC_COMMAND (targetInfos, "give infos on the target", "")
 			answer = "invalid creature target";
 		else
 		{
-			answer = NLMISC::toString( "HP : %u / %u",
-				target->getScores()._PhysicalScores[SCORES::hit_points].Current(),
-				target->getScores()._PhysicalScores[SCORES::hit_points].Max() );
+			answer = NLMISC::toString( "ChaScore1 : %u / %u",
+				target->getScores()._PhysicalScores[SCORES::cha_score1].Current(),
+				target->getScores()._PhysicalScores[SCORES::cha_score1].Max() );
 		}
 	}
 	else if ( c->getTarget().getType() == RYZOMID::player )
@@ -4134,11 +4134,11 @@ NLMISC_COMMAND (targetInfos, "give infos on the target", "")
 		else
 		{
 			const std::vector< SCharacteristicsAndScores > & scores = target->getScores()._PhysicalScores;
-			answer = NLMISC::toString( "HP :	%d / %d \nSAP :	%d / %d \nSTA :	%d / %d \nFOCUS :	%d / %d \n",
-										scores[SCORES::hit_points].Current(),scores[SCORES::hit_points].Max(),
-										scores[SCORES::sap].Current(),scores[SCORES::sap].Max(),
-										scores[SCORES::stamina].Current(),scores[SCORES::stamina].Max(),
-										scores[SCORES::focus].Current(),scores[SCORES::focus].Max() );
+			answer = NLMISC::toString( "ChaScore1 :	%d / %d \nChaScore3 :	%d / %d \nChaScore2 :	%d / %d \nChaScore4 :	%d / %d \n",
+										scores[SCORES::cha_score1].Current(),scores[SCORES::cha_score1].Max(),
+										scores[SCORES::cha_score3].Current(),scores[SCORES::cha_score3].Max(),
+										scores[SCORES::cha_score2].Current(),scores[SCORES::cha_score2].Max(),
+										scores[SCORES::cha_score4].Current(),scores[SCORES::cha_score4].Max() );
 			answer += "\n Displaying skills > 1:\n";
 			for ( uint i = 0; i < target->getSkills()._Skills.size();i++ )
 			{

@@ -610,7 +610,7 @@ void	CGrpProfileDynHarvest::checkTargetsAround	()
 			const	CAIEntityPhysical*const		ep = player->getSpawnObj();
 			if	(	!ep
 				||	!ep->isAlive()
-				||	ep->currentHitPoints()<=0.f	)
+				||	ep->currentChaScore1()<=0.f	)
 				continue;
 
 			const	CRootCell	*const	rootCell=ep->wpos().getRootCell();

@@ -171,8 +171,8 @@ void CCombatPhrase::init()
 	_CyclicPhrase					= false;
 	_Idle							= false;
 	_TargetTooFarMsg				= false;
-	_NotEnoughStaminaMsg			= false;
-	_NotEnoughHpMsg					= false;
+	_NotEnoughChaScore2Msg			= false;
+	_NotEnoughChaScore1Msg					= false;
 	_CurrentTargetIsValid			= false;
 	_MeleeCombat					= true;
 
@@ -183,8 +183,8 @@ void CCombatPhrase::init()
 	_SabrinaCost					= 0;
 	_SabrinaCredit					= 0;
 
-	_HPCost							= 0;
-	_StaminaCost					= 0;
+	_ChaScore1Cost							= 0;
+	_ChaScore2Cost					= 0;
 
 	_AttackSkillModifier			= 0;
 	_ExecutionLengthModifier		= 0;
@@ -209,10 +209,10 @@ void CCombatPhrase::init()
 	_AggroModifier					= 0;
 
 	_DamageFactor					= 1.0f;
-	_StaminaLossFactor				= 0.0f;
-	_StaminaLossModifier			= 0;
-	_SapLossFactor					= 0.0f;
-	_SapLossModifier				= 0;
+	_ChaScore2LossFactor				= 0.0f;
+	_ChaScore2LossModifier			= 0;
+	_ChaScore3LossFactor					= 0.0f;
+	_ChaScore3LossModifier				= 0;
 
 	_DamagePointBlank				= 1.0f;
 	_DamageShortRange				= 1.0f;
@@ -245,18 +245,18 @@ void CCombatPhrase::addBrick( const CStaticBrick &brick )
 	{
 		switch(brick.Params[i]->id())
 		{
-		case TBrickParam::HP:
-//			INFOLOG("HP: %i",((CSBrickParamHp *)brick.Params[i])->Hp);
-			_HPCost += ((CSBrickParamHp *)brick.Params[i])->Hp;
+		case TBrickParam::ChaScore1:
+//			INFOLOG("ChaScore1: %i",((CSBrickParamChaScore1 *)brick.Params[i])->ChaScore1);
+			_ChaScore1Cost += ((CSBrickParamChaScore1 *)brick.Params[i])->ChaScore1;
 			break;
 
-		case TBrickParam::SAP:
-			//printf("SAP: %i\n",((CSBrickParamSap *)brick.Params[i])->Sap);
+		case TBrickParam::ChaScore3:
+			//printf("ChaScore3: %i\n",((CSBrickParamChaScore3 *)brick.Params[i])->ChaScore3);
 			break;
 
-		case TBrickParam::STA:
-//			INFOLOG("STA: %i",((CSBrickParamSta *)brick.Params[i])->Sta);
-			_StaminaCost += ((CSBrickParamSta *)brick.Params[i])->Sta;
+		case TBrickParam::ChaScore2:
+//			INFOLOG("ChaScore2: %i",((CSBrickParamChaScore2 *)brick.Params[i])->ChaScore2);
+			_ChaScore2Cost += ((CSBrickParamChaScore2 *)brick.Params[i])->ChaScore2;
 			break;
 
 		case TBrickParam::EXECUTION_LENGTH:
@@ -285,16 +285,16 @@ void CCombatPhrase::addBrick( const CStaticBrick &brick )
 			_AggroModifier += ((CSBrickParamAggro *)brick.Params[i])->AggroModifier;
 			break;
 			
-		case TBrickParam::STA_LOSS:
-//			INFOLOG("STA_LOSS: %f, %u",((CSBrickParamStaLossFactor *)brick.Params[i])->StaLossFactor, ((CSBrickParamStaLossFactor *)brick.Params[i])->StaLossModifier);
-			_StaminaLossFactor += ((CSBrickParamStaLossFactor *)brick.Params[i])->StaLossFactor;
-			_StaminaLossModifier += ((CSBrickParamStaLossFactor *)brick.Params[i])->StaLossModifier;
+		case TBrickParam::ChaScore2_LOSS:
+//			INFOLOG("ChaScore2_LOSS: %f, %u",((CSBrickParamChaScore2LossFactor *)brick.Params[i])->ChaScore2LossFactor, ((CSBrickParamChaScore2LossFactor *)brick.Params[i])->ChaScore2LossModifier);
+			_ChaScore2LossFactor += ((CSBrickParamChaScore2LossFactor *)brick.Params[i])->ChaScore2LossFactor;
+			_ChaScore2LossModifier += ((CSBrickParamChaScore2LossFactor *)brick.Params[i])->ChaScore2LossModifier;
 			break;
 
-		case TBrickParam::SAP_LOSS:
-//			INFOLOG("SAP_LOSS: %f, %u",((CSBrickParamSapLossFactor *)brick.Params[i])->SapLossFactor, ((CSBrickParamSapLossFactor *)brick.Params[i])->SapLossModifier);
-			_SapLossFactor += ((CSBrickParamSapLossFactor *)brick.Params[i])->SapLossFactor;
-			_SapLossModifier += ((CSBrickParamSapLossFactor *)brick.Params[i])->SapLossModifier;
+		case TBrickParam::ChaScore3_LOSS:
+//			INFOLOG("ChaScore3_LOSS: %f, %u",((CSBrickParamChaScore3LossFactor *)brick.Params[i])->ChaScore3LossFactor, ((CSBrickParamChaScore3LossFactor *)brick.Params[i])->ChaScore3LossModifier);
+			_ChaScore3LossFactor += ((CSBrickParamChaScore3LossFactor *)brick.Params[i])->ChaScore3LossFactor;
+			_ChaScore3LossModifier += ((CSBrickParamChaScore3LossFactor *)brick.Params[i])->ChaScore3LossModifier;
 			break;
 
 		case TBrickParam::ATT_SKILL_MOD:
@@ -376,8 +376,8 @@ bool CCombatPhrase::evaluate(CEvalReturnInfos *msg)
 	_AttackSkill = SKILLS::unknown;
 	_Validated = false;
 	_TargetTooFarMsg = false;
-	_NotEnoughStaminaMsg = false;
-	_NotEnoughHpMsg	= false;
+	_NotEnoughChaScore2Msg = false;
+	_NotEnoughChaScore1Msg	= false;
 	_DisengageOnEnd = false;
 	//_CurrentTargetIsValid = false;
 	//_MeleeCombat = true;
@@ -562,8 +562,8 @@ bool CCombatPhrase::validate()
 	{
 		// check target is still alive
 		// test the targeted entity is still alive
-		const sint32 hp = defender->getScores()._PhysicalScores[ SCORES::hit_points ].Current;
-		if (hp <= 0 )
+		const sint32 ChaScore1 = defender->getScores()._PhysicalScores[ SCORES::cha_score1 ].Current;
+		if (ChaScore1 <= 0 )
 		{
 			nlwarning("<CCombatPhrase::validate> Entity %s is dead", TheDataset.getEntityId(_Defender->getEntityRowId()).toString().c_str());
 			//errorCode = "BS_TARGET_DEAD";
@@ -655,14 +655,14 @@ bool CCombatPhrase::validate()
 
 	if(!checkPhraseCost(errorCode))
 	{
-		if (!_NotEnoughStaminaMsg && errorCode == "EGS_TOO_EXPENSIVE_STAMINA") 
+		if (!_NotEnoughChaScore2Msg && errorCode == "EGS_TOO_EXPENSIVE_ChaScore2") 
 		{
-			_NotEnoughStaminaMsg = true;
+			_NotEnoughChaScore2Msg = true;
 			PHRASE_UTILITIES::sendSimpleMessage( _Attacker->getEntityRowId(), errorCode );
 		}
-		else if (!_NotEnoughHpMsg && errorCode == "EGS_TOO_EXPENSIVE_HP")
+		else if (!_NotEnoughChaScore1Msg && errorCode == "EGS_TOO_EXPENSIVE_ChaScore1")
 		{
-			_NotEnoughHpMsg = true;
+			_NotEnoughChaScore1Msg = true;
 			PHRASE_UTILITIES::sendSimpleMessage( _Attacker->getEntityRowId(), errorCode );
 		}
 		_Idle = true;
@@ -772,14 +772,14 @@ bool  CCombatPhrase::update()
 		string errorCode;
 		if(!checkPhraseCost(errorCode))
 		{
-			if (!_NotEnoughStaminaMsg && errorCode == "EGS_TOO_EXPENSIVE_STAMINA" && !_Idle )
+			if (!_NotEnoughChaScore2Msg && errorCode == "EGS_TOO_EXPENSIVE_ChaScore2" && !_Idle )
 			{
-				_NotEnoughStaminaMsg = true;
+				_NotEnoughChaScore2Msg = true;
 				PHRASE_UTILITIES::sendSimpleMessage( _Attacker->getEntityRowId(), errorCode );
 			}
-			else if (!_NotEnoughHpMsg && errorCode == "EGS_TOO_EXPENSIVE_HP" && !_Idle )
+			else if (!_NotEnoughChaScore1Msg && errorCode == "EGS_TOO_EXPENSIVE_ChaScore1" && !_Idle )
 			{
-				_NotEnoughHpMsg = true;
+				_NotEnoughChaScore1Msg = true;
 				PHRASE_UTILITIES::sendSimpleMessage( _Attacker->getEntityRowId(), errorCode );
 			}
 			_Idle = true;
@@ -873,7 +873,7 @@ void CCombatPhrase::apply()
 		return;
 	}
 
-	// spend stamina, hp
+	// spend ChaScore2, ChaScore1
 	CEntityBase* actingEntity = PHRASE_UTILITIES::entityPtrFromId( _Attacker->getEntityRowId() );
 	if (actingEntity == NULL)
 	{
@@ -909,21 +909,21 @@ void CCombatPhrase::apply()
 	_AiEventReport.Type = ACTNATURE::OFFENSIVE;
 
 
-	if (_StaminaCost != 0)
+	if (_ChaScore2Cost != 0)
 	{
-		SCharacteristicsAndScores &stamina = actingEntity->getScores()._PhysicalScores[SCORES::stamina];
-		if ( stamina.Current != 0 )
+		SCharacteristicsAndScores &ChaScore2 = actingEntity->getScores()._PhysicalScores[SCORES::cha_score2];
+		if ( ChaScore2.Current != 0 )
 		{
-//			nlinfo("Stamina current = %d, cost %d", stamina.Current.getValue(), _StaminaCost);
-			stamina.Current = stamina.Current - _StaminaCost;
-			if (stamina.Current < 0)
-				stamina.Current = 0;
+//			nlinfo("ChaScore2 current = %d, cost %d", ChaScore2.Current.getValue(), _ChaScore2Cost);
+			ChaScore2.Current = ChaScore2.Current - _ChaScore2Cost;
+			if (ChaScore2.Current < 0)
+				ChaScore2.Current = 0;
 		}
 	}
 
-	if ( _HPCost != 0)
+	if ( _ChaScore1Cost != 0)
 	{
-		actingEntity->changeCurrentHp( (_HPCost) * (-1) );		
+		actingEntity->changeCurrentChaScore1( (_ChaScore1Cost) * (-1) );		
 	}
 
 	CCombatWeapon weapon;
@@ -1212,9 +1212,9 @@ void CCombatPhrase::apply()
 			{
 				applyCombatActions();
 
-				_ExecutionBehaviour.DeltaHP = (sint16)((-1)*damage);
+				_ExecutionBehaviour.DeltaChaScore1 = (sint16)((-1)*damage);
 					
-				if ( defender->changeCurrentHp( (-1)*damage ) == true)
+				if ( defender->changeCurrentChaScore1( (-1)*damage ) == true)
 				{
 					// entity has been killed, change the bahaviour of the attacker to set the flag
 					_ExecutionBehaviour.Combat.KillingBlow = 1;
@@ -1238,39 +1238,39 @@ void CCombatPhrase::apply()
 				//PHRASE_UTILITIES::testSpellBreakOnDamage( _Defender->getEntityRowId(), _Attacker->getEntityRowId(), damage, damageType);
 				// TODO
 
-				sint32 lostStamina = (sint32)( damage * _StaminaLossFactor + _StaminaLossModifier);
-				sint32 lostSap = (sint32)(damage * _SapLossFactor + _SapLossModifier);
+				sint32 lostChaScore2 = (sint32)(damage * _ChaScore2LossFactor + _ChaScore2LossModifier);
+				sint32 lostChaScore3 = (sint32)(damage * _ChaScore3LossFactor + _ChaScore3LossModifier);
 
-				if ( lostStamina != 0 )
+				if ( lostChaScore2 != 0 )
 				{
-					INFOLOG("entity %s lose %d stamina", TheDataset.getEntityId(_Defender->getEntityRowId()).toString().c_str(),lostStamina );
-					defender->getPhysScores()._PhysicalScores[SCORES::stamina].Current = defender->getPhysScores()._PhysicalScores[SCORES::stamina].Current - lostStamina;
+					INFOLOG("entity %s lose %d ChaScore2", TheDataset.getEntityId(_Defender->getEntityRowId()).toString().c_str(),lostChaScore2 );
+					defender->getPhysScores()._PhysicalScores[SCORES::cha_score2].Current = defender->getPhysScores()._PhysicalScores[SCORES::cha_score2].Current - lostChaScore2;
 
 					//TEMPFIX
 					// clip score to 0
-					if ( defender->getPhysScores()._PhysicalScores[SCORES::stamina].Current < 0 )
-						defender->getPhysScores()._PhysicalScores[SCORES::stamina].Current = 0;
+					if ( defender->getPhysScores()._PhysicalScores[SCORES::cha_score2].Current < 0 )
+						defender->getPhysScores()._PhysicalScores[SCORES::cha_score2].Current = 0;
 
 					// add modifier to sentence AI event reports
-					_AiEventReport.addDelta(AI_EVENT_REPORT::Stamina, (-1)*lostStamina);
+					_AiEventReport.addDelta(AI_EVENT_REPORT::ChaScore2, (-1)*lostChaScore2);
 				}
-				if ( lostSap != 0 )
+				if ( lostChaScore3 != 0 )
 				{
-					//value = toString( _BaseSapAbsorption[i] );
-					INFOLOG("entity %s lose %d sap", TheDataset.getEntityId(_Defender->getEntityRowId()).toString().c_str(), lostSap );
-					defender->getPhysScores()._PhysicalScores[SCORES::sap].Current = defender->getPhysScores()._PhysicalScores[SCORES::sap].Current - lostSap;
+					//value = toString( _BaseChaScore3Absorption[i] );
+					INFOLOG("entity %s lose %d ChaScore3", TheDataset.getEntityId(_Defender->getEntityRowId()).toString().c_str(), lostChaScore3 );
+					defender->getPhysScores()._PhysicalScores[SCORES::cha_score3].Current = defender->getPhysScores()._PhysicalScores[SCORES::cha_score3].Current - lostChaScore3;
 
 					//TEMPFIX
 					// clip score to 0
-					if ( defender->getPhysScores()._PhysicalScores[SCORES::sap].Current < 0 )
-						defender->getPhysScores()._PhysicalScores[SCORES::sap].Current = 0;
+					if ( defender->getPhysScores()._PhysicalScores[SCORES::cha_score3].Current < 0 )
+						defender->getPhysScores()._PhysicalScores[SCORES::cha_score3].Current = 0;
 
 					// add modifier to sentence AI event reports
-					_AiEventReport.addDelta(AI_EVENT_REPORT::Sap, (-1)*lostSap);
+					_AiEventReport.addDelta(AI_EVENT_REPORT::ChaScore3, (-1)*lostChaScore3);
 				}
 
 			// send chat messages
-				PHRASE_UTILITIES::sendHitMessages(_Attacker->getEntityRowId(),_Defender->getEntityRowId(), damage, lostStamina, lostSap);
+				PHRASE_UTILITIES::sendHitMessages(_Attacker->getEntityRowId(),_Defender->getEntityRowId(), damage, lostChaScore2, lostChaScore3);
 					
 				if ( _ExecutionBehaviour.Combat.KillingBlow == 1 )
 					PHRASE_UTILITIES::sendDeathMessages( _Attacker->getEntityRowId(), _Defender->getEntityRowId() );
@@ -1299,7 +1299,7 @@ void CCombatPhrase::apply()
 
 	// compute aggro
 	sint32 aggro = 0;
-	const sint32 maxPv = defender->getPhysScores()._PhysicalScores[SCORES::hit_points].Max;
+	const sint32 maxPv = defender->getPhysScores()._PhysicalScores[SCORES::cha_score1].Max;
 	if (maxPv)
 	{
 		aggro = (-1) * sint32((100.0 * double(damage + _AggroModifier))/double(maxPv) * _AggroMultiplier) ;
@@ -1308,7 +1308,7 @@ void CCombatPhrase::apply()
 	// update the repor
 	_AiEventReport.AggroMul = 1.0f;
 	_AiEventReport.AggroAdd = aggro;
-	_AiEventReport.addDelta(AI_EVENT_REPORT::HitPoints, (-1)*damage);
+	_AiEventReport.addDelta(AI_EVENT_REPORT::ChaScore1, (-1)*damage);
 
 	PhraseManager->addAiEventReport(_AiEventReport);
 
@@ -1502,17 +1502,17 @@ bool CCombatPhrase::checkPhraseCost( string &errorCode )
 	if ( TheDataset.getEntityId(_Attacker->getEntityRowId()).getType() != RYZOMID::player)
 		return true;
 
-	const SCharacteristicsAndScores &stamina = _Attacker->getEntity()->getScores()._PhysicalScores[SCORES::stamina];
-	if ( stamina.Current < _StaminaCost)
+	const SCharacteristicsAndScores &ChaScore2 = _Attacker->getEntity()->getScores()._PhysicalScores[SCORES::cha_score2];
+	if ( ChaScore2.Current < _ChaScore2Cost)
 	{
-		errorCode = "EGS_TOO_EXPENSIVE_STAMINA";
+		errorCode = "EGS_TOO_EXPENSIVE_ChaScore2";
 		return false;
 	}
 
-	const SCharacteristicsAndScores &hp = _Attacker->getEntity()->getScores()._PhysicalScores[SCORES::hit_points];
-	if ( hp.Current < _HPCost)
+	const SCharacteristicsAndScores &ChaScore1 = _Attacker->getEntity()->getScores()._PhysicalScores[SCORES::cha_score1];
+	if ( ChaScore1.Current < _ChaScore1Cost)
 	{
-		errorCode = "EGS_TOO_EXPENSIVE_HP";
+		errorCode = "EGS_TOO_EXPENSIVE_ChaScore1";
 		return false;
 	}
 

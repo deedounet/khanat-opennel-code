@@ -465,9 +465,9 @@ void CStaticPacts::readGeorges( const NLMISC::CSmartPtr<NLGEORGES::UForm> &form,
 				float duration;
 					
 				// variable is used for calculate pact effect in differential between pacts type
-				sint16 LoseHitPoints = 0;
-				sint16 LoseStamina = 0;
-				sint16 LoseSap = 0;
+				sint16 LoseChaScore1 = 0;
+				sint16 LoseChaScore2 = 0;
+				sint16 LoseChaScore3 = 0;
 				sint16 LoseSkills = 0;
 
 				sint16 value;
@@ -479,20 +479,20 @@ void CStaticPacts::readGeorges( const NLMISC::CSmartPtr<NLGEORGES::UForm> &form,
 					
 					if( node )
 					{
-						node->getValueByName( value, "HitPoints" );
-						value = 0 - value - LoseHitPoints;
-						LoseHitPoints += value;
-						PactLose[ i ].LoseHitPointsLevel = value;
+						node->getValueByName( value, "ChaScore1" );
+						value = 0 - value - LoseChaScore1;
+						LoseChaScore1 += value;
+						PactLose[ i ].LoseChaScore1Level = value;
 
-						node->getValueByName( value, "Stamina" );
-						value = 0 - value - LoseStamina;
-						LoseStamina += value;
-						PactLose[ i ].LoseStaminaLevel = value;
+						node->getValueByName( value, "ChaScore2" );
+						value = 0 - value - LoseChaScore2;
+						LoseChaScore2 += value;
+						PactLose[ i ].LoseChaScore2Level = value;
 
-						node->getValueByName( value, "Sap" );
-						value = 0 - value - LoseSap;
-						LoseSap += value;
-						PactLose[ i ].LoseSapLevel = value;
+						node->getValueByName( value, "ChaScore3" );
+						value = 0 - value - LoseChaScore3;
+						LoseChaScore3 += value;
+						PactLose[ i ].LoseChaScore3Level = value;
 
 						node->getValueByName( value, "Skills" );
 						value = 0 - value - LoseSkills;
@@ -598,39 +598,39 @@ void CStaticCreatures::readGeorges( const NLMISC::CSmartPtr<NLGEORGES::UForm> &f
 		uint32 playerSkillLevel = 1;
 		if ( !root.getValueByName( playerSkillLevel, "Basics.PlayerSkillLevel" ) )
 		{
-			nlwarning("ERROR For creature sheet %s, cannot read Basics.PlayerSkillLevel, creature HP may be inacurate !", sheetId.toString().c_str() );
+			nlwarning("ERROR For creature sheet %s, cannot read Basics.PlayerSkillLevel, creature ChaScore1 may be inacurate !", sheetId.toString().c_str() );
 		}
 		_NbPlayers = 1;
 		if ( !root.getValueByName( _NbPlayers, "Basics.NbPlayers" ) )
 		{
-			nlwarning("ERROR For creature sheet %s, cannot read Basics.NbPlayers, creature HP may be inacurate !", sheetId.toString().c_str() );
+			nlwarning("ERROR For creature sheet %s, cannot read Basics.NbPlayers, creature ChaScore1 may be inacurate !", sheetId.toString().c_str() );
 		}
 
-		sint32 hp;
-		root.getValueByName( hp, "Basics.life" );
+		sint32 ChaScore1;
+		root.getValueByName( ChaScore1, "Basics.ChaScore1" );
 		float regen;
-		root.getValueByName( regen, "Basics.LifeRegen" );
+		root.getValueByName( regen, "Basics.ChaScore1Regen" );
 
-		if (hp == 0)
+		if (ChaScore1 == 0)
 		{
-			nlwarning("CStaticCreatures::readGeorges : spawning a creature with 0 Hit Points ! (SHEET %s), set the hp to 100", sheetId.toString().c_str());
-			hp = 100;
+			nlwarning("CStaticCreatures::readGeorges : spawning a creature with 0 ChaScore1 ! (SHEET %s), set the ChaScore1 to 100", sheetId.toString().c_str());
+			ChaScore1 = 100;
 		}
 
 		for( i = 0; i < SCORES::NUM_SCORES; ++i )
 		{
-			 _Scores[ i ] = hp;
+			 _Scores[ i ] = ChaScore1;
 			 _Regen[ i ] = regen;
 		}
 
 		///////////////////////////////////////////////////////
 		// Creature Damage Per Hit
 		///////////////////////////////////////////////////////
-		_PlayerHpLevel = 1;
+		_PlayerChaScore1Level = 1;
 		_NbHitToKillPlayer = 10.0f;
-		if ( !root.getValueByName( _PlayerHpLevel, "Basics.PlayerHpLevel" ) )
+		if ( !root.getValueByName( _PlayerChaScore1Level, "Basics.PlayerChaScore1Level" ) )
 		{
-			nlwarning("ERROR For creature sheet %s, cannot read Basics.PlayerHpLevel, creature damage may be inacurate !", sheetId.toString().c_str() );
+			nlwarning("ERROR For creature sheet %s, cannot read Basics.PlayerChaScore1Level, creature damage may be inacurate !", sheetId.toString().c_str() );
 		}
 		if ( !root.getValueByName( _NbHitToKillPlayer, "Basics.NbHitToKillPlayer" ) )
 		{
@@ -643,7 +643,7 @@ void CStaticCreatures::readGeorges( const NLMISC::CSmartPtr<NLGEORGES::UForm> &f
 			_NbHitToKillPlayer = 3.0f;
 		}
 		
-		_CreatureDamagePerHitWithoutAverageDodge = uint32( (100*_PlayerHpLevel) / _NbHitToKillPlayer );
+		_CreatureDamagePerHitWithoutAverageDodge = uint32( (100*_PlayerChaScore1Level) / _NbHitToKillPlayer );
 		compileCreatureDamagePerHit();
 
 
@@ -861,8 +861,8 @@ void CStaticCreatures::readGeorges( const NLMISC::CSmartPtr<NLGEORGES::UForm> &f
 		// damage shield
 		_DamageShieldDamage = 0;
 		root.getValueByName( _DamageShieldDamage, "Damage Shield.Damage");
-		_DamageShieldHpDrain = 0;
-		root.getValueByName( _DamageShieldHpDrain, "Damage Shield.Drained HP");
+		_DamageShieldChaScore1Drain = 0;
+		root.getValueByName( _DamageShieldChaScore1Drain, "Damage Shield.Drained ChaScore1");
 
 		// action on death
 		if ( root.getValueByName(value, "ActionOnDeath") )
@@ -978,7 +978,7 @@ void CStaticCreatures::serial(class NLMISC::IStream &f) throw(NLMISC::EStream)
 	f.serial( _BagInventorySheet );
 	
 	f.serial(_DamageShieldDamage);
-	f.serial(_DamageShieldHpDrain);
+	f.serial(_DamageShieldChaScore1Drain);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -1023,14 +1023,14 @@ CAttributeMapping::CAttributeMapping()
 	_StaticAttributeMap.insert(make_pair(std::string("basics.level"),				at_level));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.playerskilllevel"),	at_player_skill_level));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.nbplayers"),			at_nb_players));
-	_StaticAttributeMap.insert(make_pair(std::string("basics.playerhplevel"),		at_player_hp_level));
+	_StaticAttributeMap.insert(make_pair(std::string("basics.playerChaScore1level"),		at_player_ChaScore1_level));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.nbhittokillplayer"),	at_nb_hit_to_kill_player));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.ecosystem"),			at_ecosystem));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.type"),				at_type));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.fame"),				at_fame));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.famebykill"),			at_fame_by_kill));
-	_StaticAttributeMap.insert(make_pair(std::string("basics.life"),				at_life));
-	_StaticAttributeMap.insert(make_pair(std::string("basics.liferegen"),			at_liferegen));
+	_StaticAttributeMap.insert(make_pair(std::string("basics.ChaScore1"),				at_ChaScore1));
+	_StaticAttributeMap.insert(make_pair(std::string("basics.ChaScore1regen"),			at_ChaScore1regen));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.attackspeed"),			at_attack_speed ));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.attacklevel"),			at_attack_level));
 	_StaticAttributeMap.insert(make_pair(std::string("basics.defenselevel"),		at_defense_level ));
@@ -1199,11 +1199,11 @@ bool CStaticCreatures::applyUserModel(CCustomElementId userModelId, const std::v
 				break;
 			}			
 
-			case at_player_hp_level:
+			case at_player_ChaScore1_level:
 			{
-				nldebug("<CStaticCreatures::applyUserModel> Applying '%s': setting playerHpLevel to '%s'", modelId.c_str(), scriptLine[1].c_str());
-				NLMISC::fromString(scriptLine[1], _PlayerHpLevel);
-				_CreatureDamagePerHitWithoutAverageDodge = uint32( (100*_PlayerHpLevel) / _NbHitToKillPlayer );
+				nldebug("<CStaticCreatures::applyUserModel> Applying '%s': setting playerChaScore1Level to '%s'", modelId.c_str(), scriptLine[1].c_str());
+				NLMISC::fromString(scriptLine[1], _PlayerChaScore1Level);
+				_CreatureDamagePerHitWithoutAverageDodge = uint32( (100*_PlayerChaScore1Level) / _NbHitToKillPlayer );
 				compileCreatureDamagePerHit();
 				break;
 			}
@@ -1223,7 +1223,7 @@ bool CStaticCreatures::applyUserModel(CCustomElementId userModelId, const std::v
 					errors = true;
 				}
 								
-				_CreatureDamagePerHitWithoutAverageDodge = uint32( (100*_PlayerHpLevel) / _NbHitToKillPlayer );
+				_CreatureDamagePerHitWithoutAverageDodge = uint32( (100*_PlayerChaScore1Level) / _NbHitToKillPlayer );
 				compileCreatureDamagePerHit();
 				break;
 			}
@@ -1258,39 +1258,39 @@ bool CStaticCreatures::applyUserModel(CCustomElementId userModelId, const std::v
 				break;
 			}
 
-			case at_life:
+			case at_ChaScore1:
 			{
-				sint32 hp;
-				NLMISC::fromString(scriptLine[1], hp);
+				sint32 ChaScore1;
+				NLMISC::fromString(scriptLine[1], ChaScore1);
 				
-				if (hp == 0)
+				if (ChaScore1 == 0)
 				{
-					nlwarning("<CStaticCreatures::applyUserModel>Error while applying user model '%s' : spawning a creature with 0 Hit Points ! set the hp to 100", modelId.c_str());
-					hp = 100;
+					nlwarning("<CStaticCreatures::applyUserModel>Error while applying user model '%s' : spawning a creature with 0 ChaScore1 ! set the ChaScore1 to 100", modelId.c_str());
+					ChaScore1 = 100;
 					errors = true;
 				}
 
-				nldebug("<CStaticCreatures::applyUserModel> Applying '%s': setting Hp to '%u'", modelId.c_str(), hp);
+				nldebug("<CStaticCreatures::applyUserModel> Applying '%s': setting ChaScore1 to '%u'", modelId.c_str(), ChaScore1);
 
-				_Scores[SCORES::hit_points] = hp;
+				_Scores[SCORES::cha_score1] = ChaScore1;
 				break;
 
 			}
 
-			case at_liferegen:
+			case at_ChaScore1regen:
 			{
 				char *ptr = NULL;
-				float lifeRegen = static_cast<float>(strtod(scriptLine[1].c_str(), &ptr));
+				float ChaScore1Regen = static_cast<float>(strtod(scriptLine[1].c_str(), &ptr));
 				
 				if (ptr != NULL && *ptr == '\0' && errno != ERANGE)
 				{
-					_Regen[SCORES::hit_points] = lifeRegen;
-					nldebug("<CStaticCreatures::applyUserModel> Applying '%s' : setting lifeRegen to %f", modelId.c_str(), lifeRegen);
+					_Regen[SCORES::cha_score1] = ChaScore1Regen;
+					nldebug("<CStaticCreatures::applyUserModel> Applying '%s' : setting ChaScore1Regen to %f", modelId.c_str(), ChaScore1Regen);
 				}
 				else
 				{
-					_Regen[SCORES::hit_points] = 1;
-					nlwarning("<CStaticCreatures::applyUserModel>Error while applying user model '%s': cannot read Basics.LifeRegen, set it to 1.0!", modelId.c_str() );
+					_Regen[SCORES::cha_score1] = 1;
+					nlwarning("<CStaticCreatures::applyUserModel>Error while applying user model '%s': cannot read Basics.ChaScore1Regen, set it to 1.0!", modelId.c_str() );
 					errors = true;
 				}
 				break;

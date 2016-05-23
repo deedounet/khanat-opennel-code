@@ -217,14 +217,14 @@ public:
 	{
 		return _FaunaDescriptionList;
 	}
-	CChangeCreatureHPMsg	&getCreatureChangeHP()
+	CChangeCreatureChaScore1Msg	&getCreatureChangeChaScore1()
 	{
-		return _CreatureChangeHPList;
+		return _CreatureChangeChaScore1List;
 	}
 
-	CChangeCreatureMaxHPMsg &getCreatureChangeMaxHP()
+	CChangeCreatureMaxChaScore1Msg &getCreatureChangeMaxChaScore1()
 	{
-		return _CreatureChangeMaxHPList;
+		return _CreatureChangeMaxChaScore1List;
 	}
 	
 	enum	TSearchType
@@ -292,8 +292,8 @@ private:
 
 	// Faunas descriptions to be sent each frame 
 	CFaunaBotDescription	_FaunaDescriptionList;
-	CChangeCreatureHPMsg	_CreatureChangeHPList;
-	CChangeCreatureMaxHPMsg	_CreatureChangeMaxHPList;
+	CChangeCreatureChaScore1Msg	_CreatureChangeChaScore1List;
+	CChangeCreatureMaxChaScore1Msg	_CreatureChangeMaxChaScore1List;
 
 	/// The emot identifiers
 	std::map<std::string, uint32>	_EmotNames;

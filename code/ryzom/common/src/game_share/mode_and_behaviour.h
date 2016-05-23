@@ -235,7 +235,7 @@ namespace MBEHAV
 		CAST_ELEC,
 		CAST_FEAR,
 		CAST_FIRE,
-		CAST_HEALHP,
+		CAST_HEALChaScore1,
 		CAST_MAD,
 		CAST_POISON,
 		CAST_ROOT,
@@ -286,17 +286,7 @@ namespace MBEHAV
 	EMOTE_BEGIN,						// 46
 	EMOTE_END = EMOTE_BEGIN+150,
 
-		//--------- JUGGLE ----------//
-		JUGGLE,
-		
-				//--------- DANSE ----------//,
-		DANSE,
-		
-				//--------- PAINT ----------//
-		PAINT_INIT,
-		PAINT_LOOP,
-		PAINT_END,
-		
+
 		// IMPORTANT : IF YOU MODIFY THIS ENUM DO NOT FORGET TO CHANGE stringToBehaviour() TOO
 	NUMBER_OF_BEHAVIOURS
 	};
@@ -460,17 +450,17 @@ namespace MBEHAV
 
 		TBehaviour8	Behaviour;
 
-		sint16		DeltaHP;
+		sint16		DeltaChaScore1;
 		uint16		Unused; /// Keep it, used to make the class size = 64 bits (sizeof(CBehaviour) MUST return 8 (bytes))
 
-		inline CBehaviour() : Data(0), Data2(0), Behaviour(UNKNOWN_BEHAVIOUR), DeltaHP(0), Unused(0) {}
+		inline CBehaviour() : Data(0), Data2(0), Behaviour(UNKNOWN_BEHAVIOUR), DeltaChaScore1(0), Unused(0) {}
 
 		inline CBehaviour( EBehaviour behaviour )
 		{
 			Unused = 0;
 			Data = 0;
 			Data2 = 0;
-			DeltaHP = 0;
+			DeltaChaScore1 = 0;
 			Behaviour = behaviour;
 		}
 
@@ -479,7 +469,7 @@ namespace MBEHAV
 			Unused = 0;
 			Data = data1;
 			Data2 = data2;
-			DeltaHP = 0;
+			DeltaChaScore1 = 0;
 			Behaviour = behaviour;
 		}
 
@@ -495,19 +485,19 @@ namespace MBEHAV
 			/* Problem: Olivier use a (sint64*) cast on a CBehaviour*, so this operator isn't called ! :'( */
 			/* must use Member declaration order to match 'brutal' cast             */
 			/************************************************************************/
-			//return (((uint64)(DeltaHP)) << 32) + (((uint64)(Data2)) << 24) + (((uint64)(Data)) << 8) + Behaviour;
-			return (((uint64)(DeltaHP)) << 32) + (((uint64)(Behaviour)) << 24) + (((uint64)(Data2)) << 16) + Data;
+			//return (((uint64)(DeltaChaScore1)) << 32) + (((uint64)(Data2)) << 24) + (((uint64)(Data)) << 8) + Behaviour;
+			return (((uint64)(DeltaChaScore1)) << 32) + (((uint64)(Behaviour)) << 24) + (((uint64)(Data2)) << 16) + Data;
 		}
 
 		inline CBehaviour& operator= ( uint64 raw )
 		{
 			/*
-			DeltaHP = (sint16)(raw >> 32) ;
+			DeltaChaScore1 = (sint16)(raw >> 32) ;
 			Data2 = (uint8)(raw >> 24) ;
 			Data = (uint16)(raw >> 8) ;
 			Behaviour = TBehaviour8( (EBehaviour)(raw & 0xFF) );
 			*/
-			DeltaHP = (sint16)(raw >> 32) ;
+			DeltaChaScore1 = (sint16)(raw >> 32) ;
 			Behaviour = TBehaviour8( (EBehaviour)((raw >> 24)& 0xFF) );
 			Data2 = uint8((raw >> 16) & 0xff);
 			Data = uint16(raw & 0xffff);
@@ -516,7 +506,7 @@ namespace MBEHAV
 
 		inline CBehaviour& operator= ( EBehaviour behaviour )
 		{
-			DeltaHP = 0;
+			DeltaChaScore1 = 0;
 			Data = 0;
 			Data2 = 0;
 			Behaviour = behaviour;
@@ -524,13 +514,13 @@ namespace MBEHAV
 		}
 
 		inline CBehaviour&  operator = ( const CBehaviour& p )
-		{ DeltaHP = p.DeltaHP; Behaviour = p.Behaviour; Data = p.Data; Data2 = p.Data2; return *this; }
+		{ DeltaChaScore1 = p.DeltaChaScore1; Behaviour = p.Behaviour; Data = p.Data; Data2 = p.Data2; return *this; }
 
 		inline bool operator == ( const CBehaviour& p ) const
-		{ return (DeltaHP == p.DeltaHP && Behaviour == (EBehaviour)p.Behaviour && Data == p.Data && Data2 == p.Data2); }
+		{ return (DeltaChaScore1 == p.DeltaChaScore1 && Behaviour == (EBehaviour)p.Behaviour && Data == p.Data && Data2 == p.Data2); }
 
 		inline bool operator != ( const CBehaviour& p ) const
-		{ return (Behaviour != (EBehaviour)p.Behaviour || Data != p.Data || Data2 != p.Data2 || DeltaHP != p.DeltaHP); }
+		{ return (Behaviour != (EBehaviour)p.Behaviour || Data != p.Data || Data2 != p.Data2 || DeltaChaScore1 != p.DeltaChaScore1); }
 
 		inline void serial (NLMISC::IStream &f) throw (NLMISC::EStream)
 		{
@@ -551,7 +541,7 @@ namespace MBEHAV
 		/// methode toString()
 		inline std::string toString() const
 		{
-			std::string text = behaviourToString( Behaviour ) + " " + NLMISC::toString(Data) + " "+NLMISC::toString(Data2)+" "+ NLMISC::toString(DeltaHP);
+			std::string text = behaviourToString( Behaviour ) + " " + NLMISC::toString(Data) + " "+NLMISC::toString(Data2)+" "+ NLMISC::toString(DeltaChaScore1);
 			return text;
 		}
 

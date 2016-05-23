@@ -54,8 +54,8 @@ CHarvestPhrase::CHarvestPhrase()
 	_SabrinaRelativeCost = 1.0f;
 	_SabrinaCredit = 0;
 	_SabrinaRelativeCredit = 1.0f;
-	_StaminaCost = 0;
-	_HPCost = 0;
+	_ChaScore2Cost = 0;
+	_ChaScore1Cost = 0;
 	//_HarvestTime = 25; // 2.5s for DEBUG ONLY
 	_HarvestTime = 0; 
 	_IsStatic = true;
@@ -122,13 +122,13 @@ bool CHarvestPhrase::build( const TDataSetRow & actorRowId, const std::vector< c
 
 				switch(brick.Params[i]->id())
 				{	
-					case TBrickParam::SAP:
+					case TBrickParam::ChaScore3:
 						return false;
-					case TBrickParam::HP:
-						_HPCost += ((CSBrickParamHp *)param)->Hp;
+					case TBrickParam::ChaScore1:
+						_ChaScore1Cost += ((CSBrickParamChaScore1 *)param)->ChaScore1;
 						break;
-					case TBrickParam::STA:
-						_StaminaCost += ((CSBrickParamSta *)param)->Sta;
+					case TBrickParam::ChaScore2:
+						_ChaScore2Cost += ((CSBrickParamChaScore2 *)param)->ChaScore2;
 						break;
 					default:
 						// unused param ?
@@ -185,21 +185,21 @@ bool CHarvestPhrase::validate()
 		return false;
 	}
 
-	const sint32 hp = player->currentHp();
-	if ( hp < _HPCost  )
+	const sint32 ChaScore1 = player->currentChaScore1();
+	if ( ChaScore1 < _ChaScore1Cost  )
 	{
 		///\todo david : send message
 		_BeingProcessed = false;
 		return false;
 	}
-	const sint32 sta = player->getScores()._PhysicalScores[ SCORES::stamina ].Current;
-	if ( sta < _StaminaCost  )
+	const sint32 ChaScore2 = player->getScores()._PhysicalScores[ SCORES::cha_score2 ].Current;
+	if ( ChaScore2 < _ChaScore2Cost  )
 	{
 		///\todo david : send message
 		_BeingProcessed = false;
 		return false;
 	}
-	if (hp <= 0	|| player->isDead())
+	if (ChaScore1 <= 0	|| player->isDead())
 	{
 		///\todo david : send message
 		_BeingProcessed = false;
@@ -337,20 +337,20 @@ void CHarvestPhrase::apply()
 		nlwarning("<CHarvestPhrase::apply> Invalid entity Id %s", TheDataset.getEntityId(_ActorRowId).toString().c_str() );		
 		return;
 	}
-	SCharacteristicsAndScores &sta = entity->getScores()._PhysicalScores[SCORES::stamina];
-	if ( sta.Current != 0)
+	SCharacteristicsAndScores &ChaScore2 = entity->getScores()._PhysicalScores[SCORES::cha_score2];
+	if ( ChaScore2.Current != 0)
 	{
-		sta.Current = sta.Current - _StaminaCost;
-		if (sta.Current < 0)
-			sta.Current = 0;
+		ChaScore2.Current = ChaScore2.Current - _ChaScore2Cost;
+		if (ChaScore2.Current < 0)
+			ChaScore2.Current = 0;
 	}
 
-	SCharacteristicsAndScores &hp = entity->getScores()._PhysicalScores[SCORES::hit_points];
-	if ( hp.Current != 0)
+	SCharacteristicsAndScores &ChaScore1 = entity->getScores()._PhysicalScores[SCORES::cha_score1];
+	if ( ChaScore1.Current != 0)
 	{
-		hp.Current = hp.Current - _HPCost;
-		if (hp.Current < 0)
-			hp.Current = 0;
+		ChaScore1.Current = ChaScore1.Current - _ChaScore1Cost;
+		if (ChaScore1.Current < 0)
+			ChaScore1.Current = 0;
 	}
 }//CHarvestPhrase apply
 

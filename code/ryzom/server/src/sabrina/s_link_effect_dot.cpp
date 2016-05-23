@@ -59,9 +59,9 @@ bool CSLinkEffectDot::update(uint32 & updateFlag)
 	
 
 	
-	sint32 realDmg = sint32( _DmgHp * mult );
+	sint32 realDmg = sint32( _DmgChaScore1 * mult );
 	realDmg = target->applyDamageOnArmor( _DmgType, realDmg );
-	if ( target->changeCurrentHp( - realDmg ) )
+	if ( target->changeCurrentChaScore1( - realDmg ) )
 	{
 		// send mission event
 		if ( caster->getId().getType() == RYZOMID::player )
@@ -69,27 +69,27 @@ bool CSLinkEffectDot::update(uint32 & updateFlag)
 			CMissionEventKill event ( target->getEntityRowId() );
 			((CCharacter*) caster)->processMissionEvent( event );
 		}
-		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster, target, realDmg ,SCORES::hit_points , ACTNATURE::OFFENSIVE);
+		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster, target, realDmg ,SCORES::cha_score1 , ACTNATURE::OFFENSIVE);
 	}
 
 	{
-		RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::sap];
-		realDmg = sint32( _DmgSap * mult );
+		RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score3];
+		realDmg = sint32( _DmgChaScore3 * mult );
 		realDmg = target->applyDamageOnArmor( _DmgType, realDmg );
 		score.Current = score.Current - realDmg;
 		if ( score.Current <= 0)
 			score.Current = 0;
-		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster, target, realDmg ,SCORES::sap , ACTNATURE::OFFENSIVE);
+		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster, target, realDmg ,SCORES::cha_score3 , ACTNATURE::OFFENSIVE);
 	}
 
 	{
-		RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::stamina];
-		realDmg = sint32( _DmgSta * mult );
+		RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score2];
+		realDmg = sint32( _DmgChaScore2 * mult );
 		realDmg = target->applyDamageOnArmor( _DmgType, realDmg );
 		score.Current = score.Current - realDmg;
 		if ( score.Current <= 0)
 			score.Current = 0;
-		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster, target, realDmg ,SCORES::stamina , ACTNATURE::OFFENSIVE);
+		PHRASE_UTILITIES::sendScoreModifierSpellMessage( caster, target, realDmg ,SCORES::cha_score2 , ACTNATURE::OFFENSIVE);
 	}
 	
 	updateFlag |= _Family;

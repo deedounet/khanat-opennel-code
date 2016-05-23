@@ -422,11 +422,11 @@ void			CSBrickManager::compileBrickProperties()
 	}
 
 	// Get usual PropIds
-	HpPropId= getBrickPropId("hp");
-	SapPropId= getBrickPropId("sap");
-	StaPropId= getBrickPropId("sta");
-	StaWeightFactorId = getBrickPropId("sta_weight_factor");
-	FocusPropId= getBrickPropId("focus");
+	ChaScore1PropId= getBrickPropId("ChaScore1");
+	ChaScore3PropId= getBrickPropId("ChaScore3");
+	ChaScore2PropId= getBrickPropId("ChaScore2");
+	ChaScore2WeightFactorId = getBrickPropId("ChaScore2_weight_factor");
+	ChaScore4PropId= getBrickPropId("ChaScore4");
 	CastTimePropId= getBrickPropId("ma_casting_time");
 	RangePropId= getBrickPropId("ma_range");
 

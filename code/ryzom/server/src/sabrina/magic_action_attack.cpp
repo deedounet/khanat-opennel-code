@@ -39,7 +39,7 @@ class CMagicActionBasicDamage : public IMagicAction
 {
 public:
 	CMagicActionBasicDamage()
-		:_DmgHp(0),_DmgSap(0),_DmgSta(0),_DmgType(DMGTYPE::UNDEFINED){}
+		:_DmgChaScore1(0),_DmgChaScore3(0),_DmgChaScore2(0),_DmgType(DMGTYPE::UNDEFINED){}
 protected:
 	virtual bool addBrick( const CStaticBrick & brick, CMagicPhrase * phrase, bool &effectEnd )
 	{
@@ -63,10 +63,10 @@ protected:
 				break;
 
 			case TBrickParam::MA_DMG:
-				INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)brick.Params[i])->Hp,((CSBrickParamMagicDmg *)brick.Params[i])->Sap,((CSBrickParamMagicDmg *)brick.Params[i])->Sta);
-				_DmgHp = ((CSBrickParamMagicDmg *)brick.Params[i])->Hp;
-				_DmgSap = ((CSBrickParamMagicDmg *)brick.Params[i])->Sap;
-				_DmgSta = ((CSBrickParamMagicDmg *)brick.Params[i])->Sta;
+				INFOLOG("MA_DMG: %u %u %u",((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore1,((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore3,((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore1);
+				_DmgChaScore1 = ((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore1;
+				_DmgChaScore3 = ((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore3;
+				_DmgChaScore2 = ((CSBrickParamMagicDmg *)brick.Params[i])->ChaScore2;
 				break;
 				
 			default:
@@ -153,9 +153,9 @@ protected:
 					if ( effect )
 						mult *=  ( effect->getParamValue() / 100.0f );
 
-					sint32 realDmgHp =  sint32 ( _DmgHp * mult );
-					realDmgHp = sint32( target->applyDamageOnArmor( _DmgType, realDmgHp ) );
-					if ( target->changeCurrentHp( - realDmgHp ) )
+					sint32 realDmgChaScore1 =  sint32 ( _DmgChaScore1 * mult );
+					realDmgChaScore1 = sint32( target->applyDamageOnArmor( _DmgType, realDmgChaScore1 ) );
+					if ( target->changeCurrentChaScore1( - realDmgChaScore1 ) )
 					{
 						// send mission event
 						if ( actor->getId().getType()== RYZOMID::player )
@@ -164,72 +164,72 @@ protected:
 							((CCharacter*) actor)->processMissionEvent( event );
 						}
 					}
-					if ( target->getScores()._PhysicalScores[SCORES::hit_points].Current <= 0)
+					if ( target->getScores()._PhysicalScores[SCORES::cha_score1].Current <= 0)
 					{
-						target->getScores()._PhysicalScores[SCORES::hit_points].Current = 0;
+						target->getScores()._PhysicalScores[SCORES::cha_score1].Current = 0;
 						//behav.Spell.KillingBlow = 1;
 					}
-					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realDmgHp ,SCORES::hit_points , ACTNATURE::OFFENSIVE);
+					PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realDmgChaScore1 ,SCORES::cha_score1 , ACTNATURE::OFFENSIVE);
 
-					sint32 realDmgSap;
+					sint32 realDmgChaScore3;
 					{
-						RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::sap];
-						realDmgSap = sint32( _DmgSap * mult );
-						realDmgSap = target->applyDamageOnArmor( _DmgType, realDmgSap );
-						score.Current = score.Current - realDmgSap;
+						RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score3];
+						realDmgChaScore3 = sint32( _DmgChaScore3 * mult );
+						realDmgChaScore3 = target->applyDamageOnArmor( _DmgType, realDmgChaScore3 );
+						score.Current = score.Current - realDmgChaScore3;
 						if ( score.Current < 0)
 							score.Current = 0;
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realDmgSap ,SCORES::sap , ACTNATURE::OFFENSIVE);
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realDmgChaScore3 ,SCORES::cha_score3 , ACTNATURE::OFFENSIVE);
 					}
 
-					sint32 realDmgSta;
+					sint32 realDmgChaScore2;
 					{
-						RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::stamina];
-						realDmgSta =  sint32( _DmgSta * mult );
-						realDmgSta = target->applyDamageOnArmor( _DmgType, realDmgSta );
-						score.Current = score.Current - realDmgSta;
+						RY_GAME_SHARE::SCharacteristicsAndScores &score = target->getScores()._PhysicalScores[SCORES::cha_score2];
+						realDmgChaScore2 =  sint32( _DmgChaScore2 * mult );
+						realDmgChaScore2 = target->applyDamageOnArmor( _DmgType, realDmgChaScore2 );
+						score.Current = score.Current - realDmgChaScore2;
 						if ( score.Current < 0)
 							score.Current = 0;
-						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realDmgSta ,SCORES::stamina , ACTNATURE::OFFENSIVE);
+						PHRASE_UTILITIES::sendScoreModifierSpellMessage( actor, target, realDmgChaScore2 ,SCORES::cha_score2 , ACTNATURE::OFFENSIVE);
 					}
 
 					///\todo nico: real value
 					behav.Spell.SpellIntensity = 5;
 					
 					// compute aggro
-					sint32 max = target->getPhysScores()._PhysicalScores[SCORES::hit_points].Max;
+					sint32 max = target->getPhysScores()._PhysicalScores[SCORES::cha_score1].Max;
 					if (max)
 					{
-						const sint32 aggro = (-1) * sint32((100.0 * float(realDmgHp))/float(max) );
+						const sint32 aggro = (-1) * sint32((100.0 * float(realDmgChaScore1))/float(max) );
 						// update the report
 						CAiEventReport report;
 						report.AggroMul = 1.0f;
 						report.AggroAdd = aggro;
-						report.addDelta(AI_EVENT_REPORT::HitPoints, (-1)*realDmgHp);
+						report.addDelta(AI_EVENT_REPORT::ChaScore1, (-1)*realDmgChaScore1);
 						CPhraseManager::getInstance()->addAiEventReport(report);
 					}
 
-					max = target->getPhysScores()._PhysicalScores[SCORES::sap].Max;
+					max = target->getPhysScores()._PhysicalScores[SCORES::cha_score3].Max;
 					if (max)
 					{
-						const sint32 aggro = (-1) * sint32((100.0 * float(realDmgSap))/float(max) );
+						const sint32 aggro = (-1) * sint32((100.0 * float(realDmgChaScore3))/float(max) );
 						// update the report
 						CAiEventReport report;
 						report.AggroMul = 1.0f;
 						report.AggroAdd = aggro;
-						report.addDelta(AI_EVENT_REPORT::Sap, (-1)*realDmgSap);
+						report.addDelta(AI_EVENT_REPORT::ChaScore3, (-1)*realDmgChaScore3);
 						CPhraseManager::getInstance()->addAiEventReport(report);
 					}
 
-					max = target->getPhysScores()._PhysicalScores[SCORES::stamina].Max;
+					max = target->getPhysScores()._PhysicalScores[SCORES::cha_score2].Max;
 					if (max)
 					{
-						const sint32 aggro = (-1) * sint32((100.0 * float(realDmgSta))/float(max) );
+						const sint32 aggro = (-1) * sint32((100.0 * float(realDmgChaScore2))/float(max) );
 						// update the report
 						CAiEventReport report;
 						report.AggroMul = 1.0f;
 						report.AggroAdd = aggro;
-						report.addDelta(AI_EVENT_REPORT::Stamina, (-1)*realDmgSta);
+						report.addDelta(AI_EVENT_REPORT::ChaScore2, (-1)*realDmgChaScore2);
 						CPhraseManager::getInstance()->addAiEventReport(report);
 					}	
 				}
@@ -252,9 +252,9 @@ protected:
 		}
 	}
 	DMGTYPE::EDamageType	_DmgType;
-	sint32					_DmgHp;
-	sint32					_DmgSap;
-	sint32					_DmgSta;
+	sint32					_DmgChaScore1;
+	sint32					_DmgChaScore3;
+	sint32					_DmgChaScore2;
 };
 BEGIN_MAGIC_ACTION_FACTORY(CMagicActionBasicDamage)
 	ADD_MAGIC_ACTION_TYPE( "mto" )	

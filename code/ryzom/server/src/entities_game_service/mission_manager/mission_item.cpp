@@ -100,14 +100,14 @@ bool CMissionItem::buildFromScript( const std::vector<std::string> & script, std
 					else if( !nlstricmp(args[0],"MaxPiercingProtection" ) )
 						_Params.MaxPiercingProtection = (float)atof(args[1].c_str());
 					
-					else if( !nlstricmp(args[0],"HpBuff" ) )
-						NLMISC::fromString(args[1], _Params.HpBuff);
-					else if( !nlstricmp(args[0],"SapBuff" ) )
-						NLMISC::fromString(args[1], _Params.SapBuff);
-					else if( !nlstricmp(args[0],"StaBuff" ) )
-						NLMISC::fromString(args[1], _Params.StaBuff);
-					else if( !nlstricmp(args[0],"FocusBuff" ) )
-						NLMISC::fromString(args[1], _Params.FocusBuff);
+					else if( !nlstricmp(args[0],"ChaScore1Buff" ) )
+						NLMISC::fromString(args[1], _Params.ChaScore1Buff);
+					else if( !nlstricmp(args[0],"ChaScore2Buff" ) )
+						NLMISC::fromString(args[1], _Params.ChaScore2Buff);
+					else if( !nlstricmp(args[0],"ChaScore3Buff" ) )
+						NLMISC::fromString(args[1], _Params.ChaScore3Buff);
+					else if( !nlstricmp(args[0],"ChaScore4Buff" ) )
+						NLMISC::fromString(args[1], _Params.ChaScore4Buff);
 					else if( !nlstricmp(args[0],"Color" ) )
 					{
 						uint8 color;

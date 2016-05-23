@@ -84,7 +84,7 @@ public:
 	// Craft methodes
 	inline const TDataSetRow & getActor() const { return _ActorRowId;}
 	inline sint32 getSabrinaCost() const { return (sint32)(_SabrinaCost * _SabrinaRelativeCost); }
-	inline sint32 getFocusCost() const { return _FocusCost; }
+	inline sint32 getChaScore4Cost() const { return _ChaScore4Cost; }
 	inline const CStaticItem *  getCraftedItemStaticForm() const { return _CraftedItemStaticForm; }
 	inline const CStaticBrick * getRootFaberPlan() const { return _RootFaberPlan; }
 	inline const std::vector< const CStaticItem * > & getMps() const { return _Mps; }
@@ -105,10 +105,10 @@ public:
 	inline float getMBOSapLoad() const { return _MBOSapLoad; }
 
 	// energy buff on item
-	inline sint32 getMBOHitPoint() { return _MBOHitPoint; }
-	inline sint32 getMBOSap() { return _MBOSap; }
-	inline sint32 getMBOStamina() { return _MBOStamina; }
-	inline sint32 getMBOFocus() { return _MBOFocus; }
+	inline sint32 getMBOChaScore1() { return _MBOChaScore1; }
+	inline sint32 getMBOChaScore2() { return _MBOChaScore2; }
+	inline sint32 getMBOChaScore3() { return _MBOChaScore3; }
+	inline sint32 getMBOChaScore4() { return _MBOChaScore4; }
 
 	// bonus for magic casting with item
 	inline float getMBOElementalCastingTimeFactor() const { return _MBOElementalCastingTimeFactor; }
@@ -135,8 +135,8 @@ private:
 	sint32						_SabrinaCost;
 	/// Relative cost must be added to total cost
 	float						_SabrinaRelativeCost;
-	/// focus cost of the faber action
-	sint32						_FocusCost;
+	/// ChaScore4 cost of the faber action
+	sint32						_ChaScore4Cost;
 	/// faber time in ticks
 	NLMISC::TGameCycle			_FaberTime;
 
@@ -162,10 +162,10 @@ private:
 	float						_MBOSapLoad;
 
 	// energy buff on item
-	sint32						_MBOHitPoint;
-	sint32						_MBOSap;
-	sint32						_MBOStamina;
-	sint32						_MBOFocus;
+	sint32						_MBOChaScore1;
+	sint32						_MBOChaScore2;
+	sint32						_MBOChaScore3;
+	sint32						_MBOChaScore4;
 
 	// bonus for magic casting with item
 	float						_MBOElementalCastingTimeFactor;

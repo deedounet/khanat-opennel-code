@@ -72,18 +72,18 @@ public:
 };
 
 /**
- * Implementation of the set Max HP message for creatures
+ * Implementation of the set Max ChaScore1 message for creatures
  */
-class CChangeCreatureMaxHPImp : public CChangeCreatureMaxHPMsg
+class CChangeCreatureMaxChaScore1Imp : public CChangeCreatureMaxChaScore1Msg
 {
 public:
 	virtual void callback (const std::string &name, NLNET::TServiceId id);
 };
 
 /**
- * Implementation of the change HP message for creatures
+ * Implementation of the change ChaScore1 message for creatures
  */
-class CChangeCreatureHPImp : public CChangeCreatureHPMsg
+class CChangeCreatureChaScore1Imp : public CChangeCreatureChaScore1Msg
 {
 public:
 	virtual void callback (const std::string &name, NLNET::TServiceId id);

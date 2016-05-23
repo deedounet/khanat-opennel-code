@@ -341,12 +341,12 @@ static void prepareCharacterPositionForStore ( COfflineEntityState & state, cons
 				PositionStack.topToModify() = farPosToSave;\
 		}\
 	} \
-	sint32 hp = _PhysScores._PhysicalScores[SCORES::hit_points].Current;\
-	if (IsRingShard) { const_cast<CCharacter*>(this)->_PhysScores._PhysicalScores[SCORES::hit_points].Current = std::max(hp,sint32(1)); }\
-	if (!IsRingShard) { const_cast<CCharacter*>(this)->_HPB = _PhysScores._PhysicalScores[SCORES::hit_points].Current; }\
+	sint32 ChaScore1 = _PhysScores._PhysicalScores[SCORES::cha_score1].Current;\
+	if (IsRingShard) { const_cast<CCharacter*>(this)->_PhysScores._PhysicalScores[SCORES::cha_score1].Current = std::max(ChaScore1,sint32(1)); }\
+	if (!IsRingShard) { const_cast<CCharacter*>(this)->_ChaScore1B = _PhysScores._PhysicalScores[SCORES::cha_score1].Current; }\
 
 #define PERSISTENT_POST_STORE\
-	if (IsRingShard) { const_cast<CCharacter*>(this)->_PhysScores._PhysicalScores[SCORES::hit_points].Current = hp; }\
+	if (IsRingShard) { const_cast<CCharacter*>(this)->_PhysScores._PhysicalScores[SCORES::cha_score1].Current = ChaScore1; }\
 
 
 // Sidenote:
@@ -369,7 +369,7 @@ static void prepareCharacterPositionForStore ( COfflineEntityState & state, cons
 	H_AUTO(CCharacterApply);\
 	uint32 version=~0u;\
 	prepareToLoad();\
-	_HPB= 0x12345678; \
+	_ChaScore1B= 0x12345678; \
 
 #define PERSISTENT_POST_APPLY\
 	if (version!=~0u)\
@@ -389,7 +389,7 @@ static void prepareCharacterPositionForStore ( COfflineEntityState & state, cons
 	}\
 	\
 	postLoadTreatment();\
-	if(!IsRingShard && _HPB!=0x12345678) { _PhysScores._PhysicalScores[SCORES::hit_points].Current = _HPB; }\
+	if(!IsRingShard && _ChaScore1B!=0x12345678) { _PhysScores._PhysicalScores[SCORES::cha_score1].Current = _ChaScore1B; }\
 
 #define PERSISTENT_DATA\
 	FLAG(CLEAR,clear())\
@@ -405,8 +405,8 @@ static void prepareCharacterPositionForStore ( COfflineEntityState & state, cons
 	PROP(uint8,	_HandsColor)\
 	PROP(uint64,_Money)\
 \
-	/* property for backup character HP independently of what happened in ring session*/\
-	PROP(sint32,_HPB)\
+	/* property for backup character ChaScore1 independently of what happened in ring session*/\
+	PROP(sint32,_ChaScore1B)\
 \
 	LPROP_MAP2(FactionPoints, string, uint32,\
 	for(uint32 i = 0; i < (PVP_CLAN::EndClans-PVP_CLAN::BeginClans+1); ++i),\
@@ -1336,7 +1336,7 @@ private:
 /*	PROP2(_LocSlot,						uint32,		_InventorySlot,				_InventorySlot=val)*/\
 	PROP2(_LocSlot,						uint32,		_InventorySlot,				applyArgs.InventorySlot=val)\
 	/*PROP2(_ClientInventoryPosition,	sint16,		_ClientInventoryPosition,	_ClientInventoryPosition=val)*/\
-	PROP2(_HP,							uint32,		_HP,						_HP=val)\
+	PROP2(_HP,							uint32,		_HP,						_HP=val)	\
 	PROP2(_Recommended,					uint32,		_Recommended,				_Recommended=val)\
 	PROP2(_CreatorId,					CEntityId,	_CreatorId,					_CreatorId=val)\
 	PROP2(_PhraseId,					string,		_PhraseId,					_PhraseId=val)\
@@ -1399,10 +1399,10 @@ private:
 	LPROP(float,MaxBluntProtection,if (MaxBluntProtection!=0.0f))\
 	LPROP(float,MaxPiercingProtection,if (MaxPiercingProtection!=0.0f))\
 	LPROP(uint8,Color,if (Color!=1))\
-	LPROP(sint32,HpBuff,if (HpBuff!=0))\
-	LPROP(sint32,SapBuff,if (SapBuff!=0))\
-	LPROP(sint32,StaBuff,if (StaBuff!=0))\
-	LPROP(sint32,FocusBuff,if (FocusBuff!=0))\
+	LPROP(sint32,ChaScore1Buff,if (ChaScore1Buff!=0))\
+	LPROP(sint32,ChaScore3Buff,if (ChaScore3Buff!=0))\
+	LPROP(sint32,ChaScore2Buff,if (ChaScore2Buff!=0))\
+	LPROP(sint32,ChaScore4Buff,if (ChaScore4Buff!=0))				\
 	LPROP(float,ElementalCastingTimeFactor,if (ElementalCastingTimeFactor!=0.0f))\
 	LPROP(float,ElementalPowerFactor,if (ElementalPowerFactor!=0.0f))\
 	LPROP(float,OffensiveAfflictionCastingTimeFactor,if (OffensiveAfflictionCastingTimeFactor!=0.0f))\

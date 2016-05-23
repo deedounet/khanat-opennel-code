@@ -355,10 +355,10 @@ using namespace NLMISC;
 	PROP(float,DefensiveAfflictionCastingTimeFactor)\
 	PROP(float,DefensiveAfflictionPowerFactor)\
 	PROP(uint8,Color)\
-	PROP(sint32,HpBuff)\
-	PROP(sint32,SapBuff)\
-	PROP(sint32,StaBuff)\
-	PROP(sint32,FocusBuff)\
+	PROP(sint32,ChaScore1Buff)\
+	PROP(sint32,ChaScore3Buff)\
+	PROP(sint32,ChaScore2Buff)\
+	PROP(sint32,ChaScore4Buff)\
 	PROP(CSString,Protection)\
 
 #include "game_share/persistent_data_template.h"

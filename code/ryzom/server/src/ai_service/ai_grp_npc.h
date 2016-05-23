@@ -201,18 +201,18 @@ public:
 	AITYPES::CPropertySetWithExtraList<TAllianceId> const& friendFaction() const { return _friendFaction; }
 	
 public:
-	void addHpUpTrigger(float threshold, int eventId);
-	void delHpUpTrigger(float threshold, int eventId);
-	void addHpUpTrigger(float threshold, std::string cbFunc);
-	void delHpUpTrigger(float threshold, std::string cbFunc);
+	void addChaScore1UpTrigger(float threshold, int eventId);
+	void delChaScore1UpTrigger(float threshold, int eventId);
+	void addChaScore1UpTrigger(float threshold, std::string cbFunc);
+	void delChaScore1UpTrigger(float threshold, std::string cbFunc);
 	
-	void addHpDownTrigger(float threshold, int eventId);
-	void delHpDownTrigger(float threshold, int eventId);
-	void addHpDownTrigger(float threshold, std::string cbFunc);
-	void delHpDownTrigger(float threshold, std::string cbFunc);
+	void addChaScore1DownTrigger(float threshold, int eventId);
+	void delChaScore1DownTrigger(float threshold, int eventId);
+	void addChaScore1DownTrigger(float threshold, std::string cbFunc);
+	void delChaScore1DownTrigger(float threshold, std::string cbFunc);
 	
-	bool haveHpTriggers();
-	void hpTriggerCb(float oldVal, float newVal);
+	bool haveChaScore1Triggers();
+	void ChaScore1TriggerCb(float oldVal, float newVal);
 	
 	void addNamedEntityListener(std::string const& name, std::string const& prop, int event);
 	void delNamedEntityListener(std::string const& name, std::string const& prop, int event);
@@ -258,12 +258,12 @@ private:
 	AITYPES::CPropertySetWithExtraList<TAllianceId> _ennemyFaction;
 	AITYPES::CPropertySetWithExtraList<TAllianceId> _friendFaction;
 	
-	typedef std::multimap<float, int> THpTriggerList;
-	typedef std::multimap<float, std::string> THpTriggerList2;
-	THpTriggerList _hpUpTriggers;
-	THpTriggerList _hpDownTriggers;
-	THpTriggerList2 _hpUpTriggers2;
-	THpTriggerList2 _hpDownTriggers2;
+	typedef std::multimap<float, int> TChaScore1TriggerList;
+	typedef std::multimap<float, std::string> TChaScore1TriggerList2;
+	TChaScore1TriggerList _ChaScore1UpTriggers;
+	TChaScore1TriggerList _ChaScore1DownTriggers;
+	TChaScore1TriggerList2 _ChaScore1UpTriggers2;
+	TChaScore1TriggerList2 _ChaScore1DownTriggers2;
 	
 	typedef std::multimap<std::pair<std::string, std::string>, int> TNamedEntityListenerList;
 	TNamedEntityListenerList _namedEntityListeners;

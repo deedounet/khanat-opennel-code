@@ -309,7 +309,7 @@ void CBotProfileFlee::updateProfile(uint ticksSinceLastUpdate)
 			{
 				RYAI_MAP_CRUNCH::CWorldPosition wpos=rootCell->getWorldPosition(_Bot->getPersistent().getChildIndex()&3);
 				if	(	wpos.isValid()
-					&&	isPlaceAllowed(_DenyFlags, wpos.getFlags()))	// verify that we got some compatible flags ..
+					&&	(wpos.getFlags()&_DenyFlags)==0 )	// verify that we got some compatible flags ..
 				{
 					_LastDir=startDir;
 					_LastStartPos=_Bot->wpos();
@@ -378,12 +378,12 @@ bool CFightOrganizer::healIteration(CBot* bot, CBot* otherBot)
 		CSpawnBot* otherSpBot = otherBot->getSpawnObj();
 		if (spBot && otherSpBot && otherSpBot->isAlive())
 		{
-			float hp = otherSpBot->hpPercentage();
+			float ChaScore1 = otherSpBot->ChaScore1Percentage();
 			int neededHealers = 0;
-			if (hp<.90f) ++neededHealers;
-			if (hp<.75f) ++neededHealers;
-			if (hp<.50f) ++neededHealers;
-			if (hp<.25f) ++neededHealers;
+			if (ChaScore1<.90f) ++neededHealers;
+			if (ChaScore1<.75f) ++neededHealers;
+			if (ChaScore1<.50f) ++neededHealers;
+			if (ChaScore1<.25f) ++neededHealers;
 			if (neededHealers > otherSpBot->getHealerCount())
 			{
 				IAIProfile* profile = spBot->getAIProfile();

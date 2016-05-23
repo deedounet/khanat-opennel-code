@@ -34,9 +34,9 @@ public:
 		SCORES::TScores energyCost,
 		SKILLS::ESkills skill, 
 		uint8 power,
-		sint32 healHp, sint32 healSap, sint32 healSta)
+		sint32 healChaScore1, sint32 healChaScore3, sint32 healChaScore2)
 		:CSLinkEffect ( creatorRowId,targetRowId,EFFECT_FAMILIES::Hot,cost,energyCost,skill,0,power),
-		_HealHp(healHp),_HealSap(healSap),_HealSta(healSta)
+		_HealChaScore1(healChaScore1),_HealChaScore3(healChaScore3),_HealChaScore2(healChaScore2)
 	{
 	}
 
@@ -48,9 +48,9 @@ public:
 
 protected:
 	void applyOnScore( CEntityBase * caster, CEntityBase * target,SCORES::TScores scoreType, sint32 value );
-	sint32 _HealHp;
-	sint32 _HealSap;
-	sint32 _HealSta;
+	sint32 _HealChaScore1;
+	sint32 _HealChaScore3;
+	sint32 _HealChaScore2;
 };
 
 

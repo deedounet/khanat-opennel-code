@@ -84,7 +84,7 @@ protected:
 	}
 	virtual void apply( CMagicPhrase * phrase, float successFactor,MBEHAV::CBehaviour & behav )
 	{
-		NL_ALLOC_CONTEXT(MADSAPY);
+		NL_ALLOC_CONTEXT(MADChaScore3Y);
 		///\todo nico:
 		//		- location
 		//		- armor + shield
@@ -108,12 +108,12 @@ protected:
 			return;
 
 //		SCORES::EScores linkEnergy;
-//		if ( phrase->getSapCost() > 0 )
+//		if ( phrase->getChaScore3Cost() > 0 )
 //		{
-//			linkEnergy = SCORES::sap;
+//			linkEnergy = SCORES::cha_score3;
 //		}
 //		else
-//			linkEnergy = SCORES::hit_points;;
+//			linkEnergy = SCORES::cha_score1;;
 		for ( uint i = 0; i < targets.size(); i++ )
 		{
 			// check target
@@ -128,7 +128,7 @@ protected:
 					targets[i].getId(),
 					_UpdatePeriod,
 					_CostPerUpdate,
-					SCORES::sap,
+					SCORES::cha_score3,
 					_Skill,
 					_TargetSkill,
 					_DebuffValue  );

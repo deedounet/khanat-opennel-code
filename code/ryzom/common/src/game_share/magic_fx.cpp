@@ -153,36 +153,36 @@ namespace MAGICFX
 	}
 
 	// *************************************************************************************
-	TMagicFx healtoMagicFx(  sint32 healHp, sint32 healSap, sint32 healSta, bool link )
+	TMagicFx healtoMagicFx(  sint32 healChaScore1, sint32 healChaScore3, sint32 healChaScore2, bool link )
 	{
 		if ( !link )
 		{
-			if ( healHp > healSap )
+			if ( healChaScore1 > healChaScore3 )
 			{
-				if ( healHp > healSta )
-					return HealHP;
-				return HealSta;
+				if ( healChaScore1 > healChaScore2 )
+					return HealChaScore1;
+				return HealChaScore2;
 			}
 			else
 			{
-				if ( healSap > healSta )
-					return HealSap;
-				return HealSta;
+				if ( healChaScore3 > healChaScore2 )
+					return HealChaScore3;
+				return HealChaScore2;
 			}
 		}
 		else
 		{
-			if ( healHp > healSap )
+			if ( healChaScore1 > healChaScore3 )
 			{
-				if ( healHp > healSta )
-					return HealHP;
-				return HealSta;
+				if ( healChaScore1 > healChaScore2 )
+					return HealChaScore1;
+				return HealChaScore2;
 			}
 			else
 			{
-				if ( healSap > healSta )
-					return HealSap;
-				return HealSta;
+				if ( healChaScore3 > healChaScore2 )
+					return HealChaScore3;
+				return HealChaScore2;
 			}
 		}
 	}

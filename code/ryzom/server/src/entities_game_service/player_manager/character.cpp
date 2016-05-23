@@ -486,14 +486,14 @@ CCharacter::CCharacter():	CEntityBase(false),
 */
 	_DateOfNextAllowedAction = 0;
 
-	_OldHpBarSentToTeam = 0;
-	_OldSapBarSentToTeam = 0;
-	_OldStaBarSentToTeam = 0;
+	_OldChaScore1BarSentToTeam = 0;
+	_OldChaScore3BarSentToTeam = 0;
+	_OldChaScore2BarSentToTeam = 0;
 
-	_OldHpBarSentToPlayer = 0;
-	_OldSapBarSentToPlayer = 0;
-	_OldStaBarSentToPlayer = 0;
-	_OldFocusBarSentToPlayer = 0;
+	_OldChaScore1BarSentToPlayer = 0;
+	_OldChaScore3BarSentToPlayer = 0;
+	_OldChaScore2BarSentToPlayer = 0;
+	_OldChaScore4BarSentToPlayer = 0;
 	_BarSentToPlayerMsgNumber = 0;
 
 
@@ -1071,33 +1071,33 @@ uint32 CCharacter::tickUpdate()
 	_GameEvent->tickUpdate();
 
 	// keep old score values for reference
-	sint32 oldHp = _PhysScores._PhysicalScores[ SCORES::hit_points ].Current;
-	sint32 oldSta = _PhysScores._PhysicalScores[ SCORES::stamina].Current;
-	sint32 oldSap = _PhysScores._PhysicalScores[ SCORES::sap ].Current;
-	sint32 oldFocus = _PhysScores._PhysicalScores[ SCORES::focus].Current;
+	sint32 oldChaScore1 = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current;
+	sint32 oldChaScore2 = _PhysScores._PhysicalScores[ SCORES::cha_score2].Current;
+	sint32 oldChaScore3 = _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Current;
+	sint32 oldChaScore4 = _PhysScores._PhysicalScores[ SCORES::cha_score4].Current;
 
 	if( _GodMode || _Invulnerable )
 	{
-		if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Current <= 0 )
+		if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current <= 0 )
 		{
-			_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Base;
+			_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base;
 		}
-		if( _PhysScores._PhysicalScores[ SCORES::stamina ].Current < _PhysScores._PhysicalScores[ SCORES::stamina ].Base / 3 )
+		if( _PhysScores._PhysicalScores[ SCORES::cha_score2 ].Current < _PhysScores._PhysicalScores[ SCORES::cha_score2 ].Base / 3 )
 		{
-			_PhysScores._PhysicalScores[ SCORES::stamina ].Current = _PhysScores._PhysicalScores[ SCORES::stamina ].Base;
+			_PhysScores._PhysicalScores[ SCORES::cha_score2 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score2 ].Base;
 		}
-		if( _PhysScores._PhysicalScores[ SCORES::sap ].Current < _PhysScores._PhysicalScores[ SCORES::sap ].Base / 3 )
+		if( _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Current < _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Base / 3 )
 		{
-			_PhysScores._PhysicalScores[ SCORES::sap ].Current = _PhysScores._PhysicalScores[ SCORES::sap ].Base;
+			_PhysScores._PhysicalScores[ SCORES::cha_score3 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Base;
 		}
-		if( _PhysScores._PhysicalScores[ SCORES::focus ].Current < _PhysScores._PhysicalScores[ SCORES::focus ].Base / 3 )
+		if( _PhysScores._PhysicalScores[ SCORES::cha_score4 ].Current < _PhysScores._PhysicalScores[ SCORES::cha_score4 ].Base / 3 )
 		{
-			_PhysScores._PhysicalScores[ SCORES::focus ].Current = _PhysScores._PhysicalScores[ SCORES::focus ].Base;
+			_PhysScores._PhysicalScores[ SCORES::cha_score4 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score4 ].Base;
 		}
 	}
 
 	// Check Death of player and manage pact if death occurs
-	if( currentHp() <= 0 && !_IsDead && !teleportInProgress() )
+	if( currentChaScore1() <= 0 && !_IsDead && !teleportInProgress() )
 	{
 		kill();
 		if( !checkCharacterStillValide("<CCharacter::tickUpdate> Character corrupted : after kill() !!!") )
@@ -1152,7 +1152,7 @@ uint32 CCharacter::tickUpdate()
 
 	{
 		H_AUTO(CharacterClearDeadTargetInfo);
-		// set TARGET HP, SAP and STAMINA in the database
+		// set TARGET ChaScore1, ChaScore3 and ChaScore2 in the database
 		CEntityBase * target;
 		if ( _Target.isReadable() )
 		{
@@ -1169,19 +1169,19 @@ uint32 CCharacter::tickUpdate()
 							setTarget( CEntityId::Unknown );
 						}
 						// clear DB Bars
-//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, 0 );
-						CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, 0 );
-//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.SAP, 0 );
-						CBankAccessor_PLR::getTARGET().getBARS().setSAP(_PropertyDatabase, 0 );
-//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.STA, 0 );
-						CBankAccessor_PLR::getTARGET().getBARS().setSTA(_PropertyDatabase, 0 );
-//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.FOCUS, 0 );
-						CBankAccessor_PLR::getTARGET().getBARS().setFOCUS(_PropertyDatabase, 0 );
+//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, 0 );
+						CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, 0 );
+//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore3, 0 );
+						CBankAccessor_PLR::getTARGET().getBARS().setChaScore3(_PropertyDatabase, 0 );
+//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore2, 0 );
+						CBankAccessor_PLR::getTARGET().getBARS().setChaScore2(_PropertyDatabase, 0 );
+//						_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore4, 0 );
+						CBankAccessor_PLR::getTARGET().getBARS().setChaScore4(_PropertyDatabase, 0 );
 					}
 				}
 			}
 		}
-		if( !checkCharacterStillValide("<CCharacter::tickUpdate> Character corrupted : after update dead target (clear HP/STA/SAP) !!!") )
+		if( !checkCharacterStillValide("<CCharacter::tickUpdate> Character corrupted : after update dead target (clear ChaScore1/ChaScore2/ChaScore3) !!!") )
 			return (uint32)-1;
 	}
 
@@ -1195,57 +1195,57 @@ uint32 CCharacter::tickUpdate()
 //			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.UID, target->getEntityRowId().getCompressedIndex() );
 			CBankAccessor_PLR::getTARGET().getBARS().setUID(_PropertyDatabase, target->getEntityRowId().getCompressedIndex() );
 
-			// Hp
-			if( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max <= 0 )
+			// ChaScore1
+			if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max <= 0 )
 			{
 				percent = 0;
 			}
 			else
 			{
-				percent = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max ) );
+				percent = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max ) );
 			}
-//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, percent );
-			CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, percent );
+//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, percent );
+			CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, percent );
 
-			// Sap
-			if( target->getPhysScores()._PhysicalScores[ SCORES::sap ].Max <= 0 )
+			// ChaScore3
+			if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max <= 0 )
 			{
 				percent = 0;
 			}
 			else
 			{
-				percent = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::sap ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::sap ].Max ) );
+				percent = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max ) );
 			}
-//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.SAP, percent );
-			CBankAccessor_PLR::getTARGET().getBARS().setSAP(_PropertyDatabase, percent );
+//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore3, percent );
+			CBankAccessor_PLR::getTARGET().getBARS().setChaScore3(_PropertyDatabase, percent );
 
-			// Stamina
-			if( target->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max <= 0 )
+			// ChaScore2
+			if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max <= 0 )
 			{
 				percent = 0;
 			}
 			else
 			{
-				percent = sint8((127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::stamina ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max ) );
+				percent = sint8((127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max ) );
 			}
-//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.STA, percent );
-			CBankAccessor_PLR::getTARGET().getBARS().setSTA(_PropertyDatabase, percent );
+//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore2, percent );
+			CBankAccessor_PLR::getTARGET().getBARS().setChaScore2(_PropertyDatabase, percent );
 
-			// Focus
-			if( target->getPhysScores()._PhysicalScores[ SCORES::focus ].Max <= 0 )
+			// ChaScore4
+			if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score4 ].Max <= 0 )
 			{
 				percent = 0;
 			}
 			else
 			{
-				sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::focus ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::focus ].Max ) );
+				sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score4 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score4 ].Max ) );
 				if( percentTmp < 0 )
 					percent = 0;
 				else
 					percent = percentTmp;
 			}
-//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.FOCUS, percent );
-			CBankAccessor_PLR::getTARGET().getBARS().setFOCUS(_PropertyDatabase, percent );
+//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore4, percent );
+			CBankAccessor_PLR::getTARGET().getBARS().setChaScore4(_PropertyDatabase, percent );
 
 			// Set the level of the target (if player character) in database for ForceRegion/ForceLevel deduction
 			if ( target->getId().getType() == RYZOMID::player )
@@ -1256,7 +1256,7 @@ uint32 CCharacter::tickUpdate()
 				CBankAccessor_PLR::getTARGET().getBARS().setPLAYER_LEVEL(_PropertyDatabase, checkedCast<uint8>(skillBaseValue) );
 			}
 
-			if( !checkCharacterStillValide("<CCharacter::tickUpdate> Character corrupted : after update target HP/STA/SAP !!!") )
+			if( !checkCharacterStillValide("<CCharacter::tickUpdate> Character corrupted : after update target ChaScore1/ChaScore2/ChaScore3 !!!") )
 				return (uint32)-1;
 		}
 	}
@@ -1278,22 +1278,22 @@ uint32 CCharacter::tickUpdate()
 			if (team)
 			{
 				uint8 bar = uint8((_StatusBars & (0x000007ff)) >> 3);
-				if (_OldHpBarSentToTeam != bar)
+				if (_OldChaScore1BarSentToTeam != bar)
 				{
-					team->updateCharacterScore(this, SCORES::hit_points, bar);
-					_OldHpBarSentToTeam = bar;
+					team->updateCharacterScore(this, SCORES::cha_score1, bar);
+					_OldChaScore1BarSentToTeam = bar;
 				}
 				bar = uint8( (_StatusBars & (0x0003f800)) >> 11);
-				if (_OldStaBarSentToTeam != bar)
+				if (_OldChaScore2BarSentToTeam != bar)
 				{
-					team->updateCharacterScore(this, SCORES::stamina, bar);
-					_OldStaBarSentToTeam = bar;
+					team->updateCharacterScore(this, SCORES::cha_score2, bar);
+					_OldChaScore2BarSentToTeam = bar;
 				}
 				bar = uint8( (_StatusBars & (0x1fc0000)) >> 18);
-				if (_OldSapBarSentToTeam != bar)
+				if (_OldChaScore3BarSentToTeam != bar)
 				{
-					team->updateCharacterScore(this, SCORES::sap, bar);
-					_OldSapBarSentToTeam = bar;
+					team->updateCharacterScore(this, SCORES::cha_score3, bar);
+					_OldChaScore3BarSentToTeam = bar;
 				}
 				if( !checkCharacterStillValide("<CCharacter::tickUpdate> Character corrupted : after update team bars !!!") )
 					return (uint32)-1;
@@ -1527,10 +1527,10 @@ uint32 CCharacter::tickUpdate()
 	}
 
 	uint32 nextUpdate = 16;
-	if( oldHp != _PhysScores._PhysicalScores[ SCORES::hit_points ].Current ||
-		oldSta != _PhysScores._PhysicalScores[ SCORES::stamina].Current ||
-		oldSap != _PhysScores._PhysicalScores[ SCORES::sap ].Current ||
-		oldFocus != _PhysScores._PhysicalScores[ SCORES::focus].Current )
+	if( oldChaScore1 != _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current ||
+		oldChaScore2 != _PhysScores._PhysicalScores[ SCORES::cha_score2].Current ||
+		oldChaScore3 != _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Current ||
+		oldChaScore4 != _PhysScores._PhysicalScores[ SCORES::cha_score4].Current )
 	{
 		nextUpdate = 8;
 	}
@@ -1602,7 +1602,7 @@ void CCharacter::kill(TDataSetRow killerRowId)
 	removeAllSpells();
 	_ForbidPowerDates.clearConsumable();
 
-	_PhysScores._PhysicalScores[SCORES::hit_points].Current = -_PhysScores._PhysicalScores[SCORES::hit_points].Max / 2;
+	_PhysScores._PhysicalScores[SCORES::cha_score1].Current = -_PhysScores._PhysicalScores[SCORES::cha_score1].Max / 2;
 	setBars();
 
 	_TimeDeath = CTickEventHandler::getGameTime() + 5.0;
@@ -1720,7 +1720,7 @@ void CCharacter::deathOccurs( void )
 {
 	H_AUTO(DeathOccursCharacter);
 
-	if( currentHp() > 0 )
+	if( currentChaScore1() > 0 )
 	{
 		resurrected();
 		return;
@@ -1769,7 +1769,7 @@ void CCharacter::deathOccurs( void )
 		// negative regen giving healing times for resurrect character
 		for( uint32 i = 0; i < SCORES::NUM_SCORES; ++i )
 		{
-			if( i == SCORES::hit_points )
+			if( i == SCORES::cha_score1 )
 			{
 				float currentRegen = - _PhysScores._PhysicalScores[ i ].Max / (CommaDelayBeforeDeath * 0.2f );
 				_PhysScores._PhysicalScores[ i ].CurrentRegenerate = currentRegen;
@@ -1787,7 +1787,7 @@ void CCharacter::deathOccurs( void )
 	for( uint32 i = 0; i < SCORES::NUM_SCORES; ++i )
 	{
 		sint32 oldCurrent = _PhysScores._PhysicalScores[ i ].Current;
-		if( i == SCORES::hit_points )
+		if( i == SCORES::cha_score1 )
 		{
 			if( _PhysScores._PhysicalScores[ i ].Current > - _PhysScores._PhysicalScores[ i ].Max )
 			{
@@ -1905,10 +1905,10 @@ void CCharacter::applyRespawnEffects()
 		_DeathPenalties->addDeath(*this, _NextDeathPenaltyFactor);
 	resetNextDeathPenaltyFactor();
 
-	_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Base / 10;
-	_PhysScores._PhysicalScores[ SCORES::stamina ].Current = _PhysScores._PhysicalScores[ SCORES::stamina ].Base / 10;
-	_PhysScores._PhysicalScores[ SCORES::sap ].Current = _PhysScores._PhysicalScores[ SCORES::sap ].Base / 10;
-	_PhysScores._PhysicalScores[ SCORES::focus ].Current = _PhysScores._PhysicalScores[ SCORES::focus ].Base / 10;
+	_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base / 10;
+	_PhysScores._PhysicalScores[ SCORES::cha_score2 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score2 ].Base / 10;
+	_PhysScores._PhysicalScores[ SCORES::cha_score3 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Base / 10;
+	_PhysScores._PhysicalScores[ SCORES::cha_score4 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score4 ].Base / 10;
 	_Mode = MBEHAV::NORMAL;
 	_Behaviour = MBEHAV::IDLE;
 	_IsDead = false;
@@ -1948,10 +1948,10 @@ void CCharacter::revive()
 	_IsInAComa = false;
 	_RegionKilledInPvp = 0xffff;
 
-	_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Base;
-	_PhysScores._PhysicalScores[ SCORES::stamina ].Current = _PhysScores._PhysicalScores[ SCORES::stamina ].Base;
-	_PhysScores._PhysicalScores[ SCORES::sap ].Current = _PhysScores._PhysicalScores[ SCORES::sap ].Base;
-	_PhysScores._PhysicalScores[ SCORES::focus ].Current = _PhysScores._PhysicalScores[ SCORES::focus ].Base;
+	_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base;
+	_PhysScores._PhysicalScores[ SCORES::cha_score2 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score2 ].Base;
+	_PhysScores._PhysicalScores[ SCORES::cha_score3 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Base;
+	_PhysScores._PhysicalScores[ SCORES::cha_score4 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score4 ].Base;
 }
 
 //---------------------------------------------------
@@ -2274,24 +2274,24 @@ void CCharacter::computeMaxValue()
 		}
 		switch( i )
 		{
-			case SCORES::hit_points:
-				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::constitution ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::metabolism ].Current / RegenDivisor;// + _PhysScores._PhysicalScores[ i ].RegenerateModifier;
+			case SCORES::cha_score1:
+				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha1 ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha1_reg ].Current / RegenDivisor;// + _PhysScores._PhysicalScores[ i ].RegenerateModifier;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
-			case SCORES::sap:
-				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::intelligence ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::wisdom ].Current / RegenDivisor;// + _PhysScores._PhysicalScores[ i ].RegenerateModifier;
+			case SCORES::cha_score2:
+				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha2 ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha2_reg ].Current / RegenDivisor;// + _PhysScores._PhysicalScores[ i ].RegenerateModifier;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
-			case SCORES::stamina:
-				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::strength ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::well_balanced ].Current / RegenDivisor;// + _PhysScores._PhysicalScores[ i ].RegenerateModifier;
+			case SCORES::cha_score3:
+				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha3 ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha3_reg ].Current / RegenDivisor;// + _PhysScores._PhysicalScores[ i ].RegenerateModifier;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
-			case SCORES::focus:
-				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::dexterity ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::will ].Current / RegenDivisor;// - _PhysScores._PhysicalScores[ i ].RegenerateModifier;
+			case SCORES::cha_score4:
+				_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha4 ].Current + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor + _ScorePermanentModifiers[i];
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha4_reg ].Current / RegenDivisor;// - _PhysScores._PhysicalScores[ i ].RegenerateModifier;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
 			default:;
@@ -2390,9 +2390,9 @@ void CCharacter::applyRegenAndClipCurrentValue()
 			_PhysScores._PhysicalScores[ i ].Current = sint32(_PhysScores._PhysicalScores[ i ].Current + regenWholePart);
 			_PhysScores._PhysicalScores[ i ].KeepRegenerateDecimal -= regenWholePart;
 
-			if (i == SCORES::hit_points)
+			if (i == SCORES::cha_score1)
 			{
-				PROGRESSIONPVP::CCharacterProgressionPVP::getInstance()->playerRegenHP(this, regenWholePart);
+				PROGRESSIONPVP::CCharacterProgressionPVP::getInstance()->playerRegenChaScore1(this, regenWholePart);
 			}
 		}
 		if( _PhysScores._PhysicalScores[ i ].Current > _PhysScores._PhysicalScores[ i ].Max )
@@ -3346,14 +3346,14 @@ void CCharacter::setTarget( const CEntityId &targetId, bool sendMessage )
 		// TODO: mission event?
 //		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.UID, CLFECOMMON::INVALID_CLIENT_DATASET_INDEX );
 		CBankAccessor_PLR::getTARGET().getBARS().setUID(_PropertyDatabase, CLFECOMMON::INVALID_CLIENT_DATASET_INDEX );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, 0 );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.SAP, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setSAP(_PropertyDatabase, 0 );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.STA, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setSTA(_PropertyDatabase, 0 );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.FOCUS, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setFOCUS(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore2, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore2(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore3, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore3(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore4, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore4(_PropertyDatabase, 0 );
 
 		//_PropertyDatabase.setProp( "TARGET:AGGRESSIVE", 0 );
 //		_PropertyDatabase.setProp( "TARGET:FORCE_RATIO", 0 );
@@ -3367,7 +3367,7 @@ void CCharacter::setTarget( const CEntityId &targetId, bool sendMessage )
 	// reset combat event flags
 	resetCombatEventFlags();
 
-	// Get target, his Hp, and set TARGET HP in the database
+	// Get target, his ChaScore1, and set TARGET ChaSCore1 in the database
 	target = CEntityBaseManager::getEntityBasePtr( _Target() );
 	if( target )
 	{
@@ -3415,65 +3415,65 @@ void CCharacter::setTarget( const CEntityId &targetId, bool sendMessage )
 		CBankAccessor_PLR::getTARGET().getBARS().setUID(_PropertyDatabase, target->getEntityRowId().getCompressedIndex() );
 
 		sint8 percent;
-		// Hp
-		if( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max == 0 )
+		// ChaScore1
+		if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max == 0 )
 		{
 			percent = 0;
 		}
 		else
 		{
-			percent = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max ) );
+			percent = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max ) );
 		}
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, percent );
-		CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, percent );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, percent );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, percent );
 
-		// Sap
-		if( target->getPhysScores()._PhysicalScores[ SCORES::sap ].Max == 0 )
+		// ChaScore3
+		if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max == 0 )
 		{
 			percent = 0;
 		}
 		else
 		{
-			sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::sap ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::sap ].Max ) );
+			sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max ) );
 			if( percentTmp < 0 )
 				percent = 0;
 			else
 				percent = percentTmp;
 		}
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.SAP, percent );
-		CBankAccessor_PLR::getTARGET().getBARS().setSAP(_PropertyDatabase, percent );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore3, percent );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore3(_PropertyDatabase, percent );
 
-		// Stamina
-		if( target->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max == 0 )
+		// ChaScore2
+		if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max == 0 )
 		{
 			percent = 0;
 		}
 		else
 		{
-			sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::stamina ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max ) );
+			sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max ) );
 			if( percentTmp < 0 )
 				percent = 0;
 			else
 				percent = percentTmp;
 		}
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.STA, percent );
-		CBankAccessor_PLR::getTARGET().getBARS().setSTA(_PropertyDatabase, percent );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore2, percent );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore2(_PropertyDatabase, percent );
 
-		// Focus
-		if( target->getPhysScores()._PhysicalScores[ SCORES::focus].Max == 0 )
+		// ChaScore4
+		if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score4].Max == 0 )
 		{
 			percent = 0;
 		}
 		else
 		{
-			sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::focus ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::focus ].Max ) );
+			sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score4 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score4 ].Max ) );
 			if( percentTmp < 0 )
 				percent = 0;
 			else
 				percent = percentTmp;
 		}
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.FOCUS, percent );
-		CBankAccessor_PLR::getTARGET().getBARS().setFOCUS(_PropertyDatabase, percent );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore4, percent );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore4(_PropertyDatabase, percent );
 
 		// Validate properties of target
 		CProperties prop;
@@ -3528,14 +3528,14 @@ void CCharacter::setTarget( const CEntityId &targetId, bool sendMessage )
 	{
 //		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.UID, CLFECOMMON::INVALID_CLIENT_DATASET_INDEX );
 		CBankAccessor_PLR::getTARGET().getBARS().setUID(_PropertyDatabase, CLFECOMMON::INVALID_CLIENT_DATASET_INDEX );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, 0 );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.SAP, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setSAP(_PropertyDatabase, 0 );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.STA, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setSTA(_PropertyDatabase, 0 );
-//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.FOCUS, 0 );
-		CBankAccessor_PLR::getTARGET().getBARS().setFOCUS(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore2, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore2(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore3, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore3(_PropertyDatabase, 0 );
+//		_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore4, 0 );
+		CBankAccessor_PLR::getTARGET().getBARS().setChaScore4(_PropertyDatabase, 0 );
 
 //		PHRASE_UTILITIES::sendDynamicSystemMessage( _Id, "TARGET_NONE");
 	}
@@ -4010,10 +4010,10 @@ void CCharacter::sendReservedTitleStatus(CHARACTER_TITLE::ECharacterTitle title,
 //	// TARGET
 //	{
 //		nlverify( TARGET.UID   = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:UID" ) );
-//		nlverify( TARGET.HP    = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:HP" ) );
-//		nlverify( TARGET.SAP   = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:SAP" ) );
-//		nlverify( TARGET.STA   = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:STA" ) );
-//		nlverify( TARGET.FOCUS = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:FOCUS" ) );
+//		nlverify( TARGET.ChaScore1    = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:ChaScore1" ) );
+//		nlverify( TARGET.ChaScore2   = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:ChaScore2" ) );
+//		nlverify( TARGET.ChaScore3   = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:ChaScore3" ) );
+//		nlverify( TARGET.ChaScore4 = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:ChaScore4" ) );
 //		nlverify( TARGET.PLAYER_LEVEL = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:BARS:PLAYER_LEVEL" ) );
 //		nlverify( TARGET.CONTEXT_VAL = rootNode->getICDBStructNodeFromNameFromRoot( "TARGET:CONTEXT_VAL" ) );
 //	}
@@ -5117,7 +5117,7 @@ void CCharacter::teleportCharacter( sint32 x, sint32 y, sint32 z, bool teleportW
 		return;
 
 	// Check if player is dying
-	if( currentHp() <= 0 )
+	if( currentChaScore1() <= 0 )
 	{
 		return;
 	}
@@ -5780,7 +5780,7 @@ void CCharacter::onAnimalSpawned( CPetSpawnConfirmationMsg::TSpawnError SpawnSta
 					{
 						c->setBehaviour( MBEHAV::DEATH, true );
 						//c->setMode( MBEHAV::DEATH ); => send Message to AIS
-						c->getScores()._PhysicalScores[SCORES::hit_points].Current = 0;
+						c->getScores()._PhysicalScores[SCORES::cha_score1].Current = 0;
 					}
 				}
 			}
@@ -6537,7 +6537,7 @@ void CCharacter::updateOnePetDatabase( uint petIndex, bool mustUpdateHungerDb )
 {
 	uint& i = petIndex;
 	uint petType = 0;
-	sint8 pcHp = 0;
+	sint8 pcChaScore1 = 0;
 	uint32 uid = CLFECOMMON::INVALID_CLIENT_DATASET_INDEX;
 	uint64 pos = 0;
 	uint32 bulkMax = 0;
@@ -6615,8 +6615,8 @@ void CCharacter::updateOnePetDatabase( uint petIndex, bool mustUpdateHungerDb )
 			CCreature * c = CreatureManager.getCreature( TheDataset.getEntityId( _PlayerPets[ i ].SpawnedPets ) );
 			if( c )
 			{
-				pcHp = (sint8) ( ( 127.0 * c->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) / c->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max );
-				if( pcHp < 0 ) pcHp = 0;
+				pcChaScore1 = (sint8) ( ( 127.0 * c->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) / c->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max );
+				if( pcChaScore1 < 0 ) pcChaScore1 = 0;
 				uid = c->getEntityRowId().getCompressedIndex();
 				pos = (((uint64)c->getState().X) << 32) + c->getState().Y;
 				CVector2f animalPos;
@@ -6640,8 +6640,8 @@ void CCharacter::updateOnePetDatabase( uint petIndex, bool mustUpdateHungerDb )
 		CBankAccessor_PLR::getPACK_ANIMAL().getBEAST(i).setUID(_PropertyDatabase, uid );
 //		_PropertyDatabase.setProp( _DataIndexReminder->PACK_ANIMAL.BEAST[i].STATUS,   _PlayerPets[ i ].AnimalStatus );
 		CBankAccessor_PLR::getPACK_ANIMAL().getBEAST(i).setSTATUS(_PropertyDatabase, checkedCast<uint8>(_PlayerPets[ i ].AnimalStatus) );
-//		_PropertyDatabase.setProp( _DataIndexReminder->PACK_ANIMAL.BEAST[i].HP,       pcHp );
-		CBankAccessor_PLR::getPACK_ANIMAL().getBEAST(i).setHP(_PropertyDatabase, pcHp );
+//		_PropertyDatabase.setProp( _DataIndexReminder->PACK_ANIMAL.BEAST[i].HP,       pcChaScore1 );
+		CBankAccessor_PLR::getPACK_ANIMAL().getBEAST(i).setHP(_PropertyDatabase, pcChaScore1 );
 //		_PropertyDatabase.setProp( _DataIndexReminder->PACK_ANIMAL.BEAST[i].BULK_MAX, bulkMax / 1000 );
 		CBankAccessor_PLR::getPACK_ANIMAL().getBEAST(i).setBULK_MAX(_PropertyDatabase, bulkMax / 1000 );
 //		_PropertyDatabase.setProp( _DataIndexReminder->PACK_ANIMAL.BEAST[i].POS,      pos );
@@ -7367,10 +7367,10 @@ double CCharacter::addXpToSkillInternal( double XpGain, const std::string& ContS
 //			EGSPD::skillProgessed(_Id, skillName, skill->Base);
 			log_Character_LevelUp(_Id, skillName, skill->Base);
 			// resplenish the enrgies as player gets a new level
-			_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Max;
-			_PhysScores._PhysicalScores[ SCORES::stamina ].Current = _PhysScores._PhysicalScores[ SCORES::stamina ].Max;
-			_PhysScores._PhysicalScores[ SCORES::sap ].Current = _PhysScores._PhysicalScores[ SCORES::sap ].Max;
-			_PhysScores._PhysicalScores[ SCORES::focus ].Current = _PhysScores._PhysicalScores[ SCORES::focus ].Max;
+			_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Max;
+			_PhysScores._PhysicalScores[ SCORES::cha_score2 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score2 ].Max;
+			_PhysScores._PhysicalScores[ SCORES::cha_score3 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score3 ].Max;
+			_PhysScores._PhysicalScores[ SCORES::cha_score4 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score4 ].Max;
 		}
 		else
 		{
@@ -8205,17 +8205,17 @@ void CCharacter::setStartStatistics( const CCreateCharMsg& createCharMsg )
 	{
 		switch( i )
 		{
-		case SCORES::hit_points:
-			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::constitution ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
+		case SCORES::cha_score1:
+			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha1 ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
 			break;
-		case SCORES::sap:
-			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::intelligence ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
+		case SCORES::cha_score2:
+			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha2 ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
 			break;
-		case SCORES::stamina:
-			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::strength ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
+		case SCORES::cha_score3:
+			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha3 ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
 			break;
-		case SCORES::focus:
-			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::dexterity ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
+		case SCORES::cha_score4:
+			_PhysScores._PhysicalScores[ i ].Base = (_PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha4 ].Base + PhysicalCharacteristicsBaseValue) * PhysicalCharacteristicsFactor;
 			break;
 		default:;
 		}
@@ -8821,7 +8821,7 @@ void CCharacter::updateRegen()
 	{
 		if( _IsInAComa || _IsDead )
 		{
-			if( i == SCORES::hit_points )
+			if( i == SCORES::cha_score1 )
 			{
 				float currentRegen = - _PhysScores._PhysicalScores[ i ].Max / 240.0f; //TODO make time to variable
 				_PhysScores._PhysicalScores[ i ].CurrentRegenerate = currentRegen;
@@ -8837,20 +8837,20 @@ void CCharacter::updateRegen()
 			// normal regen
 			switch( i )
 			{
-			case SCORES::hit_points:
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::metabolism ].Base / RegenDivisor;
+			case SCORES::cha_score1:
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha1_reg ].Base / RegenDivisor;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
-			case SCORES::sap:
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::wisdom ].Base / RegenDivisor;
+			case SCORES::cha_score2:
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha2_reg ].Base / RegenDivisor;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
-			case SCORES::stamina:
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::well_balanced ].Base / RegenDivisor;
+			case SCORES::cha_score3:
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha3_reg ].Base / RegenDivisor;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
-			case SCORES::focus:
-				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::will ].Base / RegenDivisor;
+			case SCORES::cha_score4:
+				_PhysScores._PhysicalScores[ i ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha4_reg ].Base / RegenDivisor;
 				_PhysScores._PhysicalScores[ i ].BaseRegenerateAction = _PhysScores._PhysicalScores[ i ].BaseRegenerateRepos / RegenReposFactor;
 				break;
 			default:;
@@ -9858,45 +9858,45 @@ void CCharacter::changeCharacteristic( CHARACTERISTICS::TCharacteristics charac,
 	{
 		// NB : do not need to update the client database, it will be done in the next call to applyRegenAndClipCurrentValue()
 		//		as we change base but not current (and so current will change and database will be updated)
-	case CHARACTERISTICS::constitution:
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].Base += PhysicalCharacteristicsFactor * mod;
+	case CHARACTERISTICS::cha1:
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base += PhysicalCharacteristicsFactor * mod;
 		break;
-	case CHARACTERISTICS::metabolism:
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::hit_points ].BaseRegenerateRepos / RegenReposFactor;
+	case CHARACTERISTICS::cha1_reg:
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].BaseRegenerateRepos / RegenReposFactor;
 		// add regen offset
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].BaseRegenerateRepos += RegenOffset;
-		_PhysScores._PhysicalScores[ SCORES::hit_points ].BaseRegenerateAction += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].BaseRegenerateRepos += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score1 ].BaseRegenerateAction += RegenOffset;
 		break;
-	case CHARACTERISTICS::intelligence:
-		_PhysScores._PhysicalScores[ SCORES::sap ].Base += PhysicalCharacteristicsFactor * mod;
+	case CHARACTERISTICS::cha3:
+		_PhysScores._PhysicalScores[ SCORES::cha_score3 ].Base += PhysicalCharacteristicsFactor * mod;
 		break;
-	case CHARACTERISTICS::wisdom:
-		_PhysScores._PhysicalScores[ SCORES::sap].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
-		_PhysScores._PhysicalScores[ SCORES::sap].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::sap].BaseRegenerateRepos / RegenReposFactor;
+	case CHARACTERISTICS::cha3_reg:
+		_PhysScores._PhysicalScores[ SCORES::cha_score3].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
+		_PhysScores._PhysicalScores[ SCORES::cha_score3].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::cha_score3].BaseRegenerateRepos / RegenReposFactor;
 		// add regen offset
-		_PhysScores._PhysicalScores[ SCORES::sap ].BaseRegenerateRepos += RegenOffset;
-		_PhysScores._PhysicalScores[ SCORES::sap ].BaseRegenerateAction += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score3 ].BaseRegenerateRepos += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score3 ].BaseRegenerateAction += RegenOffset;
 		break;
-	case CHARACTERISTICS::strength:
-		_PhysScores._PhysicalScores[ SCORES::stamina ].Base += PhysicalCharacteristicsFactor * mod;
+	case CHARACTERISTICS::cha2:
+		_PhysScores._PhysicalScores[ SCORES::cha_score2 ].Base += PhysicalCharacteristicsFactor * mod;
 		break;
-	case CHARACTERISTICS::well_balanced:
-		_PhysScores._PhysicalScores[ SCORES::stamina ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
-		_PhysScores._PhysicalScores[ SCORES::stamina ].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::stamina ].BaseRegenerateRepos/ RegenReposFactor;
+	case CHARACTERISTICS::cha2_reg:
+		_PhysScores._PhysicalScores[ SCORES::cha_score2 ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
+		_PhysScores._PhysicalScores[ SCORES::cha_score2 ].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::cha_score2 ].BaseRegenerateRepos/ RegenReposFactor;
 		// add regen offset
-		_PhysScores._PhysicalScores[ SCORES::stamina ].BaseRegenerateRepos += RegenOffset;
-		_PhysScores._PhysicalScores[ SCORES::stamina ].BaseRegenerateAction += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score2 ].BaseRegenerateRepos += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score2 ].BaseRegenerateAction += RegenOffset;
 		break;
-	case CHARACTERISTICS::dexterity:
-		_PhysScores._PhysicalScores[ SCORES::focus ].Base += PhysicalCharacteristicsFactor * mod;
+	case CHARACTERISTICS::cha4:
+		_PhysScores._PhysicalScores[ SCORES::cha_score4 ].Base += PhysicalCharacteristicsFactor * mod;
 		break;
-	case CHARACTERISTICS::will:
-		_PhysScores._PhysicalScores[ SCORES::focus ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
-		_PhysScores._PhysicalScores[ SCORES::focus ].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::focus ].BaseRegenerateRepos / RegenReposFactor;
+	case CHARACTERISTICS::cha4_reg:
+		_PhysScores._PhysicalScores[ SCORES::cha_score4 ].BaseRegenerateRepos = _PhysCharacs._PhysicalCharacteristics[charac].Base / RegenDivisor;
+		_PhysScores._PhysicalScores[ SCORES::cha_score4 ].BaseRegenerateAction = _PhysScores._PhysicalScores[ SCORES::cha_score4 ].BaseRegenerateRepos / RegenReposFactor;
 		// add regen offset
-		_PhysScores._PhysicalScores[ SCORES::focus ].BaseRegenerateRepos += RegenOffset;
-		_PhysScores._PhysicalScores[ SCORES::focus ].BaseRegenerateAction += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score4 ].BaseRegenerateRepos += RegenOffset;
+		_PhysScores._PhysicalScores[ SCORES::cha_score4 ].BaseRegenerateAction += RegenOffset;
 		break;
 	default:
 		break;
@@ -11642,41 +11642,41 @@ void CCharacter::setBerserkFlag(bool isBerserk)
 		{
 			// YOYO: Berserk Flag since to be no more used. There is no more CHARACTER_INFO:SCORES:HitPoints database
 			// hence must do it another way _PropertyDatabase.setProp( "CHARACTER_INFO:SCORES:HitPoints", 0);
-//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, 0 );
-			CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, 0 );
+//			_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, 0 );
+			CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, 0 );
 		}
 		else
 		{
-			//sint32 temp = lookupStat("CurrentHitPoints");
-			// YOYO: Berserk Flag since to be no more used. There is no more CHARACTER_INFO:SCORES:HitPoints database
-			// hence must do it another way: _PropertyDatabase.setProp( "CHARACTER_INFO:SCORES:HitPoints", temp );
-			sint32 temp = lookupStat("MaxHitPoints");
-//			_PropertyDatabase.setProp( _DataIndexReminder->CHARACTER_INFO.SCORES.MaxScore[SCORES::hit_points], temp );
-			CBankAccessor_PLR::getCHARACTER_INFO().getSCORES(SCORES::hit_points).setMax(_PropertyDatabase, temp );
+			//sint32 temp = lookupStat("CurrentChaScore1");
+			// YOYO: Berserk Flag since to be no more used. There is no more CHARACTER_INFO:SCORES:ChaScore1 database
+			// hence must do it another way: _PropertyDatabase.setProp( "CHARACTER_INFO:SCORES:ChaScore1", temp );
+			sint32 temp = lookupStat("MaxChaScore1");
+//			_PropertyDatabase.setProp( _DataIndexReminder->CHARACTER_INFO.SCORES.MaxScore[SCORES::cha_score1], temp );
+			CBankAccessor_PLR::getCHARACTER_INFO().getSCORES(SCORES::cha_score1).setMax(_PropertyDatabase, temp );
 
 			CEntityBase*	target = CEntityBaseManager::getEntityBasePtr( _Target() );
 			if( target )
 			{
 				sint8 percent;
-				// Hp
-				if( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max <= 0 )
+				// ChaScore1
+				if( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max <= 0 )
 				{
 					percent = 0;
 				}
 				else
 				{
-					sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max ) );
+					sint8 percentTmp = sint8( (127.0 * ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) ) / ( target->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max ) );
 					if( percentTmp < 0 )
 						percent = 0;
 					else
 						percent = (uint8)percentTmp;
 				}
-//				_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, percent );
-				CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, percent );
+//				_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, percent );
+				CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, percent );
 			}
 			else
-//				_PropertyDatabase.setProp( _DataIndexReminder->TARGET.HP, 0 );
-				CBankAccessor_PLR::getTARGET().getBARS().setHP(_PropertyDatabase, 0 );
+//				_PropertyDatabase.setProp( _DataIndexReminder->TARGET.ChaScore1, 0 );
+				CBankAccessor_PLR::getTARGET().getBARS().setChaScore1(_PropertyDatabase, 0 );
 		}
 //		_PropertyDatabase.setProp( "USER:BERSERK", _IsBerserk );
 		CBankAccessor_PLR::getUSER().setBERSERK(_PropertyDatabase, _IsBerserk );
@@ -13396,8 +13396,8 @@ void CCharacter::addLink( CSLinkEffect * effect)
 			linkElem.setCOUNTER(_PropertyDatabase, (CBankAccessor_PLR::getEXECUTE_PHRASE().getLINK().getArray(0).getCOUNTER(_PropertyDatabase) + 1) &0xf );
 //			_PropertyDatabase.setProp( node, "PHRASE", effect->getPhraseBookIndex() );
 			linkElem.setPHRASE(_PropertyDatabase, effect->getPhraseBookIndex());
-//			_PropertyDatabase.setProp( node, "SAP_COST",  (sint16)effect->costPerUpdate() );
-			linkElem.setSAP_COST(_PropertyDatabase,  checkedCast<uint16>(effect->costPerUpdate()) );
+//			_PropertyDatabase.setProp( node, "ChaScore3_COST",  (sint16)effect->costPerUpdate() );
+			linkElem.setChaScore3_COST(_PropertyDatabase,  checkedCast<uint16>(effect->costPerUpdate()) );
 //		}
 	}
 
@@ -14759,8 +14759,8 @@ void CCharacter::beginOrResumeForageSession( const NLMISC::CSheetId& materialShe
 			return;
 
 		// Create progress structure (note: currently, the only forage tool stored is the one here, when creating the progress structure. Idem for usedSkill)
-		SCharacteristicsAndScores& focus = getScores()._PhysicalScores[SCORES::focus];
-		_ForageProgress = new CForageProgress( materialSheetId, sourceRowId, usedSkill, focus.Current /*, forageToolUsed*/ );
+		SCharacteristicsAndScores& ChaScore4 = getScores()._PhysicalScores[SCORES::cha_score4];
+		_ForageProgress = new CForageProgress( materialSheetId, sourceRowId, usedSkill, ChaScore4.Current /*, forageToolUsed*/ );
 		resetProgress = true;
 	}
 	else
@@ -14768,8 +14768,8 @@ void CCharacter::beginOrResumeForageSession( const NLMISC::CSheetId& materialShe
 		if ( sourceRowId != _ForageProgress->sourceRowId() )
 		{
 			// Reset progress
-			SCharacteristicsAndScores& focus = getScores()._PhysicalScores[SCORES::focus];
-			_ForageProgress->reset( materialSheetId, sourceRowId, focus.Current );
+			SCharacteristicsAndScores& ChaScore4 = getScores()._PhysicalScores[SCORES::cha_score4];
+			_ForageProgress->reset( materialSheetId, sourceRowId, ChaScore4.Current );
 			resetProgress = true;
 		}
 	}
@@ -16418,15 +16418,15 @@ SKILLS::ESkills CCharacter::getFirstUnlockedParentSkill(SKILLS::ESkills skill) c
 	return skill;
 }
 
-bool CCharacter::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEntity)
+bool CCharacter::changeCurrentChaScore1(sint32 deltaValue, TDataSetRow responsibleEntity)
 {
-	H_AUTO(CCharacter_changeCurrentHp);
+	H_AUTO(CCharacter_changeCurrentChaScore1);
 	// test entity isn't dead already (unless it's a player in coma)
 	if	(isDead())
 	{
-		if ( deltaValue > 0 && _PhysScores._PhysicalScores[SCORES::hit_points].Current > (-_PhysScores._PhysicalScores[SCORES::hit_points].Max) )
+		if ( deltaValue > 0 && _PhysScores._PhysicalScores[SCORES::cha_score1].Current > (-_PhysScores._PhysicalScores[SCORES::cha_score1].Max) )
 		{
-			// possible as a player in a 'coma' can still be healed (but not lose hp)
+			// possible as a player in a 'coma' can still be healed (but not lose ChaScore1)
 		}
 		else
 		{
@@ -16447,7 +16447,7 @@ bool CCharacter::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEntit
 		}
 	}
 
-	_PhysScores._PhysicalScores[SCORES::hit_points].Current = _PhysScores._PhysicalScores[SCORES::hit_points].Current + deltaValue;
+	_PhysScores._PhysicalScores[SCORES::cha_score1].Current = _PhysScores._PhysicalScores[SCORES::cha_score1].Current + deltaValue;
 
 	// if entity is mezzed and delta is != 0 unmezz it
 	if (_MezzCount && deltaValue != 0)
@@ -16455,7 +16455,7 @@ bool CCharacter::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEntit
 		unmezz();
 	}
 
-	if (_PhysScores._PhysicalScores[SCORES::hit_points].Current <= 0)
+	if (_PhysScores._PhysicalScores[SCORES::cha_score1].Current <= 0)
 	{
 		// for god mode
 		if (!_GodMode && !_Invulnerable)
@@ -16465,17 +16465,17 @@ bool CCharacter::changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEntit
 		}
 		else
 		{
-			_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Base;
-			setHpBar( 1023 );
+			_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base;
+			setChaScore1Bar( 1023 );
 			return false;
 		}
 	}
 	else
 	{
-		if( _PhysScores._PhysicalScores[SCORES::hit_points].Max > 0)
-			setHpBar( (uint32) ( (1023 * _PhysScores._PhysicalScores[SCORES::hit_points].Current) / _PhysScores._PhysicalScores[SCORES::hit_points].Max) );
+		if( _PhysScores._PhysicalScores[SCORES::cha_score1].Max > 0)
+			setChaScore1Bar( (uint32) ( (1023 * _PhysScores._PhysicalScores[SCORES::cha_score1].Current) / _PhysScores._PhysicalScores[SCORES::cha_score1].Max) );
 		else
-			setHpBar(0);
+			setChaScore1Bar(0);
 		return false;
 	}
 }
@@ -16527,13 +16527,13 @@ void CCharacter::applyGooDamage( float gooDistance )
 					_LastTickSufferGooDamage = CTickEventHandler::getGameCycle();
 
 					// Apply damage corresponding to distance from goo if not dead
-					if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Current > 0 )
+					if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current > 0 )
 					{
-						sint32 hpLost = (sint32)(_PhysScores._PhysicalScores[ SCORES::hit_points ].Base * damageRatio * MaxGooDamageRatio);
-						if (hpLost < 1) hpLost = 1;
-						if( hpLost > _PhysScores._PhysicalScores[ SCORES::hit_points ].Current )
+						sint32 ChaScore1Lost = (sint32)(_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Base * damageRatio * MaxGooDamageRatio);
+						if (ChaScore1Lost < 1) ChaScore1Lost = 1;
+						if( ChaScore1Lost > _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current )
 						{
-							_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = 0;	
+							_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = 0;	
 							
 							// send message to player for inform is dead by goo or other
 							if (_CurrentContinent == CONTINENT::FYROS)
@@ -16547,7 +16547,7 @@ void CCharacter::applyGooDamage( float gooDistance )
 						}
 						else
 						{
-							_PhysScores._PhysicalScores[ SCORES::hit_points ].Current = _PhysScores._PhysicalScores[ SCORES::hit_points ].Current - hpLost;
+							_PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current = _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current - ChaScore1Lost;
 							// send message to player for inform is suffer goo damage
 							if (_CurrentContinent == CONTINENT::FYROS)
 								sendDynamicSystemMessage(_EntityRowId, "SUFFER_FIRE_DAMAGE");
@@ -17096,25 +17096,25 @@ bool CCharacter::checkCharacterStillValide( const char * msgError)
 	{
 		if( i == 0 )
 		{
-			if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Current.testFlagInMirror() != 1 )
+			if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current.testFlagInMirror() != 1 )
 			{
-				nlwarning("BUG: %s NASTY MEMORY BUG. current score %s ", _Id.toString().c_str(), SCORES::toString(SCORES::hit_points).c_str() );
+				nlwarning("BUG: %s NASTY MEMORY BUG. current score %s ", _Id.toString().c_str(), SCORES::toString(SCORES::cha_score1).c_str() );
 				mirrorBoolCrushed = true;
 			}
-			else if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Current.location().dataSet() == 0 )
+			else if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current.location().dataSet() == 0 )
 			{
-				nlwarning("BUG: %s NASTY MEMORY BUG. current score %s don't have a dataset !", _Id.toString().c_str(), SCORES::toString(SCORES::hit_points).c_str() );
+				nlwarning("BUG: %s NASTY MEMORY BUG. current score %s don't have a dataset !", _Id.toString().c_str(), SCORES::toString(SCORES::cha_score1).c_str() );
 				mirrorBoolCrushed = true;
 			}
 
-			if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Max.testFlagInMirror() != 1 )
+			if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Max.testFlagInMirror() != 1 )
 			{
-				nlwarning("BUG: %s NASTY MEMORY BUG. max score %s ", _Id.toString().c_str(), SCORES::toString(SCORES::hit_points).c_str() );
+				nlwarning("BUG: %s NASTY MEMORY BUG. max score %s ", _Id.toString().c_str(), SCORES::toString(SCORES::cha_score1).c_str() );
 				mirrorBoolCrushed = true;
 			}
-			else if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Max.location().dataSet() == 0 )
+			else if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Max.location().dataSet() == 0 )
 			{
-				nlwarning("BUG: %s NASTY MEMORY BUG. max score %s don't have a dataset !", _Id.toString().c_str(), SCORES::toString(SCORES::hit_points).c_str() );
+				nlwarning("BUG: %s NASTY MEMORY BUG. max score %s don't have a dataset !", _Id.toString().c_str(), SCORES::toString(SCORES::cha_score1).c_str() );
 				mirrorBoolCrushed = true;
 			}
 		}
@@ -17253,10 +17253,10 @@ void CCharacter::checkCharacAndScoresValues()
 	{
 		H_AUTO(CheckScores);
 		// Check Scores
-		checkScoresValues( SCORES::hit_points,	CHARACTERISTICS::constitution );
-		checkScoresValues( SCORES::sap,			CHARACTERISTICS::intelligence );
-		checkScoresValues( SCORES::stamina,		CHARACTERISTICS::strength );
-		checkScoresValues( SCORES::focus,		CHARACTERISTICS::dexterity );
+		checkScoresValues( SCORES::cha_score1,	CHARACTERISTICS::cha1 );
+		checkScoresValues( SCORES::cha_score3,			CHARACTERISTICS::cha3 );
+		checkScoresValues( SCORES::cha_score2,		CHARACTERISTICS::cha2 );
+		checkScoresValues( SCORES::cha_score4,		CHARACTERISTICS::cha4 );
 	}
 }
 
@@ -17539,7 +17539,7 @@ void CCharacter::logAndClearTempInventory()
 			egs_chinfo("TEMP_INVENTORY_BUG : Color = %u, Protection : %s", craftParams->Color, BACK_COMPAT::OLD_PROTECTION_TYPE::toString(craftParams->Protection).c_str() );
 
 			// armor and jewel buff
-			egs_chinfo("TEMP_INVENTORY_BUG : HpBuff = %u, SapBuff = %u, StaBuff = %u, FocusBuff = %u", craftParams->HpBuff, craftParams->SapBuff, craftParams->StaBuff, craftParams->FocusBuff);
+			egs_chinfo("TEMP_INVENTORY_BUG : ChaScore1Buff = %u, ChaScore3Buff = %u, ChaScore2Buff = %u, ChaScore4Buff = %u", craftParams->ChaScore1Buff, craftParams->ChaScore3Buff, craftParams->ChaScore2Buff, craftParams->ChaScore4Buff);
 
 			// destroy item
 			tempInv->removeItem(i);
@@ -18915,16 +18915,16 @@ void	CCharacter::barUpdate()
 		return;
 
 	// if different from what sent to player
-	if( _PhysScores._PhysicalScores[ SCORES::hit_points ].Current() != _OldHpBarSentToPlayer ||
-		_PhysScores._PhysicalScores[ SCORES::sap].Current() != _OldSapBarSentToPlayer ||
-		_PhysScores._PhysicalScores[ SCORES::stamina].Current() != _OldStaBarSentToPlayer ||
-		_PhysScores._PhysicalScores[ SCORES::focus].Current() != _OldFocusBarSentToPlayer )
+	if( _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current() != _OldChaScore1BarSentToPlayer ||
+		_PhysScores._PhysicalScores[ SCORES::cha_score2].Current() != _OldChaScore2BarSentToPlayer ||
+		_PhysScores._PhysicalScores[ SCORES::cha_score3].Current() != _OldChaScore3BarSentToPlayer ||
+		_PhysScores._PhysicalScores[ SCORES::cha_score4].Current() != _OldChaScore4BarSentToPlayer )
 	{
 		// bkup cache
-		_OldHpBarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::hit_points ].Current();
-		_OldSapBarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::sap].Current();
-		_OldStaBarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::stamina].Current();
-		_OldFocusBarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::focus].Current();
+		_OldChaScore1BarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::cha_score1 ].Current();
+		_OldChaScore2BarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::cha_score2].Current();
+		_OldChaScore3BarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::cha_score3].Current();
+		_OldChaScore4BarSentToPlayer= _PhysScores._PhysicalScores[ SCORES::cha_score4].Current();
 
 		// Since client must listen only the last message (no delta like DB here...), use a small counter
 		_BarSentToPlayerMsgNumber++;
@@ -18941,10 +18941,10 @@ void	CCharacter::barUpdate()
 		{
 			// write the message
 			bms.serial( _BarSentToPlayerMsgNumber );
-			bms.serial( _OldHpBarSentToPlayer );
-			bms.serial( _OldSapBarSentToPlayer );
-			bms.serial( _OldStaBarSentToPlayer );
-			bms.serial( _OldFocusBarSentToPlayer );
+			bms.serial( _OldChaScore1BarSentToPlayer );
+			bms.serial( _OldChaScore3BarSentToPlayer );
+			bms.serial( _OldChaScore2BarSentToPlayer );
+			bms.serial( _OldChaScore4BarSentToPlayer );
 			// send
 			msgout.serialBufferWithSize((uint8*)bms.buffer(), bms.length());
 			CUnifiedNetwork::getInstance()->send( NLNET::TServiceId(_Id.getDynamicId()), msgout );
@@ -20279,7 +20279,7 @@ void CCharacter::disableEffectInDB(uint8 index, bool bonus, NLMISC::TGameCycle a
 
 sint32 CCharacter::getWeightMalus()
 {
-	sint32 maxWeight = BaseMaxCarriedWeight +  1000 * _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::strength ].Current;
+	sint32 maxWeight = BaseMaxCarriedWeight +  1000 * _PhysCharacs._PhysicalCharacteristics[ CHARACTERISTICS::cha2 ].Current;
 	sint32 weightDiff = ( maxWeight - sint32(getCarriedWeight()) );
 	sint32 weightMalus = weightDiff / 1000;
 	if ( weightDiff % 1000 )

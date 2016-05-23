@@ -552,11 +552,11 @@ public:
 	sint32& lookupStat( CSpecialModifiers::ESpecialModifiers sm ) throw (CEntityBase::EInvalidStat);
 	const sint32& lookupStat( CSpecialModifiers::ESpecialModifiers sm ) const throw (CEntityBase::EInvalidStat);
 
-	/// accessors on hp (read only)
-	inline sint32 currentHp() const { return _PhysScores._PhysicalScores[SCORES::hit_points].Current;}
+	/// accessors on ChaScore1 (read only)
+	inline sint32 currentChaScore1() const { return _PhysScores._PhysicalScores[SCORES::cha_score1].Current;}
 
-	/// accessors on max hp (read only)
-	inline sint32 maxHp() const { return _PhysScores._PhysicalScores[SCORES::hit_points].Max;}
+	/// accessors on max ChaScore1 (read only)
+	inline sint32 maxChaScore1() const { return _PhysScores._PhysicalScores[SCORES::cha_score1].Max;}
 
 	/// accessor on score
 	inline sint32 getCurrentScore(SCORES::TScores score) const 
@@ -575,24 +575,24 @@ public:
 	}
 
 	/**
-	 * change hp with a delta value
-	 * \param deltaValue the delta value applied on hp
+	 * change ChaScore1 with a delta value
+	 * \param deltaValue the delta value applied on ChaScore1
 	 * \return bool true if the entity died from the changement
 	 */
-	virtual bool changeCurrentHp(sint32 deltaValue, TDataSetRow responsibleEntity = TDataSetRow());
+	virtual bool changeCurrentChaScore1(sint32 deltaValue, TDataSetRow responsibleEntity = TDataSetRow());
 
 	/**
-	 * change given score with a delta value (NOT to use for hitpoints, use changeCurrentHP instead
-	 * \param deltaValue the delta value applied on stamina
+	 * change given score with a delta value (NOT to use for ChaScore1, use changeCurrentChaScore1 instead
+	 * \param deltaValue the delta value applied on ChaScore2
 	 */
 	inline void changeScore(SCORES::TScores score, sint32 delta)
 	{
 		if (score >= SCORES::unknown || score < 0)
 			return;
 
-		if (score == SCORES::hit_points)
+		if (score == SCORES::cha_score1)
 		{
-			changeCurrentHp(delta, TDataSetRow());
+			changeCurrentChaScore1(delta, TDataSetRow());
 			return;
 		}
 
@@ -618,7 +618,7 @@ public:
 			if( _PhysScores._PhysicalScores[score].Max > 0)
 			{
 				uint32 bar;
-				if( score == SCORES::hit_points )
+				if( score == SCORES::cha_score1 )
 				{
 					bar = (uint32)( (1023 * _PhysScores._PhysicalScores[score].Current) / _PhysScores._PhysicalScores[score].Max);
 				}
@@ -639,24 +639,24 @@ public:
 	{
 		register TYPE_BARS barresValue = 0;
 		register sint32 barLevel;
-		SCharacteristicsAndScores &hp = _PhysScores._PhysicalScores[SCORES::hit_points];
-		sint32 maxhp = hp.Max;
-		if ( maxhp != 0 )
-			barLevel = (sint32)( (1023 * hp.Current) / maxhp);
+		SCharacteristicsAndScores &ChaScore1 = _PhysScores._PhysicalScores[SCORES::cha_score1];
+		sint32 maxChaScore1 = ChaScore1.Max;
+		if ( maxChaScore1 != 0 )
+			barLevel = (sint32)( (1023 * ChaScore1.Current) / maxChaScore1);
 		else
 			barLevel = 0;
 		barresValue = (uint32)barLevel & 0x7ff;
 
-		// bots only use the hp bar
+		// bots only use the ChaScore1 bar
 		if (_Id.getType() != RYZOMID::player)
 		{
 			_StatusBars = barresValue;
 			return;
 		}
 		
-		if( _PhysScores._PhysicalScores[SCORES::stamina].Max > 0 )
+		if( _PhysScores._PhysicalScores[SCORES::cha_score2].Max > 0 )
 		{
-			barLevel = (uint32)( (127 * _PhysScores._PhysicalScores[SCORES::stamina].Current) / _PhysScores._PhysicalScores[SCORES::stamina].Max);
+			barLevel = (uint32)( (127 * _PhysScores._PhysicalScores[SCORES::cha_score2].Current) / _PhysScores._PhysicalScores[SCORES::cha_score2].Max);
 		}
 		else
 		{
@@ -664,9 +664,9 @@ public:
 		}
 		barresValue = barresValue | (barLevel<<11);
 
-		if( _PhysScores._PhysicalScores[SCORES::sap].Max > 0 )
+		if( _PhysScores._PhysicalScores[SCORES::cha_score3].Max > 0 )
 		{
-			barLevel = (uint32)( (127 * _PhysScores._PhysicalScores[SCORES::sap].Current) / _PhysScores._PhysicalScores[SCORES::sap].Max);
+			barLevel = (uint32)( (127 * _PhysScores._PhysicalScores[SCORES::cha_score3].Current) / _PhysScores._PhysicalScores[SCORES::cha_score3].Max);
 		}
 		else
 		{
@@ -674,9 +674,9 @@ public:
 		}
 		barresValue = barresValue | (barLevel<<18);
 
-		if( _PhysScores._PhysicalScores[SCORES::focus].Max > 0 )
+		if( _PhysScores._PhysicalScores[SCORES::cha_score4].Max > 0 )
 		{
-			barLevel = (uint32)( (127 * _PhysScores._PhysicalScores[SCORES::focus].Current) / _PhysScores._PhysicalScores[SCORES::focus].Max);
+			barLevel = (uint32)( (127 * _PhysScores._PhysicalScores[SCORES::cha_score4].Current) / _PhysScores._PhysicalScores[SCORES::cha_score4].Max);
 		}
 		else
 		{
@@ -696,17 +696,17 @@ public:
 	{
 		switch(score)
 		{
-		case SCORES::hit_points:
-			setHpBar(value);
+		case SCORES::cha_score1:
+			setChaScore1Bar(value);
 			break;
-		case SCORES::stamina:
-			setStaminaBar(value);
+		case SCORES::cha_score2:
+			setChaScore2Bar(value);
 			break;
-		case SCORES::sap:
-			setSapBar(value);
+		case SCORES::cha_score3:
+			setChaScore3Bar(value);
 			break;
-		case SCORES::focus:
-			setFocusBar(value);
+		case SCORES::cha_score4:
+			setChaScore4Bar(value);
 			break;
 		default:
 			nlwarning("<setScoreBar> Score %s not managed",SCORES::toString(score).c_str());
@@ -714,36 +714,36 @@ public:
 		};
 	}
 
-	/// set hp bar
-	inline void setHpBar( uint32 hpBar )
+	/// set ChaScore1 bar
+	inline void setChaScore1Bar( uint32 ChaScore1Bar )
 	{
-		hpBar &= 0x7ff;
-		_StatusBars = _StatusBars & (0xfffff800); //erase last 11 digits (0..10)
-		_StatusBars = _StatusBars | uint32(hpBar);
+		ChaScore1Bar &= 0x7ff;
+		_StatusBars = _StatusBars & (0xfffff800); //erase ChaScore1 digits (0..10)
+		_StatusBars = _StatusBars | uint32(ChaScore1Bar);
 	}
 
-	/// set stamina bar
-	inline void setStaminaBar( uint32 staminaBar )
+	/// set ChaScore2 bar
+	inline void setChaScore2Bar( uint32 ChaScore2Bar )
 	{
-		staminaBar &= 0x7f;
-		_StatusBars = _StatusBars & (0xfffc07ff); //erase stamina digits (11..16)
-		_StatusBars = _StatusBars | (staminaBar << 11);
+		ChaScore2Bar &= 0x7f;
+		_StatusBars = _StatusBars & (0xfffc07ff); //erase ChaScore2 digits (11..16)
+		_StatusBars = _StatusBars | (ChaScore2Bar << 11);
 	}
 
-	/// set sap bar
-	inline void setSapBar( uint32 sapBar )
+	/// set ChaScore3 bar
+	inline void setChaScore3Bar( uint32 ChaScore3Bar )
 	{
-		sapBar &= 0x7f;
-		_StatusBars = _StatusBars & (0xfe03ffff); //erase sap digits (17..23)
-		_StatusBars = _StatusBars | (sapBar << 18);
+		ChaScore3Bar &= 0x7f;
+		_StatusBars = _StatusBars & (0xfe03ffff); //erase ChaScore3 digits (17..23)
+		_StatusBars = _StatusBars | (ChaScore3Bar << 18);
 	}
 
-	/// set focus bar
-	inline void setFocusBar( uint32 focusBar )
+	/// set ChaScore4 bar
+	inline void setChaScore4Bar( uint32 ChaScore4Bar )
 	{
-		focusBar &= 0x7f;
-		_StatusBars = _StatusBars & (0x01ffffff); //erase focus digits (24..31)
-		_StatusBars = _StatusBars | (focusBar << 25);
+		ChaScore4Bar &= 0x7f;
+		_StatusBars = _StatusBars & (0x01ffffff); //erase ChaScore4 digits (24..31)
+		_StatusBars = _StatusBars | (ChaScore4Bar << 25);
 	}
 
 	/// get the number of bag
@@ -869,12 +869,12 @@ public:
 
 	/// accessor on damage shield damage
 	inline uint16 getDamageShieldDamage() const { return _DamageShieldDamage; }
-	/// accessor on damage shield Hp Drain
-	inline uint16 getDamageShieldHpDrain() const { return _DamageShieldHpDrain; }
+	/// accessor on damage shield ChaScore1 Drain
+	inline uint16 getDamageShieldChaScore1Drain() const { return _DamageShieldChaScore1Drain; }
 
 	// damage shield modifiers
-	inline void incDamageShield( uint16 value ) { _DamageShieldDamage += value; _DamageShieldHpDrain += value; }
-	inline void decDamageShield( uint16 value ) { _DamageShieldDamage -= value; _DamageShieldHpDrain -= value; }
+	inline void incDamageShield( uint16 value ) { _DamageShieldDamage += value; _DamageShieldChaScore1Drain += value; }
+	inline void decDamageShield( uint16 value ) { _DamageShieldDamage -= value; _DamageShieldChaScore1Drain -= value; }
 
 	/// remove all spells (effect on the entity and casted links)
 	void removeAllSpells();
@@ -937,7 +937,7 @@ public:
 
 protected:
 	/**
-	 * kill entity (when it's hit points reach 0)
+	 * kill entity (when it's ChaScore1 reach 0)
 	 * \param killerRowId if valid, the TDataSetRow of the entity which has killed the current entity
 	 */
 	virtual void kill(TDataSetRow killerRowId = TDataSetRow()) = 0;
@@ -1032,8 +1032,8 @@ protected:
 
 	/// damage shield : damage inflicted to melee attackers
 	uint16								_DamageShieldDamage;
-	/// damage shield : HP drained from attacker (entity gains HP, attacker do NOT lose HP)
-	uint16								_DamageShieldHpDrain;
+	/// damage shield : ChaScore1 drained from attacker (entity gains ChaScore1, attacker do NOT lose ChaScore1)
+	uint16								_DamageShieldChaScore1Drain;
 
 	CEntityListLink<CEntityBase>		_ListLink;	
 

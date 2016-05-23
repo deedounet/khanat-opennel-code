@@ -695,7 +695,7 @@ NLMISC_COMMAND(bugReport, "Call the bug report tool with dump", "<AddScreenshot>
 	if (ClientCfg.Local)
 		sys += "ShardName OFFLINE ";
 
-	FILE *fp = nlfopen (getLogDirectory() + "bug_report.txt", "wb");
+	FILE *fp = fopen (std::string(getLogDirectory() + "bug_report.txt").c_str(), "wb");
 	if (fp != NULL)
 	{
 		string res = addSlashR(getDebugInformation());
@@ -2440,7 +2440,7 @@ NLMISC_COMMAND(mode, "Change the mode for an entity in a slot", "<Slot> <Mode> [
 	return true;
 }
 
-NLMISC_COMMAND(behaviour, "Change the behaviour for an entity in a slot", "<Slot> <Behaviour> [<Attack Intensity>] [<Impact Intensity>] [<delta HP>] [dt(tick)]")
+NLMISC_COMMAND(behaviour, "Change the behaviour for an entity in a slot", "<Slot> <Behaviour> [<Attack Intensity>] [<Impact Intensity>] [<delta ChaScore1>] [dt(tick)]")
 {
 	// Check parameters.
 	if(args.size() < 2 || args.size() > 6)
@@ -2505,7 +2505,7 @@ NLMISC_COMMAND(behaviour, "Change the behaviour for an entity in a slot", "<Slot
 				behaviour.Combat.ImpactIntensity = impactIntensity;
 			}
 			if(args.size() > 4)
-				fromString(args[4], behaviour.DeltaHP);
+				fromString(args[4], behaviour.DeltaChaScore1);
 		}
 		// get the dt
 		sint32	dt= 10;
@@ -4296,10 +4296,10 @@ NLMISC_COMMAND(debugItemInfo, "simulate a ItemInfo received from server", "itemS
 	itemInfo.ParryModifier= -10;
 	itemInfo.AdversaryDodgeModifier= 666;
 	itemInfo.AdversaryParryModifier= 333;
-	itemInfo.HpBuff= 12;
-	itemInfo.SapBuff= -14;
-	itemInfo.StaBuff= 0;
-	itemInfo.FocusBuff= 1;
+	itemInfo.ChaScore1Buff= 12;
+	itemInfo.ChaScore3Buff= -14;
+	itemInfo.ChaScore2Buff= 0;
+	itemInfo.ChaScore4Buff= 1;
 	itemInfo.MagicProtection[0]= PROTECTION_TYPE::Electricity;
 	itemInfo.MagicProtectionFactor[0]= 43;
 	itemInfo.MagicProtection[1]= PROTECTION_TYPE::Shockwave;

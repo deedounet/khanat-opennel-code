@@ -93,9 +93,9 @@ namespace MAGICFX
 		Fear = 18,      // ok
 
 		// curatif
-		HealHP = 15,
-		HealSap = 16,
-		HealSta = 17,
+		HealChaScore1 = 15,
+		HealChaScore3 = 16,
+		HealChaScore2 = 17,
 
 		Stun = 19,
 
@@ -113,7 +113,7 @@ namespace MAGICFX
 	};
 	TMagicFx toMagicFx( DMGTYPE::EDamageType type ,bool Link);
 	TMagicFx toMagicFx( EFFECT_FAMILIES::TEffectFamily effect);
-	TMagicFx healtoMagicFx(  sint32 healHp, sint32 healSap, sint32 healSta, bool link );
+	TMagicFx healtoMagicFx(  sint32 healChaScore1, sint32 healChaScore3, sint32 healChaScore2, bool link );
 
 
 	// enum for the auras fxs
@@ -122,9 +122,9 @@ namespace MAGICFX
 		NoAura = 0,
 		Divinity = 1,
 		SpeedMove = 2,
-		AuraSap = 3,
-		AuraSta = 4,
-		AuraHp = 5,
+		AuraChaScore3 = 3,
+		AuraChaScore2 = 4,
+		AuraChaScore1 = 5,
 		ProtectionMelee = 6,
 		ProtectionRange = 7,
 		ProtectionMagic = 8,

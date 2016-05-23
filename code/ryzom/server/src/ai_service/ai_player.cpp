@@ -277,7 +277,7 @@ void CManagerPlayer::update()
 
 void CManagerPlayer::addSpawnedPlayer(TDataSetRow const& dataSetRow, NLMISC::CEntityId const& id)
 {
-	CBotPlayer*	player = new CBotPlayer(this,dataSetRow,id,1); // :TODO: default player level calculation (skill & hp ?).
+	CBotPlayer*	player = new CBotPlayer(this,dataSetRow,id,1); // :TODO: default player level calculation (skill & ChaScore1 ?).
 	addChild(player);
 	player->spawn();
 	

@@ -94,19 +94,19 @@
     <view type="bar3"
           id="jauges"
           posref="TR TR"
-          color1="%focus_color"
-          value1="%target_focus"
+          color1="%ChaScore4_color"
+          value1="%target_ChaScore4"
           range1="UI:CONST:127"
-          color2="%sap_color"
-          value2="%target_sap"
+          color2="%ChaScore3_color"
+          value2="%target_ChaScore3"
           range2="UI:CONST:127"
-          color3="%sta_color"
-          value3="%target_sta"
+          color3="%ChaScore2_color"
+          value3="%target_ChaScore2"
           range3="UI:CONST:127" />
     <ctrl type="tooltip"
           id="tt1"
-          tooltip="uiStamina"
-          color="%sta_color"
+          tooltip="uiChaScore2"
+          color="%ChaScore2_color"
           posparent="jauges"
           posref="TL TL"
           x="0"
@@ -116,8 +116,8 @@
           h="0" />
     <ctrl type="tooltip"
           id="tt2"
-          tooltip="uiSap"
-          color="%sap_color"
+          tooltip="uiChaScore3"
+          color="%ChaScore3_color"
           posparent="tt1"
           posref="BL BL"
           x="0"
@@ -127,8 +127,8 @@
           h="0" />
     <ctrl type="tooltip"
           id="tt3"
-          tooltip="uiFocus"
-          color="%focus_color"
+          tooltip="uiChaScore4"
+          color="%ChaScore4_color"
           posparent="tt2"
           posref="BL TL"
           x="0"
@@ -361,22 +361,22 @@
            posref="TL TL">
       <!-- new Jauges -->
       <view type="bitmap"
-            id="b_life"
+            id="b_ChaScore1"
             posref="TL TL"
             x="0"
             y="-2"
             texture="slot_jauge.tga"
             inherit_gc_alpha="false" />
       <instance template="jauge_score_target"
-                id="jlife"
-                posparent="b_life"
+                id="jChaScore1"
+                posparent="b_ChaScore1"
                 posref="TL TL"
                 color="214 56 7 255"
-                text="uiHP"
-                val="%target_hp" />
+                text="uiChaScore1"
+                val="%target_ChaScore1" />
       <instance template="text_tt"
-                posparent="jlife"
-                tooltip="uittTargetHp"
+                posparent="jChaScore1"
+                tooltip="uittTargetChaScore1"
                 tooltip_parent="win" />
     </group>
 
@@ -1485,15 +1485,15 @@
               posref="MR MR"
               mini="true"
               x="-16"
-              color1="%sta_color"
-              value1="UI:VARIABLES:BARS:TEAM:#team_mate_index:STA"
+              color1="%ChaScore2_color"
+              value1="UI:VARIABLES:BARS:TEAM:#team_mate_index:ChaScore2"
               range1="UI:CONST:127"
-              color2="%sap_color"
-              value2="UI:VARIABLES:BARS:TEAM:#team_mate_index:SAP"
+              color2="%ChaScore3_color"
+              value2="UI:VARIABLES:BARS:TEAM:#team_mate_index:ChaScore3"
               range2="UI:CONST:127"
-              color3="%hp_color"
-              color3_negative="%hp_color_neg"
-              value3="UI:VARIABLES:BARS:TEAM:#team_mate_index:HP"
+              color3="%ChaScore1_color"
+              color3_negative="%ChaScore1_color_neg"
+              value3="UI:VARIABLES:BARS:TEAM:#team_mate_index:ChaScore1"
               range3="UI:CONST:127" />
         <view type="bitmap"
               id="lead"
@@ -1578,9 +1578,9 @@
       <!--            
                 <group id="header_opened" x="0" y="0" w="160" child_resize_h="true" child_resize_hmargin="4" posref="TL TL" >
                         <view type="bar3" id="jauges" posref="TR TR" y="-2" mini="true" x="-16"
-                                                                color1="%sta_color" value1="UI:VARIABLES:BARS:TEAM:#team_mate_index:STA"        range1="UI:CONST:127" 
-                                                                color2="%sap_color"     value2="UI:VARIABLES:BARS:TEAM:#team_mate_index:SAP"            range2="UI:CONST:127"
-                                                                color3="%hp_color" color3_negative="%hp_color_neg" value3="UI:VARIABLES:BARS:TEAM:#team_mate_index:HP"  range3="UI:CONST:127" />
+                                                                color1="%ChaScore2_color" value1="UI:VARIABLES:BARS:TEAM:#team_mate_index:ChaScore2"        range1="UI:CONST:127" 
+                                                                color2="%ChaScore3_color"     value2="UI:VARIABLES:BARS:TEAM:#team_mate_index:ChaScore3"            range2="UI:CONST:127"
+                                                                color3="%ChaScore1_color" color3_negative="%ChaScore1_color_neg" value3="UI:VARIABLES:BARS:TEAM:#team_mate_index:ChaScore1"  range3="UI:CONST:127" />
                         <view type="bitmap" id="lead" posparent="jauges" posref="ML MR" x="-4" y="1" texture="w_leader.tga" global_color="false" />
                         <view type="bitmap" id="successor" posparent="jauges" posref="ML MR" x="-4" y="1" texture="w_leader.tga" global_color="false" color="255 255 255 128" active="false"/>
                         

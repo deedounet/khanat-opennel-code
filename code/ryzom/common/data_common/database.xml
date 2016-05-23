@@ -173,13 +173,13 @@
       <!-- NB a UID invalid doesn't mean no target. It may be a Forage source -->
       <leaf name="UID"
             type="I20" />
-      <leaf name="HP"
+      <leaf name="ChaScore1"
             type="S8" />
-      <leaf name="SAP"
+      <leaf name="ChaScore3"
             type="I7" />
-      <leaf name="STA"
+      <leaf name="ChaScore2"
             type="I7" />
-      <leaf name="FOCUS"
+      <leaf name="ChaScore4"
             type="I7" />
       <leaf name="PLAYER_LEVEL"
             type="I8" />
@@ -253,11 +253,11 @@
       <!-- Entity Unique Identifier -->
       <leaf name="NAME"
             type="I32" />
-      <leaf name="HP"
+      <leaf name="ChaScore1"
             type="S8" />
-      <leaf name="SAP"
+      <leaf name="ChaScore3"
             type="I7" />
-      <leaf name="STA"
+      <leaf name="ChaScore2"
             type="I7" />
       <leaf name="POS"
             type="I64" />
@@ -1025,21 +1025,21 @@
         <leaf name="COUNTER"
               type="I4" />
         <!-- The cost each second -->
-        <leaf name="HP_COST"
+        <leaf name="ChaScore1_COST"
               type="I16" />
-        <leaf name="SAP_COST"
+        <leaf name="ChaScore3_COST"
               type="I16" />
-        <leaf name="STA_COST"
+        <leaf name="ChaScore2_COST"
               type="I16" />
         <!-- Entity name -->
         <leaf name="TARGET_NAME"
               type="TEXT" />
         <!-- Entity State -->
-        <leaf name="TARGET_HP"
+        <leaf name="TARGET_ChaScore1"
               type="I7" />
-        <leaf name="TARGET_SAP"
+        <leaf name="TARGET_ChaScore3"
               type="I7" />
-        <leaf name="TARGET_STA"
+        <leaf name="TARGET_ChaScore2"
               type="I7" />
       </branch>
     </branch>
@@ -1512,6 +1512,8 @@
             type="I5" />
       <leaf name="DESPAWN"
             type="I7" />
+      <leaf name="NAME"
+            type="I32" />
     </branch>
   </branch>
   <branch name="DEBUG_INFO"

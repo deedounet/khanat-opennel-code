@@ -53,8 +53,8 @@ extern TPropertyIndex DSPropertyENTITY_MOUNTED_ID;
 extern TPropertyIndex DSPropertyRIDER_ENTITY_ID;
 extern TPropertyIndex DSPropertyCELL;
 extern TPropertyIndex DSPropertyVISION_COUNTER;
-extern TPropertyIndex DSPropertyCURRENT_HIT_POINTS;
-extern TPropertyIndex DSPropertyMAX_HIT_POINTS;
+extern TPropertyIndex DSPropertyCURRENT_ChaScore1;
+extern TPropertyIndex DSPropertyMAX_ChaScore1;
 extern TPropertyIndex DSPropertyCURRENT_RUN_SPEED;
 extern TPropertyIndex DSPropertyCURRENT_WALK_SPEED;
 extern TPropertyIndex DSPropertyBEST_ROLE;
@@ -109,8 +109,8 @@ void	initRyzomVisualPropertyIndices( CMirroredDataSet& dataset );
 #define TYPE_CELL sint32
 #define TYPE_VISION_COUNTER uint8
 
-#define TYPE_CURRENT_HIT_POINTS sint32
-#define TYPE_MAX_HIT_POINTS sint32
+#define TYPE_CURRENT_ChaScore1 sint32
+#define TYPE_MAX_ChaScore1 sint32
 #define TYPE_RUNSPEED float
 #define TYPE_WALKSPEED float
 #define TYPE_BEST_ROLE uint16

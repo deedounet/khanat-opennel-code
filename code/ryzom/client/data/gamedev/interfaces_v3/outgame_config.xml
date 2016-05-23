@@ -221,15 +221,15 @@
   <!-- ***************************** -->
   <!-- *  COMMON DEFINE COLORS     * -->
   <!-- ***************************** -->
-  <define id="hp_color"
+  <define id="ChaScore1_color"
           value="255 64 0 255" />
-  <define id="hp_color_neg"
+  <define id="ChaScore1_color_neg"
           value="127 32 0 255" />
-  <define id="sta_color"
+  <define id="ChaScore2_color"
           value="255 0 255 255" />
-  <define id="sap_color"
+  <define id="ChaScore3_color"
           value="72 255 0 255" />
-  <define id="focus_color"
+  <define id="ChaScore4_color"
           value="0 128 255 255" />
   <define id="bulk_color"
           value="215 185 75 255" />

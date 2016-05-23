@@ -84,6 +84,6 @@ void CRegenAuraEffect::removed()
 }
 
 
-CAuraEffectTFactory<CRegenAuraEffect> *CLifeAuraEffectFactoryInstance = new CAuraEffectTFactory<CRegenAuraEffect>(POWERS::LifeAura);
-CAuraEffectTFactory<CRegenAuraEffect> *CStaminaAuraEffectFactoryInstance = new CAuraEffectTFactory<CRegenAuraEffect>(POWERS::StaminaAura);
-CAuraEffectTFactory<CRegenAuraEffect> *CSapAuraEffectFactoryInstance = new CAuraEffectTFactory<CRegenAuraEffect>(POWERS::SapAura);
+CAuraEffectTFactory<CRegenAuraEffect> *CChaScore1AuraEffectFactoryInstance = new CAuraEffectTFactory<CRegenAuraEffect>(POWERS::ChaScore1Aura);
+CAuraEffectTFactory<CRegenAuraEffect> *CChaScore2AuraEffectFactoryInstance = new CAuraEffectTFactory<CRegenAuraEffect>(POWERS::ChaScore2Aura);
+CAuraEffectTFactory<CRegenAuraEffect> *CChaScore3AuraEffectFactoryInstance = new CAuraEffectTFactory<CRegenAuraEffect>(POWERS::ChaScore3Aura);

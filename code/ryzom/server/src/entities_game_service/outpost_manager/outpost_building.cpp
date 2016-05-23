@@ -140,8 +140,8 @@ void COutpostBuilding::update(uint32 nCurrentTime)
 
 				if (cur == 0) cur = 1;
 
-				_BotObject->getPhysScores()._PhysicalScores[SCORES::hit_points].Current.directAccessForStructMembers() = cur;
-				_BotObject->getPhysScores()._PhysicalScores[SCORES::hit_points].Max.directAccessForStructMembers() = max;
+				_BotObject->getPhysScores()._PhysicalScores[SCORES::cha_score1].Current.directAccessForStructMembers() = cur;
+				_BotObject->getPhysScores()._PhysicalScores[SCORES::cha_score1].Max.directAccessForStructMembers() = max;
 			}
 		}
 		return;

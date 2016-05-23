@@ -31,7 +31,7 @@ using namespace NLMISC;
 using namespace std;
 
 
-CVariable<float> ForageFocusAutoRegenRatio( "egs", "ForageFocusAutoRegenRatio", "Ratio of auto-regen of focus after an extraction", 1.0, 0, true );
+CVariable<float> ForageChaScore4AutoRegenRatio( "egs", "ForageChaScore4AutoRegenRatio", "Ratio of auto-regen of ChaScore4 after an extraction", 1.0, 0, true );
 
 NL_INSTANCE_COUNTER_IMPL(CForageProgress);
 
@@ -45,13 +45,13 @@ static uint QualityStatsQtty [NB_QUALITY_STATS];
 /*
  * Reset
  */
-void CForageProgress::reset( const NLMISC::CSheetId& material,  const TDataSetRow& sourceRowId, sint32 initialFocus )
+void CForageProgress::reset( const NLMISC::CSheetId& material,  const TDataSetRow& sourceRowId, sint32 initialChaScore4 )
 {
 	_Material = material;
 	_SourceRowId = sourceRowId;
 	_Amount = 0;
 	_Quality = 1.0f;
-	_InitialFocus = initialFocus;
+	_InitialChaScore4 = initialChaScore4;
 	_ResultCanBeTaken = false;
 	_HasCastedUsefulCare = false;
 }
@@ -158,9 +158,9 @@ void CForageProgress::reportXP( CCharacter *extractor, const CHarvestSource *sou
 	if ( source->wasProspected() )
 	{
 		// Give energy back!
-		SCharacteristicsAndScores& focus = extractor->getScores()._PhysicalScores[SCORES::focus];
-		if ( focus.Current < initialFocus() )
-			focus.Current = focus.Current() + (sint32)(ForageFocusAutoRegenRatio.get() * (float)(initialFocus()-focus.Current));
+		SCharacteristicsAndScores& ChaScore4 = extractor->getScores()._PhysicalScores[SCORES::cha_score4];
+		if ( ChaScore4.Current < initialChaScore4() )
+			ChaScore4.Current = ChaScore4.Current() + (sint32)(ForageChaScore4AutoRegenRatio.get() * (float)(initialChaScore4()-ChaScore4.Current));
 	}
 
 	// Give XP to care casters
@@ -178,9 +178,9 @@ void CForageProgress::reportXP( CCharacter *extractor, const CHarvestSource *sou
 		if ( source->wasProspected() && careCaster->forageProgress() )
 		{
 			// Give energy back!
-			SCharacteristicsAndScores& focus = careCaster->getScores()._PhysicalScores[SCORES::focus];
-			if ( focus.Current < careCaster->forageProgress()->initialFocus() )
-				focus.Current = focus.Current() + (sint32)(ForageFocusAutoRegenRatio.get() * (float)(careCaster->forageProgress()->initialFocus()-focus.Current));
+			SCharacteristicsAndScores& ChaScore4 = careCaster->getScores()._PhysicalScores[SCORES::cha_score4];
+			if ( ChaScore4.Current < careCaster->forageProgress()->initialChaScore4() )
+				ChaScore4.Current = ChaScore4.Current() + (sint32)(ForageChaScore4AutoRegenRatio.get() * (float)(careCaster->forageProgress()->initialChaScore4()-ChaScore4.Current));
 		}
 	}
 

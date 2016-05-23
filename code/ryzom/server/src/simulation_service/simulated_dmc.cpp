@@ -452,9 +452,9 @@ void CDynamicMapClient::onNpcAnimationTargeted(uint32 mode)
 		nlinfo("R2Cl: /a dssTaget AGGRO_RANGE_SMALL");
 		nlinfo("R2Cl: /a dssTaget AGGRO_RANGE_NONE");
 	}
-	if (mode & CAnimationProp::AddHp)
+	if (mode & CAnimationProp::AddChaScore1)
 	{
-			nlinfo("R2Cl: /a dssTaget ADD_HP");
+			nlinfo("R2Cl: /a dssTaget ADD_ChaScore1");
 	}
 
 			

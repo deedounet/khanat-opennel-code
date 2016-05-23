@@ -37,7 +37,7 @@ public:
 	CSpecialPowerHeal(TDataSetRow actorRowId, CSpecialPowerPhrase *phrase, float disableTimeInSeconds, sint32 healValue, float healFactorValue, POWERS::TPowerType powerType)
 	:CSpecialPower()
 	{
-		_AffectedScore = SCORES::hit_points;
+		_AffectedScore = SCORES::cha_score1;
 		_Phrase = phrase;
 		_HealValue = healValue;
 		_HealFactorValue = healFactorValue;
@@ -66,11 +66,11 @@ public:
 	virtual void apply();
 
 protected:
-	/// affected score (Hp, sap, sta)
+	/// affected score (ChaScore1, ChaScore2, ChaScore3)
 	SCORES::TScores	_AffectedScore;
 	/// healing value
 	sint32			_HealValue;
-	/// heal factor value, in % of max HP
+	/// heal factor value, in % of max ChaScore1
 	float			_HealFactorValue;
 };
 

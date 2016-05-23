@@ -83,14 +83,14 @@ void CSpecialPowerBasicAura::apply()
 	
 	switch(_PowerType)
 	{
-	case POWERS::LifeAura:
-		fx.Aura = MAGICFX::AuraHp;
+	case POWERS::ChaScore1Aura:
+		fx.Aura = MAGICFX::AuraChaScore1;
 		break;
-	case POWERS::StaminaAura:
-		fx.Aura = MAGICFX::AuraSta;
+	case POWERS::ChaScore2Aura:
+		fx.Aura = MAGICFX::AuraChaScore2;
 		break;
-	case POWERS::SapAura:
-		fx.Aura = MAGICFX::AuraSap;
+	case POWERS::ChaScore3Aura:
+		fx.Aura = MAGICFX::AuraChaScore3;
 		break;
 	case POWERS::MeleeProtection:
 		fx.Aura = MAGICFX::ProtectionMelee;

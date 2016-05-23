@@ -44,60 +44,60 @@ end
 
 
 ------------------------------------------------------------------------------------------------------------
--- Update player bars in function of what we wants to display (we can hide each one of the 3 bars : sap,stamina and focus)
+-- Update player bars in function of what we wants to display (we can hide each one of the 3 bars : ChaScore3,ChaScore2 and ChaScore4)
 function game:updatePlayerBars()
 
-	local dispSap = getDbProp('UI:SAVE:PLAYER:DISP_SAP');
-	local dispSta = getDbProp('UI:SAVE:PLAYER:DISP_STA');
-	local dispFoc = getDbProp('UI:SAVE:PLAYER:DISP_FOC');
+	local dispChaScore3 = getDbProp('UI:SAVE:PLAYER:DISP_ChaScore3');
+	local dispChaScore2 = getDbProp('UI:SAVE:PLAYER:DISP_ChaScore2');
+	local dispChaScore4 = getDbProp('UI:SAVE:PLAYER:DISP_ChaScore4');
 	
 	local ui = getUI('ui:interface:player:content');
 
 	-- active ui in function of what is displayed
 
-	ui.b_sap.active = (dispSap == 1);
-	ui.jsap.active = (dispSap == 1);
+	ui.b_ChaScore3.active = (dispChaScore3 == 1);
+	ui.jChaScore3.active = (dispChaScore3 == 1);
 
-	ui.b_sta.active = (dispSta == 1);
-	ui.jsta.active = (dispSta == 1);
+	ui.b_ChaScore2.active = (dispChaScore2 == 1);
+	ui.jChaScore2.active = (dispChaScore2 == 1);
 
-	ui.b_foc.active = (dispFoc == 1);
-	ui.jfoc.active = (dispFoc == 1);
+	ui.b_ChaScore4.active = (dispChaScore4 == 1);
+	ui.jChaScore4.active = (dispChaScore4 == 1);
 
 	-- choose good y-position
 
-	local totalBarDisp = dispSap + dispSta + dispFoc;
+	local totalBarDisp = dispChaScore3 + dispChaScore2 + dispChaScore4;
 	if (totalBarDisp == 3) then
 
-		ui.b_sap.y = -20;
-		ui.b_sta.y = -35;
-		ui.b_foc.y = -50;
+		ui.b_ChaScore3.y = -20;
+		ui.b_ChaScore2.y = -35;
+		ui.b_ChaScore4.y = -50;
 		ui.current_action.y = -65;
 
 	elseif (totalBarDisp == 2) then
 
-		if (dispSap == 0) then
-			ui.b_sta.y = -20;
-			ui.b_foc.y = -35;
+		if (dispChaScore3 == 0) then
+			ui.b_ChaScore2.y = -20;
+			ui.b_ChaScore4.y = -35;
 		end
 
-		if (dispSta == 0) then
-			ui.b_sap.y = -20;
-			ui.b_foc.y = -35;
+		if (dispCha == 0) then
+			ui.b_ChaScore3.y = -20;
+			ui.b_ChaScore4.y = -35;
 		end
 
-		if (dispFoc == 0) then
-			ui.b_sap.y = -20;
-			ui.b_sta.y = -35;
+		if (dispChaScore4 == 0) then
+			ui.b_ChaScore3.y = -20;
+			ui.b_ChaScore2.y = -35;
 		end
 
 		ui.current_action.y = -50;
 
 	elseif (totalBarDisp == 1) then
 
-		ui.b_sta.y = -20;
-		ui.b_foc.y = -20;
-		ui.b_sta.y = -20;
+		ui.b_ChaScore2.y = -20;
+		ui.b_ChaScore4.y = -20;
+		ui.b_ChaScore2.y = -20;
 
 		ui.current_action.y = -35;
 
@@ -864,10 +864,10 @@ function game:updatePhraseTooltip(phrase)
 		text = concatUCString(text, "@{CCCF}")
 	end
 	-- IMPORTANT : the following getters on 'phrase' take in account the 'total action malus' for the timebeing 	
-	self:setPhraseTooltipCarac(ttWin, "hp_cost",	phrase:getHpCost())
-	self:setPhraseTooltipCarac(ttWin, "sta_cost",	phrase:getStaCost())
-	self:setPhraseTooltipCarac(ttWin, "sap_cost",	phrase:getSapCost())	
-	self:setPhraseTooltipCarac(ttWin, "focus_cost", phrase:getFocusCost())	
+	self:setPhraseTooltipCarac(ttWin, "ChaScore1_cost",	phrase:getChaScore1Cost())
+	self:setPhraseTooltipCarac(ttWin, "ChaScore2_cost",	phrase:getChaScore2Cost())
+	self:setPhraseTooltipCarac(ttWin, "ChaScore3_cost",	phrase:getChaScore3Cost())	
+	self:setPhraseTooltipCarac(ttWin, "ChaScore4_cost", phrase:getChaScore4Cost())	
 	self:setPhraseTooltipCarac(ttWin, "cast_time",  phrase:getCastTime(), concatUCString(string.format("%.1f", phrase:getCastTime()), i18n.get("uittSeconds")))
 	local castRange = phrase:getCastRange()
 	if not phrase:isMagicPhrase() then
@@ -935,10 +935,10 @@ function game:updateBuffItemTooltip(buffItem)
 	local ttWin = getUI("ui:interface:buff_item_context_help")	
 	local text = buffItem:getName()	
 
-	self:setPhraseTooltipCarac(ttWin, "hp_buff",	buffItem:getHpBuff())		
-	self:setPhraseTooltipCarac(ttWin, "sta_buff",	buffItem:getStaBuff())		
-	self:setPhraseTooltipCarac(ttWin, "sap_buff",	buffItem:getSapBuff())	
-	self:setPhraseTooltipCarac(ttWin, "focus_buff", buffItem:getFocusBuff())	
+	self:setPhraseTooltipCarac(ttWin, "ChaScore1_buff",	buffItem:getChaScore1Buff())		
+	self:setPhraseTooltipCarac(ttWin, "ChaScore2_buff",	buffItem:getChaScore2Buff())		
+	self:setPhraseTooltipCarac(ttWin, "ChaScore3_buff",	buffItem:getChaScore3Buff())	
+	self:setPhraseTooltipCarac(ttWin, "ChaScore4_buff", buffItem:getChaScore4Buff())	
 
 	updateTooltipCoords()	
 	return text

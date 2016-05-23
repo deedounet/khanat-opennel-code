@@ -1004,7 +1004,7 @@ void CInterfaceManager::initInGame()
 	// Init FlyingText manager
 	FlyingTextManager.initInGame();
 
-	// Init Bar Manager (HP, SAP etc... Bars)
+	// Init Bar Manager (ChaScore1, ChaScore2 etc... Bars)
 	CBarManager::getInstance()->initInGame();
 
 	// Init interface props linked to client time
@@ -1275,7 +1275,7 @@ void CInterfaceManager::uninitInGame0 ()
 void CInterfaceManager::uninitInGame1 ()
 {
 
-	// release Bar Manager (HP, SAP etc... Bars)
+	// release Bar Manager (ChaScore1, ChaScore2 etc... Bars)
 	CBarManager::getInstance()->releaseInGame();
 
 	// release FlyingTextManager
@@ -1833,8 +1833,7 @@ bool CInterfaceManager::saveConfig (const string &filename)
 
 	COFile f;
 
-	// using temporary file, so no f.close() unless its a success
-	if (!f.open(filename, false, false, true)) return false;
+	if (!f.open(filename)) return false;
 
 	CInterfaceConfig ic;
 
@@ -1881,6 +1880,7 @@ bool CInterfaceManager::saveConfig (const string &filename)
 		{
 			nlwarning("Config saving failed");
 			// couldn't save result so do not continue
+			f.close();
 			return false;
 		}
 
@@ -1936,14 +1936,14 @@ bool CInterfaceManager::saveConfig (const string &filename)
 			nlwarning("Bad user dyn chat saving");
 			return false;
 		}
-
-		f.close();
 	}
 	catch(const NLMISC::EStream &)
 	{
+		f.close();
 		nlwarning("Config saving failed.");
 		return false;
 	}
+	f.close();
 
 	ContinentMngr.serialFOWMaps();
 
@@ -2652,8 +2652,7 @@ bool	CInterfaceManager::saveKeys(const std::string &filename)
 	try
 	{
 		COFile file;
-		// using temporary file, so no file.close() unless its a success
-		if (file.open (filename, false, false, true))
+		if (file.open (filename))
 		{
 			COXml xmlStream;
 			xmlStream.init (&file);
@@ -2683,7 +2682,8 @@ bool	CInterfaceManager::saveKeys(const std::string &filename)
 	}
 	catch (const Exception &e)
 	{
-		nlwarning ("Error while writing the file %s : %s.", filename.c_str(), e.what ());
+		nlwarning ("Error while writing the file %s : %s. Remove it.", filename.c_str(), e.what ());
+		CFile::deleteFile(filename);
 	}
 	return ret;
 }
@@ -2711,7 +2711,7 @@ void CInterfaceManager::log(const ucstring &str, const std::string &cat)
 	{
 		// Open file with the name of the player
 		const string fileName= "save/log_" + PlayerSelectedFileName + ".txt";
-		FILE *f = nlfopen(fileName, "at");
+		FILE *f = fopen(fileName.c_str(), "at");
 		if (f != NULL)
 		{
 			const string finalString = string(NLMISC::IDisplayer::dateToHumanString()) + " (" + NLMISC::toUpper(cat) + ") * " + str.toUtf8();

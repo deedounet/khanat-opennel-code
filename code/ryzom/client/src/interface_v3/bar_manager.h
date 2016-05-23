@@ -30,7 +30,7 @@ namespace NLMISC{
 
 // ***************************************************************************
 /**
- * Class that Manage display of Bars (HP, Sta, Sap, Focus)
+ * Class that Manage display of Bars (ChaScore1, ChaScore2, ChaScore3, ChaScore4)
  *	Such a manager is necessary because the property are sent in 2 ways:
  *		- From Visual Property, often more frequently updated, but only if Entity is in Vision AND within
  *			a certain distance (aka VP threshold which is for instance 30m for Bars)
@@ -81,10 +81,10 @@ public:
 	// Flags
 	enum	TScoreFlag
 	{
-		HpFlag=		(1<<SCORES::hit_points),
-		SapFlag=	(1<<SCORES::sap),
-		StaFlag=	(1<<SCORES::stamina),
-		FocusFlag=	(1<<SCORES::focus)
+		ChaScore1Flag=		(1<<SCORES::cha_score1),
+		ChaScore3Flag=	(1<<SCORES::cha_score3),
+		ChaScore2Flag=	(1<<SCORES::cha_score2),
+		ChaScore4Flag=	(1<<SCORES::cha_score4)
 	};
 
 	// Bar Info
@@ -132,7 +132,7 @@ public:
 
 	/** called either by VP or DB receive. NB: no-op if the dataSetId was not added through any of preceding fct
 	 *	\param serverTick the server date validity of this info (if too old, skiped)
-	 *	\param scoreFlags an ORed of TScoreFlag. if not set, the value is not relevant (eg: Team DB don't precise Focus)
+	 *	\param scoreFlags an ORed of TScoreFlag. if not set, the value is not relevant (eg: Team DB don't precise ChaScore4)
 	 */
 	void		updateBars(uint dataSetId, CBarInfo barInfo, NLMISC::TGameCycle serverTick, uint scoreFlags);
 
@@ -149,15 +149,15 @@ public:
 
 	/*
 	 * For Interface Team, Target, and Animal, values are updated in the database:
-	 *		UI:VARIABLES:BARS:TEAM:i:HP
-	 *		UI:VARIABLES:BARS:ANIMAL:i:HP
-	 *		UI:VARIABLES:BARS:TARGET:HP
+	 *		UI:VARIABLES:BARS:TEAM:i:ChaScore1
+	 *		UI:VARIABLES:BARS:ANIMAL:i:ChaScore1
+	 *		UI:VARIABLES:BARS:TARGET:ChaScore1
 	 * They are updated on a updateBars(), addxxx() or delxxxx()
 	 */
 
-	/// Special Message to set the current HP/SAP/STA/FOCUS for the user.
-	void	setupUserBarInfo(uint8 msgNumber, sint32 hp, sint32 sap, sint32 sta, sint32 focus);
-	/// From last setuped user HP/SAP/STA/FOCUS, and current database MAX, setup the Bars for the user (slot 0) entry
+	/// Special Message to set the current ChaScore1/ChaScore3/ChaScore2/ChaScore4 for the user.
+	void	setupUserBarInfo(uint8 msgNumber, sint32 ChaScore1, sint32 ChaScore3, sint32 ChaScore2, sint32 ChaScore4);
+	/// From last setuped user ChaScore1/ChaScore3/ChaScore2/ChaScore4, and current database MAX, setup the Bars for the user (slot 0) entry
 	void	updateUserBars();
 
 	sint32 getUserScore(SCORES::TScores score);
@@ -231,7 +231,7 @@ private:
 		void	clear();
 		// connect
 		void	connectDB(const std::string &baseDBin, const std::string &baseDBout, const std::string &presentDB,
-			const std::string &hpDB, const std::string &sapDB, const std::string &staDB, const std::string &focusDB);
+			const std::string &ChaScore1DB, const std::string &ChaScore3DB, const std::string &ChaScore2DB, const std::string &ChaScore4DB);
 		void	resetDB();
 		// flush the value to the DB (only values linked)
 		void	flushDBOut();

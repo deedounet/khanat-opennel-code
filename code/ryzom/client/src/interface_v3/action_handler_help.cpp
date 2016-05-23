@@ -1389,8 +1389,8 @@ void	getBuffText(CDBCtrlSheet *item, ucstring &itemText)
 	// retrieve the current itemInfo
 	const	CClientItemInfo	&itemInfo= getInventory().getItemInfo(getInventory().getItemSlotId(item) );
 
-	const string valIds[]={"Hp", "Sap", "Sta", "Focus"};
-	sint32		 vals[]= {itemInfo.HpBuff, itemInfo.SapBuff, itemInfo.StaBuff, itemInfo.FocusBuff};
+	const string valIds[]={"ChaScore1", "ChaScore3", "ChaScore2", "ChaScore4"};
+	sint32		 vals[]= {itemInfo.ChaScore1Buff, itemInfo.ChaScore3Buff, itemInfo.ChaScore2Buff, itemInfo.ChaScore4Buff};
 	uint		numVals= sizeof(vals) / sizeof(vals[0]);
 	ucstring	bufInfo;
 
@@ -1840,7 +1840,7 @@ void getArmorBonus(CDBCtrlSheet *item, ucstring &itemText, const CItemSheet*pIS)
 		level = item->getQuality() / 2;
 
 	if (pIS->Armor.ArmorType == ARMORTYPE::HEAVY || pIS->Armor.ArmorType == ARMORTYPE::MEDIUM)
-		armor_bonus = "@{FFFF}(+@{2F2F}" + toString(level) + " @{FFFF}" + CI18N::get("uiHP") + ")";
+		armor_bonus = "@{FFFF}(+@{2F2F}" + toString(level) + " @{FFFF}" + CI18N::get("uiChaScore1") + ")";
 
 	strFindReplace(itemText, "%armor_bonus",  armor_bonus);
 }
@@ -2596,9 +2596,9 @@ static void setupPactHelp(CSheetHelpSetup &setup)
 
 	pactText= CI18N::get("uihelpPactFormat");
 	strFindReplace(pactText, "%lvl", toString(pactLevel));
-	strFindReplace(pactText, "%hp", toString(pactLose.LoseHitPointsLevel));
-	strFindReplace(pactText, "%sta", toString(pactLose.LoseStaminaLevel));
-	strFindReplace(pactText, "%sap", toString(pactLose.LoseSapLevel));
+	strFindReplace(pactText, "%ChaScore1", toString(pactLose.LoseChaScore1Level));
+	strFindReplace(pactText, "%ChaScore2", toString(pactLose.LoseChaScore2Level));
+	strFindReplace(pactText, "%ChaScore3", toString(pactLose.LoseChaScore3Level));
 	strFindReplace(pactText, "%skill", toString(pactLose.LoseSkillsLevel));
 
 	// **** setup the text
@@ -3937,15 +3937,13 @@ public:
 		s += getSystemInformation();
 
 		string progname;
-		std::string moduleName;
+		char name[1024] = "";
 #ifdef NL_OS_WINDOWS
-		wchar_t name[1024];
-		GetModuleFileNameW(NULL, name, 1023);
-		moduleName = wideToUtf8(name);
+		GetModuleFileName (NULL, name, 1023);
 #else
 		// TODO for Linux
 #endif
-		progname = CFile::getFilename(moduleName);
+		progname = CFile::getFilename(name);
 		progname += " ";
 		progname += "Statistic Report";
 

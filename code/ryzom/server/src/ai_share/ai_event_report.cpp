@@ -27,9 +27,9 @@ namespace AI_EVENT_REPORT
 	// The conversion table
 	const CStringConversion<TAIReportStat>::CPair stringTable [] =
 	{
-		{ "HitPoints",	HitPoints },
-		{ "Stamina",	Stamina },
-		{ "Sap",		Sap },
+		{ "ChaScore1",	ChaScore1 },
+		{ "ChaScore2",	ChaScore2 },
+		{ "ChaScore2",	ChaScore3 },
 		{ "Unknown",	Unknown },
 	};
 

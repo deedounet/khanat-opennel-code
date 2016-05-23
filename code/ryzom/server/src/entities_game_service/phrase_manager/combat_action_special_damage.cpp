@@ -225,7 +225,7 @@ void CCombatActionSpecialDamage::applyOnTarget(uint8 targetIndex, CCombatPhrase 
 	}
 	
 	// inflict damage on target
-	if ( entity->changeCurrentHp( -damage, _ActorRowId) )
+	if ( entity->changeCurrentChaScore1( -damage, _ActorRowId) )
 	{
 		PHRASE_UTILITIES::sendDeathMessages(_ActorRowId,entity->getEntityRowId());
 		if (targetIndex == 0)

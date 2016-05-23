@@ -3145,13 +3145,13 @@ void CServerAnimationModule::onCharTargetReceived( NLNET::IModuleProxy *senderMo
 	if ( (animationProp & CAnimationProp::Alive) )
 	{
 
-		if (args[0] == "ADD_HP") {  CAiWrapper::getInstance().setHPLevel(rtNpc->EntityId, alias, 1); return; }
+		if (args[0] == "ADD_ChaScore1") {  CAiWrapper::getInstance().setChaScore1Level(rtNpc->EntityId, alias, 1); return; }
 
-		if (args[0] == "KILL_NPC" && alived) { CAiWrapper::getInstance().setHPLevel(rtNpc->EntityId, alias, 0); return; }
-		if (args[0] == "ADD_HP") {  CAiWrapper::getInstance().setHPLevel(rtNpc->EntityId, alias, 1); return; }
+		if (args[0] == "KILL_NPC" && alived) { CAiWrapper::getInstance().setChaScore1Level(rtNpc->EntityId, alias, 0); return; }
+		if (args[0] == "ADD_ChaScore1") {  CAiWrapper::getInstance().setChaScore1Level(rtNpc->EntityId, alias, 1); return; }
 
-		if (args[0] == "GRP_KILL" && alived) { CAiWrapper::getInstance().setGrpHPLevel(rtNpc->EntityId, alias, 0); return; }
-		if (args[0] == "GRP_HEAL") {  CAiWrapper::getInstance().setGrpHPLevel(rtNpc->EntityId, alias, 1); return; }
+		if (args[0] == "GRP_KILL" && alived) { CAiWrapper::getInstance().setGrpChaScore1Level(rtNpc->EntityId, alias, 0); return; }
+		if (args[0] == "GRP_HEAL") {  CAiWrapper::getInstance().setGrpChaScore1Level(rtNpc->EntityId, alias, 1); return; }
 
 
 

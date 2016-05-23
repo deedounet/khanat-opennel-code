@@ -91,11 +91,7 @@
 	<action handler="set" params="target='ui:interface:gestion_windows:x'|value=div(sub(getprop('ui:interface:w'),getprop('ui:interface:gestion_windows:w')),2)" />
 	<action handler="set" params="target='ui:interface:gestion_windows:y'|value=add(getprop('ui:interface:gestion_windows:h'),div(sub(getprop('ui:interface:h'),getprop('ui:interface:gestion_windows:h')),2))" />
 	<action handler="set" params="target='ui:interface:gestion_windows:active'|value=@UI:TEMP:ACTIVE" />
-
-	<!-- AppZone -->
-	<action handler="set" params="target='ui:interface:appzone:active'|value=1" />
-	<action handler="set" params="target='ui:interface:appzone:x'|value=div(sub(getprop('ui:interface:w'),getprop('ui:interface:appzone:w')),2)" />
-	<action handler="set" params="target='ui:interface:appzone:y'|value=add(getprop('ui:interface:appzone:h'),2)" />
+	
 </proc>
 
 <proc id="proc_reset_interface">
@@ -162,10 +158,10 @@
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:NAME|value=0" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:TITLE|value=0" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:GUILD_NAME|value=0" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:HP|value=0" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:STA|value=0" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:SAP|value=0" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:FOCUS|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:ChaScore1|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:ChaScore2|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:ChaScore3|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:ChaScore4|value=0" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:ACTION|value=0" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:MESSAGES|value=0" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:USER:PVP_LOGO|value=1" />
@@ -173,10 +169,10 @@
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:NAME|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:TITLE|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:GUILD_NAME|value=1" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:HP|value=0" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:STA|value=0" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:SAP|value=0" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:FOCUS|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:ChaScore1|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:ChaScore2|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:ChaScore3|value=0" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:ChaScore4|value=0" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:MESSAGES|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:PVP_LOGO|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:FRIEND:NPCNAME|value=1" />
@@ -187,7 +183,7 @@
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:ENEMY:NAME|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:ENEMY:TITLE|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:ENEMY:GUILD_NAME|value=1" />
-	<action handler="set" params="dblink=UI:SAVE:INSCENE:ENEMY:HP|value=1" />
+	<action handler="set" params="dblink=UI:SAVE:INSCENE:ENEMY:ChaScore1|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:ENEMY:MESSAGES|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:INSCENE:ENEMY:PVP_LOGO|value=1" />
 
@@ -237,9 +233,9 @@
 	<action handler="set" params="dblink=UI:SAVE:NIGHT_COLOR|value=makeRGB(127,190,254)" />
 	<action handler="set" params="dblink=UI:SAVE:SHOW_3D_ITEM_PREVIEW|value=1" />
 
-	<action handler="set" params="dblink=UI:SAVE:PLAYER:DISP_SAP|value=1" />
-	<action handler="set" params="dblink=UI:SAVE:PLAYER:DISP_STA|value=1" />
-	<action handler="set" params="dblink=UI:SAVE:PLAYER:DISP_FOC|value=1" />
+	<action handler="set" params="dblink=UI:SAVE:PLAYER:DISP_ChaScore3|value=1" />
+	<action handler="set" params="dblink=UI:SAVE:PLAYER:DISP_ChaScore2|value=1" />
+	<action handler="set" params="dblink=UI:SAVE:PLAYER:DISP_ChaScore4|value=1" />
 	<action handler="set" params="dblink=UI:SAVE:ACT_BAR_OUT|value=1" />
 
 	<action handler="set" params="dblink=UI:SAVE:CHAT:FONT_SIZE|value=10" />

@@ -57,13 +57,13 @@ bool CMagicAiActionHoT::initFromAiAction( const CStaticAiAction *aiAction, CMagi
 	
 	switch(_AffectedScore)
 	{
-	case SCORES::hit_points:
+	case SCORES::cha_score1:
 		phrase->setMagicFxType( MAGICFX::healtoMagicFx( 5,0,0,true ), 5);
 		break;
-	case SCORES::sap:
+	case SCORES::cha_score3:
 		phrase->setMagicFxType( MAGICFX::healtoMagicFx( 0,5,0,true ), 5);
 		break;
-	case SCORES::stamina:
+	case SCORES::cha_score2:
 		phrase->setMagicFxType( MAGICFX::healtoMagicFx( 0,0,5,true ), 5);
 		break;
 	};

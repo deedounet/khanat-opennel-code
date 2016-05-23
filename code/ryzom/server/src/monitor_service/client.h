@@ -134,8 +134,8 @@ public:
 	{
 	public:
 		uint32 Id;
-		sint32 CurrentHP;
-		sint32 MaxHP;
+		sint32 CurrentChaScore1;
+		sint32 MaxChaScore1;
 		uint8  Mode;
 		uint8  Behaviour;
 	};

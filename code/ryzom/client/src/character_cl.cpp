@@ -1756,12 +1756,12 @@ void CCharacterCL::updateVisualPropertyBars(const NLMISC::TGameCycle &gameCycle,
 {
 	CBarManager::CBarInfo	barInfo;
 
-	// Encode HP to 7 bits
-	barInfo.Score[SCORES::hit_points]	= (sint8)((prop&0x7ff) * 127 / 1023);
+	// Encode ChaScore1 to 7 bits
+	barInfo.Score[SCORES::cha_score1]	= (sint8)((prop&0x7ff) * 127 / 1023);
 	// NB: barInfo are sint8, but no problem, since anything following is 7 bits.
-    barInfo.Score[SCORES::stamina]		= (uint8)((prop>>11)&0x7f);
-    barInfo.Score[SCORES::sap]			= (uint8)((prop>>18)&0x7f);
-    barInfo.Score[SCORES::focus]		= (uint8)((prop>>25)&0x7f);
+    barInfo.Score[SCORES::cha_score2]		= (uint8)((prop>>11)&0x7f);
+    barInfo.Score[SCORES::cha_score3]			= (uint8)((prop>>18)&0x7f);
+    barInfo.Score[SCORES::cha_score4]		= (uint8)((prop>>25)&0x7f);
 
 	// update The Bar manager
 	CBarManager	*pBM= CBarManager::getInstance();
@@ -1769,13 +1769,13 @@ void CCharacterCL::updateVisualPropertyBars(const NLMISC::TGameCycle &gameCycle,
 	  WHY gameCycle+1 ?????  (yoyo)
 		It's because sometimes I have a bug With target DB update and VP update. This is the scenario
 		where I suppose the problem rises:
-		tick=320:	EGS::tickUpdate(): player.DBTargetHP.setProp(49)
-		tick=321:	EGS::combat update, target ennemy receives a Hit, VPHp=10 => transmitted to client with timestamp=321
+		tick=320:	EGS::tickUpdate(): player.DBTargetChaScore1.setProp(49)
+		tick=321:	EGS::combat update, target ennemy receives a Hit, VPChaScore1=10 => transmitted to client with timestamp=321
 					EGS::databaseUpdate(), DB updated, with timestamp=321!!!
 
 		Thus I receives on client:
-			first the VP with Hp=10, timestamp=321
-			second the DB with Hp=49, timestamp=321 too => replaced => BUG
+			first the VP with ChaScore1=10, timestamp=321
+			second the DB with ChaScore1=49, timestamp=321 too => replaced => BUG
 		NB: DB is typically sent at low frequency by FrontEnd, thus received later on client.
 
 		Since databaseUpdate() is called every 2 ticks, adding +1 to VP timestamps solve easily the problem.
@@ -1785,19 +1785,19 @@ void CCharacterCL::updateVisualPropertyBars(const NLMISC::TGameCycle &gameCycle,
 
 		NB: moreover, tickupdate() is called every 8 (or 16) ticks, and databaseUpdate() every 2 ticks. So there is one more
 			possible bug:
-			318:	EGS::tickUpdate(): player.DBTargetHP.setProp(49)
-			319:	EGS::combat update, target ennemy receives a Hit, VPHp=10 => transmitted to client with timestamp=319
+			318:	EGS::tickUpdate(): player.DBTargetChaScore1.setProp(49)
+			319:	EGS::combat update, target ennemy receives a Hit, VPChaScore1=10 => transmitted to client with timestamp=319
 					EGS::databaseUpdate(), BUT decide to send only a small subset of DB (because lot of things to send)
-						=> our TargetHP is not updated
+						=> our TargetChaScore1 is not updated
 			320:	nothing. tickupdate() is not called, since every 8 ticks
-			321:	EGS::databaseUpdate(), update TargetHP, with timestamp=321 !!!!! => Bug
+			321:	EGS::databaseUpdate(), update TargetChaScore1, with timestamp=321 !!!!! => Bug
 
 		(remind that we cannot store a timestamp for each DB property, else would be too big to store and to send...)
 
 		BTW, this last bug should be very rare, so don't care.
 	*********** */
 	pBM->updateBars(dataSetId(), barInfo, gameCycle+1,
-		CBarManager::HpFlag | CBarManager::StaFlag | CBarManager::SapFlag | CBarManager::FocusFlag);
+		CBarManager::ChaScore1Flag | CBarManager::ChaScore2Flag | CBarManager::ChaScore3Flag | CBarManager::ChaScore4Flag);
 
 }// updateVisualPropertyBars //
 
@@ -3048,7 +3048,7 @@ KeyChosen:
 								case CAnimationStateSheet::ElecCastInit:
 								case CAnimationStateSheet::FearCastInit:
 								case CAnimationStateSheet::FireCastInit:
-								case CAnimationStateSheet::HealHPCastInit:
+								case CAnimationStateSheet::HealChaScore1CastInit:
 								case CAnimationStateSheet::MadCastInit:
 								case CAnimationStateSheet::PoisonCastInit:
 								case CAnimationStateSheet::RootCastInit:
@@ -3068,7 +3068,7 @@ KeyChosen:
 								case CAnimationStateSheet::ElecCastLoop:
 								case CAnimationStateSheet::FearCastLoop:
 								case CAnimationStateSheet::FireCastLoop:
-								case CAnimationStateSheet::HealHPCastLoop:
+								case CAnimationStateSheet::HealChaScore1CastLoop:
 								case CAnimationStateSheet::MadCastLoop:
 								case CAnimationStateSheet::PoisonCastLoop:
 								case CAnimationStateSheet::RootCastLoop:
@@ -3088,7 +3088,7 @@ KeyChosen:
 								case CAnimationStateSheet::ElecCastEnd:
 								case CAnimationStateSheet::FearCastEnd:
 								case CAnimationStateSheet::FireCastEnd:
-								case CAnimationStateSheet::HealHPCastEnd:
+								case CAnimationStateSheet::HealChaScore1CastEnd:
 								case CAnimationStateSheet::MadCastEnd:
 								case CAnimationStateSheet::PoisonCastEnd:
 								case CAnimationStateSheet::RootCastEnd:
@@ -3111,7 +3111,7 @@ KeyChosen:
 								case CAnimationStateSheet::ElecCastFail:
 								case CAnimationStateSheet::FearCastFail:
 								case CAnimationStateSheet::FireCastFail:
-								case CAnimationStateSheet::HealHPCastFail:
+								case CAnimationStateSheet::HealChaScore1CastFail:
 								case CAnimationStateSheet::MadCastFail:
 								case CAnimationStateSheet::PoisonCastFail:
 								case CAnimationStateSheet::RootCastFail:
@@ -3684,8 +3684,8 @@ void CCharacterCL::beginCast(const MBEHAV::CBehaviour &behaviour)
 	case MBEHAV::CAST_FIRE:
 		setAnim(CAnimationStateSheet::FireCastInit);
 		break;
-	case MBEHAV::CAST_HEALHP:
-		setAnim(CAnimationStateSheet::HealHPCastInit);
+	case MBEHAV::CAST_HEALChaScore1:
+		setAnim(CAnimationStateSheet::HealChaScore1CastInit);
 		break;
 	case MBEHAV::CAST_MAD:
 		setAnim(CAnimationStateSheet::MadCastInit);
@@ -3743,8 +3743,8 @@ void CCharacterCL::endCast(const MBEHAV::CBehaviour &behaviour, const MBEHAV::CB
 		case MBEHAV::CAST_FIRE:
 			setAnim(CAnimationStateSheet::FireCastEnd);
 			break;
-		case MBEHAV::CAST_HEALHP:
-			setAnim(CAnimationStateSheet::HealHPCastEnd);
+		case MBEHAV::CAST_HEALChaScore1:
+			setAnim(CAnimationStateSheet::HealChaScore1CastEnd);
 			break;
 		case MBEHAV::CAST_MAD:
 			setAnim(CAnimationStateSheet::MadCastEnd);
@@ -4528,23 +4528,23 @@ bool CCharacterCL::isCurrentBehaviourAttackEnd() const
 
 
 // ***************************************************************************
-void CCharacterCL::applyBehaviourFlyingHPs(const CBehaviourContext &bc, const MBEHAV::CBehaviour &behaviour,
+void CCharacterCL::applyBehaviourFlyingChaScore1s(const CBehaviourContext &bc, const MBEHAV::CBehaviour &behaviour,
 								 const vector<double> &targetHitDates)
 {
 	nlassert(targetHitDates.size()==bc.Targets.Targets.size());
 
 	if(!bc.Targets.Targets.empty())
 	{
-		if(behaviour.DeltaHP != 0)
+		if(behaviour.DeltaChaScore1 != 0)
 		{
-			CRGBA deltaHPColor(0, 0, 0);
+			CRGBA deltaChaScore1Color(0, 0, 0);
 			// if it's a hit
-			if( behaviour.DeltaHP < 0 )
+			if( behaviour.DeltaChaScore1 < 0 )
 			{
 				// if the behaviour is casted by the user
 				if( slot() == 0 )
 				{
-					deltaHPColor = ClientCfg.SystemInfoParams["dgm"].Color;
+					deltaChaScore1Color = ClientCfg.SystemInfoParams["dgm"].Color;
 				}
 				else
 					// if the behaviour is casted by an entity that target the user
@@ -4555,27 +4555,27 @@ void CCharacterCL::applyBehaviourFlyingHPs(const CBehaviourContext &bc, const MB
 						{
 							// if actor is player : use pvp color
 							if( actor->isPlayer() )
-								deltaHPColor = ClientCfg.SystemInfoParams["dgp"].Color;
+								deltaChaScore1Color = ClientCfg.SystemInfoParams["dgp"].Color;
 							else
-								deltaHPColor = ClientCfg.SystemInfoParams["dg"].Color;
+								deltaChaScore1Color = ClientCfg.SystemInfoParams["dg"].Color;
 						}
 					}
 					else
 					{
-						deltaHPColor = CRGBA(127,127,127);
+						deltaChaScore1Color = CRGBA(127,127,127);
 					}
 			}
 			else
 			{
-				deltaHPColor = CRGBA(0,220,0);
+				deltaChaScore1Color = CRGBA(0,220,0);
 			}
 
-			// Set the delta HP
+			// Set the delta ChaScore1
 			for (size_t i=0; i<bc.Targets.Targets.size(); ++i)
 			{
 				CEntityCL *target2 = EntitiesMngr.entity(bc.Targets.Targets[i].TargetSlot);
 				if(target2)
-					target2->addHPOutput(behaviour.DeltaHP, deltaHPColor, float(targetHitDates[i]-TimeInSec));
+					target2->addChaScore1Output(behaviour.DeltaChaScore1, deltaChaScore1Color, float(targetHitDates[i]-TimeInSec));
 			}
 		}
 	}
@@ -4724,7 +4724,7 @@ void CCharacterCL::applyBehaviour(const CBehaviourContext &bc)	// virtual
 	updateCurrentAttack();
 	if (isCurrentBehaviourAttackEnd())
 	{
-		// retrieve target hit dates, so flying HPs have the correct ones
+		// retrieve target hit dates, so flying ChaScore1s have the correct ones
 		performCurrentAttackEnd(bc, selfSpell && isOffensif, targetHitDates, combatAnimState);
 	}
 
@@ -4752,7 +4752,7 @@ void CCharacterCL::applyBehaviour(const CBehaviourContext &bc)	// virtual
 			case MBEHAV::CAST_ELEC:
 			case MBEHAV::CAST_FEAR:
 			case MBEHAV::CAST_FIRE:
-			case MBEHAV::CAST_HEALHP:
+			case MBEHAV::CAST_HEALChaScore1:
 			case MBEHAV::CAST_MAD:
 			case MBEHAV::CAST_POISON:
 			case MBEHAV::CAST_ROOT:
@@ -4792,8 +4792,8 @@ void CCharacterCL::applyBehaviour(const CBehaviourContext &bc)	// virtual
 			default:
 			break;
 		}
-		// DeltaHP
-		applyBehaviourFlyingHPs(bc, behaviour, targetHitDates);
+		// DeltaChaScore1
+		applyBehaviourFlyingChaScore1s(bc, behaviour, targetHitDates);
 	}
 	// This is a behaviour for the combat.
 	else if(behaviour.isCombat() || behaviour.isCreatureAttack())
@@ -4838,8 +4838,8 @@ void CCharacterCL::applyBehaviour(const CBehaviourContext &bc)	// virtual
 			UserControls.resetSmoothCameraDeltaYaw();
 		}
 
-		// DeltaHP
-		applyBehaviourFlyingHPs(bc, behaviour, targetHitDates);
+		// DeltaChaScore1
+		applyBehaviourFlyingChaScore1s(bc, behaviour, targetHitDates);
 	}
 	// Emote
 	else if(behaviour.isEmote())
@@ -4901,11 +4901,11 @@ void CCharacterCL::applyBehaviour(const CBehaviourContext &bc)	// virtual
 			break;
 		// Extracting Begin
 		case MBEHAV::EXTRACTING:
-			// DeltaHP
+			// DeltaChaScore1
 			if(target)
-				if(behaviour.DeltaHP != 0)
-					target->addHPOutput(behaviour.DeltaHP,CRGBA(0,220,0));
-			// If receiving a new DeltaHP in the current extraction, don't reset the animation
+				if(behaviour.DeltaChaScore1 != 0)
+					target->addChaScore1Output(behaviour.DeltaChaScore1,CRGBA(0,220,0));
+			// If receiving a new DeltaChaScore1 in the current extraction, don't reset the animation
 			if ( previousBehaviour.Behaviour != _CurrentBehaviour.Behaviour )
 				setAnim(CAnimationStateSheet::UseInit);
 			break;
@@ -6069,13 +6069,13 @@ void CCharacterCL::updateVisible (const TTime &currentTimeInMs, CEntityCL *targe
 	}
 
 	// Update Modifiers
-	if(!_HPModifiers.empty())
+	if(!_ChaScore1Modifiers.empty())
 	{
-		HPMD mod;
-		mod.CHPModifier::operator= (*_HPModifiers.begin());
+		ChaScore1MD mod;
+		mod.CChaScore1Modifier::operator= (*_ChaScore1Modifiers.begin());
 		mod.Time = TimeInSec + mod.DeltaT;
-		_HPDisplayed.push_back(mod);
-		_HPModifiers.erase(_HPModifiers.begin());
+		_ChaScore1Displayed.push_back(mod);
+		_ChaScore1Modifiers.erase(_ChaScore1Modifiers.begin());
 	}
 
 	// Parent
@@ -6121,8 +6121,8 @@ void CCharacterCL::updateSomeClipped (const TTime &currentTimeInMs, CEntityCL *t
 	}
 
 	// Remove Modifiers.
-	_HPModifiers.clear();
-	_HPDisplayed.clear();
+	_ChaScore1Modifiers.clear();
+	_ChaScore1Displayed.clear();
 
 	// Parent
 	CEntityCL::updateSomeClipped(currentTimeInMs, target);
@@ -7602,12 +7602,12 @@ void CCharacterCL::drawName(const NLMISC::CMatrix &mat)	// virtual
 
 //---------------------------------------------------
 // displayModifiers :
-// Display the Hp Bar
+// Display the ChaScore1 Bar
 //---------------------------------------------------
 void CCharacterCL::displayModifiers()	// virtual
 {
 	// if none, no op
-	if(	_HPDisplayed.empty())
+	if(	_ChaScore1Displayed.empty())
 		return;
 
 	// **** get the name pos
@@ -7631,13 +7631,13 @@ void CCharacterCL::displayModifiers()	// virtual
 		scale = ClientCfg.ConstNameSizeDist / dist;
 
 
-	// **** Display HP modifiers.
+	// **** Display ChaScore1 modifiers.
 	CInterfaceManager	*pIM= CInterfaceManager::getInstance();
-	std::list<HPMD>::iterator itTmp;
-	std::list<HPMD>::iterator it = _HPDisplayed.begin();
-	while(it != _HPDisplayed.end())
+	std::list<ChaScore1MD>::iterator itTmp;
+	std::list<ChaScore1MD>::iterator it = _ChaScore1Displayed.begin();
+	while(it != _ChaScore1Displayed.end())
 	{
-		HPMD &mod = *it;
+		ChaScore1MD &mod = *it;
 		//
 		const	float totalDuration= 3.f;
 		const	float noFadeDuration= 1.f;
@@ -7646,15 +7646,15 @@ void CCharacterCL::displayModifiers()	// virtual
 		{
 			itTmp = it;
 			++it;
-			_HPDisplayed.erase(itTmp);
+			_ChaScore1Displayed.erase(itTmp);
 		}
 		else if (TimeInSec >= mod.Time)
 		{
-			ucstring hpModifier;
+			ucstring ChaScore1Modifier;
 			if (mod.Text.empty())
-				hpModifier = ucstring(toString("%d", mod.Value));
+				ChaScore1Modifier = ucstring(toString("%d", mod.Value));
 			else
-				hpModifier = mod.Text;
+				ChaScore1Modifier = mod.Text;
 			double t = TimeInSec-mod.Time;
 			// for character, keep the deltaZ the first time it is displayed, and apply the same each frame
 			// (avoid Z movement of the flying text because of animation)
@@ -7669,11 +7669,11 @@ void CCharacterCL::displayModifiers()	// virtual
 			else
 				mod.Color.A= 255-(uint8)((t-noFadeDuration)*255.0/fadeDuration);
 
-			// Display the hp modifier. display with a X offset according if user or not, for more readability
+			// Display the ChaScore1 modifier. display with a X offset according if user or not, for more readability
 			sint	deltaX= -pIM->FlyingTextManager.getOffsetXForCharacter();
 			if(UserEntity && UserEntity->slot()==slot())
 				deltaX*= -1;
-			pIM->FlyingTextManager.addFlyingText(&mod, hpModifier, pos, mod.Color, scale, deltaX);
+			pIM->FlyingTextManager.addFlyingText(&mod, ChaScore1Modifier, pos, mod.Color, scale, deltaX);
 
 			// Next
 			++it;
@@ -10035,7 +10035,7 @@ NLMISC_COMMAND(attack, "simulate an attack", "<slot> <intensity> <hit_type> <loc
 	target.Info = dsPower | (dsType << 3);
 	bc.Targets.Targets.push_back(target);
 	bc.BehavTime = TimeInSec;
-	bc.Behav.DeltaHP = -20;
+	bc.Behav.DeltaChaScore1 = -20;
 	entity->applyBehaviour(bc);
 	return true;
 }
@@ -10088,7 +10088,7 @@ NLMISC_COMMAND(rangeAttack, "simulate a range attack", "<slot> [intensity] [loca
 	if (!target) return false;
 	double dist = (target->pos() - entity->pos()).norm();
 	bc.Targets.Targets.push_back(CMultiTarget::CTarget(targetSlot, false, (uint8) ceilf((float) (dist /  MULTI_TARGET_DISTANCE_UNIT))));
-	bc.Behav.DeltaHP = -10;
+	bc.Behav.DeltaChaScore1 = -10;
 	entity->applyBehaviour(bc);
 	return true;
 }
@@ -10160,7 +10160,7 @@ NLMISC_COMMAND(creatureAttack, "simulate a creature attack (2 attaques per creat
 	}
 	bc.Behav.CreatureAttack2.HitType = hitType;
 	bc.BehavTime = TimeInSec;
-	bc.Behav.DeltaHP = -15;
+	bc.Behav.DeltaChaScore1 = -15;
 	caster->applyBehaviour(bc);
 	return true;
 }

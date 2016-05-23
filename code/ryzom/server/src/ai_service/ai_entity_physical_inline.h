@@ -64,8 +64,8 @@ CAIEntityPhysical::CAIEntityPhysical(CPersistentOfPhysical& owner, TDataSetRow c
 	_RunSpeed.init		(*CMirrors::DataSet, entityIndex, DSPropertyCURRENT_RUN_SPEED);
 	_WalkSpeed.init		(*CMirrors::DataSet, entityIndex, DSPropertyCURRENT_WALK_SPEED);
 	
-	_CurrentHitPoint.init	(*CMirrors::DataSet, entityIndex, DSPropertyCURRENT_HIT_POINTS);
-	_MaxHitPoint.init		(*CMirrors::DataSet, entityIndex, DSPropertyMAX_HIT_POINTS);
+	_CurrentChaScore1.init	(*CMirrors::DataSet, entityIndex, DSPropertyCURRENT_ChaScore1);
+	_MaxChaScore1.init		(*CMirrors::DataSet, entityIndex, DSPropertyMAX_ChaScore1);
 	_VisionCounter.init		(*CMirrors::DataSet, entityIndex, DSPropertyVISION_COUNTER);
 	_InOutpostAlias.init	(*CMirrors::DataSet, entityIndex, DSPropertyIN_OUTPOST_ZONE_ALIAS);
 	_InOutpostSide.init		(*CMirrors::DataSet, entityIndex, DSPropertyIN_OUTPOST_ZONE_SIDE);

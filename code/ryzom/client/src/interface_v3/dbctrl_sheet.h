@@ -280,10 +280,10 @@ public:
 		REFLECT_STRING ("on_can_drop", getActionOnCanDrop, setActionOnCanDrop);
 		REFLECT_STRING ("on_can_drop_params", getParamsOnCanDrop, setParamsOnCanDrop);
 		REFLECT_LUA_METHOD("getDraggedSheet",	luaGetDraggedSheet)
-		REFLECT_LUA_METHOD("getHpBuff",	luaGetHpBuff)
-		REFLECT_LUA_METHOD("getSapBuff",	luaGetSapBuff)
-		REFLECT_LUA_METHOD("getFocusBuff",	luaGetFocusBuff)
-		REFLECT_LUA_METHOD("getStaBuff",	luaGetStaBuff)
+		REFLECT_LUA_METHOD("getChaScore1Buff",	luaGetChaScore1Buff)
+		REFLECT_LUA_METHOD("getChaScore3Buff",	luaGetChaScore3Buff)
+		REFLECT_LUA_METHOD("getChaScore4Buff",	luaGetChaScore4Buff)
+		REFLECT_LUA_METHOD("getChaScore2Buff",	luaGetChaScore2Buff)
 		REFLECT_LUA_METHOD("getName",		luaGetName)
 		REFLECT_LUA_METHOD("getCreatorName", luaGetCreatorName)
 		REFLECT_LUA_METHOD("waitInfo", luaWaitInfo)
@@ -291,10 +291,10 @@ public:
 	REFLECT_EXPORT_END
 
 	int luaGetDraggedSheet(CLuaState &ls);
-	int luaGetHpBuff(CLuaState &ls);
-	int luaGetSapBuff(CLuaState &ls);
-	int luaGetFocusBuff(CLuaState &ls);
-	int luaGetStaBuff(CLuaState &ls);
+	int luaGetChaScore1Buff(CLuaState &ls);
+	int luaGetChaScore3Buff(CLuaState &ls);
+	int luaGetChaScore4Buff(CLuaState &ls);
+	int luaGetChaScore2Buff(CLuaState &ls);
 	int luaGetName(CLuaState &ls);
 	int luaGetCreatorName(CLuaState &ls);
 	int luaWaitInfo(CLuaState &ls);

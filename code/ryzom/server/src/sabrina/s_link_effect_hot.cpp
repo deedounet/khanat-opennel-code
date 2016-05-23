@@ -49,9 +49,9 @@ bool CSLinkEffectHot::update(uint32 & updateFlag)
 		return true;
 	}
 	
-	applyOnScore( caster, target,SCORES::hit_points, _HealHp );
-	applyOnScore( caster, target,SCORES::sap, _HealSta );
-	applyOnScore( caster, target,SCORES::stamina, _HealSta );
+	applyOnScore( caster, target,SCORES::cha_score1, _HealChaScore1 );
+	applyOnScore( caster, target,SCORES::cha_score2, _HealChaScore2 );
+	applyOnScore( caster, target,SCORES::cha_score3, _HealChaScore3 );
 	
 	updateFlag |= _Family;
 	return false;

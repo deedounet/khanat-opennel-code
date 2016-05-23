@@ -184,43 +184,43 @@ void CTeam::addCharacter(CCharacter *newCharacter)
 	uint i =0;
 	for (std::list<CEntityId>::const_iterator it = _TeamMembers.begin() ; it != _TeamMembers.end() ; ++it)
 	{
-		uint8 hp, sap, stamina;
+		uint8 ChaScore1, ChaScore3, ChaScore2;
 		uint32 nameId;
 		CCharacter* character = PlayerManager.getOnlineChar( (*it) );
 		if (character != NULL)
 		{
 			// update the current character team slot
 ///\todo: can be done outside the loop
-			if ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max != 0)
-				hp = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) ) / ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max ) );
+			if ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max != 0)
+				ChaScore1 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) ) / ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max ) );
 			else
-				hp = 0;
+				ChaScore1 = 0;
 
-			if ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::sap ].Max != 0)
-				sap = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::sap ].Current ) ) / ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::sap ].Max ) );
+			if ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max != 0)
+				ChaScore3 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Current ) ) / ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max ) );
 			else
-				sap = 0;
+				ChaScore3 = 0;
 
-			if ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max != 0)
-				stamina = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::stamina ].Current ) ) / ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max ) );
+			if ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max != 0)
+				ChaScore2 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Current ) ) / ( newCharacter->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max ) );
 			else
-				stamina = 0;
+				ChaScore2 = 0;
 
 			CMirrorPropValueRO<uint32> nameIndexValue1( TheDataset, newCharacter->getId(), "NameIndex" );
 			nameId = nameIndexValue1();
 
 			CBankAccessor_PLR::TGROUP::TArray &arrayItem = CBankAccessor_PLR::getGROUP().getArray(position);
-//			sprintf(buffer, "GROUP:%d:HP",position );
-//			character->_PropertyDatabase.setProp( buffer, hp );
-			arrayItem.setHP(character->_PropertyDatabase, hp);
+//			sprintf(buffer, "GROUP:%d:ChaScore1",position );
+//			character->_PropertyDatabase.setProp( buffer, ChaScore1 );
+			arrayItem.setChaScore1(character->_PropertyDatabase, ChaScore1);
 
-//			sprintf(buffer, "GROUP:%d:SAP",position );
-//			character->_PropertyDatabase.setProp( buffer, sap );
-			arrayItem.setSAP(character->_PropertyDatabase, sap);
+//			sprintf(buffer, "GROUP:%d:ChaScore3",position );
+//			character->_PropertyDatabase.setProp( buffer, ChaScore3 );
+			arrayItem.setChaScore3(character->_PropertyDatabase, ChaScore3);
 
-//			sprintf(buffer, "GROUP:%d:STA",position );
-//			character->_PropertyDatabase.setProp( buffer, stamina );
-			arrayItem.setSTA(character->_PropertyDatabase, stamina);
+//			sprintf(buffer, "GROUP:%d:ChaScore2",position );
+//			character->_PropertyDatabase.setProp( buffer, ChaScore2 );
+			arrayItem.setChaScore2(character->_PropertyDatabase, ChaScore2);
 
 //			sprintf(buffer, "GROUP:%d:NAME",position );
 //			character->_PropertyDatabase.setProp( buffer, nameId );
@@ -235,36 +235,36 @@ void CTeam::addCharacter(CCharacter *newCharacter)
 			arrayItem.setPRESENT(character->_PropertyDatabase, true);
 
 			// update the new character team slot corresponding to character
-			if ( character->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max != 0)
-				hp = (uint8)  ( ( float(TeamMembersStatusMaxValue) * ( character->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) ) / ( character->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max ) );
+			if ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max != 0)
+				ChaScore1 = (uint8)  ( ( float(TeamMembersStatusMaxValue) * ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) ) / ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max ) );
 			else
-				hp = 0;
+				ChaScore1 = 0;
 				
-			if ( character->getPhysScores()._PhysicalScores[ SCORES::sap ].Max != 0)
-				sap = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( character->getPhysScores()._PhysicalScores[ SCORES::sap ].Current ) ) / ( character->getPhysScores()._PhysicalScores[ SCORES::sap ].Max ) );
+			if ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max != 0)
+				ChaScore3 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Current ) ) / ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max ) );
 			else
-				sap = 0;
+				ChaScore3 = 0;
 
-			if ( character->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max != 0)
-				stamina = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( character->getPhysScores()._PhysicalScores[ SCORES::stamina ].Current ) ) / ( character->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max ) );
+			if ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max != 0)
+				ChaScore2 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Current ) ) / ( character->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max ) );
 			else
-				stamina = 0;
+				ChaScore2 = 0;
 
 			CMirrorPropValueRO<uint32> nameIndexValue2( TheDataset, character->getId(), "NameIndex" );
 			nameId = nameIndexValue2();
 
 			CBankAccessor_PLR::TGROUP::TArray &newArrayItem = CBankAccessor_PLR::getGROUP().getArray(i);
-//			sprintf(buffer, "GROUP:%d:HP",i );
-//			newCharacter->_PropertyDatabase.setProp( buffer, hp );
-			newArrayItem.setHP(newCharacter->_PropertyDatabase, hp);
+//			sprintf(buffer, "GROUP:%d:ChaScore1",i );
+//			newCharacter->_PropertyDatabase.setProp( buffer, ChaScore1 );
+			newArrayItem.setChaScore1(newCharacter->_PropertyDatabase, ChaScore1);
 				
-//			sprintf(buffer, "GROUP:%d:SAP",i );
-//			newCharacter->_PropertyDatabase.setProp( buffer, sap );
-			newArrayItem.setSAP(newCharacter->_PropertyDatabase, sap);
+//			sprintf(buffer, "GROUP:%d:ChaScore3",i );
+//			newCharacter->_PropertyDatabase.setProp( buffer, ChaScore3 );
+			newArrayItem.setChaScore3(newCharacter->_PropertyDatabase, ChaScore3);
 
-//			sprintf(buffer, "GROUP:%d:STA",i );
-//			newCharacter->_PropertyDatabase.setProp( buffer, stamina );
-			newArrayItem.setSTA(newCharacter->_PropertyDatabase, stamina);
+//			sprintf(buffer, "GROUP:%d:ChaScore2",i );
+//			newCharacter->_PropertyDatabase.setProp( buffer, ChaScore2 );
+			newArrayItem.setChaScore2(newCharacter->_PropertyDatabase, ChaScore2);
 
 //			sprintf(buffer, "GROUP:%d:NAME",i );
 //			newCharacter->_PropertyDatabase.setProp( buffer, nameId );
@@ -479,7 +479,7 @@ void CTeam::removeCharacter( CCharacter * player )
 
 	for (std::list<NLMISC::CEntityId>::iterator it = _TeamMembers.begin() ; it != _TeamMembers.end() ; ++it)
 	{
-		uint8 hp, sap, stamina;
+		uint8 ChaScore1, ChaScore3, ChaScore2;
 		uint32 nameId;
 		uint pos = 0;
 //		char buffer[256];
@@ -499,33 +499,33 @@ void CTeam::removeCharacter( CCharacter * player )
 				if (ch2 != NULL)
 				{
 					// update new char for old char
-					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max != 0)
-						hp = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max ) );
+					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max != 0)
+						ChaScore1 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max ) );
 					else
-						hp = 0;
-					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::sap ].Max != 0)
-						sap = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::sap ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::sap ].Max ) );
+						ChaScore1 = 0;
+					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max != 0)
+						ChaScore3 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max ) );
 					else
-						sap = 0;
-					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max != 0)
-						stamina = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::stamina ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max ) );
+						ChaScore3 = 0;
+					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max != 0)
+						ChaScore2 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max ) );
 					else
-						stamina = 0;
+						ChaScore2 = 0;
 					
 					CMirrorPropValueRO<uint32> nameIndexValue( TheDataset, ch2->getId(), "NameIndex" );
 					nameId = nameIndexValue();
 									
-//					sprintf(buffer, "GROUP:%d:HP",pos );
-//					ch1->_PropertyDatabase.setProp( buffer, hp );
-					groupItem.setHP(ch1->_PropertyDatabase, hp);
+//					sprintf(buffer, "GROUP:%d:ChaScore1",pos );
+//					ch1->_PropertyDatabase.setProp( buffer, ChaScore1 );
+					groupItem.setChaScore1(ch1->_PropertyDatabase, ChaScore1);
 					
-//					sprintf(buffer, "GROUP:%d:SAP",pos );
-//					ch1->_PropertyDatabase.setProp( buffer, sap );
-					groupItem.setSAP(ch1->_PropertyDatabase, sap);
+//					sprintf(buffer, "GROUP:%d:ChaScore3",pos );
+//					ch1->_PropertyDatabase.setProp( buffer, ChaScore3 );
+					groupItem.setChaScore3(ch1->_PropertyDatabase, ChaScore3);
 					
-//					sprintf(buffer, "GROUP:%d:STA",pos );
-//					ch1->_PropertyDatabase.setProp( buffer, stamina );
-					groupItem.setSTA(ch1->_PropertyDatabase, stamina);
+//					sprintf(buffer, "GROUP:%d:ChaScore2",pos );
+//					ch1->_PropertyDatabase.setProp( buffer, ChaScore2 );
+					groupItem.setChaScore2(ch1->_PropertyDatabase, ChaScore2);
 					
 //					sprintf(buffer, "GROUP:%d:NAME",pos );
 //					ch1->_PropertyDatabase.setProp( buffer, nameId );
@@ -546,7 +546,7 @@ void CTeam::removeCharacter( CCharacter * player )
 
 //			sprintf(buffer, "GROUP:%d:PRESENT",pos );
 //			ch1->_PropertyDatabase.setProp( buffer, (uint8)0 );
-			groupItem.setHP(ch1->_PropertyDatabase, 0);
+			groupItem.setChaScore1(ch1->_PropertyDatabase, 0);
 //			sprintf(buffer, "GROUP:%d:NAME",pos );
 //			ch1->_PropertyDatabase.setProp( buffer, (uint32)0 );
 			groupItem.setNAME(ch1->_PropertyDatabase, 0);
@@ -790,14 +790,14 @@ void CTeam::updateCharacterScore(const CCharacter *player, SCORES::TScores score
 //				character->_PropertyDatabase.setProp( buffer, value );
 				switch(score)
 				{
-				case SCORES::hit_points:
-					CBankAccessor_PLR::getGROUP().getArray(position).setHP(character->_PropertyDatabase, value);
+				case SCORES::cha_score1:
+					CBankAccessor_PLR::getGROUP().getArray(position).setChaScore1(character->_PropertyDatabase, value);
 					break;
-				case SCORES::stamina :
-					CBankAccessor_PLR::getGROUP().getArray(position).setSTA(character->_PropertyDatabase, value);
+				case SCORES::cha_score2 :
+					CBankAccessor_PLR::getGROUP().getArray(position).setChaScore2(character->_PropertyDatabase, value);
 					break;
-				case SCORES::sap :
-					CBankAccessor_PLR::getGROUP().getArray(position).setSAP(character->_PropertyDatabase, value);
+				case SCORES::cha_score3 :
+					CBankAccessor_PLR::getGROUP().getArray(position).setChaScore3(character->_PropertyDatabase, value);
 					break;
 				default:
 					STOP("Invalid score "<<SCORES::toString(score));
@@ -1155,7 +1155,7 @@ void CTeam::updateMembersDb()
 {
 	for (std::list<NLMISC::CEntityId>::iterator it = _TeamMembers.begin() ; it != _TeamMembers.end() ; ++it)
 	{
-		uint8 hp, sap, stamina;
+		uint8 ChaScore1, ChaScore3, ChaScore2;
 		uint32 nameId;
 		uint pos = 0;
 
@@ -1183,25 +1183,25 @@ void CTeam::updateMembersDb()
 				if (ch2 != NULL)
 				{
 					// update new char for old char
-					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max != 0)
-						hp = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::hit_points ].Max ) );
+					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max != 0)
+						ChaScore1 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score1 ].Max ) );
 					else
-						hp = 0;
-					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::sap ].Max != 0)
-						sap = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::sap ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::sap ].Max ) );
+						ChaScore1 = 0;
+					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max != 0)
+						ChaScore3 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score3 ].Max ) );
 					else
-						sap = 0;
-					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max != 0)
-						stamina = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::stamina ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::stamina ].Max ) );
+						ChaScore3 = 0;
+					if ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max != 0)
+						ChaScore2 = (uint8) ( ( float(TeamMembersStatusMaxValue) * ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Current ) ) / ( ch2->getPhysScores()._PhysicalScores[ SCORES::cha_score2 ].Max ) );
 					else
-						stamina = 0;
+						ChaScore2 = 0;
 					
 					CMirrorPropValueRO<uint32> nameIndexValue( TheDataset, ch2->getId(), "NameIndex" );
 					nameId = nameIndexValue();
 									
-					groupItem.setHP(ch1->_PropertyDatabase, hp);
-					groupItem.setSAP(ch1->_PropertyDatabase, sap);
-					groupItem.setSTA(ch1->_PropertyDatabase, stamina);
+					groupItem.setChaScore1(ch1->_PropertyDatabase, ChaScore1);
+					groupItem.setChaScore3(ch1->_PropertyDatabase, ChaScore3);
+					groupItem.setChaScore2(ch1->_PropertyDatabase, ChaScore2);
 					groupItem.setNAME(ch1->_PropertyDatabase, nameId);
 					groupItem.setUID(ch1->_PropertyDatabase, ch2->getEntityRowId().getCompressedIndex());
 					groupItem.setPRESENT(ch1->_PropertyDatabase, true);

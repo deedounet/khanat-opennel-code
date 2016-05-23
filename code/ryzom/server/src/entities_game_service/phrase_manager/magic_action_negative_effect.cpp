@@ -337,7 +337,7 @@ protected:
 					{
 						c->sendDynamicSystemMessage(c->getId(), "UNEFFICENT_RANGE");
 						sendAggro = false;
-						behav.DeltaHP = 0;
+						behav.DeltaChaScore1 = 0;
 					}
 					else
 					{
@@ -346,7 +346,7 @@ protected:
 							_ApplyTargets[i].RowId,
 							_EffectFamily,
 							_CostPerUpdate,
-							SCORES::sap,//linkEnergy,
+							SCORES::cha_score3,//linkEnergy,
 							_Skill,
 							phrase->getSpellRange(),
 							_EffectValue,

@@ -107,11 +107,11 @@ public:
 	{
 	}
 
-	virtual void setHPLevel(NLMISC::CEntityId entityId, uint32 alias,  float value)
+	virtual void setChaScore1Level(NLMISC::CEntityId entityId, uint32 alias,  float value)
 	{
 	}
 
-	virtual void setGrpHPLevel(NLMISC::CEntityId entityId, uint32 alias,  float value)
+	virtual void setGrpChaScore1Level(NLMISC::CEntityId entityId, uint32 alias,  float value)
 	{
 	}
 
@@ -176,8 +176,8 @@ public:
 
 	virtual void setAggroRange(NLMISC::CEntityId entityId, float range);
 
-	virtual void setHPLevel(NLMISC::CEntityId entityId, uint32 alias, float value);
-	virtual void setGrpHPLevel(NLMISC::CEntityId entityId, uint32 alias, float value);
+	virtual void setChaScore1Level(NLMISC::CEntityId entityId, uint32 alias, float value);
+	virtual void setGrpChaScore1Level(NLMISC::CEntityId entityId, uint32 alias, float value);
 
 
 	virtual void triggerGrpEvent(NLMISC::CEntityId entityId, float eventId);

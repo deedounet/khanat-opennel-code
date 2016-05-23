@@ -76,13 +76,13 @@ private:
 	/// effect end date in ticks
 	NLMISC::TGameCycle		_BleedEndDate;
 
-	/// next cycle date (for hp loss)
+	/// next cycle date (for ChaScore1 loss)
 	NLMISC::TGameCycle		_NextCycleDate;
 
 	/// cycle lenght in ticks
 	NLMISC::TGameCycle		_CycleLength;
 
-	/// number of hp lost by target each cycle
+	/// number of ChaScore1 lost by target each cycle
 	uint16					_CycleDamage;
 
 	/// affected entity

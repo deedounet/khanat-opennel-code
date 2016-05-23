@@ -27,10 +27,10 @@ namespace SCORES
 {
 	enum TScores
 	{
-		hit_points = 0,
-		stamina,
-		sap,
-		focus,
+		cha_score1 = 0,
+		cha_score2,
+		cha_score3,
+		cha_score4,
 
 		NUM_SCORES,
 		unknown = NUM_SCORES

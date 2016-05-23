@@ -135,49 +135,49 @@ int CDBCtrlSheet::luaGetDraggedSheet(CLuaState &ls)
 }
 
 // ***************************************************************************
-int CDBCtrlSheet::luaGetHpBuff(CLuaState &ls)
+int CDBCtrlSheet::luaGetChaScore1Buff(CLuaState &ls)
 {
 	CDBCtrlSheet *ctrlSheet = const_cast<CDBCtrlSheet*>(this);
 	uint32	itemSlotId= getInventory().getItemSlotId(ctrlSheet);
 	CClientItemInfo itemInfo = getInventory().getItemInfo(itemSlotId);
 
-	ls.push(itemInfo.HpBuff);
+	ls.push(itemInfo.ChaScore1Buff);
 
 	return 1;
 }
 
 // ***************************************************************************
-int CDBCtrlSheet::luaGetSapBuff(CLuaState &ls)
+int CDBCtrlSheet::luaGetChaScore3Buff(CLuaState &ls)
 {
 	CDBCtrlSheet *ctrlSheet = const_cast<CDBCtrlSheet*>(this);
 	uint32	itemSlotId= getInventory().getItemSlotId(ctrlSheet);
 	CClientItemInfo itemInfo = getInventory().getItemInfo(itemSlotId);
 
-	ls.push(itemInfo.SapBuff);
+	ls.push(itemInfo.ChaScore3Buff);
 	
 	return 1;
 }
 
 // ***************************************************************************
-int CDBCtrlSheet::luaGetFocusBuff(CLuaState &ls)
+int CDBCtrlSheet::luaGetChaScore4Buff(CLuaState &ls)
 {
 	CDBCtrlSheet *ctrlSheet = const_cast<CDBCtrlSheet*>(this);
 	uint32	itemSlotId= getInventory().getItemSlotId(ctrlSheet);
 	CClientItemInfo itemInfo = getInventory().getItemInfo(itemSlotId);
 
-	ls.push(itemInfo.FocusBuff);
+	ls.push(itemInfo.ChaScore4Buff);
 
 	return 1;
 }
 
 // ***************************************************************************
-int CDBCtrlSheet::luaGetStaBuff(CLuaState &ls)
+int CDBCtrlSheet::luaGetChaScore2Buff(CLuaState &ls)
 {
 	CDBCtrlSheet *ctrlSheet = const_cast<CDBCtrlSheet*>(this);
 	uint32	itemSlotId= getInventory().getItemSlotId(ctrlSheet);
 	CClientItemInfo itemInfo = getInventory().getItemInfo(itemSlotId);
 
-	ls.push(itemInfo.StaBuff);
+	ls.push(itemInfo.ChaScore2Buff);
 
 	return 1;
 }
@@ -2428,17 +2428,17 @@ void CDBCtrlSheet::drawSheet (sint32 x, sint32 y, bool draging, bool showSelecti
 						sint costMalus;
 						CBarManager &bm = *CBarManager::getInstance();
 						//
-						pPM->getPhraseHpCost(phrase, totalActionMalus, cost, costMalus);
-						if (cost > bm.getUserScore(SCORES::hit_points)) forceGrayed = true;
+						pPM->getPhraseChaScore1Cost(phrase, totalActionMalus, cost, costMalus);
+						if (cost > bm.getUserScore(SCORES::cha_score1)) forceGrayed = true;
 						//
-						pPM->getPhraseSapCost(phrase, totalActionMalus, cost, costMalus);
-						if (cost > bm.getUserScore(SCORES::sap)) forceGrayed = true;
+						pPM->getPhraseChaScore3Cost(phrase, totalActionMalus, cost, costMalus);
+						if (cost > bm.getUserScore(SCORES::cha_score3)) forceGrayed = true;
 						//
-						pPM->getPhraseStaCost(phrase, totalActionMalus, cost, costMalus);
-						if (cost > bm.getUserScore(SCORES::stamina)) forceGrayed = true;
+						pPM->getPhraseChaScore2Cost(phrase, totalActionMalus, cost, costMalus);
+						if (cost > bm.getUserScore(SCORES::cha_score2)) forceGrayed = true;
 						//
-						pPM->getPhraseFocusCost(phrase, totalActionMalus, cost, costMalus);
-						if (cost > bm.getUserScore(SCORES::focus)) forceGrayed = true;
+						pPM->getPhraseChaScore4Cost(phrase, totalActionMalus, cost, costMalus);
+						if (cost > bm.getUserScore(SCORES::cha_score4)) forceGrayed = true;
 					}
 				}
 			}

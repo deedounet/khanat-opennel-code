@@ -83,7 +83,7 @@ void CAIInfosOnEntityMsgImp::callback (const std::string &name, NLNET::TServiceI
 	}
 
 	// egs specific infos
-	string strTemp = NLMISC::toString("HitPoints : %d / %d", entity->currentHp(), entity->maxHp());
+	string strTemp = NLMISC::toString("ChaScore1 : %d / %d", entity->currentChaScore1(), entity->maxChaScore1());
 	egs_eminfo("%s",strTemp.c_str());
 	if (player)
 		chatToPlayer(player->getId(), strTemp);
@@ -181,20 +181,20 @@ void CQueryEgsImp::callback (const std::string &name, NLNET::TServiceId id)
 	
 
 		case CQueryEgs::Name: ret =  character->getName().toUtf8(); break;								
-		case CQueryEgs::Hp: ret = NLMISC::toString("%d", character->getCurrentScore(SCORES::hit_points)); break;
-		case CQueryEgs::Sap: ret =	NLMISC::toString("%d", character->getCurrentScore(SCORES::sap)); break;		
-		case CQueryEgs::Stamina: ret =	NLMISC::toString("%d", character->getCurrentScore(SCORES::stamina)); break;		
-		case CQueryEgs::Focus: ret = NLMISC::toString("%d", character->getCurrentScore(SCORES::focus)); break;
+		case CQueryEgs::ChaScore1: ret = NLMISC::toString("%d", character->getCurrentScore(SCORES::cha_score1)); break;
+		case CQueryEgs::ChaScore2: ret =	NLMISC::toString("%d", character->getCurrentScore(SCORES::cha_score2)); break;		
+		case CQueryEgs::ChaScore3: ret =	NLMISC::toString("%d", character->getCurrentScore(SCORES::cha_score3)); break;		
+		case CQueryEgs::ChaScore4: ret = NLMISC::toString("%d", character->getCurrentScore(SCORES::cha_score4)); break;
 		// Max Score
-		case CQueryEgs::MaxHp: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::hit_points)); break;
-		case CQueryEgs::MaxSap: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::sap)); break;
-		case CQueryEgs::MaxStamina: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::stamina)); break;
-		case CQueryEgs::MaxFocus: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::focus)); break;
+		case CQueryEgs::MaxChaScore1: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::cha_score1)); break;
+		case CQueryEgs::MaxChaScore2: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::cha_score2)); break;
+		case CQueryEgs::MaxChaScore3: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::cha_score3)); break;
+		case CQueryEgs::MaxChaScore4: ret = NLMISC::toString("%d", character->getMaxScore(SCORES::cha_score4)); break;
 		// Score  / MaxScore
-		case CQueryEgs::RatioHp: { sint32 val = character->getMaxScore(SCORES::hit_points); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::hit_points) / val:0);} break;
-		case CQueryEgs::RatioSap: { sint32 val = character->getMaxScore(SCORES::sap); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::sap) / val:0);} break;
-		case CQueryEgs::RatioStamina: { sint32 val = character->getMaxScore(SCORES::stamina); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::stamina) / val:0);} break;
-		case CQueryEgs::RatioFocus: { sint32 val = character->getMaxScore(SCORES::focus); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::focus) / val:0);} break;
+		case CQueryEgs::RatioChaScore1: { sint32 val = character->getMaxScore(SCORES::cha_score1); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::cha_score1) / val:0);} break;
+		case CQueryEgs::RatioChaScore2: { sint32 val = character->getMaxScore(SCORES::cha_score2); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::cha_score2) / val:0);} break;
+		case CQueryEgs::RatioChaScore3: { sint32 val = character->getMaxScore(SCORES::cha_score3); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::cha_score3) / val:0);} break;
+		case CQueryEgs::RatioChaScore4: { sint32 val = character->getMaxScore(SCORES::cha_score4); ret = NLMISC::toString("%d", val? 100 * character->getCurrentScore(SCORES::cha_score4) / val:0);} break;
 		
 		// Skills
 		case CQueryEgs::BestSkillLevel: 

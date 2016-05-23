@@ -875,10 +875,10 @@ void CHarvestSource::extractMaterial( float *reqPosProps, float *absPosProps, fl
 			CEntityBase *entity = CEntityBaseManager::getEntityBasePtr( extractingEntityRow ); // getEntityBasePtr() tests TheDataset.isAccessible( extractingEntity )
 			if ( entity )
 			{
-				float impactOnHP = ((float)lifeAbsorberRatio) * impact * 0.01f;
-				impact -= impactOnHP;
-				float dmgRatio = impactOnHP * ForageHPRatioPerSourceLifeImpact.get();
-				sint32 dmg = (sint32)((float)entity->maxHp() * dmgRatio);
+				float impactOnChaScore1 = ((float)lifeAbsorberRatio) * impact * 0.01f;
+				impact -= impactOnChaScore1;
+				float dmgRatio = impactOnChaScore1 * ForageChaScore1RatioPerSourceLifeImpact.get();
+				sint32 dmg = (sint32)((float)entity->maxChaScore1() * dmgRatio);
 				if ( dmg != 0 )
 					CHarvestSource::hitEntity( RYZOMID::forageSource, entity, dmg, dmg, true );
 			}
@@ -1172,22 +1172,22 @@ uint16	CHarvestSource::getStatQuality() const
 /*
  * Damage an entity
  */
-void	CHarvestSource::hitEntity( RYZOMID::TTypeId aggressorType, CEntityBase *entity, sint32 hpDamageAmount, sint32 hpDamageAmountWithoutArmour, bool isIntentional, sint32 hpAvoided )
+void	CHarvestSource::hitEntity( RYZOMID::TTypeId aggressorType, CEntityBase *entity, sint32 ChaScore1DamageAmount, sint32 ChaScore1DamageAmountWithoutArmour, bool isIntentional, sint32 ChaScore1Avoided )
 {
 	H_AUTO(CHarvestSource_hitEntity);
 
 	if ( entity->isDead())
 		return;
 
-	bool killed = entity->changeCurrentHp( -hpDamageAmount );
+	bool killed = entity->changeCurrentChaScore1( -ChaScore1DamageAmount );
 	if ( isIntentional )
 	{
 		SM_STATIC_PARAMS_1(params, STRING_MANAGER::integer);
-		params[0].Int = hpDamageAmount;
+		params[0].Int = ChaScore1DamageAmount;
 		PHRASE_UTILITIES::sendDynamicSystemMessage( entity->getEntityRowId(), "FORAGE_ABSORB_DMG", params );
 	}
 	else
-		PHRASE_UTILITIES::sendNaturalEventHitMessages( aggressorType, entity->getEntityRowId(), hpDamageAmount, hpDamageAmountWithoutArmour, hpAvoided );
+		PHRASE_UTILITIES::sendNaturalEventHitMessages( aggressorType, entity->getEntityRowId(), ChaScore1DamageAmount, ChaScore1DamageAmountWithoutArmour, ChaScore1Avoided );
 	if ( killed )
 		PHRASE_UTILITIES::sendDeathMessages( TDataSetRow(), entity->getEntityRowId() );
 }
@@ -1240,8 +1240,8 @@ bool forageTestDoExtract(
 	}
 
 	// Request and output results
-	FILE *f = nlfopen(getLogDirectory() + "forage_test.csv", "at" );
-	FILE *f2 = nlfopen(getLogDirectory() + "forage_test.log", "at" );
+	FILE *f = fopen( std::string(getLogDirectory() + "forage_test.csv").c_str(), "at" );
+	FILE *f2 = fopen( std::string(getLogDirectory() + "forage_test.log").c_str(), "at" );
 	float reqS = 1.0f / (reqPeriod * 10.0f);
 	float req [CHarvestSource::NbPosRTProps];
 	float abs [CHarvestSource::NbPosRTProps];

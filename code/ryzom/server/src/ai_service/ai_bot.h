@@ -257,8 +257,8 @@ public:
 	const ucstring& getCustomName() const { return _CustomName; }
 	void setCustomName(const ucstring &name) { _CustomName = name; }
 
-	const uint32& getCustomMaxHp() const { return _CustomMaxHp; }
-	void setCustomMaxHp(const uint32 &maxHp) { _CustomMaxHp = maxHp; }
+	const uint32& getCustomMaxChaScore1() const { return _CustomMaxChaScore1; }
+	void setCustomMaxChaScore1(const uint32 &maxChaScore1) { _CustomMaxChaScore1 = maxChaScore1; }
 
 	virtual void setClientSheet(const std::string & clientSheetName);  
 
@@ -290,7 +290,7 @@ private:
 	bool _Healer;
 	bool _BuildingBot;
 	ucstring _CustomName;
-	uint32 _CustomMaxHp;
+	uint32 _CustomMaxChaScore1;
 	CTimer					_SetSheetTimer;
 	struct CSetSheetData
 	{

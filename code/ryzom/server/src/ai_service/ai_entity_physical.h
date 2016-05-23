@@ -234,7 +234,7 @@ public:
 	CAICoord			const&	y()				const { return _pos.y(); }
 	sint32						h()				const { return _pos.h(); }
 	CAngle						theta()			const { return _pos.theta(); }
-	float						hpPercentage()	const { return (float)currentHitPoints()/(float)maxHitPoints(); }
+	float						ChaScore1Percentage()	const { return (float)currentChaScore1()/(float)maxChaScore1(); }
 	TDataSetRow			const&	dataSetRow()	const { return _dataSetRow; }
 	uint32						level()			const { return _Level; }
 	RYAI_MAP_CRUNCH::CWorldPosition	const& wpos() const { return _wpos; }
@@ -244,8 +244,8 @@ public:
 	
 	/// @name Mirror accessors
 	//@{
-	TYPE_CURRENT_HIT_POINTS	currentHitPoints()		const { return _CurrentHitPoint(); }
-	TYPE_MAX_HIT_POINTS		maxHitPoints()			const { return _MaxHitPoint(); }	
+	TYPE_CURRENT_ChaScore1	currentChaScore1()		const { return _CurrentChaScore1(); }
+	TYPE_MAX_ChaScore1		maxChaScore1()			const { return _MaxChaScore1(); }	
 	TYPE_VISION_COUNTER		currentVisionCounter()	const { return _VisionCounter(); }
 	bool					havePlayersAround()		const;
 	
@@ -345,8 +345,8 @@ private:
 	CMirrorPropValueRO<float>	_RunSpeed;
 	CMirrorPropValueRO<float>	_WalkSpeed;
 
-	CMirrorPropValueRO<TYPE_CURRENT_HIT_POINTS>	_CurrentHitPoint;
-	CMirrorPropValueRO<TYPE_MAX_HIT_POINTS>		_MaxHitPoint;
+	CMirrorPropValueRO<TYPE_CURRENT_ChaScore1>	_CurrentChaScore1;
+	CMirrorPropValueRO<TYPE_MAX_ChaScore1>		_MaxChaScore1;
 	CMirrorPropValueRO<TYPE_VISION_COUNTER>		_VisionCounter;
 	CMirrorPropValue<TYPE_IN_OUTPOST_ZONE_ALIAS> _InOutpostAlias;
 	CMirrorPropValue<TYPE_IN_OUTPOST_ZONE_SIDE> _InOutpostSide;

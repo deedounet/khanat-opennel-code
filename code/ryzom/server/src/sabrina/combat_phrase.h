@@ -35,8 +35,8 @@
 /*
 	Brick parameters
 	
-	cr_sta:int_value		- stamina cost to attacker
-	cr_hp:int_value			- hp cost to attacker
+	cr_ChaScore2:int_value		- ChaScore2 cost to attacker
+	cr_ChaScore1:int_value	       	- ChaScore1 cost to attacker
 	cr_t0:int_value			- execution length modifier (in ticks)
 	cr_t1:int_value			- latency length modifier (in ticks)
 	cr_open:str_name		- constraint meaning action can only be performed when named condition is met
@@ -49,10 +49,10 @@
 	skmat:int_value			- attacker skill modifier (on attack)
 	skmde:int_value			- defender skill modifier (on defense)
 	
-	absstar:float_value		- ratio of absorbed stamina on target(s) (relative to damage on hps)
-	absstam:int_value		- modifier on absorbed stamina on target(s)
-	abssapr:float_value		- ratio of absorbed sap on target(s) (relative to damage on hps)
-	abssapm:int_value		- modifier on absorbed sap on target(s)
+	absChaScore2r:float_value	- ratio of absorbed ChaScore2 on target(s) (relative to damage on hps)
+	absChaScore2m:int_value		- modifier on absorbed ChaScore2 on target(s)
+	absChaScore3r:float_value     	- ratio of absorbed ChaScore3 on target(s) (relative to damage on hps)
+	absChaScore3m:int_value		- modifier on absorbed ChaScore3 on target(s)
 
 	lapr:float_value		- light armor protection ratio (after all computing) (1.0 = default; 1.2 = +20% ; 0.6 = -40%)
 	mapr:float_value		- medium armor protection ratio (after all computing) (1.0 = default; 1.2 = +20% ; 0.6 = -40%)
@@ -86,12 +86,12 @@
 	 :int_value				- duration of the slow (in ticks)
 	 :int_value				- duration of the slow when resisted (in ticks)
 
-	ef:vamphp
-	 :float_value			- ratio of the hp lost by the target that are given to the attacker (vampire effect)
-	ef:vampsta
-	 :float_value			- ratio of the stamina lost by the target that are given to the attacker (vampire effect)
-	ef:vampsap
-	 :float_value			- ratio of the sap lost by the target that are given to the attacker (vampire effect)
+	ef:vampChaScore1
+	 :float_value			- ratio of the ChaScore1 lost by the target that are given to the attacker (vampire effect)
+	ef:vampChaScore2
+	 :float_value			- ratio of the ChaScore2 lost by the target that are given to the attacker (vampire effect)
+	ef:vampChaScore3
+	 :float_value			- ratio of the ChaScore3 lost by the target that are given to the attacker (vampire effect)
 
 	ef:hrmde
 	 :int_value				- Hit Rate Modifier for the defender (in ticks)
@@ -106,24 +106,24 @@
 	ef:bleed
 	 :int_value				- duration of the bleed effect
 	 :int_value				- duration of the bleed effect if resisted
-	 :int_value				- nb of hp lost each repeat by the target
-	 :int_value				- nb of hp lost each repeat by the target if resisted
+	 :int_value				- nb of ChaScore1 lost each repeat by the target
+	 :int_value				- nb of ChaScore1 lost each repeat by the target if resisted
 	 :int_value				- repeat rate of the bleed effect (every x ticks)
 	 :int_value				- repeat rate of the bleed effect when resisted (every x ticks)
 
 	ef:poison
 	 :int_value				- duration of the poison effect
 	 :int_value				- duration of the poison effect if resisted
-	 :int_value				- nb of hp lost each repeat by the target
-	 :int_value				- nb of hp lost each repeat by the target if resisted
+	 :int_value				- nb of ChaScore1 lost each repeat by the target
+	 :int_value				- nb of ChaScore1 lost each repeat by the target if resisted
 	 :int_value				- repeat rate of the poison effect (every x ticks)
 	 :int_value				- repeat rate of the poison effect when resisted (every x ticks)
 
 	ef:disease
 	 :int_value				- duration of the disease effect
 	 :int_value				- duration of the disease effect if resisted
-	 :int_value				- nb of hp lost each repeat by the target
-	 :int_value				- nb of hp lost each repeat by the target if resisted
+	 :int_value				- nb of ChaScore1 lost each repeat by the target
+	 :int_value				- nb of ChaScore1 lost each repeat by the target if resisted
 	 :int_value				- repeat rate of the disease effect (every x ticks)
 	 :int_value				- repeat rate of the disease effect when resisted (every x ticks)
 
@@ -305,11 +305,11 @@ protected:
 	// total credit (sabrina system)
 	uint16					_SabrinaCredit;
 	
-	/// stamina cost of the attack
-	sint32					_StaminaCost;
+	/// ChaScore2 cost of the attack
+	sint32					_ChaScore2Cost;
 
-	// hp cost
-	sint32					_HPCost;
+	// ChaScore1 cost
+	sint32					_ChaScore1Cost;
 
 	/// execution length modifier (in ticks)
 	sint32					_ExecutionLengthModifier;
@@ -335,14 +335,14 @@ protected:
 	/// repeat mode on/off
 	bool					_CyclicPhrase;
 
-	/// stamina loss factor
-	float					_StaminaLossFactor;
-	/// stamina loss modifier
-	uint32					_StaminaLossModifier;
-	/// sap loss factor
-	float					_SapLossFactor;
-	/// sap loss modifier
-	uint32					_SapLossModifier;
+	/// ChaScore2 loss factor
+	float					_ChaScore2LossFactor;
+	/// ChaScore2 loss modifier
+	uint32					_ChaScore2LossModifier;
+	/// ChaScore3 loss factor
+	float					_ChaScore3LossFactor;
+	/// ChaScore3 loss modifier
+	uint32					_ChaScore3LossModifier;
 
 	/// opening needed
 	std::string				_Opening;
@@ -415,9 +415,9 @@ protected:
 	/// already sent a target too far message since last strike
 	bool					_TargetTooFarMsg;
 	/// 
-	bool					_NotEnoughHpMsg;
+	bool					_NotEnoughChaScore1Msg;
 	/// 
-	bool					_NotEnoughStaminaMsg;
+	bool					_NotEnoughChaScore2Msg;
 	/// is current target valid ?
 	bool					_CurrentTargetIsValid;
 	/// melee or range combat

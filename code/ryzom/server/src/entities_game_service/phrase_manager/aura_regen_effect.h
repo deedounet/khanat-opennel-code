@@ -38,14 +38,14 @@ public:
 
 		switch(_PowerType)
 		{
-		case POWERS::LifeAura:
-			_AffectedScore = SCORES::hit_points;
+		case POWERS::ChaScore1Aura:
+			_AffectedScore = SCORES::cha_score1;
 			break;
-		case POWERS::StaminaAura:
-			_AffectedScore = SCORES::stamina;
+		case POWERS::ChaScore2Aura:
+			_AffectedScore = SCORES::cha_score2;
 			break;
-		case POWERS::SapAura:
-			_AffectedScore = SCORES::sap;
+		case POWERS::ChaScore3Aura:
+			_AffectedScore = SCORES::cha_score3;
 			break;
 		default:
 			nlwarning("CRegenAuraEffect : cannot manage power type %s", POWERS::toString(_PowerType).c_str());

@@ -574,9 +574,9 @@ namespace BRICK_FAMILIES
 		// ********
 		BeginTraining,
 			BTFOC = BeginTraining,
-			BTHP,
-			BTSAP,
-			BTSTA,
+			BTTRA,
+			BTOBL,
+			BTPAI,
 
 		// special for carac buying
 		BeginCharacBuy,
@@ -632,26 +632,26 @@ namespace BRICK_FAMILIES
 				BeginFightPowerParameter = BeginPowerParameter,
 				BSFMA = BeginFightPowerParameter, // taunt power
 				BSFMB, // shielding power
-				BSFMC, // stamina aura
+				BSFMC, // ChaScore2 aura
 				BSFMD, // protection aura
 				BSFME, // umbrella aura
 				BSFMF, // berserk
 				BSFMG, // war cry
-				BSFMH, // heal stamina
+				BSFMH, // heal ChaScore2
 				BSFMI, // fire wall
 				BSFMJ, // thorn wall
 				BSFMK, // water wall
 				BSFML, // lightning
 				EndFightPowerParameter = BSFML,
 
-				BSXMA, // life aura
+				BSXMA, // ChaScore1 aura
 				BSXMB, // invulnerability
-				BSXMC, // heal Hp
+				BSXMC, // heal ChaScore1
 
 				BSDMA, // speed
 
 				// G for general ??
-				BSGMA, // heal focus
+				BSGMA, // heal ChaScore4
 				BSGMB, // enchant weapon
 					BSGMBA,
 					BSGMBC,
@@ -662,17 +662,17 @@ namespace BRICK_FAMILIES
 					BSGMBS,
 
 				BeginMagicPowerParameter,
-				BSMMA = BeginMagicPowerParameter, // sap aura
+				BSMMA = BeginMagicPowerParameter, // ChaScore3 aura
 				BSMMB, // anti magic shield
-				BSMMC, // balance hp
-				BSMMD, // heal sap
+				BSMMC, // balance ChaScore1
+				BSMMD, // heal ChaScore3
 				EndMagicPowerParameter = BSMMD,
 
 				// consumable powers
-				BSCMA, // heal Hp
-				BSCMB, // heal Sap
-				BSCMC, // heal Sta
-				BSCMD, // heal Focus
+				BSCMA, // heal ChaScore1
+				BSCMB, // heal ChaScore3
+				BSCMC, // heal ChaScore2
+				BSCMD, // heal ChaScore4
 			EndPowerParameter = BSCMD,
 
 			BeginMagicPowerCredit,

@@ -784,7 +784,7 @@ void CGrpProfileBandit::updateProfile(uint ticksSinceLastUpdate)
 							CAIEntityPhysical *ep = player->getSpawnObj();
 							if (	ep
 								&&	ep->isAlive()
-								&&	ep->currentHitPoints()>0.f)
+								&&	ep->currentChaScore1()>0.f)
 							{
 								const	CRootCell	*const	rootCell=ep->wpos().getRootCell();
 								if	(	rootCell
@@ -863,7 +863,7 @@ void CGrpProfileBandit::updateProfile(uint ticksSinceLastUpdate)
 
 			if (	ep
 				&&	ep->isAlive()
-				&&	ep->currentHitPoints()>0.f)	//	not in safe zone.
+				&&	ep->currentChaScore1()>0.f)	//	not in safe zone.
 			{
 				const	CRootCell	*const	rootCell=ep->wpos().getRootCell();
 				if	(	rootCell
@@ -1111,7 +1111,7 @@ void CGrpProfileGuard::updateProfile(uint ticksSinceLastUpdate)
 			CAIEntityPhysical *const	ep = player->getSpawnObj();
 			if	(	!ep
 				||	!ep->isAlive()
-				||	ep->currentHitPoints()<=0.f
+				||	ep->currentChaScore1()<=0.f
 				||	ep->wpos().toAIVector().quickDistTo(centerPos)>aggroSize)
 				continue;
 
@@ -1281,7 +1281,7 @@ void CGrpProfileTribu::updateProfile(uint ticksSinceLastUpdate)
 			CAIEntityPhysical *const ep = player->getSpawnObj();
 			if	(	!ep
 				||	!ep->isAlive()
-				||	ep->currentHitPoints()<=0.f)
+				||	ep->currentChaScore1()<=0.f)
 				continue;
 
 			const	CRootCell	*const	rootCell=ep->wpos().getRootCell();
@@ -3921,7 +3921,7 @@ void CGrpProfileFaction::checkTargetsAround()
 			CPersistentOfPhysical const* const popAssisted = (*itAssisted);
 			CAIEntityPhysical* const epAssisted = popAssisted->getSpawnObj();
 			// If entity is not alive skip it
-			if (!epAssisted || !epAssisted->isAlive() || epAssisted->currentHitPoints()<=0.f)
+			if (!epAssisted || !epAssisted->isAlive() || epAssisted->currentChaScore1()<=0.f)
 				continue;
 			// If entity is not a friend skip it
 			if (!entityHavePartOfFactions(epAssisted, thisFriendFactions))
@@ -3946,7 +3946,7 @@ void CGrpProfileFaction::checkTargetsAround()
 			const CPersistentOfPhysical *const popAssisted = (*itAssisted);
 			CAIEntityPhysical *const epAssisted = popAssisted->getSpawnObj();
 			// If entity is not alive skip it
-			if (!epAssisted || !epAssisted->isAlive() || epAssisted->currentHitPoints()<=0.f)
+			if (!epAssisted || !epAssisted->isAlive() || epAssisted->currentChaScore1()<=0.f)
 				continue;
 			// If entity is not a npc skip it
 			if (epAssisted->getRyzomType()!=RYZOMID::npc)
@@ -3981,7 +3981,7 @@ void CGrpProfileFaction::checkTargetsAround()
 			CPersistentOfPhysical const* const popAttacked = (*itAttacked);
 			CAIEntityPhysical const* const epAttacked = popAttacked->getSpawnObj();
 			// If entity is not alive skip it
-			if (!epAttacked || !epAttacked->isAlive() || epAttacked->currentHitPoints()<=0.f)
+			if (!epAttacked || !epAttacked->isAlive() || epAttacked->currentChaScore1()<=0.f)
 				continue;
 			// If entity is not an ennemy skip it
 			if (!entityHavePartOfFactions(epAttacked, thisEnnemyFactions))
@@ -4009,7 +4009,7 @@ void CGrpProfileFaction::checkTargetsAround()
 			CPersistentOfPhysical const* const popAttacked = (*itAttacked);
 			CAIEntityPhysical const* const epAttacked = popAttacked->getSpawnObj();
 			// If entity is not alive skip it
-			if (!epAttacked || !epAttacked->isAlive() || epAttacked->currentHitPoints()<=0.f)
+			if (!epAttacked || !epAttacked->isAlive() || epAttacked->currentChaScore1()<=0.f)
 				continue;
 			// If entity is not an ennemy skip it
 			if (!entityHavePartOfFactions(epAttacked, thisEnnemyFactions))
