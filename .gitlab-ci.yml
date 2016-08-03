@@ -1,12 +1,21 @@
-Linux:
+stages:
+- build
+- test
+- staging
+- production
+
+## BUILDS
+
+# Job de compilation pour Linux
+Linux client build:
   stage: build
   only:
     - develop
+    - /^release\/.*/
     - /^feature\/.*(\+CI$|\+CI-LIN64.*)/
     - tags
   tags:
     - Docker
-    - Linux
   image: ubuntu:14.04
   script:
     # Installation des dépendances
@@ -20,23 +29,24 @@ Linux:
     - cd BUILD/x86_64
     ## Le curl des dépots a trop de dépendances en statique. On le recompile donc, afin d'aléger l'executable
     # Téléchargement et décompression des dépendances à recompiller
-    - wget -c http://curl.haxx.se/download/curl-7.21.0.tar.gz
-    - tar xzf curl-7.21.0.tar.gz
+    - wget -c http://curl.haxx.se/download/curl-7.50.0.tar.gz
+    - tar xzf curl-7.50.0.tar.gz
     # Compilation de curl
-    - cd curl-7.21.0
-    - ./configure --disable-ldap --disable-ldaps --disable-rtsp --disable-dict --disable-ipv6 --disable-crypto-auth --disable-sspi --disable-tls-srp --without-gnutls --without-librtmp --without-libidn --disable-versioned-symbols --disable-pop3 --without-libssh2 --with-ssl=/usr/lib/x86_64-linux-gnu/libssl.so
-    - make install -j$(($(nproc)-1))
+    - cd curl-7.50.0
+    - ./configure --disable-ldap --disable-ldaps --disable-rtsp --disable-dict --disable-ipv6 --disable-crypto-auth --disable-sspi --disable-tls-srp --without-gnutls --without-librtmp --without-libidn --disable-versioned-symbols --disable-pop3 --without-libssh2 --with-ssl
+    - make install -j$(($(nproc)/2))
     - cd ..
     ## Compilation de Khanat
     # Configuration
     - cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/ -DCMAKE_BUILD_TYPE=Release -DWITH_RYZOM_SERVER=OFF -DWITH_RYZOM_TOOLS=OFF -DWITH_RYZOM_CLIENT=ON -DWITH_NEL_TESTS=OFF -DWITH_NEL_TOOLS=OFF -DWITH_NEL_SAMPLES=OFF -DWITH_STATIC=ON -DWITH_STATIC_DRIVERS=ON -DWITH_STATIC_EXTERNAL=ON -DWITH_UNIX_STRUCTURE=OFF -DWITH_INSTALL_LIBRARIES=OFF -DWITH_LUA52=ON -DCURL_LIBRARY=/usr/local/lib/libcurl.a ../../code
     # Compilation et installation
-    - make -j$(($(nproc)-1)) install DESTDIR=../../Linux/x86_64
+    - make -j$(($(nproc)/2)) install DESTDIR=../../Linux/x86_64
   artifacts:
     paths:
       - Linux
 
-OSX:
+# Job de compilation pour OSX
+OSX client build:
   stage: build
   only:
     - develop
@@ -51,7 +61,83 @@ OSX:
     # Configuration
     - cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DFINAL_VERSION=ON -DWITH_STATIC=ON -DWITH_STATIC_DRIVERS=ON -DWITH_NEL_TOOLS=OFF -DWITH_NEL_SAMPLES=OFF -DWITH_NEL_TESTS=OFF -DWITH_RYZOM_SERVER=OFF -DWITH_RYZOM_TOOLS=OFF -DWITH_STATIC_EXTERNAL=ON -DWITH_RYZOM_PATCH=ON -DWITH_RYZOM_CUSTOM_PATCH_SERVER=ON -DWITH_LUA52=ON ../../code
     # Compilation et installation
-    - make -j$(($(sysctl -n hw.ncpu)-1)) install DESTDIR=../../OSX/x86_64
+    - make -j$(($(sysctl -n hw.ncpu)/2)) install DESTDIR=../../OSX/x86_64
   artifacts:
     paths:
       - OSX
+  when: manual
+  
+## TESTS
+
+.Linux client test:
+  stage: test
+  only:
+    - develop
+    - /^release\/.*/
+    - /^feature\/.*(\+CI$|\+CI-LIN64.*)/
+    - tags
+  tags:
+    - Docker
+  image: ubuntu:14.04
+  script:
+    - echo "pas encore de test pour le client Linux"
+  dependencies:
+    - Linux client build
+    
+.OSX client test:
+  stage: test
+  only:
+    - develop
+    - /^release\/.*/
+    - /^feature\/.*(\+CI$|\+CI-LIN64.*)/
+    - tags
+  tags:
+    - OSX
+  script:
+    - echo "pas encore de test pour le client OSX"
+  dependencies:
+    - OSX client build
+  when: manual
+
+##DEPLOYEMENT TO STAGING (TEST SERVER)
+
+# Job de déploiment vers le staging. Inutilisé pour le moment, il pourrait servir à l'avenir pour déployer automatiquement les nouvelles versions du client/serveur vers l'environnement de staging (zone de test)    
+.Deploy to Staging:
+  stage: staging
+  environment: Staging
+  only:
+    - develop
+    - /^release\/.*/
+    - tags
+  tags:
+    - Docker
+  image: ubuntu:14.04
+  script:
+    - echo "pas encore de deployment"
+  dependencies:
+    - Linux client build
+    - Linux client test
+    - OSX client build
+    - OSX client test
+  when: manual
+
+##DEPLOYEMENT TO PRODUCTION 
+
+# Job de déploiment vers la production. Inutilisé pour le moment, il pourrait servir à l'avenir pour déployer automatiquement les nouvelles versions du client/serveur vers l'environnement de production  
+.Release to Production:
+  stage: production
+  environment: Production
+  only:
+    - tags
+  tags:
+    - Docker
+  image: ubuntu:14.04
+  script:
+    - echo "pas encore de tag"
+  dependencies:
+    - Linux client build
+    - Linux client test
+    - OSX client build
+    - OSX client test
+    - Deploy to Staging
+  when: manual
