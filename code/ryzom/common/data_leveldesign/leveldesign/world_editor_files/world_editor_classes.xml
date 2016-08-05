@@ -98,7 +98,7 @@
 		</PARAMETER>
 
 		<PARAMETER NAME="properties" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/fauna_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/fauna_zone_properties"/>
 			<COMBO_FILES CONTEXT_NAME="default" PRIM_PATH="//"/>
 			<COMBO_FILES CONTEXT_NAME="default" PRIM_PATH="//root"/>
 			<COMBO_FILES CONTEXT_NAME="default" PRIM_PATH="//property_rep"/>
@@ -147,7 +147,7 @@
 		<PARAMETER NAME="group_keyword_filter" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="groups_by_name" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="event" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/event_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/event_type"/>
 		</PARAMETER>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
 		<DYNAMIC_CHILD CLASS_NAME="event_handler_action"/>
@@ -159,7 +159,7 @@
 			<DEFAULT_VALUE VALUE="ACTION_ZONE"/>
 		</PARAMETER>
 		<PARAMETER NAME="params" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/fauna_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/fauna_zone_properties"/>
 		</PARAMETER>
 	</PRIMITIVE>
 
@@ -175,7 +175,7 @@
 		</PARAMETER>
 		<PARAMETER NAME="parameters" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="500" SHOW_HS="true" FILE_EXTENSION="cs"/>
 		<PARAMETER NAME="action" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/action_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/action_type"/>
 		</PARAMETER>
 		<DYNAMIC_CHILD CLASS_NAME="event_handler_action"/>
 		<DYNAMIC_CHILD CLASS_NAME="action_zone"/>
@@ -1566,15 +1566,15 @@
 		</PARAMETER>
 -->
 		<PARAMETER NAME="item_parts" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="item_part" LOOKUP="true">
-				<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/game_element/deposit_system/item_parts"/>
+				<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_element/deposit_system/item_parts"/>
 		</PARAMETER>
 
 		<PARAMETER NAME="mps" TYPE="const_string_array" VISIBLE="true" FILENAME="true"  FILE_EXTENSION="mp" LOOKUP="true">
-				<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/game_element/deposit_system/mps"/>
+				<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_element/deposit_system/mps"/>
 		</PARAMETER>
 
 		<PARAMETER NAME="craft_civ" TYPE="const_string_array" VISIBLE="true" FILENAME="true"  FILE_EXTENSION="craft_civ" LOOKUP="true">
-				<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/game_element/deposit_system/craft_civs"/>
+				<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_element/deposit_system/craft_civs"/>
 		</PARAMETER>
 
 		<PARAMETER NAME="exact_mp_item" TYPE="string_array" VISIBLE="true" FILENAME="false"/>
@@ -1704,7 +1704,7 @@
 		</PARAMETER>
 -->
 		<PARAMETER NAME="ecotype" TYPE="const_string" VISIBLE="true" FILENAME="true"  FILE_EXTENSION="ecotype" LOOKUP="true">
-				<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/game_element/deposit_system/ecotypes"/>
+				<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_element/deposit_system/ecotypes"/>
 		</PARAMETER>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
 	</PRIMITIVE>
@@ -1865,7 +1865,7 @@
 
 		<PARAMETER NAME="ConstArray" TYPE="const_string_array" VISIBLE="true" FILENAME="true" WIDGET_HEIGHT="100" FILE_EXTENSION="flora" LOOKUP="true">
 
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/game_elem/plant/flora_template/forest"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/forest"/>
 			<COMBO_VALUES CONTEXT_NAME="jungle">
 				<CONTEXT_VALUE VALUE="jungle0"/>
 			</COMBO_VALUES>
@@ -1888,7 +1888,7 @@
 
 		<PARAMETER NAME="ConstArray2" TYPE="const_string_array" VISIBLE="true" FILENAME="true" WIDGET_HEIGHT="100" FILE_EXTENSION="flora" LOOKUP="true" AUTONAME="$ConstArray$">
 
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/game_elem/plant/flora_template/forest"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/forest"/>
 			<COMBO_VALUES CONTEXT_NAME="jungle">
 				<CONTEXT_VALUE VALUE="jungle0"/>
 			</COMBO_VALUES>
@@ -1997,11 +1997,11 @@
 		<PARAMETER NAME="name" TYPE="string" VISIBLE="true">
 		</PARAMETER>
 		<PARAMETER NAME="form" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="flora" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="forest" PATH="L:/leveldesign/game_elem/plant/flora_template/forest"/>
-			<COMBO_FILES CONTEXT_NAME="jungle" PATH="L:/leveldesign/game_elem/plant/flora_template/jungle"/>
-			<COMBO_FILES CONTEXT_NAME="desert" PATH="L:/leveldesign/game_elem/plant/flora_template/desert"/>
-			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="L:/leveldesign/game_elem/plant/flora_template/lacustre"/>
-			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="L:/leveldesign/game_elem/plant/flora_template/primes_racines"/>
+			<COMBO_FILES CONTEXT_NAME="forest" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/forest"/>
+			<COMBO_FILES CONTEXT_NAME="jungle" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/jungle"/>
+			<COMBO_FILES CONTEXT_NAME="desert" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/desert"/>
+			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/lacustre"/>
+			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/primes_racines"/>
 		</PARAMETER>
 		<DYNAMIC_CHILD CLASS_NAME="flora_exclude"/>
 		<GENERATED_CHILD CLASS_NAME="prim"/>
@@ -2014,11 +2014,11 @@
 		<PARAMETER NAME="name" TYPE="string" VISIBLE="true">
 		</PARAMETER>
 		<PARAMETER NAME="form" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="flora" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="forest" PATH="L:/leveldesign/game_elem/plant/flora_template/forest"/>
-			<COMBO_FILES CONTEXT_NAME="jungle" PATH="L:/leveldesign/game_elem/plant/flora_template/jungle"/>
-			<COMBO_FILES CONTEXT_NAME="desert" PATH="L:/leveldesign/game_elem/plant/flora_template/desert"/>
-			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="L:/leveldesign/game_elem/plant/flora_template/lacustre"/>
-			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="L:/leveldesign/game_elem/plant/flora_template/primes_racines"/>
+			<COMBO_FILES CONTEXT_NAME="forest" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/forest"/>
+			<COMBO_FILES CONTEXT_NAME="jungle" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/jungle"/>
+			<COMBO_FILES CONTEXT_NAME="desert" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/desert"/>
+			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/lacustre"/>
+			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="$RYDATA/leveldesign/game_elem/plant/flora_template/primes_racines"/>
 		</PARAMETER>
 		<DYNAMIC_CHILD CLASS_NAME="flora_exclude"/>
 		<GENERATED_CHILD CLASS_NAME="prim"/>
@@ -2033,11 +2033,11 @@
 		<PARAMETER NAME="name" TYPE="string" VISIBLE="true">
 		</PARAMETER>
 		<PARAMETER NAME="form" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="plant" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="forest" PATH="L:/leveldesign/game_elem/plant/ecosystem/forest"/>
-			<COMBO_FILES CONTEXT_NAME="jungle" PATH="L:/leveldesign/game_elem/plant/ecosystem/jungle"/>
-			<COMBO_FILES CONTEXT_NAME="desert" PATH="L:/leveldesign/game_elem/plant/ecosystem/desert"/>
-			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="L:/leveldesign/game_elem/plant/ecosystem/lacustre"/>
-			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="L:/leveldesign/game_elem/plant/ecosystem/primes_racines"/>
+			<COMBO_FILES CONTEXT_NAME="forest" PATH="$RYDATA/leveldesign/game_elem/plant/ecosystem/forest"/>
+			<COMBO_FILES CONTEXT_NAME="jungle" PATH="$RYDATA/leveldesign/game_elem/plant/ecosystem/jungle"/>
+			<COMBO_FILES CONTEXT_NAME="desert" PATH="$RYDATA/leveldesign/game_elem/plant/ecosystem/desert"/>
+			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="$RYDATA/leveldesign/game_elem/plant/ecosystem/lacustre"/>
+			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="$RYDATA/leveldesign/game_elem/plant/ecosystem/primes_racines"/>
 		</PARAMETER>
 		<PARAMETER NAME="radius" TYPE="string" VISIBLE="true">
 			<DEFAULT_VALUE VALUE="1"/>
@@ -2111,7 +2111,7 @@
 		<PARAMETER NAME="group_keyword_filter" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="groups_by_name" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="event" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign\world_editor_files/npc/event_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign\world_editor_files/npc/event_type"/>
 		</PARAMETER>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
 		<DYNAMIC_CHILD CLASS_NAME="fauna_event_handler_action"/>		
@@ -2151,7 +2151,7 @@
 		<PARAMETER NAME="group_keyword_filter" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="groups_by_name" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="event" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign\world_editor_files/npc/event_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign\world_editor_files/npc/event_type"/>
 		</PARAMETER>
 		<DYNAMIC_CHILD CLASS_NAME="fauna_event_handler_action"/>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
@@ -2166,7 +2166,7 @@
 	<!--		<PARAMETER NAME="params" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/> -->
 
 		<PARAMETER NAME="params" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign\world_editor_files/fauna_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign\world_editor_files/fauna_zone_properties"/>
 		</PARAMETER>
 	</PRIMITIVE>
 
@@ -2180,7 +2180,7 @@
 	<!--		<PARAMETER NAME="params" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/> -->
 
 		<PARAMETER NAME="params" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign\world_editor_files/npc_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign\world_editor_files/npc_zone_properties"/>
 		</PARAMETER>
 	</PRIMITIVE>
 
@@ -2196,7 +2196,7 @@
 		</PARAMETER>
 		<PARAMETER NAME="parameters" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="500" SHOW_HS="true" FILE_EXTENSION="cs"/>
 		<PARAMETER NAME="action" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign\world_editor_files/npc/action_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign\world_editor_files/npc/action_type"/>
 		</PARAMETER>
 		<DYNAMIC_CHILD CLASS_NAME="fauna_event_handler_action"/>
 		<DYNAMIC_CHILD CLASS_NAME="fauna_action_zone"/>
@@ -2470,22 +2470,22 @@
 			<DEFAULT_VALUE VALUE="0"/>
 		</PARAMETER>
 		<PARAMETER NAME="creature_code" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="creature" LOOKUP="true" SORT_ENTRIES="true">
-			<COMBO_FILES CONTEXT_NAME="forest" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/forest"/>
-			<COMBO_FILES CONTEXT_NAME="desert" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/desert"/>
-			<COMBO_FILES CONTEXT_NAME="jungle" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/jungle"/>
-			<COMBO_FILES CONTEXT_NAME="invasion" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/invasion"/>
-			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/lacustre"/>
-			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/prime_roots"/>
-			<COMBO_FILES CONTEXT_NAME="goo" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/goo"/>
-			<COMBO_FILES CONTEXT_NAME="invasion" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/invasion"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/forest"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/desert"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/jungle"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/invasion"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/lacustre"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/prime_roots"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/goo"/>
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/Game_elem/Creature/Fauna/bestiary/invasion"/>
+			<COMBO_FILES CONTEXT_NAME="forest" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/forest"/>
+			<COMBO_FILES CONTEXT_NAME="desert" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/desert"/>
+			<COMBO_FILES CONTEXT_NAME="jungle" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/jungle"/>
+			<COMBO_FILES CONTEXT_NAME="invasion" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/invasion"/>
+			<COMBO_FILES CONTEXT_NAME="lacustre" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/lacustre"/>
+			<COMBO_FILES CONTEXT_NAME="prime_roots" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/prime_roots"/>
+			<COMBO_FILES CONTEXT_NAME="goo" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/goo"/>
+			<COMBO_FILES CONTEXT_NAME="invasion" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/invasion"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/forest"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/desert"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/jungle"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/invasion"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/lacustre"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/prime_roots"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/goo"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYDATA/leveldesign/game_elem/creature/fauna/bestiary/invasion"/>
 		</PARAMETER>
 	</PRIMITIVE>
 	<!-- *********************************************************************************** -->
@@ -2524,10 +2524,10 @@
 -->
 		<!--		<PARAMETER NAME= "keywords"				TYPE="string_array"	VISIBLE="true"/> -->
 		<PARAMETER NAME="ai_movement" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_movement"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_movement"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_activity" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_activity"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_activity"/>
 			<DEFAULT_VALUE VALUE="no_change"/>
 		</PARAMETER>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
@@ -2731,10 +2731,10 @@
 -->
 		<PARAMETER NAME="keywords" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="ai_movement" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_movement"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_movement"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_activity" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_activity"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_activity"/>
 			<DEFAULT_VALUE VALUE="no_change"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_profile_params" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
@@ -2772,10 +2772,10 @@
 -->
 		<PARAMETER NAME="keywords" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="ai_movement" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_movement"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_movement"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_activity" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_activity"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_activity"/>
 			<DEFAULT_VALUE VALUE="no_change"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_profile_params" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
@@ -2813,10 +2813,10 @@
 -->
 		<PARAMETER NAME="keywords" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="ai_movement" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_movement"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_movement"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_activity" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_activity"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_activity"/>
 			<DEFAULT_VALUE VALUE="no_change"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_profile_params" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
@@ -2839,10 +2839,10 @@
 		<PARAMETER NAME="grp_keyword_filter" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="grps_by_name" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="ai_movement" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_movement"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_movement"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_activity" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/ai_activity"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/ai_activity"/>
 			<DEFAULT_VALUE VALUE="no_change"/>
 		</PARAMETER>
 		<PARAMETER NAME="ai_profile_params" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
@@ -2880,7 +2880,7 @@
 		<PARAMETER NAME="group_keyword_filter" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="groups_by_name" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="event" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/event_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/event_type"/>
 		</PARAMETER>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
 		<DYNAMIC_CHILD CLASS_NAME="npc_event_handler_action"/>
@@ -2899,7 +2899,7 @@
 		<PARAMETER NAME="group_keyword_filter" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="groups_by_name" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="event" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/event_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/event_type"/>
 		</PARAMETER>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
 		<DYNAMIC_CHILD CLASS_NAME="npc_event_handler_action"/>
@@ -2918,7 +2918,7 @@
 		<PARAMETER NAME="state_keyword_filter" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="states_by_name" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="100"/>
 		<PARAMETER NAME="event" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/event_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/event_type"/>
 		</PARAMETER>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
 		<DYNAMIC_CHILD CLASS_NAME="npc_event_handler_action"/>
@@ -2935,7 +2935,7 @@
 		</PARAMETER>
 		<PARAMETER NAME="parameters" TYPE="string_array" VISIBLE="true" WIDGET_HEIGHT="500" SHOW_HS="true" FILE_EXTENSION="cs"/>
 		<PARAMETER NAME="action" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc/action_type"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc/action_type"/>
 		</PARAMETER>
 		<DYNAMIC_CHILD CLASS_NAME="npc_event_handler_action"/>
 		<DYNAMIC_CHILD CLASS_NAME="fauna_action_zone"/>
@@ -3242,7 +3242,7 @@
 		</PARAMETER>
 
 		<PARAMETER NAME="sheet" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="continent" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world"/>
 		</PARAMETER>
 
 <!--		<PARAMETER NAME="alias" TYPE="string" VISIBLE="true">
@@ -3673,7 +3673,7 @@
 			<DEFAULT_VALUE VALUE="OUTPOST"/>
 		</PARAMETER>
 		<PARAMETER NAME="owner_tribe" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/families"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/families"/>
 		</PARAMETER>
 
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
@@ -3877,7 +3877,7 @@
 		</PARAMETER>
 -->
 		<PARAMETER NAME="continent_name" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/continents"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/continents"/>
 		</PARAMETER>
 
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
@@ -4002,7 +4002,7 @@
 -->
 
 		<PARAMETER NAME="family" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/families"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/families"/>
 		</PARAMETER>
 
 		<!-- Sample ..
@@ -4030,10 +4030,10 @@
 		</PARAMETER>
 -->
 		<PARAMETER NAME="food" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/fauna_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/fauna_zone_properties"/>
 		</PARAMETER>
 		<PARAMETER NAME="rest" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/fauna_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/fauna_zone_properties"/>
 		</PARAMETER>
 
 		<PARAMETER NAME="energy_0_25" TYPE="string" VISIBLE="true" FILENAME="false">
@@ -4063,7 +4063,7 @@
 		</PARAMETER>
 -->
 		<PARAMETER NAME="family" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/families"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/families"/>
 		</PARAMETER>
 
 		<PARAMETER NAME="energy_0_25" TYPE="string" VISIBLE="true" FILENAME="false">
@@ -4109,7 +4109,7 @@
 		<DYNAMIC_CHILD CLASS_NAME="group_template_npc_ml"/>
 		<STATIC_CHILD CLASS_NAME="alias" NAME="alias"/>
 		<PARAMETER NAME="flags" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc_zone_properties"/>
 		</PARAMETER>
 	</PRIMITIVE>
 
@@ -4504,7 +4504,7 @@
 -->
 
 		<PARAMETER NAME="family" TYPE="const_string" VISIBLE="true" FILENAME="true" FILE_EXTENSION="html" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/families"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/families"/>
 		</PARAMETER>
 
 		<PARAMETER NAME="energy" TYPE="string" VISIBLE="true" FILENAME="false">
@@ -4646,7 +4646,7 @@
 		</PARAMETER>
 
 		<PARAMETER NAME="properties" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/fauna_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/fauna_zone_properties"/>
 		</PARAMETER>
 
 		<PARAMETER NAME="vertical_pos" TYPE="const_string" VISIBLE="true">
@@ -4681,7 +4681,7 @@
 		</PARAMETER>
 
 		<PARAMETER NAME="properties" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc_zone_properties"/>
 			<COMBO_FILES CONTEXT_NAME="default" PRIM_PATH="//property_rep"/>
 		</PARAMETER>
 
@@ -4715,7 +4715,7 @@
 -->
 
 		<PARAMETER NAME="properties" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc_zone_properties"/>
 			<COMBO_FILES CONTEXT_NAME="default" PRIM_PATH="//property_rep"/>
 		</PARAMETER>
 
@@ -4749,7 +4749,7 @@
 -->
 
 		<PARAMETER NAME="properties" TYPE="const_string_array" VISIBLE="true" FILENAME="true" FILE_EXTENSION="zone" LOOKUP="true">
-			<COMBO_FILES CONTEXT_NAME="default" PATH="L:/leveldesign/world_editor_files/npc_zone_properties"/>
+			<COMBO_FILES CONTEXT_NAME="default" PATH="$RYZOM_PATH/common/data_leveldesign/leveldesign/world_editor_files/npc_zone_properties"/>
 			<COMBO_FILES CONTEXT_NAME="default" PRIM_PATH="//property_rep"/>
 		</PARAMETER>
 
