@@ -50,11 +50,12 @@ using namespace std;
 using namespace NLMISC;
 
 
-// Default timeout to connect a server
-#define DEFAULT_RYZOM_CONNECTION_TIMEOUT (30.0)
+// Default maximum time the request is allowed to take
+#define DEFAULT_RYZOM_CONNECTION_TIMEOUT (300.0)
 // Allow up to 10 redirects, then give up
 #define DEFAULT_RYZOM_REDIRECT_LIMIT (10)
 //
+#define FONT_WEIGHT_NORMAL 400
 #define FONT_WEIGHT_BOLD 700
 
 namespace NLGUI
@@ -316,6 +317,11 @@ namespace NLGUI
 			curl_easy_setopt(curl, CURLOPT_NOPROGRESS, true);
 			curl_easy_setopt(curl, CURLOPT_URL, finalUrl.c_str());
 
+			std::string userAgent = options.appName + "/" + options.appVersion;
+			curl_easy_setopt(curl, CURLOPT_USERAGENT, userAgent.c_str());
+
+			sendCookies(curl, _DocumentDomain, _TrustedDomain);
+
 			curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
 			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, fwrite);
 
@@ -338,14 +344,7 @@ namespace NLGUI
 	#ifdef LOG_DL
 		nlwarning("Init Image Download");
 	#endif
-	/*
-	// Get current flag
-	int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
-	// Turn on leak-checking bit
-	tmpFlag |= _CRTDBG_CHECK_ALWAYS_DF;
-	// Set flag to the new value
-	_CrtSetDbgFlag( tmpFlag );
-	*/
+
 		string pathName = "cache";
 		if ( ! CFile::isExists( pathName ) )
 			CFile::createDirectory( pathName );
@@ -506,7 +505,7 @@ namespace NLGUI
 							}
 							else
 							{
-								receiveCookies(_CurlWWW->Request, HTTPCurrentDomain, _TrustedDomain);
+								receiveCookies(_CurlWWW->Request, _DocumentDomain, _TrustedDomain);
 
 								// redirect, get the location and try browse again
 								// we cant use curl redirection because 'addHTTPGetParams()' must be called on new destination
@@ -533,7 +532,7 @@ namespace NLGUI
 						}
 						else
 						{
-							receiveCookies(_CurlWWW->Request, HTTPCurrentDomain, _TrustedDomain);
+							receiveCookies(_CurlWWW->Request, _DocumentDomain, _TrustedDomain);
 
 							_RedirectsRemaining = DEFAULT_RYZOM_REDIRECT_LIMIT;
 
@@ -628,32 +627,6 @@ namespace NLGUI
 			curl_multi_cleanup(MultiCurl);
 	}
 
-	/*
-	void dolibcurltest()
-	{
-		nlwarning("start libcurl test");
-
-		initImageDownload();
-
-		addImageDownload("http://www.ryzom.com/en/");
-		addImageDownload("http://www.ryzom.com/fr/");
-		addImageDownload("http://www.ryzom.com/de/");
-
-		do
-		{
-			checkImageDownload();
-			nlwarning("continue to sleep");
-			nlSleep(300);
-		}
-		while(RunningCurls);
-
-		releaseImageDownload();
-
-		nlwarning("end libcurl test");
-	}
-	*/
-
-
 	class CGroupListAdaptor : public CInterfaceGroup
 	{
 	public:
@@ -726,10 +699,6 @@ namespace NLGUI
 
 			// Build a UTF8 string
 			string inputString(buf, buf+len);
-	//		inputString.resize (len);
-	//		uint i;
-	//		for (i=0; i<(uint)len; i++)
-	//			inputString[i] = buf[i];
 
 			if (_ParsingLua && _TrustedDomain)
 			{
@@ -747,7 +716,6 @@ namespace NLGUI
 			ucstring tmp;
 			tmp.reserve(len);
 			uint ucLen = (uint)inputUCString.size();
-			//uint ucLenWithoutSpace = 0;
 			for (uint i=0; i<ucLen; i++)
 			{
 				ucchar output;
@@ -768,22 +736,7 @@ namespace NLGUI
 				if (keep)
 				{
 					tmp.push_back(output);
-	/*
-					// Break if the string is more than 50 chars long without space
-					if (output != ucchar(' '))
-					{
-						ucLenWithoutSpace++;
-						if (ucLenWithoutSpace == 50)
-						{
-							tmp.push_back(ucchar(' '));
-							ucLenWithoutSpace = 0;
-						}
-					}
-					else
-					{
-						ucLenWithoutSpace = 0;
-					}
-	*/			}
+				}
 			}
 
 			if (!tmp.empty())
@@ -801,69 +754,6 @@ namespace NLGUI
 
 	// ***************************************************************************
 
-	void CGroupHTML::addLink (uint element_number, const std::vector<bool> &present, const std::vector<const char *> &value)
-	{
-		if (_Browsing)
-		{
-			if (element_number == HTML_A)
-			{
-				registerAnchorName(MY_HTML_A);
-
-				// #fragment works with both ID and NAME so register both
-				if (present[MY_HTML_A_NAME] && value[MY_HTML_A_NAME])
-					_AnchorName.push_back(value[MY_HTML_A_NAME]);
-
-				if (present[MY_HTML_A_HREF] && value[MY_HTML_A_HREF])
-				{
-					string suri = value[MY_HTML_A_HREF];
-					if(suri.find("ah:") == 0)
-					{
-						if (_TrustedDomain)
-							_Link.push_back (suri);
-						else
-							_Link.push_back ("");
-					}
-					else if (_TrustedDomain && suri[0] == '#' && _LuaHrefHack)
-					{
-						// Direct url (hack for lua beginElement)
-						_Link.push_back (suri.substr(1));
-					}
-					else
-					{
-						// convert href from "?key=val" into "http://domain.com/?key=val"
-						_Link.push_back(getAbsoluteUrl(suri));
-					}
-
-					for(uint8 i = MY_HTML_A_ACCESSKEY; i < MY_HTML_A_Z_ACTION_SHORTCUT; i++)
-					{
-						if (present[i] && value[i])
-						{
-							string title = value[i];
-						//	nlinfo("key %d = %s", i, title.c_str());
-						}
-					}
-					//nlinfo("key of TITLE is : %d", MY_HTML_A_Z_ACTION_PARAMS);
-					if (present[MY_HTML_A_Z_ACTION_PARAMS] && value[MY_HTML_A_Z_ACTION_PARAMS])
-					{
-						string title = value[MY_HTML_A_Z_ACTION_PARAMS];
-						_LinkTitle.push_back(title);
-					}
-					else
-						_LinkTitle.push_back("");
-				}
-				else
-				{
-					_Link.push_back("");
-					_LinkTitle.push_back("");
-				}
-
-				
-			}
-		}
-	}
-
-	// ***************************************************************************
-
 	#define getCellsParameters(prefix,inherit) \
 	{\
 		CGroupHTML::CCellParams cellParams; \
@@ -872,7 +762,7 @@ namespace NLGUI
 			cellParams = _CellParams.back(); \
 		} \
 		if (present[prefix##_BGCOLOR] && value[prefix##_BGCOLOR]) \
-			cellParams.BgColor = getColor (value[prefix##_BGCOLOR]); \
+			scanHTMLColor(value[prefix##_BGCOLOR], cellParams.BgColor); \
 		if (present[prefix##_L_MARGIN] && value[prefix##_L_MARGIN]) \
 			fromString(value[prefix##_L_MARGIN], cellParams.LeftMargin); \
 		if (present[prefix##_NOWRAP]) \
@@ -921,6 +811,30 @@ namespace NLGUI
 		value += convertHexa(*src++);
 		intensity = value;
 		return src;
+	}
+
+	static float hueToRgb(float m1, float m2, float h)
+	{
+		if (h < 0) h += 1.0f;
+		if (h > 1) h -= 1.0f;
+		if (h*6 < 1.0f) return m1 + (m2 - m1)*h*6;
+		if (h*2 < 1.0f) return m2;
+		if (h*3 < 2.0f) return m1 + (m2 - m1) * (2.0f/3.0f - h)*6;
+		return m1;
+	}
+
+	static void hslToRgb(float h, float s, float l, CRGBA &result)
+	{
+		float m1, m2;
+		if (l <= 0.5f)
+			m2 = l * (s + 1.0f);
+		else
+			m2 = l + s - l * s;
+		m1 = l*2 - m2;
+
+		result.R = 255 * hueToRgb(m1, m2, h + 1.0f/3.0f);
+		result.G = 255 * hueToRgb(m1, m2, h);
+		result.B = 255 * hueToRgb(m1, m2, h - 1.0f/3.0f);
 	}
 
 	class CNameToCol
@@ -1085,6 +999,37 @@ namespace NLGUI
 		if (*src == '#')
 		{
 			++src;
+			if (strlen(src) == 3 || strlen(src) == 4)
+			{
+				bool hasAlpha = (strlen(src) == 4);
+				// check RGB for valid hex
+				if (isHexa(src[0]) && isHexa(src[1]) && isHexa(src[2]))
+				{
+					// check optional A for valid hex
+					if (hasAlpha && !isHexa(src[3])) return false;
+
+					dest.R = convertHexa(src[0]);
+					dest.G = convertHexa(src[1]);
+					dest.B = convertHexa(src[2]);
+
+					dest.R = dest.R << 4 | dest.R;
+					dest.G = dest.G << 4 | dest.G;
+					dest.B = dest.B << 4 | dest.B;
+
+					if (hasAlpha)
+					{
+						dest.A = convertHexa(src[3]);
+						dest.A = dest.A << 4 | dest.A;
+					}
+					else
+						dest.A = 255;
+
+					return true;
+				}
+
+				return false;
+			}
+
 			CRGBA result;
 			src = scanColorComponent(src, result.R); if (!src) return false;
 			src = scanColorComponent(src, result.G); if (!src) return false;
@@ -1098,7 +1043,101 @@ namespace NLGUI
 			dest = result;
 			return true;
 		}
-		else
+
+		if (strnicmp(src, "rgb(", 4) == 0 || strnicmp(src, "rgba(", 5) == 0)
+		{
+			src += 4;
+			if (*src == '(') src++;
+
+			vector<string> parts;
+			NLMISC::splitString(src, ",", parts);
+			if (parts.size() >= 3)
+			{
+				CRGBA result;
+				sint tmpv;
+				float tmpf;
+
+				// R
+				if (getPercentage(tmpv, tmpf, parts[0].c_str())) tmpv = 255 * tmpf;
+				clamp(tmpv, 0, 255);
+				result.R = tmpv;
+
+				// G
+				if (getPercentage(tmpv, tmpf, parts[1].c_str())) tmpv = 255 * tmpf;
+				clamp(tmpv, 0, 255);
+				result.G = tmpv;
+
+				// B
+				if (getPercentage(tmpv, tmpf, parts[2].c_str())) tmpv = 255 * tmpf;
+				clamp(tmpv, 0, 255);
+				result.B = tmpv;
+
+				// A
+				if (parts.size() == 4)
+				{
+					if (!fromString(parts[3], tmpf)) return false;
+					if (parts[3].find_first_of("%") != std::string::npos)
+						tmpf /= 100;
+
+					tmpv = 255 * tmpf;
+					clamp(tmpv, 0, 255);
+					result.A = tmpv;
+				}
+				else
+					result.A = 255;
+
+				dest = result;
+				return true;
+			}
+
+			return false;
+		}
+
+		if (strnicmp(src, "hsl(", 4) == 0 || strnicmp(src, "hsla(", 5) == 0)
+		{
+			src += 4;
+			if (*src == '(') src++;
+
+			vector<string> parts;
+			NLMISC::splitString(src, ",", parts);
+			if (parts.size() >= 3)
+			{
+				sint tmpv;
+				float h, s, l;
+				// hue
+				if (!fromString(parts[0], tmpv)) return false;
+				tmpv = ((tmpv % 360) + 360) % 360;
+				h = (float) tmpv / 360.0f;
+
+				// saturation
+				if (!getPercentage(tmpv, s, parts[1].c_str())) return false;
+				clamp(s, 0.0f, 1.0f);
+
+				// lightness
+				if (!getPercentage(tmpv, l, parts[2].c_str())) return false;
+				clamp(l, 0.0f, 1.0f);
+
+				CRGBA result;
+				hslToRgb(h, s, l, result);
+
+				// A
+				if (parts.size() == 4)
+				{
+					float tmpf;
+					if (!fromString(parts[3], tmpf)) return false;
+					if (parts[3].find_first_of("%") != std::string::npos)
+						tmpf /= 100;
+					clamp(tmpf, 0.0f, 1.0f);
+					result.A = 255 * tmpf;
+				}
+
+				dest = result;
+				return true;
+			}
+
+			return false;
+		}
+
 		{
 			// slow but should suffice for now
 			for(uint k = 0; k < sizeofarray(htmlColorNameToRGBA); ++k)
@@ -1166,7 +1205,7 @@ namespace NLGUI
 
 								pos = toLower(content).find("url=");
 								if (pos != string::npos)
-									_RefreshUrl = content.substr(pos + 4);
+									_RefreshUrl = getAbsoluteUrl(content.substr(pos + 4));
 							}
 
 							_NextRefreshTime += timeSec;
@@ -1176,7 +1215,10 @@ namespace NLGUI
 				break;
 			case HTML_A:
 			{
+				registerAnchorName(MY_HTML_A);
+
 				CStyleParams style;
+				style.FontFamily = getFontFamily();
 				style.FontSize = getFontSize();
 				style.TextColor = LinkColor;
 				style.Underlined = true;
@@ -1185,21 +1227,45 @@ namespace NLGUI
 				if (present[HTML_A_STYLE] && value[HTML_A_STYLE])
 					getStyleParams(value[HTML_A_STYLE], style);
 
+				_FontFamily.push_back(style.FontFamily);
 				_FontSize.push_back(style.FontSize);
 				_TextColor.push_back(style.TextColor);
 				_FontUnderlined.push_back(style.Underlined);
 				_FontStrikeThrough.push_back(style.StrikeThrough);
 				_GlobalColor.push_back(LinkColorGlobalColor);
 				_A.push_back(true);
+				_Link.push_back ("");
+				_LinkTitle.push_back("");
+				_LinkClass.push_back("");
 
+				// #fragment works with both ID and NAME so register both
+				if (present[MY_HTML_A_NAME] && value[MY_HTML_A_NAME])
+					_AnchorName.push_back(value[MY_HTML_A_NAME]);
 				if (present[MY_HTML_A_TITLE] && value[MY_HTML_A_TITLE])
-					_LinkTitle.push_back(value[MY_HTML_A_TITLE]);
+					_LinkTitle.back() = value[MY_HTML_A_TITLE];
 				if (present[MY_HTML_A_CLASS] && value[MY_HTML_A_CLASS])
-					_LinkClass.push_back(value[MY_HTML_A_CLASS]);
-
+					_LinkClass.back() = value[MY_HTML_A_CLASS];
+				if (present[MY_HTML_A_HREF] && value[MY_HTML_A_HREF])
+				{
+					string suri = value[MY_HTML_A_HREF];
+					if(suri.find("ah:") == 0)
+					{
+						if (_TrustedDomain)
+							_Link.back() = suri;
+					}
+					else if (_TrustedDomain && suri[0] == '#' && _LuaHrefHack)
+					{
+						// Direct url (hack for lua beginElement)
+						_Link.back() = suri.substr(1);
+					}
+					else
+					{
+						// convert href from "?key=val" into "http://domain.com/?key=val"
+						_Link.back() = getAbsoluteUrl(suri);
+					}
+				}
 			}
 				break;
-
 			case HTML_DIV:
 			{
 				_BlockLevelElement.push_back(true);
@@ -1286,7 +1352,6 @@ namespace NLGUI
 				}
 			}
 				break;
-
 			case HTML_FONT:
 			{
 				bool found = false;
@@ -1323,8 +1388,9 @@ namespace NLGUI
 				{
 					if (present[HTML_BODY_BGCOLOR] && value[HTML_BODY_BGCOLOR])
 					{
-						CRGBA bgColor = getColor (value[HTML_BODY_BGCOLOR]);
-						setBackgroundColor (bgColor);
+						CRGBA bgColor;
+						if (scanHTMLColor(value[HTML_BODY_BGCOLOR], bgColor))
+							setBackgroundColor (bgColor);
 					}
 					
 					string style;
@@ -1504,14 +1570,25 @@ namespace NLGUI
 						if (present[MY_HTML_INPUT_ALT] && value[MY_HTML_INPUT_ALT])
 							tooltip = value[MY_HTML_INPUT_ALT];
 
+						// by default not inherited, font family defaults to system font
+						CStyleParams style;
+						style.TextColor = TextColor;
+						style.FontSize = TextFontSize;
+						style.FontWeight = FONT_WEIGHT_NORMAL;
+						style.FontOblique = false;
+
+						if (present[MY_HTML_INPUT_STYLE] && value[MY_HTML_INPUT_STYLE])
+							getStyleParams(value[MY_HTML_INPUT_STYLE], style);
+
+						_TextColor.push_back(style.TextColor);
+						_FontFamily.push_back(style.FontFamily);
+						_FontSize.push_back(style.FontSize);
+						_FontWeight.push_back(style.FontWeight);
+						_FontOblique.push_back(style.FontOblique);
+
 						string type = toLower(value[MY_HTML_INPUT_TYPE]);
 						if (type == "image")
 						{
-							CStyleParams style;
-							// width, height from inline css
-							if (present[MY_HTML_INPUT_STYLE] && value[MY_HTML_INPUT_STYLE])
-								getStyleParams(value[MY_HTML_INPUT_STYLE], style);
-							
 							// The submit button
 							string name;
 							string normal;
@@ -1602,9 +1679,6 @@ namespace NLGUI
 								getParagraph()->addChild (buttonGroup);
 								paragraphChange ();
 							}
-
-	//						addButton (CCtrlTextButton::PushButton, name, normal, pushed.empty()?normal:pushed, over,
-	//							globalColor, "html_submit_form", param.c_str(), tooltip);
 						}
 						else if (type == "text")
 						{
@@ -1722,6 +1796,12 @@ namespace NLGUI
 								_Forms.back().Entries.push_back (entry);
 							}
 						}
+
+						popIfNotEmpty(_FontFamily);
+						popIfNotEmpty(_FontSize);
+						popIfNotEmpty(_TextColor);
+						popIfNotEmpty(_FontWeight);
+						popIfNotEmpty(_FontOblique);
 					}
 				}
 				break;
@@ -1834,7 +1914,29 @@ namespace NLGUI
 				newParagraph(PBeginSpace);
 				break;
 			case HTML_PRE:
-				_PRE.push_back(true);
+				{
+					CStyleParams style;
+					style.TextColor = getTextColor();
+					style.FontFamily = "monospace";
+					style.FontSize = getFontSize();
+					style.FontWeight = getFontWeight();
+					style.FontOblique = getFontOblique();
+					style.Underlined = getFontUnderlined();
+					style.StrikeThrough = getFontStrikeThrough();
+
+					if (present[HTML_PRE_STYLE] && value[HTML_PRE_STYLE])
+						getStyleParams(value[HTML_PRE_STYLE], style);
+
+					_TextColor.push_back(style.TextColor);
+					_FontFamily.push_back(style.FontFamily);
+					_FontSize.push_back(style.FontSize);
+					_FontWeight.push_back(style.FontWeight);
+					_FontOblique.push_back(style.FontOblique);
+					_FontUnderlined.push_back(style.Underlined);
+					_FontStrikeThrough.push_back(style.StrikeThrough);
+
+					_PRE.push_back(true);
+				}
 				break;
 			case HTML_TABLE:
 				{
@@ -1851,7 +1953,7 @@ namespace NLGUI
 					if (present[MY_HTML_TABLE_BORDER] && value[MY_HTML_TABLE_BORDER])
 						fromString(value[MY_HTML_TABLE_BORDER], table->Border);
 					if (present[MY_HTML_TABLE_BORDERCOLOR] && value[MY_HTML_TABLE_BORDERCOLOR])
-						table->BorderColor = getColor (value[MY_HTML_TABLE_BORDERCOLOR]);
+						scanHTMLColor(value[MY_HTML_TABLE_BORDERCOLOR], table->BorderColor);
 					if (present[MY_HTML_TABLE_CELLSPACING] && value[MY_HTML_TABLE_CELLSPACING])
 						fromString(value[MY_HTML_TABLE_CELLSPACING], table->CellSpacing);
 					if (present[MY_HTML_TABLE_CELLPADDING] && value[MY_HTML_TABLE_CELLPADDING])
@@ -1958,9 +2060,27 @@ namespace NLGUI
 				}
 				break;
 			case HTML_TEXTAREA:
+				_PRE.push_back(true);
+
 				// Got one form ?
 				if (!(_Forms.empty()))
 				{
+					// not inherited by default, font family defaults to system font
+					CStyleParams style;
+					style.TextColor = TextColor;
+					style.FontWeight = FONT_WEIGHT_NORMAL;
+					style.FontOblique = false;
+					style.FontSize = TextFontSize;
+
+					if (present[MY_HTML_TEXTAREA_STYLE] && value[MY_HTML_TEXTAREA_STYLE])
+						getStyleParams(value[MY_HTML_TEXTAREA_STYLE], style);
+
+					_TextColor.push_back(style.TextColor);
+					_FontFamily.push_back(style.FontFamily);
+					_FontSize.push_back(style.FontSize);
+					_FontWeight.push_back(style.FontWeight);
+					_FontOblique.push_back(style.FontOblique);
+
 					// read general property
 					string templateName;
 
@@ -2043,6 +2163,7 @@ namespace NLGUI
 				{
 					CStyleParams style;
 					style.TextColor = getTextColor();
+					style.FontFamily = getFontFamily();
 					style.FontSize = getFontSize();
 					style.FontWeight = getFontWeight();
 					style.FontOblique = getFontOblique();
@@ -2053,6 +2174,7 @@ namespace NLGUI
 						getStyleParams(value[MY_HTML_SPAN_STYLE], style);
 
 					_TextColor.push_back(style.TextColor);
+					_FontFamily.push_back(style.FontFamily);
 					_FontSize.push_back(style.FontSize);
 					_FontWeight.push_back(style.FontWeight);
 					_FontOblique.push_back(style.FontOblique);
@@ -2207,6 +2329,7 @@ namespace NLGUI
 				popIfNotEmpty (_FontSize);
 			break;
 			case HTML_A:
+				popIfNotEmpty (_FontFamily);
 				popIfNotEmpty (_FontSize);
 				popIfNotEmpty (_TextColor);
 				popIfNotEmpty (_FontUnderlined);
@@ -2232,6 +2355,13 @@ namespace NLGUI
 				endParagraph();
 				break;
 			case HTML_PRE:
+				popIfNotEmpty (_FontFamily);
+				popIfNotEmpty (_FontSize);
+				popIfNotEmpty (_FontWeight);
+				popIfNotEmpty (_FontOblique);
+				popIfNotEmpty (_TextColor);
+				popIfNotEmpty (_FontUnderlined);
+				popIfNotEmpty (_FontStrikeThrough);
 				popIfNotEmpty (_PRE);
 				break;
 			case HTML_DIV:
@@ -2277,7 +2407,15 @@ namespace NLGUI
 							entry.TextArea = textArea;
 							_Forms.back().Entries.push_back (entry);
 						}
+
+						popIfNotEmpty (_FontFamily);
+						popIfNotEmpty (_FontSize);
+						popIfNotEmpty (_FontWeight);
+						popIfNotEmpty (_FontOblique);
+						popIfNotEmpty (_TextColor);
 					}
+
+					popIfNotEmpty (_PRE);
 				}
 				break;
 			case HTML_TITLE:
@@ -2437,6 +2575,7 @@ namespace NLGUI
 				}
 				break;
 			case HTML_SPAN:
+				popIfNotEmpty (_FontFamily);
 				popIfNotEmpty (_FontSize);
 				popIfNotEmpty (_FontWeight);
 				popIfNotEmpty (_FontOblique);
@@ -2548,6 +2687,7 @@ namespace NLGUI
 		_SelectOption = false;
 		_GroupListAdaptor = NULL;
 		_DocumentUrl = "";
+		_DocumentDomain = "";
 		_UrlFragment.clear();
 		_RefreshUrl.clear();
 		_NextRefreshTime = 0.0;
@@ -3907,6 +4047,7 @@ namespace NLGUI
 				// Compatible with current parameters ?
 				if (!skipLine &&
 					(getTextColor() == _CurrentViewLink->getColor()) &&
+					(getFontFamily() == _CurrentViewLink->getFontName()) &&
 					(getFontSize() == (uint)_CurrentViewLink->getFontSize()) &&
 					(getFontUnderlined() == _CurrentViewLink->getUnderlined()) &&
 					(getFontStrikeThrough() == _CurrentViewLink->getStrikeThrough()) &&
@@ -3971,6 +4112,7 @@ namespace NLGUI
 					}
 					newLink->setText(tmpStr);
 					newLink->setColor(getTextColor());
+					newLink->setFontName(getFontFamily());
 					newLink->setFontSize(getFontSize());
 					newLink->setEmbolden(embolden);
 					newLink->setOblique(getFontOblique());
@@ -4062,7 +4204,7 @@ namespace NLGUI
 
 	// ***************************************************************************
 
-	CInterfaceGroup *CGroupHTML::addTextArea(const std::string &templateName, const char *name, uint /* rows */, uint cols, bool multiLine, const ucstring &content, uint maxlength)
+	CInterfaceGroup *CGroupHTML::addTextArea(const std::string &templateName, const char *name, uint rows, uint cols, bool multiLine, const ucstring &content, uint maxlength)
 	{
 		// In a paragraph ?
 		if (!_Paragraph)
@@ -4077,11 +4219,18 @@ namespace NLGUI
 		{
 			// Not added ?
 			std::vector<std::pair<std::string,std::string> > templateParams;
-			templateParams.push_back (std::pair<std::string,std::string> ("w", toString (cols*12)));
-			//templateParams.push_back (std::pair<std::string,std::string> ("h", toString (rows*12)));
+			templateParams.push_back (std::pair<std::string,std::string> ("w", toString (cols*getFontSize())));
 			templateParams.push_back (std::pair<std::string,std::string> ("id", name));
 			templateParams.push_back (std::pair<std::string,std::string> ("prompt", ""));
 			templateParams.push_back (std::pair<std::string,std::string> ("multiline", multiLine?"true":"false"));
+			templateParams.push_back (std::pair<std::string,std::string> ("fontsize", toString (getFontSize())));
+			templateParams.push_back (std::pair<std::string,std::string> ("color", getTextColor().toString()));
+			if (getFontWeight() >= FONT_WEIGHT_BOLD)
+				templateParams.push_back (std::pair<std::string,std::string> ("fontweight", "bold"));
+			if (getFontOblique())
+				templateParams.push_back (std::pair<std::string,std::string> ("fontstyle", "oblique"));
+			if (multiLine)
+				templateParams.push_back (std::pair<std::string,std::string> ("multi_min_line", toString(rows)));
 			templateParams.push_back (std::pair<std::string,std::string> ("want_return", multiLine?"true":"false"));
 			templateParams.push_back (std::pair<std::string,std::string> ("enter_recover_focus", "false"));
 			if (maxlength > 0)
@@ -4279,7 +4428,6 @@ namespace NLGUI
 			ctrlButton->setToolTipParent(TTMouse);
 			ctrlButton->setToolTipParentPosRef(Hotspot_TTAuto);
 			ctrlButton->setToolTipPosRef(Hotspot_TTAuto);
-			ctrlButton->setActionOnLeftClickParams(tooltip);
 		}
 
 		getParagraph()->addChild (ctrlButton);
@@ -4657,8 +4805,11 @@ namespace NLGUI
 			string finalUrl;
 			bool isLocal = lookupLocalFile (finalUrl, _URL.c_str(), true);
 
-			// Save new url
 			_URL = finalUrl;
+
+			CUrlParser uri (_URL);
+			_TrustedDomain = isTrustedDomain(uri.host);
+			_DocumentDomain = uri.host;
 
 			// file is probably from bnp (ingame help)
 			if (isLocal)
@@ -4667,8 +4818,6 @@ namespace NLGUI
 			}
 			else
 			{
-				_TrustedDomain = isTrustedDomain(setCurrentDomain(finalUrl));
-
 				SFormFields formfields;
 				if (_PostNextTime)
 				{
@@ -4704,9 +4853,11 @@ namespace NLGUI
 		// Ref the form
 		CForm &form = _Forms[_PostFormId];
 
-		// Save new url
 		_URL = form.Action;
-		_TrustedDomain = isTrustedDomain(setCurrentDomain(_URL));
+
+		CUrlParser uri(_URL);
+		_TrustedDomain = isTrustedDomain(uri.host);
+		_DocumentDomain = uri.host;
 
 		for (i=0; i<form.Entries.size(); i++)
 		{
@@ -4814,6 +4965,7 @@ namespace NLGUI
 	#endif
 
 		_TrustedDomain = true;
+		_DocumentDomain = "localhost";
 
 		// Stop previous browse, remove content
 		stopBrowse ();
@@ -4899,7 +5051,7 @@ namespace NLGUI
 		curl_easy_setopt(curl, CURLOPT_USERAGENT, userAgent.c_str());
 
 		// Cookies
-		sendCookies(curl, HTTPCurrentDomain, _TrustedDomain);
+		sendCookies(curl, _DocumentDomain, _TrustedDomain);
 
 		// Referer
 		if (!referer.empty())
@@ -4982,9 +5134,6 @@ namespace NLGUI
 	#ifdef LOG_DL
 		nlwarning("(%s) HTML download finished, content length %d, type '%s', code %d", _Id.c_str(), content.size(), type.c_str(), code);
 	#endif
-
-		// set trusted domain for parsing
-		_TrustedDomain = isTrustedDomain(setCurrentDomain(_URL));
 
 		// create <html> markup for image downloads
 		if (type.find("image/") == 0 && content.size() > 0)
@@ -5468,15 +5617,11 @@ namespace NLGUI
 			value.insert(value.begin() + (uint)it.nextKey().toInteger(), buffer);
 		}
 
+		// ingame lua scripts from browser are using <a href="#http://..."> url scheme
+		// reason unknown
+		_LuaHrefHack = true;
 		beginElement(element_number, present, value);
-		if (element_number == HTML_A)
-		{
-			// ingame lua scripts from browser are using <a href="#http://..."> url scheme
-			// reason unknown
-			_LuaHrefHack = true;
-			addLink(element_number, present, value);
-			_LuaHrefHack = false;
-		}
+		_LuaHrefHack = false;
 
 		return 0;
 	}
@@ -5637,23 +5782,45 @@ namespace NLGUI
 		{
 			if (it->first == "font-size")
 			{
-				float tmp;
-				sint size = 0;
-				getPercentage (size, tmp, it->second.c_str());
-				if (size > 0)
-					style.FontSize = size;
+				if (it->second == "inherit")
+					style.FontSize = getFontSize();
+				else
+				{
+					float tmp;
+					sint size = 0;
+					getPercentage (size, tmp, it->second.c_str());
+					if (size > 0)
+						style.FontSize = size;
+				}
 			}
 			else
 			if (it->first == "font-style")
 			{
+				if (it->second == "inherit")
+					style.FontOblique = getFontOblique();
+				else
 				if (it->second == "italic" || it->second == "oblique")
 					style.FontOblique = true;
+			}
+			else
+			if (it->first == "font-family")
+			{
+				if (it->second == "inherit")
+					style.FontFamily = getFontFamily();
+				else
+				if (it->second == "monospace")
+					style.FontFamily = "monospace";
+				else
+					style.FontFamily = "";
 			}
 			else
 			if (it->first == "font-weight")
 			{
 				// https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
 				uint weight = 400;
+				if (it->second == "inherit")
+					weight = getFontWeight();
+				else
 				if (it->second == "normal")
 					weight = 400;
 				else
@@ -5686,7 +5853,10 @@ namespace NLGUI
 			}
 			else
 			if (it->first == "color")
-				scanHTMLColor(it->second.c_str(), style.TextColor);
+				if (it->second == "inherit")
+					style.TextColor = getTextColor();
+				else
+					scanHTMLColor(it->second.c_str(), style.TextColor);
 			else
 			if (it->first == "text-decoration" || it->first == "text-decoration-line")
 			{
@@ -5827,7 +5997,6 @@ namespace NLGUI
 	{
 		std::string ret;
 		sint32 number = Value;
-		bool upper = false;
 
 		if (Type == "disc")
 		{

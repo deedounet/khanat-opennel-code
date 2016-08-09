@@ -643,7 +643,7 @@ void CInterfaceManager::initLogin()
 	ActionsContext.addActionsManager(&EditActions, RZ_CATEGORY_EDIT);
 
 
-	if (ClientCfg.XMLLoginInterfaceFiles.size()==0)
+	if (ClientCfg.XMLLoginInterfaceFiles.empty())
 	{
 		nlinfo("no xml login config files in client.cfg");
 		return;
@@ -729,7 +729,7 @@ void CInterfaceManager::initOutGame()
 
 	//NLMEMORY::CheckHeap (true);
 
-	if (ClientCfg.XMLOutGameInterfaceFiles.size()==0)
+	if (ClientCfg.XMLOutGameInterfaceFiles.empty())
 	{
 		nlinfo("no xml outgame config files in client.cfg");
 		return;
@@ -889,7 +889,7 @@ void CInterfaceManager::initInGame()
 
 //	NLMEMORY::CheckHeap (true);
 
-	if (ClientCfg.XMLInterfaceFiles.size()==0)
+	if (ClientCfg.XMLInterfaceFiles.empty())
 	{
 		nlinfo("no xml config files in client.cfg");
 		return;
@@ -1222,6 +1222,14 @@ void CInterfaceManager::loadKeys()
 		// Load the user key file
 		xmlFilesToParse.push_back (userKeyFileName);
 	}
+	else
+	{
+		string filename = "save/shared_keys.xml";
+		if(CFile::fileExists(filename) && CFile::getFileSize(filename) > 0)
+		{
+			xmlFilesToParse.push_back(filename);
+		}
+	}
 	// Load the default key (but don't replace existings bounds, see keys.xml "key_def_no_replace")
 	xmlFilesToParse.push_back ("keys.xml");
 
@@ -1240,7 +1248,11 @@ void CInterfaceManager::loadInterfaceConfig()
 	if (ClientCfg.R2EDEnabled) // in R2ED mode the CEditor class deals with it
 		return;
 
-	loadConfig ("save/interface_" + PlayerSelectedFileName + ".icfg"); // Invalidate coords of changed groups
+	string filename = "save/interface_" + PlayerSelectedFileName + ".icfg";
+	if (!CFile::fileExists(filename))
+		filename = "save/shared_interface.icfg";
+
+	loadConfig(filename); // Invalidate coords of changed groups
 
 	_ConfigLoaded = true;
 }
@@ -1254,7 +1266,11 @@ void CInterfaceManager::uninitInGame0 ()
 	{
 		if (!ClientCfg.R2EDEnabled)
 		{
-			saveKeys ("save/keys_" + PlayerSelectedFileName + ".xml");
+			string filename = "save/keys_" + PlayerSelectedFileName + ".xml";
+			if (!CFile::fileExists(filename) && CFile::fileExists("save/shared_keys.xml"))
+				filename = "save/shared_keys.xml";
+
+			saveKeys(filename);
 		}
 		_KeysLoaded = false;
 	}
@@ -1264,7 +1280,11 @@ void CInterfaceManager::uninitInGame0 ()
 	{
 		if (!ClientCfg.R2EDEnabled)
 		{
-			saveConfig ("save/interface_" + PlayerSelectedFileName + ".icfg");
+			string filename = "save/interface_" + PlayerSelectedFileName + ".icfg";
+			if (!CFile::fileExists(filename) && CFile::fileExists("save/shared_interface.icfg"))
+				filename = "save/shared_interface.icfg";
+
+			saveConfig(filename);
 		}
 		_ConfigLoaded = false;
 	}
@@ -1559,6 +1579,10 @@ void CInterfaceManager::setupOptions()
 	if ((!sFont.empty()) && (Driver != NULL))
 		resetTextContext(sFont.c_str(), true);
 	// Continue to parse the rest of the interface
+
+	sFont = wm->getSystemOption (CWidgetManager::OptionMonospaceFont).getValStr();
+	if ((!sFont.empty()) && (Driver != NULL))
+		CViewRenderer::registerFont("monospace", sFont);
 }
 
 // ------------------------------------------------------------------------------------------------

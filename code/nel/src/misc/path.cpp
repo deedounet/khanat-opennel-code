@@ -1784,7 +1784,9 @@ std::string CPath::getApplicationDirectory(const std::string &appName, bool loca
 std::string CFileContainer::getApplicationDirectory(const std::string &appName, bool local)
 {
 	static std::string appPaths[2];
+
 	std::string &appPath = appPaths[local ? 1 : 0];
+
 	if (appPath.empty())
 	{
 #ifdef NL_OS_WINDOWS
@@ -1800,26 +1802,21 @@ std::string CFileContainer::getApplicationDirectory(const std::string &appName, 
 			SHGetSpecialFolderPathW(NULL, buffer, CSIDL_APPDATA, TRUE);
 		}
 		appPath = CPath::standardizePath(wideToUtf8(buffer));
-#elif defined(NL_OS_MAC)
-		appPath = CPath::standardizePath(getenv("HOME"));
-		appPath += "/Library/Application Support/";
 #else
-		appPath = CPath::standardizePath(getenv("HOME"));
+		// get user home directory from HOME environment variable
+		const char* homePath = getenv("HOME");
+		appPath = CPath::standardizePath(homePath ? homePath : ".");
+
+#if defined(NL_OS_MAC)
+		appPath += "Library/Application Support/";
+#else
+		// recommended for applications data that are owned by user
+		appPath += ".local/share/";
+#endif
 #endif
 	}
 
-	std::string path = appPath;
-#ifdef NL_OS_WINDOWS
-	if (!appName.empty())
-		path = CPath::standardizePath(path + appName);
-#elif defined(NL_OS_MAC)
-	path = CPath::standardizePath(path + appName);
-#else
-	if (!appName.empty())
-		path = CPath::standardizePath(path + "." + toLower(appName));
-#endif
-
-	return path;
+	return CPath::standardizePath(appPath + appName);
 }
 
 std::string CPath::getTemporaryDirectory()
@@ -2374,11 +2371,33 @@ static bool CopyMoveFile(const std::string &dest, const std::string &src, bool c
 #else
 		if (rename (ssrc.c_str(), sdest.c_str()) == -1)
 		{
-			nlwarning ("PATH: CopyMoveFile error: can't rename '%s' into '%s', error %u",
-				ssrc.c_str(),
-				sdest.c_str(),
-				errno);
-			return false;
+			// unable to move because file systems are different
+			if (errno == EXDEV)
+			{
+				// different file system, we need to copy and delete file manually
+				if (!CopyMoveFile(dest, src, true, failIfExists, progress)) return false;
+
+				// get modification time
+				uint32 modificationTime = CFile::getFileModificationDate(src);
+
+				// delete original file
+				if (!CFile::deleteFile(src)) return false;
+
+				// set same modification time
+				if (!CFile::setFileModificationDate(dest, modificationTime))
+				{
+					nlwarning("Unable to set modification time %s (%u) for %s", timestampToHumanReadable(modificationTime).c_str(), modificationTime, dest.c_str());
+				}
+			}
+			else
+			{
+				nlwarning("PATH: CopyMoveFile error: can't rename '%s' into '%s', error %u",
+					ssrc.c_str(),
+					sdest.c_str(),
+					errno);
+
+				return false;
+			}
 		}
 #endif
 	}
