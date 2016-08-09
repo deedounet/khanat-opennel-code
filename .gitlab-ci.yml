@@ -20,7 +20,7 @@ Linux client build:
   script:
     # Installation des dépendances
     - apt-get update
-    - apt-get install -y g++ gcc cmake libgl1-mesa-dev libjpeg-dev libpng12-dev libopenal-dev libfreetype6-dev libxxf86vm-dev libxrandr-dev libxrender-dev libvorbis-dev libluabind-dev libboost-dev libmysqlclient-dev libssl-dev liblzma-dev libxml2-dev
+    - apt-get install -y g++ gcc cmake libgl1-mesa-dev libjpeg-dev libpng12-dev libopenal-dev libfreetype6-dev libxxf86vm-dev libxrandr-dev libxrender-dev libvorbis-dev libluabind-dev libboost-dev libmysqlclient-dev libssl-dev liblzma-dev libxml2-dev makeself
     # Installation des dépendances des dépendances statiques (à commenter si construction de Khanat en mode dynamique)
     # libxml2 : python-pyicu (support d'unicode), python-dev (support de... python)
     - apt-get install -y wget python-pyicu python-dev
@@ -34,16 +34,22 @@ Linux client build:
     # Compilation de curl
     - cd curl-7.50.0
     - ./configure --disable-ldap --disable-ldaps --disable-rtsp --disable-dict --disable-ipv6 --disable-crypto-auth --disable-sspi --disable-tls-srp --without-gnutls --without-librtmp --without-libidn --disable-versioned-symbols --disable-pop3 --without-libssh2 --with-ssl
-    - make install -j$(($(nproc)/2))
+    - make install -j$(nproc)
     - cd ..
     ## Compilation de Khanat
     # Configuration
     - cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/ -DCMAKE_BUILD_TYPE=Release -DWITH_RYZOM_SERVER=OFF -DWITH_RYZOM_TOOLS=OFF -DWITH_RYZOM_CLIENT=ON -DWITH_NEL_TESTS=OFF -DWITH_NEL_TOOLS=OFF -DWITH_NEL_SAMPLES=OFF -DWITH_STATIC=ON -DWITH_STATIC_DRIVERS=ON -DWITH_STATIC_EXTERNAL=ON -DWITH_UNIX_STRUCTURE=OFF -DWITH_INSTALL_LIBRARIES=OFF -DWITH_LUA52=ON -DCURL_LIBRARY=/usr/local/lib/libcurl.a ../../code
     # Compilation et installation
-    - make -j$(($(nproc)/2)) install DESTDIR=../../Linux/x86_64
+    - make -j$(nproc) install DESTDIR=../../Linux/x86_64
+    # Packaging
+    - cd ../../
+    - cp ./dist/khanat/autoextract_script.sh ./Linux/x86_64/
+    - chmod +x ./Linux/x86_64/autoextract_script.sh
+    - makeself --nox11 --target /tmp/khanat_installer ./Linux/x86_64/ khanat-$(echo $CI_BUILD_REF | head -c 7 )-$CI_PIPELINE_ID-Linux-x86_64.run "Khanat installer" ./autoextract_script.sh
   artifacts:
+    name: "khanat-$(echo $CI_BUILD_REF | head -c 7)-$CI_PIPELINE_ID-Linux-x86_64"
     paths:
-      - Linux
+      - khanat-$(echo $CI_BUILD_REF | head -c 7 )-$CI_PIPELINE_ID-Linux-x86_64.run
 
 # Job de compilation pour OSX
 OSX client build:
@@ -63,13 +69,14 @@ OSX client build:
     # Compilation et installation
     - make -j$(($(sysctl -n hw.ncpu)/2)) install DESTDIR=../../OSX/x86_64
   artifacts:
+    name: "khanat-$(echo $CI_BUILD_REF | head -c 7 )-$CI_PIPELINE_ID-OSX-x86_64"
     paths:
-      - OSX
+      - OSX/x86_64/*
   when: manual
   
 ## TESTS
 
-.Linux client test:
+Linux client test:
   stage: test
   only:
     - develop
@@ -80,7 +87,8 @@ OSX client build:
     - Docker
   image: ubuntu:14.04
   script:
-    - echo "pas encore de test pour le client Linux"
+    # Test de l'installation initiale
+    - ./khanat-$(echo $CI_BUILD_REF | head -c 7 )-$CI_PIPELINE_ID-Linux-x86_64.run
   dependencies:
     - Linux client build
     
