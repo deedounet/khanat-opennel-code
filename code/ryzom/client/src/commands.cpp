@@ -2440,7 +2440,7 @@ NLMISC_COMMAND(mode, "Change the mode for an entity in a slot", "<Slot> <Mode> [
 	return true;
 }
 
-NLMISC_COMMAND(behaviour, "Change the behaviour for an entity in a slot", "<Slot> <Behaviour> [<Attack Intensity>] [<Impact Intensity>] [<delta HP>] [dt(tick)]")
+NLMISC_COMMAND(behaviour, "Change the behaviour for an entity in a slot", "<Slot> <Behaviour> [<Attack Intensity>] [<Impact Intensity>] [<delta ChaScore1>] [dt(tick)]")
 {
 	// Check parameters.
 	if(args.size() < 2 || args.size() > 6)
@@ -2505,7 +2505,7 @@ NLMISC_COMMAND(behaviour, "Change the behaviour for an entity in a slot", "<Slot
 				behaviour.Combat.ImpactIntensity = impactIntensity;
 			}
 			if(args.size() > 4)
-				fromString(args[4], behaviour.DeltaHP);
+				fromString(args[4], behaviour.DeltaChaScore1);
 		}
 		// get the dt
 		sint32	dt= 10;

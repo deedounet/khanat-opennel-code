@@ -2811,6 +2811,8 @@ string checkLogin(const string &login, const string &password, const string &cli
 	{
 		// R2 login sequence
 		std::string	cryptedPassword = CCrypt::crypt(password, Salt);
+		
+		std::string url = ClientCfg.ConfigFile.getVar("StartupHost").asString() + ClientCfg.ConfigFile.getVar("StartupPage").asString();
 
 		if(!HttpClient.sendGet(url + "?cmd=login&login=" + login + "&password=" + cryptedPassword + "&clientApplication=" + clientApp + "&cp=2" + "&lg=" + ClientCfg.LanguageCode))
 			return "Can't send (error code 2)";
@@ -2891,6 +2893,8 @@ string checkLogin(const string &login, const string &password, const string &cli
 	{
 		// standard ryzom login sequence
 		std::string	cryptedPassword = CCrypt::crypt(password, Salt);
+		
+		std::string url = ClientCfg.ConfigFile.getVar("StartupHost").asString() + ClientCfg.ConfigFile.getVar("StartupPage").asString();
 
 		if(!HttpClient.sendGet(url + "?login=" + login + "&password=" + cryptedPassword + "&clientApplication=" + clientApp + "&cp=2"))
 			return "Can't send (error code 2)";
