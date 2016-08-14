@@ -246,11 +246,12 @@ MACRO(NL_SETUP_DEFAULT_OPTIONS)
   ###
   OPTION(WITH_SYMBOLS             "Keep debug symbols in binaries"                OFF)
 
-  IF(WIN32)
+  # only enable STLport for VC++ 2010 and less
+  IF(WIN32 AND MSVC_VERSION LESS 1600)
     OPTION(WITH_STLPORT           "With STLport support."                         ON )
-  ELSE(WIN32)
+  ELSE()
     OPTION(WITH_STLPORT           "With STLport support."                         OFF)
-  ENDIF(WIN32)
+  ENDIF()
 
   OPTION(BUILD_DASHBOARD          "Build to the CDash dashboard"                  OFF)
 
@@ -321,7 +322,7 @@ MACRO(NL_SETUP_RYZOM_DEFAULT_OPTIONS)
   OPTION(WITH_RYZOM_CLIENT        "Build Ryzom Core Client"                       ON )
   OPTION(WITH_RYZOM_TOOLS         "Build Ryzom Core Tools"                        ON )
   OPTION(WITH_RYZOM_SERVER        "Build Ryzom Core Services"                     ON )
-  OPTION(WITH_RYZOM_SOUND         "Enable Ryzom Core Sound"                       ON )
+  OPTION(WITH_RYZOM_INSTALLER     "Build Ryzom Installer"                         OFF)
 
   ###
   # Optional support
@@ -534,31 +535,31 @@ MACRO(NL_SETUP_BUILD)
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC12)
-      ADD_PLATFORM_FLAGS("/Gy- /MP")
+      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
       # /Ox is working with VC++ 2013, but custom optimizations don't exist
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC11)
-      ADD_PLATFORM_FLAGS("/Gy- /MP")
+      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
       # /Ox is working with VC++ 2012, but custom optimizations don't exist
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC10)
-      ADD_PLATFORM_FLAGS("/Gy- /MP")
+      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
       # /Ox is working with VC++ 2010, but custom optimizations don't exist
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC90)
-      ADD_PLATFORM_FLAGS("/Gy- /MP")
+      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
       # don't use a /O[012x] flag if you want custom optimizations
       SET(RELEASE_CFLAGS "/Ob2 /Oi /Ot /Oy /GT /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC80)
-      ADD_PLATFORM_FLAGS("/Gy- /Wp64")
+      ADD_PLATFORM_FLAGS("/Gy- /Wp64 /Zm1000")
       # don't use a /O[012x] flag if you want custom optimizations
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
@@ -567,7 +568,7 @@ MACRO(NL_SETUP_BUILD)
       MESSAGE(FATAL_ERROR "Can't determine compiler version ${MSVC_VERSION}")
     ENDIF(MSVC14)
 
-    ADD_PLATFORM_FLAGS("/D_CRT_SECURE_NO_DEPRECATE /D_CRT_SECURE_NO_WARNINGS /D_CRT_NONSTDC_NO_WARNINGS /DWIN32 /D_WINDOWS /Zm1000 /wd4250")
+    ADD_PLATFORM_FLAGS("/D_CRT_SECURE_NO_DEPRECATE /D_CRT_SECURE_NO_WARNINGS /D_CRT_NONSTDC_NO_WARNINGS /DWIN32 /D_WINDOWS /wd4250")
 
     IF(TARGET_X64)
       # Fix a bug with Intellisense

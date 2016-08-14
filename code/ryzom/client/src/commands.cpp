@@ -672,7 +672,7 @@ NLMISC_COMMAND(bugReport, "Call the bug report tool with dump", "<AddScreenshot>
 
 	sys = "Language "+CI18N::getCurrentLanguageName().toString() +" ";
 
-	if (args.size()>0)
+	if (!args.empty())
 	{
 		uint8 quality;
 		fromString(args[0], quality);
@@ -695,7 +695,7 @@ NLMISC_COMMAND(bugReport, "Call the bug report tool with dump", "<AddScreenshot>
 	if (ClientCfg.Local)
 		sys += "ShardName OFFLINE ";
 
-	FILE *fp = fopen (std::string(getLogDirectory() + "bug_report.txt").c_str(), "wb");
+	FILE *fp = nlfopen (getLogDirectory() + "bug_report.txt", "wb");
 	if (fp != NULL)
 	{
 		string res = addSlashR(getDebugInformation());
@@ -1205,9 +1205,9 @@ static bool talkInChan(uint32 nb,std::vector<std::string>args)
 	{
 		return false;
 	}
-	if(args.size()>0)
+	if(!args.empty())
 	{
-		std::string tmp="";
+		std::string tmp;
 		std::vector<std::string>::const_iterator first(args.begin()),last(args.end());
 
 		for(;first!=last;++first)
@@ -5866,10 +5866,17 @@ NLMISC_COMMAND(time, "Shows information about the current time", "")
 	return true;
 }
 
-NLMISC_COMMAND(easteregg_siela1915_khanat, "Miscellaneous", "")
+NLMISC_COMMAND(playedTime, "Display character played time", "")
 {
-  string stext = "Siela1915 blesses you...";
-  ucstring ucstext = ucstring(stext);
-  CInterfaceManager::getInstance()->displaySystemInfo(ucstext, "AROUND");
-  return true;
+	ucstring msg = CI18N::get("uiPlayedTime");
+	strFindReplace(msg, "%time", NLMISC::secondsToHumanReadable(CharPlayedTime));
+	CInterfaceManager::getInstance()->displaySystemInfo(msg, "AROUND");
+	return true;
+}
+
+NLMISC_COMMAND(version, "Display client version", "")
+{
+	ucstring msg = getDebugVersion();
+	CInterfaceManager::getInstance()->displaySystemInfo(msg, "AROUND");
+	return true;
 }

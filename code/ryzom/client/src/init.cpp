@@ -46,9 +46,6 @@
 // Ligo.
 #include "nel/ligo/ligo_config.h"
 
-// Std.
-#include <fstream>
-#include <sstream>
 // Client
 #include "init.h"
 #include "input.h"
@@ -578,14 +575,12 @@ void listStereoDisplayDevices(std::vector<NL3D::CStereoDeviceInfo> &devices)
 	IStereoDisplay::listDevices(devices);
 	for (std::vector<NL3D::CStereoDeviceInfo>::iterator it(devices.begin()), end(devices.end()); it != end; ++it)
 	{
-		std::stringstream name;
-		name << IStereoDisplay::getLibraryName(it->Library) << " - " << it->Manufacturer << " - " << it->ProductName;
-		std::stringstream fullname;
-		fullname << std::string("[") << name.str() << "] [" << it->Serial << "]";
-		nlinfo("VR [C]: Stereo Display: %s", name.str().c_str());
+		std::string name = toString("%s - %s - %s", IStereoDisplay::getLibraryName(it->Library), it->Manufacturer.c_str(), it->ProductName.c_str());
+		std::string fullname = toString("[%s] [%s]", name.c_str(), it->Serial.c_str());
+		nlinfo("VR [C]: Stereo Display: %s", name.c_str());
 		if (cache)
 		{
-			VRDeviceCache.push_back(std::pair<std::string, std::string>(name.str(), it->Serial)); // VR_CONFIG
+			VRDeviceCache.push_back(std::pair<std::string, std::string>(name, it->Serial)); // VR_CONFIG
 		}
 	}
 }
@@ -623,9 +618,8 @@ void initStereoDisplayDevice()
 		{
 			for (std::vector<NL3D::CStereoDeviceInfo>::iterator it(devices.begin()), end(devices.end()); it != end; ++it)
 			{
-				std::stringstream name;
-				name << IStereoDisplay::getLibraryName(it->Library) << " - " << it->Manufacturer << " - " << it->ProductName;
-				if (name.str() == ClientCfg.VRDisplayDevice)
+				std::string name = toString("%s - %s - %s", IStereoDisplay::getLibraryName(it->Library), it->Manufacturer.c_str(), it->ProductName.c_str());
+				if (name == ClientCfg.VRDisplayDevice)
 					deviceInfo = &(*it);
 				if (ClientCfg.VRDisplayDeviceId == it->Serial)
 					break;
@@ -821,7 +815,10 @@ void initLog()
 	AssertLog->addDisplayer (ClientLogDisplayer);
 
 	// Display the client version.
-	nlinfo("RYZOM VERSION : %s", getDebugVersion().c_str());
+	nlinfo("RYZOM VERSION: %s", getDebugVersion().c_str());
+	nlinfo("Memory: %s/%s", bytesToHumanReadable(CSystemInfo::availablePhysicalMemory()).c_str(), bytesToHumanReadable(CSystemInfo::totalPhysicalMemory()).c_str());
+	nlinfo("OS: %s", CSystemInfo::getOS().c_str());
+	nlinfo("Processor: %s", CSystemInfo::getProc().c_str());
 
 #ifdef NL_OS_MAC
 	struct rlimit rlp, rlp2, rlp3;
@@ -1119,12 +1116,6 @@ void prelogInit()
 		if(ClientCfg.DisableTextureShdr)
 			Driver->disableHardwareTextureShader();
 
-		// Enable or disable VSync
-		if(ClientCfg.WaitVBL)
-			Driver->setSwapVBLInterval(1);
-		else
-			Driver->setSwapVBLInterval(0);
-
 		if (StereoDisplay) // VR_CONFIG // VR_DRIVER
 		{
 			// override mode TODO
@@ -1150,8 +1141,13 @@ void prelogInit()
 			return;
 		}
 
+		// Enable or disable VSync
+		if (ClientCfg.WaitVBL)
+			Driver->setSwapVBLInterval(1);
+		else
+			Driver->setSwapVBLInterval(0);
+
 		// initialize system utils class
-		CSystemUtils::init();
 		CSystemUtils::setWindow(Driver->getDisplay());
 
 		CLoginProgressPostThread::getInstance().step(CLoginStep(LoginStep_VideoModeSetupHighColor, "login_step_video_mode_setup_high_color"));
@@ -1537,15 +1533,6 @@ void postlogInit()
 			ProgressBar.newMessage ( ClientCfg.buildLoadingString(nmsg) );
 			if(ClientCfg.SoundOn)
 			{
-				// tmp fix : it seems that, at this point, if the bg downloader window has focus and
-				// not the Ryzom one, then sound init fails
-				/*#ifdef NL_OS_WINDOWS
-					HWND hWnd = Driver->getDisplay ();
-					nlassert (hWnd);
-					ShowWindow(hWnd, SW_RESTORE);
-					SetForegroundWindow(hWnd);
-				#endif*/
-				// bg downloader not used anymore anyways
 				SoundMngr = new CSoundManager(&ProgressBar);
 				try
 				{
@@ -1554,8 +1541,8 @@ void postlogInit()
 				catch(const Exception &e)
 				{
 					nlwarning("init : Error when creating 'SoundMngr' : %s", e.what());
-					// leak the alocated sound manager...
-					SoundMngr = 0;
+					delete SoundMngr;
+					SoundMngr = NULL;
 				}
 
 				// Play Music just after the SoundMngr is inited

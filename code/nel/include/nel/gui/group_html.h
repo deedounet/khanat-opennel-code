@@ -39,7 +39,6 @@ namespace NLGUI
 	class CGroupParagraph;
 
 	extern std::string CurrentCookie;
-	extern std::string HTTPCurrentDomain;
 
 	// HTML group
 	/**
@@ -78,7 +77,7 @@ namespace NLGUI
 		class CStyleParams
 		{
 		public:
-			CStyleParams () : TextColor(255,255,255,255)
+			CStyleParams () : FontFamily(""), TextColor(255,255,255,255)
 			{
 				FontSize=10;
 				FontWeight=400;
@@ -93,6 +92,7 @@ namespace NLGUI
 			uint FontSize;
 			uint FontWeight;
 			bool FontOblique;
+			std::string FontFamily;
 			NLMISC::CRGBA TextColor;
 			bool Underlined;
 			bool StrikeThrough;
@@ -282,9 +282,6 @@ namespace NLGUI
 		// A new text block has been parsed
 		virtual void addText (const char * buf, int len);
 
-		// A link has been parsed
-		virtual void addLink (uint element_number, const std::vector<bool> &present, const std::vector<const char *> &value);
-
 		// A new begin HTML element has been parsed (<IMG> for exemple)
 		virtual void beginElement (uint element_number, const std::vector<bool> &present, const std::vector<const char *> &value);
 
@@ -376,6 +373,7 @@ namespace NLGUI
 		std::string		_URL;
 		// Current URL
 		std::string		_DocumentUrl;
+		std::string		_DocumentDomain;
 		// Valid base href was found
 		bool            _IgnoreBaseUrlTag;
 		// Fragment from loading url
@@ -509,6 +507,15 @@ namespace NLGUI
 			if (_GlobalColor.empty())
 				return false;
 			return _GlobalColor.back();
+		}
+
+		// Current font name
+		std::vector<std::string>	_FontFamily;
+		inline const char* getFontFamily() const
+		{
+			if (_FontFamily.empty())
+				return "";
+			return _FontFamily.back().c_str();
 		}
 
 		// Current font size

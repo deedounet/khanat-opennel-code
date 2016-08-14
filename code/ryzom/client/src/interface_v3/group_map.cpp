@@ -2511,7 +2511,12 @@ CCtrlButton *CGroupMap::addUserLandMark(const NLMISC::CVector2f &pos, const ucst
 	// Save the config file each time a user landmark is created
 	CInterfaceManager *pIM = CInterfaceManager::getInstance();
 	uint8 currMode = pIM->getMode();
-	pIM->saveConfig ("save/interface_" + PlayerSelectedFileName + ".icfg");
+	std::string filename = "save/interface_" + PlayerSelectedFileName + ".icfg";
+	if (!CFile::fileExists(filename) && CFile::fileExists("save/shared_interface.icfg"))
+	{
+		filename = "save/shared_interface.icfg";
+	}
+	pIM->saveConfig (filename);
 	if (currMode != pIM->getMode())
 	{
 		pIM->setMode(currMode);
@@ -3021,7 +3026,7 @@ void CGroupMap::addRespawnPoints(const CRespawnPointsMsg &rpm)
 	for (uint32 i = 0; i < rpm.RespawnPoints.size(); ++i)
 		_RespawnPos.push_back(rpm.RespawnPoints[i]);
 	// Ensure there is at least one respawn point
-//	nlassert(_RespawnPos.size()>0);
+//	nlassert(!_RespawnPos.empty());
 
 	// Choose the good map ! (select the first respawn point and check for first matching bounding box map
 	if (_MapMode != MapMode_Death) return;

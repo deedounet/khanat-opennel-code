@@ -1,15 +1,19 @@
-# Need clientsheets lib for sheets packer tool
-ADD_SUBDIRECTORY(client_sheets)
+IF(WITH_RYZOM_TOOLS OR WITH_RYZOM_CLIENT)
+  # Need clientsheets lib for sheets packer tool
+  ADD_SUBDIRECTORY(client_sheets)
+ENDIF()
 
-# Need seven_zip lib for patch_gen tool
-ADD_SUBDIRECTORY(seven_zip)
+IF(WITH_RYZOM_TOOLS OR WITH_RYZOM_CLIENT OR WITH_RYZOM_INSTALLER)
+  # Need seven_zip lib for patch_gen tool
+  ADD_SUBDIRECTORY(seven_zip)
+ENDIF()
 
 IF(WITH_RYZOM_CLIENT)
-  # Patch should never be enabled on Steam
-  IF(WITH_RYZOM_STEAM)
-    ADD_DEFINITIONS(-DRZ_USE_STEAM)
-    FIND_PACKAGE(Steam)
-  ELSEIF(WITH_RYZOM_PATCH)
+  IF(NOT WITH_GUI)
+    MESSAGE(FATAL_ERROR "The client cannot be built without the NeL GUI Library (WITH_GUI)")
+  ENDIF()
+
+  IF(WITH_RYZOM_PATCH)
     ADD_DEFINITIONS(-DRZ_USE_PATCH)
 
     IF(WITH_RYZOM_CUSTOM_PATCH_SERVER)
@@ -116,15 +120,6 @@ IF(WITH_RYZOM_CLIENT)
       ENDIF()
     ENDIF()
 
-
-    IF(WITH_RYZOM_STEAM AND STEAM_RUNTIME)
-      ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND cp -p ${STEAM_RUNTIME} ${RYZOM_CONTENTS_DIR}/MacOS)
-
-      IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
-        ADD_CUSTOM_COMMAND(TARGET ryzom_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign --no-strict -fs "${APPLE_CERTIFICATE}" "${RYZOM_CONTENTS_DIR}/MacOS/${STEAM_RUNTIMENAME}" COMMENT "Signing Steam client runtime...")
-      ENDIF()
-    ENDIF()
-
     IF(CODESIGN_ALLOCATE AND APPLE_CERTIFICATE)
       ADD_CUSTOM_COMMAND(TARGET khanat_client POST_BUILD COMMAND CODESIGN_ALLOCATE=${CODESIGN_ALLOCATE} codesign -fs "${APPLE_CERTIFICATE}" "${RYZOM_OUTPUT_DIR}" COMMENT "Signing Ryzom bundle...")
     ENDIF()
@@ -139,10 +134,6 @@ IF(WITH_RYZOM_CLIENT)
         ${ZLIB_INCLUDE_DIR}
         ${OPENSSL_INCLUDE_DIR}
   )
-
-  IF(STEAM_FOUND)
-    INCLUDE_DIRECTORIES(${STEAM_INCLUDE_DIRS})
-  ENDIF()
 
   TARGET_LINK_LIBRARIES(khanat_client
               nelmisc
