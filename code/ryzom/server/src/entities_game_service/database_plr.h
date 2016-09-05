@@ -1,22 +1,7 @@
-// Ryzom - MMORPG Framework <http://dev.ryzom.com/projects/ryzom/>
-// Copyright (C) 2010  Winch Gate Property Limited
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as
-// published by the Free Software Foundation, either version 3 of the
-// License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef INCLUDED_DATABASE_PLR_H
-#define INCLUDED_DATABASE_PLR_H
+#ifndef INCLUDED_database_PLR_H
+#define INCLUDED_database_PLR_H
 /////////////////////////////////////////////////////////////////
 // WARNING : this is a generated file, don't change it !
 /////////////////////////////////////////////////////////////////
@@ -956,6 +941,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 	
 		void setIS_INVISIBLE(CCDBSynchronised &dbGroup, bool value, bool forceSending = false)
 		{
+			
+
 			_setProp(dbGroup, _IS_INVISIBLE, value, forceSending);
 		}
 
@@ -971,7 +958,7 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		{
 			return _IS_INVISIBLE;
 		}
-
+	
 		void setCOUNTER(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
@@ -1313,14 +1300,13 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		{
 			return _DODGE;
 		}
-
-		TBRICK_TICK_RANGE &getBRICK_TICK_RANGE()
+	TBRICK_TICK_RANGE &getBRICK_TICK_RANGE()
 		{
 			return _BRICK_TICK_RANGE;
 		}
-
+		
 	};
-
+		
 	class TTARGET
 	{
 	public:
@@ -1334,10 +1320,10 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_BranchNode;
 
 		ICDBStructNode	*_UID;
-		ICDBStructNode	*_HP;
-		ICDBStructNode	*_SAP;
-		ICDBStructNode	*_STA;
-		ICDBStructNode	*_FOCUS;
+		ICDBStructNode	*_ChaScore1;
+		ICDBStructNode	*_ChaScore3;
+		ICDBStructNode	*_ChaScore2;
+		ICDBStructNode	*_ChaScore4;
 		ICDBStructNode	*_PLAYER_LEVEL;
 		
 
@@ -1374,93 +1360,93 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 			return _UID;
 		}
 	
-		void setHP(CCDBSynchronised &dbGroup, sint8 value, bool forceSending = false)
+		void setChaScore1(CCDBSynchronised &dbGroup, sint8 value, bool forceSending = false)
 		{
 			
 
-			_setProp(dbGroup, _HP, value, forceSending);
+			_setProp(dbGroup, _ChaScore1, value, forceSending);
 		}
 
-		sint8 getHP(const CCDBSynchronised &dbGroup)
+		sint8 getChaScore1(const CCDBSynchronised &dbGroup)
 		{
 			sint8 value;
-			_getProp(dbGroup, _HP, value);
+			_getProp(dbGroup, _ChaScore1, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getHPCDBNode()
+		ICDBStructNode *getChaScore1CDBNode()
 		{
-			return _HP;
+			return _ChaScore1;
 		}
 	
-		void setSAP(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setChaScore3(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setSAP : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setChaScore3 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _SAP, value, forceSending);
+			_setProp(dbGroup, _ChaScore3, value, forceSending);
 		}
 
-		uint8 getSAP(const CCDBSynchronised &dbGroup)
+		uint8 getChaScore3(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _SAP, value);
+			_getProp(dbGroup, _ChaScore3, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getSAPCDBNode()
+		ICDBStructNode *getChaScore3CDBNode()
 		{
-			return _SAP;
+			return _ChaScore3;
 		}
 	
-		void setSTA(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setChaScore2(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setSTA : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setChaScore2 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _STA, value, forceSending);
+			_setProp(dbGroup, _ChaScore2, value, forceSending);
 		}
 
-		uint8 getSTA(const CCDBSynchronised &dbGroup)
+		uint8 getChaScore2(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _STA, value);
+			_getProp(dbGroup, _ChaScore2, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getSTACDBNode()
+		ICDBStructNode *getChaScore2CDBNode()
 		{
-			return _STA;
+			return _ChaScore2;
 		}
 	
-		void setFOCUS(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setChaScore4(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setFOCUS : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setChaScore4 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _FOCUS, value, forceSending);
+			_setProp(dbGroup, _ChaScore4, value, forceSending);
 		}
 
-		uint8 getFOCUS(const CCDBSynchronised &dbGroup)
+		uint8 getChaScore4(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _FOCUS, value);
+			_getProp(dbGroup, _ChaScore4, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getFOCUSCDBNode()
+		ICDBStructNode *getChaScore4CDBNode()
 		{
-			return _FOCUS;
+			return _ChaScore4;
 		}
 	
 		void setPLAYER_LEVEL(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
@@ -1945,9 +1931,9 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_PRESENT;
 		ICDBStructNode	*_UID;
 		ICDBStructNode	*_NAME;
-		ICDBStructNode	*_HP;
-		ICDBStructNode	*_SAP;
-		ICDBStructNode	*_STA;
+		ICDBStructNode	*_ChaScore1;
+		ICDBStructNode	*_ChaScore3;
+		ICDBStructNode	*_ChaScore2;
 		ICDBStructNode	*_POS;
 		
 
@@ -2024,70 +2010,70 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 			return _NAME;
 		}
 	
-		void setHP(CCDBSynchronised &dbGroup, sint8 value, bool forceSending = false)
+		void setChaScore1(CCDBSynchronised &dbGroup, sint8 value, bool forceSending = false)
 		{
 			
 
-			_setProp(dbGroup, _HP, value, forceSending);
+			_setProp(dbGroup, _ChaScore1, value, forceSending);
 		}
 
-		sint8 getHP(const CCDBSynchronised &dbGroup)
+		sint8 getChaScore1(const CCDBSynchronised &dbGroup)
 		{
 			sint8 value;
-			_getProp(dbGroup, _HP, value);
+			_getProp(dbGroup, _ChaScore1, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getHPCDBNode()
+		ICDBStructNode *getChaScore1CDBNode()
 		{
-			return _HP;
+			return _ChaScore1;
 		}
 	
-		void setSAP(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setChaScore3(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setSAP : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setChaScore3 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _SAP, value, forceSending);
+			_setProp(dbGroup, _ChaScore3, value, forceSending);
 		}
 
-		uint8 getSAP(const CCDBSynchronised &dbGroup)
+		uint8 getChaScore3(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _SAP, value);
+			_getProp(dbGroup, _ChaScore3, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getSAPCDBNode()
+		ICDBStructNode *getChaScore3CDBNode()
 		{
-			return _SAP;
+			return _ChaScore3;
 		}
 	
-		void setSTA(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setChaScore2(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setSTA : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setChaScore2 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _STA, value, forceSending);
+			_setProp(dbGroup, _ChaScore2, value, forceSending);
 		}
 
-		uint8 getSTA(const CCDBSynchronised &dbGroup)
+		uint8 getChaScore2(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _STA, value);
+			_getProp(dbGroup, _ChaScore2, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getSTACDBNode()
+		ICDBStructNode *getChaScore2CDBNode()
 		{
-			return _STA;
+			return _ChaScore2;
 		}
 	
 		void setPOS(CCDBSynchronised &dbGroup, uint64 value, bool forceSending = false)
@@ -3471,6 +3457,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 	
 		void setMONEY(CCDBSynchronised &dbGroup, uint64 value, bool forceSending = false)
 		{
+			
+
 			_setProp(dbGroup, _MONEY, value, forceSending);
 		}
 
@@ -4572,6 +4560,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 	
 		void setMONEY(CCDBSynchronised &dbGroup, uint64 value, bool forceSending = false)
 		{
+			
+
 			_setProp(dbGroup, _MONEY, value, forceSending);
 		}
 
@@ -4582,12 +4572,14 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 
 			return value;
 		}
-
+		
 		ICDBStructNode *getMONEYCDBNode()
 		{
 			return _MONEY;
 		}
+	
 	};
+		
 
 	private:
 		ICDBStructNode	*_BranchNode;
@@ -4610,8 +4602,11 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 			return _BranchNode;
 		}
 
+		
 		void setMONEY(CCDBSynchronised &dbGroup, uint64 value, bool forceSending = false)
 		{
+			
+
 			_setProp(dbGroup, _MONEY, value, forceSending);
 		}
 
@@ -6005,6 +6000,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 	
 		void setMONEY_SHEET(CCDBSynchronised &dbGroup, NLMISC::CSheetId value, bool forceSending = false)
 		{
+			
+
 			_setProp(dbGroup, _MONEY_SHEET, value, forceSending);
 		}
 
@@ -7160,13 +7157,13 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 
 		ICDBStructNode	*_PHRASE;
 		ICDBStructNode	*_COUNTER;
-		ICDBStructNode	*_HP_COST;
-		ICDBStructNode	*_SAP_COST;
-		ICDBStructNode	*_STA_COST;
+		ICDBStructNode	*_ChaScore1_COST;
+		ICDBStructNode	*_ChaScore3_COST;
+		ICDBStructNode	*_ChaScore2_COST;
 		ICDBStructNode	*_TARGET_NAME;
-		ICDBStructNode	*_TARGET_HP;
-		ICDBStructNode	*_TARGET_SAP;
-		ICDBStructNode	*_TARGET_STA;
+		ICDBStructNode	*_TARGET_ChaScore1;
+		ICDBStructNode	*_TARGET_ChaScore3;
+		ICDBStructNode	*_TARGET_ChaScore2;
 		
 
 	public:
@@ -7222,64 +7219,64 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 			return _COUNTER;
 		}
 	
-		void setHP_COST(CCDBSynchronised &dbGroup, uint16 value, bool forceSending = false)
+		void setChaScore1_COST(CCDBSynchronised &dbGroup, uint16 value, bool forceSending = false)
 		{
 			
 
-			_setProp(dbGroup, _HP_COST, value, forceSending);
+			_setProp(dbGroup, _ChaScore1_COST, value, forceSending);
 		}
 
-		uint16 getHP_COST(const CCDBSynchronised &dbGroup)
+		uint16 getChaScore1_COST(const CCDBSynchronised &dbGroup)
 		{
 			uint16 value;
-			_getProp(dbGroup, _HP_COST, value);
+			_getProp(dbGroup, _ChaScore1_COST, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getHP_COSTCDBNode()
+		ICDBStructNode *getChaScore1_COSTCDBNode()
 		{
-			return _HP_COST;
+			return _ChaScore1_COST;
 		}
 	
-		void setSAP_COST(CCDBSynchronised &dbGroup, uint16 value, bool forceSending = false)
+		void setChaScore3_COST(CCDBSynchronised &dbGroup, uint16 value, bool forceSending = false)
 		{
 			
 
-			_setProp(dbGroup, _SAP_COST, value, forceSending);
+			_setProp(dbGroup, _ChaScore3_COST, value, forceSending);
 		}
 
-		uint16 getSAP_COST(const CCDBSynchronised &dbGroup)
+		uint16 getChaScore3_COST(const CCDBSynchronised &dbGroup)
 		{
 			uint16 value;
-			_getProp(dbGroup, _SAP_COST, value);
+			_getProp(dbGroup, _ChaScore3_COST, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getSAP_COSTCDBNode()
+		ICDBStructNode *getChaScore3_COSTCDBNode()
 		{
-			return _SAP_COST;
+			return _ChaScore3_COST;
 		}
 	
-		void setSTA_COST(CCDBSynchronised &dbGroup, uint16 value, bool forceSending = false)
+		void setChaScore2_COST(CCDBSynchronised &dbGroup, uint16 value, bool forceSending = false)
 		{
 			
 
-			_setProp(dbGroup, _STA_COST, value, forceSending);
+			_setProp(dbGroup, _ChaScore2_COST, value, forceSending);
 		}
 
-		uint16 getSTA_COST(const CCDBSynchronised &dbGroup)
+		uint16 getChaScore2_COST(const CCDBSynchronised &dbGroup)
 		{
 			uint16 value;
-			_getProp(dbGroup, _STA_COST, value);
+			_getProp(dbGroup, _ChaScore2_COST, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getSTA_COSTCDBNode()
+		ICDBStructNode *getChaScore2_COSTCDBNode()
 		{
-			return _STA_COST;
+			return _ChaScore2_COST;
 		}
 	
 		void setTARGET_NAME(CCDBSynchronised &dbGroup, ucstring value, bool forceSending = false)
@@ -7314,73 +7311,73 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 			return _TARGET_NAME;
 		}
 	
-		void setTARGET_HP(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setTARGET_ChaScore1(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setTARGET_HP : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setTARGET_ChaScore1 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _TARGET_HP, value, forceSending);
+			_setProp(dbGroup, _TARGET_ChaScore1, value, forceSending);
 		}
 
-		uint8 getTARGET_HP(const CCDBSynchronised &dbGroup)
+		uint8 getTARGET_ChaScore1(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _TARGET_HP, value);
+			_getProp(dbGroup, _TARGET_ChaScore1, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getTARGET_HPCDBNode()
+		ICDBStructNode *getTARGET_ChaScore1CDBNode()
 		{
-			return _TARGET_HP;
+			return _TARGET_ChaScore1;
 		}
 	
-		void setTARGET_SAP(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setTARGET_ChaScore3(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setTARGET_SAP : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setTARGET_ChaScore3 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _TARGET_SAP, value, forceSending);
+			_setProp(dbGroup, _TARGET_ChaScore3, value, forceSending);
 		}
 
-		uint8 getTARGET_SAP(const CCDBSynchronised &dbGroup)
+		uint8 getTARGET_ChaScore3(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _TARGET_SAP, value);
+			_getProp(dbGroup, _TARGET_ChaScore3, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getTARGET_SAPCDBNode()
+		ICDBStructNode *getTARGET_ChaScore3CDBNode()
 		{
-			return _TARGET_SAP;
+			return _TARGET_ChaScore3;
 		}
 	
-		void setTARGET_STA(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
+		void setTARGET_ChaScore2(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
 			// Check that the value is not out of database precision
-			STOP_IF(value > (1<<7)-1, "setTARGET_STA : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
+			STOP_IF(value > (1<<7)-1, "setTARGET_ChaScore2 : Value out of bound : trying to store "<<value<<" in a unsigned field limited to 7 bits");
 				
 
-			_setProp(dbGroup, _TARGET_STA, value, forceSending);
+			_setProp(dbGroup, _TARGET_ChaScore2, value, forceSending);
 		}
 
-		uint8 getTARGET_STA(const CCDBSynchronised &dbGroup)
+		uint8 getTARGET_ChaScore2(const CCDBSynchronised &dbGroup)
 		{
 			uint8 value;
-			_getProp(dbGroup, _TARGET_STA, value);
+			_getProp(dbGroup, _TARGET_ChaScore2, value);
 
 			return value;
 		}
 		
-		ICDBStructNode *getTARGET_STACDBNode()
+		ICDBStructNode *getTARGET_ChaScore2CDBNode()
 		{
-			return _TARGET_STA;
+			return _TARGET_ChaScore2;
 		}
 	
 	};
@@ -8861,6 +8858,7 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_HUNGER;
 		ICDBStructNode	*_DESPAWN;
 		ICDBStructNode	*_NAME;
+		
 
 	public:
 		void init(ICDBStructNode *parent, uint index);
@@ -9049,9 +9047,11 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		{
 			return _DESPAWN;
 		}
-
+	
 		void setNAME(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
 		{
+			
+
 			_setProp(dbGroup, _NAME, value, forceSending);
 		}
 
@@ -9062,11 +9062,12 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 
 			return value;
 		}
-
+		
 		ICDBStructNode *getNAMECDBNode()
 		{
 			return _NAME;
 		}
+	
 	};
 		
 
@@ -10488,4 +10489,4 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 	};
 	
 
-#endif // INCLUDED_DATABASE_PLR_H
+#endif // INCLUDED_database_PLR_H

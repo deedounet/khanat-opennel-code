@@ -1,18 +1,3 @@
-// Ryzom - MMORPG Framework <http://dev.ryzom.com/projects/ryzom/>
-// Copyright (C) 2010  Winch Gate Property Limited
-//
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Affero General Public License as
-// published by the Free Software Foundation, either version 3 of the
-// License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Affero General Public License for more details.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////////////////////////////////////////////
 // WARNING : this is a generated file, don't change it !
@@ -362,7 +347,7 @@ void CBankAccessor_PLR::TUSER::init(ICDBStructNode *parent)
 	node  = parent->getNode( ICDBStructNode::CTextId("IS_INVISIBLE"), false );
 	nlassert(node != NULL);
 	_IS_INVISIBLE = node;
-
+	
 	node  = parent->getNode( ICDBStructNode::CTextId("COUNTER"), false );
 	nlassert(node != NULL);
 	_COUNTER = node;
@@ -658,21 +643,21 @@ void CBankAccessor_PLR::TTARGET::TBARS::init(ICDBStructNode *parent)
 	nlassert(node != NULL);
 	_UID = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("HP"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore1"), false );
 	nlassert(node != NULL);
-	_HP = node;
+	_ChaScore1 = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("SAP"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore3"), false );
 	nlassert(node != NULL);
-	_SAP = node;
+	_ChaScore3 = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("STA"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore2"), false );
 	nlassert(node != NULL);
-	_STA = node;
+	_ChaScore2 = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("FOCUS"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore4"), false );
 	nlassert(node != NULL);
-	_FOCUS = node;
+	_ChaScore4 = node;
 	
 	node  = parent->getNode( ICDBStructNode::CTextId("PLAYER_LEVEL"), false );
 	nlassert(node != NULL);
@@ -869,17 +854,17 @@ void CBankAccessor_PLR::TGROUP::TArray::init(ICDBStructNode *parent, uint index)
 	nlassert(node != NULL);
 	_NAME = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("HP"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore1"), false );
 	nlassert(node != NULL);
-	_HP = node;
+	_ChaScore1 = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("SAP"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore3"), false );
 	nlassert(node != NULL);
-	_SAP = node;
+	_ChaScore3 = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("STA"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore2"), false );
 	nlassert(node != NULL);
-	_STA = node;
+	_ChaScore2 = node;
 	
 	node  = parent->getNode( ICDBStructNode::CTextId("POS"), false );
 	nlassert(node != NULL);
@@ -2559,33 +2544,33 @@ void CBankAccessor_PLR::TEXECUTE_PHRASE::TLINK::TArray::init(ICDBStructNode *par
 	nlassert(node != NULL);
 	_COUNTER = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("HP_COST"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore1_COST"), false );
 	nlassert(node != NULL);
-	_HP_COST = node;
+	_ChaScore1_COST = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("SAP_COST"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore3_COST"), false );
 	nlassert(node != NULL);
-	_SAP_COST = node;
+	_ChaScore3_COST = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("STA_COST"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("ChaScore2_COST"), false );
 	nlassert(node != NULL);
-	_STA_COST = node;
+	_ChaScore2_COST = node;
 	
 	node  = parent->getNode( ICDBStructNode::CTextId("TARGET_NAME"), false );
 	nlassert(node != NULL);
 	_TARGET_NAME = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("TARGET_HP"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("TARGET_ChaScore1"), false );
 	nlassert(node != NULL);
-	_TARGET_HP = node;
+	_TARGET_ChaScore1 = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("TARGET_SAP"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("TARGET_ChaScore3"), false );
 	nlassert(node != NULL);
-	_TARGET_SAP = node;
+	_TARGET_ChaScore3 = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("TARGET_STA"), false );
+	node  = parent->getNode( ICDBStructNode::CTextId("TARGET_ChaScore2"), false );
 	nlassert(node != NULL);
-	_TARGET_STA = node;
+	_TARGET_ChaScore2 = node;
 	
 
 	// branch init
@@ -3139,11 +3124,11 @@ void CBankAccessor_PLR::TPACK_ANIMAL::TBEAST::init(ICDBStructNode *parent, uint 
 	node  = parent->getNode( ICDBStructNode::CTextId("DESPAWN"), false );
 	nlassert(node != NULL);
 	_DESPAWN = node;
-
-	// WARNING: let the value to true, else it'll corrupt backups
-	node  = parent->getNode( ICDBStructNode::CTextId("NAME"), true );
+	
+	node  = parent->getNode( ICDBStructNode::CTextId("NAME"), false );
 	nlassert(node != NULL);
 	_NAME = node;
+	
 
 	// branch init
 	
