@@ -173,7 +173,7 @@
           sendto="EGS"
           format="u8"
           description="the client select a new slot to defend (or none)" />
-    <leaf name="FLYING_HP_DELTA"
+    <leaf name="FLYING_ChaScore1_DELTA"
           description="add a flying text to an entity (u32 entity, u32 rgba, s16 delta)" />
     <leaf name="FLYING_TEXT_ISE"
           description="add a flying text to an entity (u32 entity, u32 rgba, u8 effect, s32 param)" />
@@ -1101,7 +1101,7 @@
   <branch name="USER">
     <leaf name="BARS"
           format="u8 s16 s16 s16 s16"
-          description="server update the players Bars (fast message) $msgNumber $cha_score1 $cha_score3 $cha_score2 $cha_score4" />
+          description="server update the players Bars (fast message) $msgNumber $hp $sap $sta $focus" />
     <leaf name="POPUP"
           format="u32 u32"
           description="server display an important info message on the client (u32 titleDynString u32 textDynString)" />
