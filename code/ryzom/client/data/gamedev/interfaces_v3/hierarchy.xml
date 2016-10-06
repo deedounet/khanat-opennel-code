@@ -118,7 +118,7 @@
 	<tree node="keys_edit"/>
 	<tree node="keys_windows"/>
 	<tree node="keys_miscellaneous"/>
-    <tree node="keys_debug"
+    <tree node="keys_debug"/>
 </tree>
 <!-- done with template teditcmd now <tree node="editkey" />-->
 

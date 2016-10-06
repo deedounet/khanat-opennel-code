@@ -177,17 +177,17 @@
 	<action handler="set" params="target_property=ui:outgame:charsel:char3d:active|value=not(isCharSelSlotEmpty(@0))" />
 	<action handler="set" params="target_property=ui:outgame:charsel:empty3d:active|value=isCharSelSlotEmpty(@0)" />
 	<action handler="set" params="target_property=ui:outgame:charsel:select_menu:x |
-									value=switch(@0, 2, 207, 412, 617, 822)" />
+									value=switch(@0, 150, 150, 150, 150, 150)" />
 	<action handler="set" params="target_property=ui:outgame:charsel:but_slot@0:pushed|value=1" />
-	
+	<!-- Position des effets 3D ICI -->
 	<action handler="set" params="target_property=ui:outgame:charsel:char3d:env:name |
 			value=switch(@UI:TEMP:CHAR3D:PEOPLE, 'outgame_zorai.ig', 'outgame_zorai.ig', 'outgame_zorai.ig', 'outgame_zorai.ig')" />
 	<action handler="set" params="target_property=ui:outgame:charsel:char3d:cam:fov |
 			value=switch(@UI:TEMP:CHAR3D:PEOPLE, 72, 72, 72, 72)" />
 	<action handler="set" params="target_property=ui:outgame:charsel:3d_select:x |
-								value=switch(@0, 2, 207, 412, 617, 822)" />
+								value=switch(@0, 150, 150, 150, 150, 150)" />
 	<action handler="set" params="target_property=ui:outgame:charsel:3d_select:y |
-								value=switch(@0, -95, -65, -35, -65, -95)" />	
+								value=switch(@0, -100, -120, -140, -160, -180)" />	
 								
 	<action handler="proc" params="proc_charsel_infos2" />
 </proc>
@@ -269,7 +269,7 @@
 
 <template name="char_slot_view" posparent="parent" posref="TL TL" id="" dblink="" x="0" y="0" >
 
-	<scene3d id="#id" posparent="#posparent" w="200" h="150" x="#x" y="#y" posref="#posref" curcam="cam" curcs="env" render_layer="-2" user_interaction="false" 
+	<scene3d id="#id" posparent="#posparent" w="140" h="16" x="#x" y="#y" posref="#posref" curcam="cam" curcs="env" render_layer="-2" user_interaction="false" 
 						ambient="128 96 64" sun_ambient="0 0 0" sun_diffuse="255 255 196" sun_specular="0 0 0" sun_direction="-1.0 1.0 -1.0" >
 						
 		<character3d id="char" dblink="#dblink" pos="0.0 26.5 0.85" rot="0.0 0.0 10.0" />
@@ -294,7 +294,7 @@
 
 <template name="empty_slot_view" posparent="parent" posref="TL TL" id="" dblink="" x="0" y="-3" >
 
-	<scene3d id="#id" posparent="#posparent" w="200" h="150" x="#x" y="#y" posref="#posref" curcam="cam" curcs="env" render_layer="-2" user_interaction="false" 
+	<scene3d id="#id" posparent="#posparent" w="137" h="139" x="#x" y="#y" posref="#posref" curcam="cam" curcs="env" render_layer="-2" user_interaction="false" 
 						ambient="128 96 64" sun_ambient="0 0 0" sun_diffuse="255 255 196" sun_specular="0 0 0" sun_direction="-1.0 1.0 -1.0" >
 						
 
@@ -449,7 +449,7 @@
 	<!--***************-->
 	
 	
-	<!-- Vue Globale -->
+	<!-- Vue Globale --><!--
 	<scene3d id="char3d" x="2" y="2" w="1020" h="560" posref="BL BL" curcam="cam" curcs="env" render_layer="-2"
 						user_interaction="true" rotz_factor="0.017"
 						roty_factor="0.005" roty_limit_min="-20" roty_limit_max="15"
@@ -474,7 +474,7 @@
 		<auto_anim name="brazero-inter2.anim"/>
 		<auto_anim name="lanterne-int1.anim"/>
 		<auto_anim name="lanterne-int2.anim"/>
-	</scene3d>	
+	</scene3d>	-->
 
 	<!-- CHARACTER STILL IN RING SESSION !!
 	<view type="text" id="in_ring_session" multi_line="true" w="650" line_maxw="650" posref="TL TL" global_color="false" render_layer="2" fontsize="17" shadow="true" y="-80" x="260" hardtext_format="uiCP_InRingSession"/>
@@ -502,7 +502,7 @@
 	
 	<!-- View of each slot -->
 
-	<instance template="char_slot_view" id="slot0" dblink="UI:TEMP:CHARSLOT0" posref="TL TL" x="2" y="-95"/>
+	<!-- <instance template="char_slot_view" id="slot0" dblink="UI:TEMP:CHARSLOT0" posref="TL TL" x="2" y="-95"/>
 	<instance template="char_slot_view" id="slot1" dblink="UI:TEMP:CHARSLOT1" posref="TL TL" x="207" y="-65"/>
 	<instance template="char_slot_view" id="slot2" dblink="UI:TEMP:CHARSLOT2" posref="TL TL" x="412" y="-35"/>
 	<instance template="char_slot_view" id="slot3" dblink="UI:TEMP:CHARSLOT3" posref="TL TL" x="617" y="-65"/>
@@ -514,26 +514,26 @@
 	<instance template="empty_slot_view" id="empty_slot3" posref="TL TL" x="617" y="-65"/>
 	<instance template="empty_slot_view" id="empty_slot4" posref="TL TL" x="822" y="-95"/>
 
-
+-->
 	<!-- Button of each character slot (always present even if empty slot) -->
 
-	<ctrl style="menu_button" id="but_slot0" posref="TL TL" x="2" y="-95"
+	<ctrl style="menu_button" id="but_slot0" posref="TL TL" x="150" y="-150"
 			onover="play_sound" params_over="name=specie_but_over"
 			onclick_l="proc" params_l="proc_charsel_clickslot|0" />
 
-	<ctrl style="menu_button" id="but_slot1" posref="TR TL" posparent="but_slot0" x="5" y="30"
+	<ctrl style="menu_button" id="but_slot1" posref="TR TL" posparent="but_slot0" x="-199" y="-20"
 			onover="play_sound" params_over="name=specie_but_over"
 			onclick_l="proc" params_l="proc_charsel_clickslot|1" />
 
-	<ctrl style="menu_button" id="but_slot2" posref="TR TL" posparent="but_slot1" x="5" y="30"
+	<ctrl style="menu_button" id="but_slot2" posref="TR TL" posparent="but_slot1" x="-199" y="-20"
 			onover="play_sound" params_over="name=specie_but_over"
 			onclick_l="proc" params_l="proc_charsel_clickslot|2" />
 
-	<ctrl style="menu_button" id="but_slot3" posref="TR TL" posparent="but_slot2" x="5" y="-30"
+	<ctrl style="menu_button" id="but_slot3" posref="TR TL" posparent="but_slot2" x="-199" y="-20"
 			onover="play_sound" params_over="name=specie_but_over"
 			onclick_l="proc" params_l="proc_charsel_clickslot|3" />
 
-	<ctrl style="menu_button" id="but_slot4" posref="TR TL" posparent="but_slot3" x="5" y="-30"
+	<ctrl style="menu_button" id="but_slot4" posref="TR TL" posparent="but_slot3" x="-199" y="-20"
 			onover="play_sound" params_over="name=specie_but_over"
 	onclick_l="proc" params_l="proc_charsel_clickslot|4" />
 
@@ -874,12 +874,12 @@
 
 <anim id="anim_sel_select_fx" duration="2.0"  disable_buttons="false" on_finish="proc" on_finish_params="restart_sel_select_fx" >
 
-	<track type="bezier" target="charsel:3d_select:select_fx:posx" >
-		<key time="0.0" 	value="2" intan="-0.1" outtan="-0.1" step="6" />
-		<key time="0.5" 	value="0" intan="8" outtan="-8" step="6" />
-		<key time="1" 		value="-2" intan="0.1" outtan="0.1" step="6" />
-		<key time="1.5" 	value="0" intan="-8" outtan="8" step="6" />
-		<key time="2.0" 	value="2" intan="-0.1" outtan="-0.1" step="6" />
+	<!--<track type="bezier" target="charsel:3d_select:select_fx:posx" >
+		<key time="0.0" 	value="1.5" intan="-0.1" outtan="-0.1" step="6" />
+		<key time="0.5" 	value="0" intan="6" outtan="-6" step="6" />
+		<key time="1" 		value="-1.5" intan="0.1" outtan="0.1" step="6" />
+		<key time="1.5" 	value="0" intan="-6" outtan="6" step="6" />
+		<key time="2.0" 	value="1.5" intan="-0.1" outtan="-0.1" step="6" />
 	</track>
 	
 	<track type="bezier" target="charsel:3d_select:select_fx:posz" >
@@ -888,6 +888,21 @@
 		<key time="1"	 	value="0" intan="6" outtan="-6" step="6" />
 		<key time="1.5" 	value="-1.5" intan="0.1" outtan="0.1" step="6" />
 		<key time="2.0" 	value="0" intan="-6" outtan="6" step="6" />
+	</track> -->
+	<track type="bezier" target="charsel:3d_select:select_fx:posx" >
+		<key time="0.0" 	value="1.5" intan="-0.1" outtan="-0.1" step="6" />
+		<key time="0.5" 	value="0" intan="6" outtan="-6" step="6" />
+		<key time="1" 		value="-1.5" intan="0.1" outtan="0.1" step="6" />
+		<key time="1.5" 	value="0" intan="-6" outtan="6" step="6" />
+		<key time="2.0" 	value="1.5" intan="-0.1" outtan="-0.1" step="6" />
+	</track>
+	
+	<track type="bezier" target="charsel:3d_select:select_fx:posz" >
+		<key time="0.0" 	value="0" intan="-0.1" outtan="0.1" step="6"  />
+		<key time="0.5" 	value="0" intan="-0.1" outtan="-0.1" step="6" />
+		<key time="1"	 	value="0" intan="0.1" outtan="-0.1" step="6" />
+		<key time="1.5" 	value="0" intan="0.1" outtan="0.1" step="6" />
+		<key time="2.0" 	value="0" intan="-0.1" outtan="0.1" step="6" />
 	</track>
 	
 </anim>
