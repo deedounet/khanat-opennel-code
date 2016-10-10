@@ -1617,7 +1617,7 @@
       <view type="bitmap"
             id="icone"
             posref="TL TL"
-            texture="money_seve.tga"
+            texture="money.tga"
             global_color="false" />
       <instance template="box_widget"
                 id="box1"
@@ -1673,7 +1673,7 @@
       <view type="bitmap"
             id="icone"
             posref="TL TL"
-            texture="money_seve.tga"
+            texture="money.tga"
             global_color="false" />
       <instance template="box_widget"
                 id="box1"

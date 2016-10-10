@@ -253,7 +253,7 @@
 	<!-- info text -->
 	<view type="text" id="title" posref="TL TL" x="4" y="-4" color="255 255 255 255" fontsize="12" shadow="true" hardtext="uiSelMoney2Give" global_color="false" />
 	<!-- bitmap for the seeds -->
-	<view type="bitmap" id="money" posref="BL TL" posparent="title" x="20" y="-4" texture="money_seve.tga" global_color="false" />
+	<view type="bitmap" id="money" posref="BL TL" posparent="title" x="20" y="-4" texture="money.tga" global_color="false" />
 	
 	<!-- edit box for the seeds -->	
 	<instance template="edit_box_widget" id="box1" posparent="money" text_ref="TR TR" text_y="-1" posref="MR ML" w="92" h="16" fontsize="10" x="2" y="0" reset_focus_on_hide="true" 

@@ -87,7 +87,7 @@
             y="0"
             fontsize="12"
             shadow="true"
-            case_mode="%case_normal" />
+            case_mode="%case_first_word_letter_up" />
       <view type="text"
             id="grade"
             x="158"
@@ -739,7 +739,7 @@
           posparent="title"
           x="20"
           y="-4"
-          texture="money_seve.tga"
+          texture="money.tga"
           global_color="false" />
     <!-- edit box for the seeds -->
     <instance template="edit_box_widget"
@@ -1050,7 +1050,7 @@
              id="html"
              posref="TL TL"
              url=""
-             home="http://app.ryzom.com/index.php"
+             home="http://app.khaganat.net/"
              sizeref="wh"
              x="0"
              y="0"
@@ -1216,7 +1216,7 @@
              id="html"
              posref="TL TL"
              url=""
-             home="http://app.ryzom.com/init_ig.php"
+             home="http://app.khaganat.net/"
              sizeref="wh"
              x="0"
              y="0"
