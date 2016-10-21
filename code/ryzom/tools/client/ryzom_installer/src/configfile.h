@@ -90,7 +90,6 @@ public:
 	// default directories
 	static QString getCurrentDirectory();
 	static QString getParentDirectory();
-	static QString getApplicationDirectory();
 	static QString getOldInstallationDirectory();
 	static QString getNewInstallationDirectory();
 	static QString getOldInstallationLanguage();
@@ -104,7 +103,7 @@ public:
 	bool foundTemporaryFiles(const QString &directory) const;
 	bool shouldCreateDesktopShortcut() const;
 	bool shouldCreateMenuShortcut() const;
-	bool shouldCopyInstaller() const;
+	int compareInstallersVersion() const;
 
 	// installation choices
 	bool use64BitsClient() const;
@@ -124,8 +123,8 @@ public:
 
 	QString getInstallerCurrentFilePath() const;
 	QString getInstallerCurrentDirPath() const;
-	QString getInstallerOriginalFilePath() const;
-	QString getInstallerOriginalDirPath() const;
+	QString getInstallerInstalledFilePath() const;
+	QString getInstallerInstalledDirPath() const;
 
 	QString getInstallerMenuShortcutFullPath() const;
 	QString getInstallerDesktopShortcutFullPath() const;

@@ -933,7 +933,7 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 		if (wantRyzomRestart)
 		{
 			// wait until client not in memory anymore
-			contentSuffix += toString("until ! pgrep %s > /dev/null; do sleep 1; done\n", CFile::getFilename(RyzomFilename).c_str());
+			contentSuffix += toString("until ! pgrep -x \"%s\" > /dev/null; do sleep 1; done\n", CFile::getFilename(RyzomFilename).c_str());
 		}
 
 		// launch upgrade script if present (it'll execute additional steps like moving or deleting files)
@@ -948,7 +948,12 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 			contentSuffix += "cd \"$STARTUPPATH\"\n\n";
 
 			// launch new client
-			contentSuffix += toString("\"$RYZOM_CLIENT\" %s $LOGIN $PASSWORD $SHARDID\n", additionalParams.c_str());
+#ifdef NL_OS_MAC
+			// use exec command under OS X
+			contentSuffix += toString("exec \"$RYZOM_CLIENT\" %s $LOGIN $PASSWORD $SHARDID\n", additionalParams.c_str());
+#else
+			contentSuffix += toString("\"$RYZOM_CLIENT\" %s $LOGIN $PASSWORD $SHARDID &\n", additionalParams.c_str());
+#endif
 		}
 #endif
 

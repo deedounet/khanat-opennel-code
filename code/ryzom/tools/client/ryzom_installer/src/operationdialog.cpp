@@ -199,6 +199,7 @@ void COperationDialog::processInstallNextStep()
 		break;
 
 		case Done:
+		case LaunchInstalledInstaller:
 		acceptDelayed();
 		break;
 
@@ -724,24 +725,26 @@ void COperationDialog::copyInstaller()
 
 	m_currentOperation = tr("Copying installer to new location...");
 
-	QString destinationDirectory = config->getInstallationDirectory();
+	QString newInstallerFullPath = config->getInstallerInstalledFilePath();
 
-	// rename old client to installer
-	QString newInstallerFilename = config->getInstallerFilename();
-
-	if (!newInstallerFilename.isEmpty())
+	if (!newInstallerFullPath.isEmpty())
 	{
-		QString oldInstallerFullPath = QApplication::applicationFilePath();
-		QString newInstallerFullPath = config->getInstallationDirectory() + "/" + newInstallerFilename;
+		QString destinationDirectory = config->getInstallationDirectory();
+		QString oldInstallerFullPath = config->getInstallerCurrentFilePath();
+		QString srcDir = config->getInstallerCurrentDirPath();
 
 		// always copy new installers
 		CFilesCopier copier(this);
 		copier.setIncludeFilter(config->getInstallerRequiredFiles());
+#ifndef Q_OS_MAC
 		copier.addFile(oldInstallerFullPath);
-		copier.setSourceDirectory(config->getSrcServerDirectory().isEmpty() ? QApplication::applicationDirPath():config->getSrcServerDirectory());
+#endif
+		copier.setSourceDirectory(srcDir);
 		copier.setDestinationDirectory(config->getInstallationDirectory());
-		copier.exec();
 
+		if (!copier.exec()) return;
+
+#ifndef Q_OS_MAC
 		// copied file
 		oldInstallerFullPath = config->getInstallationDirectory() + "/" + QFileInfo(oldInstallerFullPath).fileName();
 
@@ -754,6 +757,7 @@ void COperationDialog::copyInstaller()
 			// rename new installer with final name
 			QFile::rename(oldInstallerFullPath, newInstallerFullPath);
 		}
+#endif
 
 		// create menu directory if defined
 		QString path = config->getMenuDirectory();
@@ -931,36 +935,31 @@ bool COperationDialog::createAddRemoveEntry()
 {
 	CConfigFile *config = CConfigFile::getInstance();
 
-	QString newInstallerFilename = config->getInstallerFilename();
+	QString newInstallerFullPath = config->getInstallerInstalledFilePath();
 
-	if (!newInstallerFilename.isEmpty())
+	if (!newInstallerFullPath.isEmpty() && QFile::exists(newInstallerFullPath))
 	{
-		QString newInstallerFullPath = config->getInstallationDirectory() + "/" + newInstallerFilename;
-
-		if (QFile::exists(newInstallerFullPath))
-		{
 #ifdef Q_OS_WIN
-			QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ryzom", QSettings::NativeFormat);
+		QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ryzom", QSettings::NativeFormat);
 
-			QString nativeFullPath = QDir::toNativeSeparators(newInstallerFullPath);
+		QString nativeFullPath = QDir::toNativeSeparators(newInstallerFullPath);
 
-			settings.setValue("Comments", config->getProductComments());
-			settings.setValue("DisplayIcon", nativeFullPath + ",0");
-			settings.setValue("DisplayName", QApplication::applicationName());
-			settings.setValue("InstallDate", QDateTime::currentDateTime().toString("Ymd"));
-			settings.setValue("InstallLocation", config->getInstallationDirectory());
-			settings.setValue("NoModify", 0);
-			settings.setValue("NoRemove", 0);
-			settings.setValue("NoRepair", 0);
-			if (!config->getProductPublisher().isEmpty()) settings.setValue("Publisher", config->getProductPublisher());
-			settings.setValue("QuietUninstallString", nativeFullPath + " -u -s");
-			settings.setValue("UninstallString", nativeFullPath + " -u");
-			if (!config->getProductUpdateUrl().isEmpty()) settings.setValue("URLUpdateInfo", config->getProductUpdateUrl());
-			if (!config->getProductAboutUrl().isEmpty()) settings.setValue("URLInfoAbout", config->getProductAboutUrl());
-			if (!config->getProductHelpUrl().isEmpty()) settings.setValue("HelpLink", config->getProductHelpUrl());
-			//	ModifyPath
+		settings.setValue("Comments", config->getProductComments());
+		settings.setValue("DisplayIcon", nativeFullPath + ",0");
+		settings.setValue("DisplayName", QApplication::applicationName());
+		settings.setValue("InstallDate", QDateTime::currentDateTime().toString("Ymd"));
+		settings.setValue("InstallLocation", config->getInstallationDirectory());
+		settings.setValue("NoModify", 0);
+		settings.setValue("NoRemove", 0);
+		settings.setValue("NoRepair", 0);
+		if (!config->getProductPublisher().isEmpty()) settings.setValue("Publisher", config->getProductPublisher());
+		settings.setValue("QuietUninstallString", nativeFullPath + " -u -s");
+		settings.setValue("UninstallString", nativeFullPath + " -u");
+		if (!config->getProductUpdateUrl().isEmpty()) settings.setValue("URLUpdateInfo", config->getProductUpdateUrl());
+		if (!config->getProductAboutUrl().isEmpty()) settings.setValue("URLInfoAbout", config->getProductAboutUrl());
+		if (!config->getProductHelpUrl().isEmpty()) settings.setValue("HelpLink", config->getProductHelpUrl());
+		//	ModifyPath
 #endif
-		}
 	}
 
 	updateAddRemoveEntry();
@@ -974,27 +973,24 @@ bool COperationDialog::updateAddRemoveEntry()
 {
 	CConfigFile *config = CConfigFile::getInstance();
 
-	QString newInstallerFilename = config->getInstallerFilename();
+	QString newInstallerFullPath = config->getInstallerInstalledFilePath();
 
-	if (!newInstallerFilename.isEmpty())
+	if (!newInstallerFullPath.isEmpty() && QFile::exists(newInstallerFullPath))
 	{
-		QString newInstallerFullPath = config->getInstallationDirectory() + "/" + newInstallerFilename;
+		QString newInstallerFilename = config->getInstallerFilename();
 
-		if (QFile::exists(newInstallerFullPath))
-		{
 #ifdef Q_OS_WIN
-			QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ryzom", QSettings::NativeFormat);
+		QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Ryzom", QSettings::NativeFormat);
 
-			QString version = QApplication::applicationVersion();
+		QString version = QApplication::applicationVersion();
 
-			settings.setValue("DisplayVersion", version);
-			settings.setValue("EstimatedSize", (quint32)(getDirectorySize(config->getInstallationDirectory(), true) / 1024)); // size if in KiB
+		settings.setValue("DisplayVersion", version);
+		settings.setValue("EstimatedSize", (quint32)(getDirectorySize(config->getInstallationDirectory(), true) / 1024)); // size if in KiB
 
-			QStringList versionTokens = version.split('.');
-			settings.setValue("MajorVersion", versionTokens[0].toInt());
-			settings.setValue("MinorVersion", versionTokens[1].toInt());
+		QStringList versionTokens = version.split('.');
+		settings.setValue("MajorVersion", versionTokens[0].toInt());
+		settings.setValue("MinorVersion", versionTokens[1].toInt());
 #endif
-		}
 	}
 
 	return true;
@@ -1161,7 +1157,7 @@ void COperationDialog::deleteComponentsInstaller()
 		dir.removeRecursively();
 	}
 
-	path = config->getInstallerOriginalDirPath();
+	path = config->getInstallerInstalledDirPath();
 	QStringList files = config->getInstallerRequiredFiles();
 
 	foreach(const QString &file, files)
@@ -1266,6 +1262,11 @@ void COperationDialog::operationSuccess(qint64 total)
 void COperationDialog::operationFail(const QString &error)
 {
 	emit fail(error);
+}
+
+void COperationDialog::operationContinue()
+{
+	emit done();
 }
 
 bool COperationDialog::operationShouldStop()

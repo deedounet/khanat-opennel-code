@@ -144,9 +144,17 @@ int main(int argc, char *argv[])
 
 	// instanciate ConfigFile
 	CConfigFile config;
-	OperationStep step = config.load() ? config.getInstallNextStep():DisplayNoServerError;
 
-	if (step == DisplayNoServerError)
+	bool res = config.load();
+
+	// init log
+	CLogHelper logHelper(config.getInstallationDirectory());
+
+	nlinfo("Launched %s", Q2C(config.getInstallerCurrentFilePath()));
+
+	OperationStep step = res ? config.getInstallNextStep():DisplayNoServerError;
+
+	if (res == DisplayNoServerError)
 	{
 		QMessageBox::critical(NULL, QApplication::tr("Error"), QApplication::tr("Unable to find ryzom_installer.ini"));
 		return 1;
@@ -157,8 +165,10 @@ int main(int argc, char *argv[])
 	QString tempPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
 
 	// check if launched from TEMP directory
-	if (step == Done && !QApplication::applicationDirPath().startsWith(tempPath))
+	if (step == Done && !config.getInstallerCurrentDirPath().startsWith(tempPath))
 	{
+		nlinfo("Not launched from TEMP directory");
+
 		// try to delete all temporary installers
 		QDir tempDir(tempPath);
 
@@ -173,17 +183,25 @@ int main(int argc, char *argv[])
 			QDir dirToRemove(tempDir);
 			dirToRemove.cd(dir);
 			dirToRemove.removeRecursively();
+
+			nlinfo("Delete directory %s", Q2C(dir));
 		}
 
 		tempPath += QString("/ryzom_installer_%1").arg(QDateTime::currentMSecsSinceEpoch());
 
+		nlinfo("Creating directory %s", Q2C(tempPath));
+
 		// copy installer and required files to TEMP directory
 		if (QDir().mkdir(tempPath) && copyInstallerFiles(config.getInstallerRequiredFiles(), tempPath))
 		{
-			QString tempFile = tempPath + "/" + QFileInfo(QApplication::applicationFilePath()).fileName();
+			QString tempFile = tempPath + "/" + QFileInfo(config.getInstallerCurrentFilePath()).fileName();
+
+			nlinfo("Launching %s", Q2C(tempFile));
 
 			// launch copy in TEMP directory with same arguments
 			if (QProcess::startDetached(tempFile, QApplication::arguments())) return 0;
+
+			nlwarning("Unable to launch %s", Q2C(tempFile));
 		}
 	}
 #endif
@@ -193,6 +211,8 @@ int main(int argc, char *argv[])
 
 	if (parser.isSet(uninstallOption))
 	{
+		nlinfo("Uninstalling...");
+
 		SComponents components;
 
 		// add all servers by default
@@ -227,6 +247,8 @@ int main(int argc, char *argv[])
 
 	if (step == ShowMigrateWizard)
 	{
+		nlinfo("Display migration dialog");
+
 		CMigrateDialog dialog;
 
 		if (!dialog.exec()) return 1;
@@ -235,12 +257,18 @@ int main(int argc, char *argv[])
 	}
 	else if (step == ShowInstallWizard)
 	{
+		nlinfo("Display installation dialog");
+
 		CInstallDialog dialog;
 
 		if (!dialog.exec()) return 1;
 
 		step = config.getInstallNextStep();
 	}
+
+	nlinfo("Next step is %s", Q2C(stepToString(step)));
+
+	bool restartInstaller = false;
 	
 	if (step != Done)
 	{
@@ -252,13 +280,34 @@ int main(int argc, char *argv[])
 
 		step = config.getInstallNextStep();
 
-		if (step == Done)
+		nlinfo("Last step is %s", Q2C(stepToString(step)));
+
+		if (step == LaunchInstalledInstaller)
+		{
+			// restart more recent installed Installer version
+			restartInstaller = true;
+		}
+		else if (step == Done)
 		{
 #if defined(Q_OS_WIN) && !defined(_DEBUG)
 			// restart Installer, so it could be copied in TEMP and allowed to update itself
-			if (QProcess::startDetached(QApplication::applicationFilePath(), QApplication::arguments())) return 0;
+			restartInstaller = true;
 #endif
 		}
+	}
+
+	if (restartInstaller)
+	{
+#ifndef _DEBUG
+		nlinfo("Restart Installer %s", Q2C(config.getInstallerInstalledFilePath()));
+
+#ifndef Q_OS_WIN32
+		// fix executable permissions under UNIX
+		QFile::setPermissions(config.getInstallerInstalledFilePath(), QFile::permissions(config.getInstallerInstalledFilePath()) | QFile::ExeGroup | QFile::ExeUser | QFile::ExeOther);
+#endif
+
+		if (QProcess::startDetached(config.getInstallerInstalledFilePath())) return 0;
+#endif
 	}
 
 	CMainWindow mainWindow;

@@ -38,7 +38,7 @@ CMigrateDialog::CMigrateDialog():QDialog()
 	if (!CConfigFile::getInstance()->isRyzomInstalledIn(m_currentDirectory))
 	{
 		// Ryzom is in the same directory as Ryzom Installer
-		m_currentDirectory = CConfigFile::getInstance()->getApplicationDirectory();
+		m_currentDirectory = CConfigFile::getInstance()->getInstallerCurrentDirPath();
 
 		if (!CConfigFile::getInstance()->isRyzomInstalledIn(m_currentDirectory))
 		{
@@ -54,7 +54,9 @@ CMigrateDialog::CMigrateDialog():QDialog()
 	clientArchGroupBox->setVisible(false);
 	clientArch64RadioButton->setChecked(true);
 	clientArch32RadioButton->setChecked(false);
-#else
+#elif defined(Q_OS_WIN32)
+	// both 32 and 64 bits are working under Windows 64 bits
+
 	// check whether OS architecture is 32 or 64 bits
 	if (CConfigFile::has64bitsOS())
 	{
@@ -70,6 +72,21 @@ CMigrateDialog::CMigrateDialog():QDialog()
 		clientArch64RadioButton->setChecked(false);
 		clientArch32RadioButton->setChecked(true);
 	}
+#else
+	// only use the current architecture for Linux
+
+	clientArchGroupBox->setVisible(false);
+
+#ifdef _LP64
+	// only 64 bits is available
+	clientArch64RadioButton->setChecked(true);
+	clientArch32RadioButton->setChecked(false);
+#else
+	// only 32 bits is available
+	clientArch64RadioButton->setChecked(false);
+	clientArch32RadioButton->setChecked(true);
+#endif
+
 #endif
 
 	const CServer &server = CConfigFile::getInstance()->getServer();
@@ -130,8 +147,16 @@ void CMigrateDialog::accept()
 	// check free disk space
 	qint64 freeSpace = NLMISC::CSystemInfo::availableHDSpace(m_dstDirectory.toUtf8().constData());
 
+	// shouldn't happen
+	if (freeSpace == 0)
+	{
+		int error = NLMISC::getLastError();
+
+		nlwarning("Error '%s' (%d) occured when trying to check free disk space on %s, continue anyway", NLMISC::formatErrorMessage(error).c_str(), error, Q2C(m_dstDirectory));
+	}
+
 	// compare with exact size of current directory
-	if (freeSpace < getDirectorySize(m_currentDirectory, true))
+	if (freeSpace && freeSpace < getDirectorySize(m_currentDirectory, true))
 	{
 		QMessageBox::StandardButton res = QMessageBox::warning(this, tr("Not enough free disk space"), tr("You don't have enough free space on this disk, please make more space or choose a directory on another disk."));
 		return;

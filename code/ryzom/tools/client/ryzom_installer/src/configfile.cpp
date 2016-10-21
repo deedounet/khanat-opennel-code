@@ -106,22 +106,35 @@ bool CConfigFile::load(const QString &filename)
 		m_productHelpUrl = settings.value("url_help").toString();
 		m_productComments = settings.value("comments").toString();
 		settings.endGroup();
+	}
 
-		settings.beginGroup("servers");
-		int serversCount = settings.value("size").toInt();
-		m_defaultServerIndex = settings.value("default").toInt();
-		settings.endGroup();
+	settings.beginGroup("servers");
+	int serversCount = settings.value("size").toInt();
+	m_defaultServerIndex = settings.value("default").toInt();
+	settings.endGroup();
 
-		m_servers.resize(serversCount);
+	// only resize if added servers in local ryzom_installer.ini
+	CServers defaultServers = m_servers;
 
-		for (int i = 0; i < serversCount; ++i)
+	m_servers.resize(serversCount);
+
+	for (int i = 0; i < serversCount; ++i)
+	{
+		settings.beginGroup(QString("server_%1").arg(i));
+
+		CServer &server = m_servers[i];
+
+		if (useDefaultValues)
 		{
-			CServer &server = m_servers[i];
-
-			settings.beginGroup(QString("server_%1").arg(i));
-			server.loadFromSettings(settings);
-			settings.endGroup();
+			// search server with same ID and use these values
+			server.loadFromServers(defaultServers);
 		}
+		else
+		{
+			server.loadFromSettings(settings);
+		}
+
+		settings.endGroup();
 	}
 
 	// custom choices, always keep them
@@ -307,7 +320,16 @@ QString CConfigFile::getDesktopDirectory() const
 
 QString CConfigFile::getMenuDirectory() const
 {
-	return QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + "/" + QApplication::applicationName();
+	QString applicationLocation;
+
+#ifdef Q_OS_MAC
+	// QStandardPaths::ApplicationsLocation returns read-only location so fix it, will be installed in ~/Applications
+	applicationLocation = QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/Applications";
+#else
+	applicationLocation = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
+#endif
+
+	return applicationLocation + "/" + QApplication::applicationName();
 }
 
 bool CConfigFile::has64bitsOS()
@@ -481,11 +503,6 @@ QString CConfigFile::getParentDirectory()
 	QDir current = QDir::current();
 	current.cdUp();
 	return current.absolutePath();
-}
-
-QString CConfigFile::getApplicationDirectory()
-{
-	return QApplication::applicationDirPath();
 }
 
 QString CConfigFile::getOldInstallationDirectory()
@@ -718,21 +735,28 @@ bool CConfigFile::shouldCreateMenuShortcut() const
 	return !shortcutExists(profile.getClientMenuShortcutFullPath());
 }
 
-bool CConfigFile::shouldCopyInstaller() const
+int CConfigFile::compareInstallersVersion() const
 {
+	// returns 0 if same version, 1 if current installer is more recent, -1 if installed installer is more recent
 	QString installerDst = getInstallationDirectory() + "/" + m_installerFilename;
 
-	// if installer not found in installation directory, extract it from BNP
-	if (!QFile::exists(installerDst)) return true;
+	// if installer not found in installation directory
+	if (!QFile::exists(installerDst)) return 1;
 
 	QString installedVersion = getVersionFromExecutable(installerDst);
+
+	nlinfo("%s version is %s", Q2C(installerDst), Q2C(installedVersion));
+
 	QString newVersion = QApplication::applicationVersion();
 
 	QVersionNumber installedVer = QVersionNumber::fromString(installedVersion);
 	QVersionNumber newVer = QVersionNumber::fromString(newVersion);
 
-	// if version is greater, copy it
-	return newVer > installedVer;
+	// same version
+	if (newVer == installedVer) return 0;
+
+	// if version is greater or lower
+	return newVer > installedVer ? 1:-1;
 }
 
 QString CConfigFile::getInstallerCurrentFilePath() const
@@ -744,15 +768,30 @@ QString CConfigFile::getInstallerCurrentFilePath() const
 QString CConfigFile::getInstallerCurrentDirPath() const
 {
 	// installer is always run from TEMP under Windows
-	return QApplication::applicationDirPath();
+	QString appDir = QApplication::applicationDirPath();
+
+#ifdef Q_OS_MAC
+	QDir dir(appDir);
+	dir.cdUp(); // .. = Contents
+	dir.cdUp(); // .. = .app
+	dir.cdUp(); // .. = <parent>
+
+	// return absolute path
+	appDir = dir.absolutePath();
+#endif
+
+	return appDir;
 }
 
-QString CConfigFile::getInstallerOriginalFilePath() const
+QString CConfigFile::getInstallerInstalledFilePath() const
 {
-	return getInstallerOriginalDirPath() + "/" + QFileInfo(QApplication::applicationFilePath()).fileName();
+	// return an empty string, if no Installer filename in config
+	if (m_installerFilename.isEmpty()) return "";
+
+	return getInstallerInstalledDirPath() + "/" + m_installerFilename;
 }
 
-QString CConfigFile::getInstallerOriginalDirPath() const
+QString CConfigFile::getInstallerInstalledDirPath() const
 {
 	return m_installationDirectory;
 }
@@ -802,7 +841,7 @@ QStringList CConfigFile::getInstallerRequiredFiles() const
 #endif
 
 	// include current executable
-	files << QFileInfo(QApplication::applicationFilePath()).fileName();
+	files << QFileInfo(getInstallerCurrentFilePath()).fileName();
 #elif defined(Q_OS_MAC)
 	// everything is in a directory
 	files << "Ryzom Installer.app";
@@ -811,7 +850,7 @@ QStringList CConfigFile::getInstallerRequiredFiles() const
 	files << "ryzom_installer.png";
 
 	// include current executable
-	files << QFileInfo(QApplication::applicationFilePath()).fileName();
+	files << QFileInfo(getInstallerCurrentFilePath()).fileName();
 #endif
 
 	return files;
@@ -859,7 +898,7 @@ OperationStep CConfigFile::getInstallNextStep() const
 		if (!isRyzomInstalledIn(currentDirectory))
 		{
 			// Ryzom is in the same directory as Ryzom Installer
-			currentDirectory = getApplicationDirectory();
+			currentDirectory = getInstallerCurrentDirPath();
 
 			if (!isRyzomInstalledIn(currentDirectory))
 			{
@@ -947,7 +986,8 @@ OperationStep CConfigFile::getInstallNextStep() const
 		}
 	}
 
-	if (shouldCopyInstaller()) return CopyInstaller;
+	// current installer more recent than installed one
+	if (compareInstallersVersion() == 1) return CopyInstaller;
 
 	// no default profile
 	if (profile.id.isEmpty())
@@ -987,6 +1027,31 @@ OperationStep CConfigFile::getInstallNextStep() const
 		if (uninstallingOldClient() && !QFile::exists(getSrcServerDirectory() + "/Uninstall.exe"))
 		{
 			setUninstallingOldClient(false);
+		}
+	}
+
+	// current installer more recent than installed one
+	switch (compareInstallersVersion())
+	{
+		// current installer more recent, copy it
+		case 1: break;
+
+		// current installer older, launch the more recent installer
+		case -1: return LaunchInstalledInstaller;
+
+		// continue only if 0 and launched Installer is the installed one
+		default:
+		{
+#ifdef Q_OS_WIN32
+			QString tempPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+
+			// check if launched from TEMP directory
+			bool rightPath = getInstallerCurrentDirPath().startsWith(tempPath);
+#else
+			bool rightPath = false;
+#endif
+
+			if (!rightPath && getInstallerCurrentFilePath() != getInstallerInstalledFilePath() && QFile::exists(getInstallerInstalledFilePath())) return LaunchInstalledInstaller;
 		}
 	}
 
