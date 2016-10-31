@@ -919,7 +919,7 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 		//use bat if windows if not use sh
 #ifdef NL_OS_WINDOWS
 		contentPrefix += "@echo off\n";
-		contentPrefix += "set RYZOM_CLIENT=\"%1\"\n";
+		contentPrefix += "set KHANAT_CLIENT=\"%1\"\n";
 		contentPrefix += "set UNPACKPATH=\"%2\"\n";
 		contentPrefix += "set ROOTPATH=\"%3\"\n";
 		contentPrefix += "set STARTUPPATH=\"%4\"\n";
@@ -930,7 +930,7 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 		contentPrefix += "set SHARDID=%7\n";
 #else
 		contentPrefix += "#!/bin/sh\n";
-		contentPrefix += "export RYZOM_CLIENT=$1\n";
+		contentPrefix += "export KHANAT_CLIENT=$1\n";
 		contentPrefix += "export UNPACKPATH=$2\n";
 		contentPrefix += "export ROOTPATH=$3\n";
 		contentPrefix += "export STARTUPPATH=$4\n";
@@ -960,7 +960,7 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 		if (wantRyzomRestart)
 		{
 			// client shouldn't be in memory anymore else it couldn't be overwritten
-			contentSuffix += toString("start \"\" /D \"%%STARTUPPATH%%\" \"%%RYZOM_CLIENT%%\" %s %%LOGIN%% %%PASSWORD%% %%SHARDID%%\n", additionalParams.c_str());
+			contentSuffix += toString("start \"\" /D \"%%STARTUPPATH%%\" \"%%KHANAT_CLIENT%%\" %s %%LOGIN%% %%PASSWORD%% %%SHARDID%%\n", additionalParams.c_str());
 		}
 #else
 		if (wantRyzomRestart)
@@ -973,7 +973,7 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 		contentSuffix += "if [ -e \"$UPGRADE_FILE\" ]; then chmod +x \"$UPGRADE_FILE\" && \"$UPGRADE_FILE\"; fi\n\n";
 
 		// be sure file is executable
-		contentSuffix += "chmod +x \"$RYZOM_CLIENT\"\n\n";
+		contentSuffix += "chmod +x \"$KHANAT_CLIENT\"\n\n";
 
 		if (wantRyzomRestart)
 		{
@@ -981,7 +981,7 @@ void CPatchManager::createBatchFile(CProductDescriptionForClient &descFile, bool
 			contentSuffix += "cd \"$STARTUPPATH\"\n\n";
 
 			// launch new client
-			contentSuffix += toString("\"$RYZOM_CLIENT\" %s $LOGIN $PASSWORD $SHARDID\n", additionalParams.c_str());
+			contentSuffix += toString("\"$KHANAT_CLIENT\" %s $LOGIN $PASSWORD $SHARDID\n", additionalParams.c_str());
 		}
 #endif
 

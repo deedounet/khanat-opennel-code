@@ -87,7 +87,7 @@ public:
 	/** The list of CBone, created from the CSkeletonShape.
 	 * They are odered in depth-first order.
 	 */
-	std::vector<CBone>			Bones;
+	std::vector<const CBone>			Bones;
 
 public:
 	/// \name IAnimatable Interface (registering only IAnimatable sons (bones)).

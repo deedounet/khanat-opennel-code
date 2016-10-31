@@ -66,6 +66,7 @@ SET(AUTHOR "Winch Gate and The Ryzom Core Community")
 SET(RYZOM_VERSION_MAJOR 2)
 SET(RYZOM_VERSION_MINOR 9)
 SET(RYZOM_VERSION_PATCH 0)
+SET(REVISION 0)
 
 #-----------------------------------------------------------------------------
 # Redirect output files

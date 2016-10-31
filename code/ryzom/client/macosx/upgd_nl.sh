@@ -8,7 +8,7 @@ fi
 
 # determine directory where all files reside
 CONTENTSPATH=$(dirname "$ROOTPATH")
-MACOSPATH=$(dirname "$RYZOM_CLIENT")
+MACOSPATH=$(dirname "$KHANAT_CLIENT")
 SIGNPATH=$CONTENTSPATH/_CodeSignature
 
 # all files of original Bundle are in the same directory
@@ -24,21 +24,21 @@ cp -p "$ROOTPATH/Info.plist" "$CONTENTSPATH"
 cp -p "$ROOTPATH/CodeResources" "$SIGNPATH"
 
 # executable flag for all executables
-chmod +x "$ROOTPATH/Ryzom"
+chmod +x "$ROOTPATH/Khanat"
 chmod +x "$ROOTPATH/CrashReport"
-chmod +x "$ROOTPATH/RyzomClientPatcher"
-chmod +x "$ROOTPATH/RyzomConfiguration"
+chmod +x "$ROOTPATH/KhanatClientPatcher"
+chmod +x "$ROOTPATH/KhanatConfiguration"
 
 # remove previous executables
-rm -f "$MACOSPATH/Ryzom"
+rm -f "$MACOSPATH/Khanat"
 rm -f "$MACOSPATH/CrashReport"
-rm -f "$MACOSPATH/RyzomClientPatcher"
-rm -f "$MACOSPATH/RyzomConfiguration"
+rm -f "$MACOSPATH/KhanatClientPatcher"
+rm -f "$MACOSPATH/KhanatConfiguration"
 
 # copy all binaries in MacOS directory
-cp -p "$ROOTPATH/Ryzom" "$MACOSPATH"
+cp -p "$ROOTPATH/Khanat" "$MACOSPATH"
 cp -p "$ROOTPATH/CrashReport" "$MACOSPATH"
-cp -p "$ROOTPATH/RyzomClientPatcher" "$MACOSPATH"
-cp -p "$ROOTPATH/RyzomConfiguration" "$MACOSPATH"
+cp -p "$ROOTPATH/KhanatClientPatcher" "$MACOSPATH"
+cp -p "$ROOTPATH/KhanatConfiguration" "$MACOSPATH"
 
 exit 0

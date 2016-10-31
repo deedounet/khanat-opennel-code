@@ -7,9 +7,9 @@ then
 fi
 
 # executable flag for all executables
-chmod +x "$ROOTPATH/ryzom_client"
+chmod +x "$ROOTPATH/khanat_client"
 chmod +x "$ROOTPATH/crash_report"
-chmod +x "$ROOTPATH/ryzom_client_patcher"
-chmod +x "$ROOTPATH/ryzom_configuration_qt"
+chmod +x "$ROOTPATH/khanat_client_patcher"
+chmod +x "$ROOTPATH/khanat_configuration_qt"
 
 exit 0

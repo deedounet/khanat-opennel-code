@@ -166,7 +166,9 @@ code/build_mac
 code/build_linux32
 code/build_linux64
 code/build_windows32
+code/build_windows64
 code/build_server
+code/build_nel_tools
 
 # Linux nel compile
 code/nel/build/nel-config
@@ -243,6 +245,7 @@ code/ryzom/tools/server/ryzom_ams/old
 
 #tools and external dir's
 external
+external_vc14
 external_stlport
 nel_tools*
 ryzom_tools*
