@@ -44,7 +44,7 @@ end
 
 
 ------------------------------------------------------------------------------------------------------------
--- Update player bars in function of what we wants to display (we can hide each one of the 3 bars : ChaScore3,ChaScore2 and ChaScore4)
+-- Update player bars in function of what we wants to display (we can hide each one of the 3 bars : sap,stamina and focus)
 function game:updatePlayerBars()
 
 	local dispChaScore3 = getDbProp('UI:SAVE:PLAYER:DISP_ChaScore3');
@@ -81,7 +81,7 @@ function game:updatePlayerBars()
 			ui.b_ChaScore4.y = -35;
 		end
 
-		if (dispCha == 0) then
+		if (dispChaScore2 == 0) then
 			ui.b_ChaScore3.y = -20;
 			ui.b_ChaScore4.y = -35;
 		end
@@ -865,8 +865,8 @@ function game:updatePhraseTooltip(phrase)
 	end
 	-- IMPORTANT : the following getters on 'phrase' take in account the 'total action malus' for the timebeing 	
 	self:setPhraseTooltipCarac(ttWin, "ChaScore1_cost",	phrase:getChaScore1Cost())
-	self:setPhraseTooltipCarac(ttWin, "ChaScore2_cost",	phrase:getChaScore2Cost())
-	self:setPhraseTooltipCarac(ttWin, "ChaScore3_cost",	phrase:getChaScore3Cost())	
+	self:setPhraseTooltipCarac(ttWin, "ChaScore3_cost",	phrase:getChaScore3Cost())
+	self:setPhraseTooltipCarac(ttWin, "ChaScore2_cost",	phrase:getChaScore2Cost())	
 	self:setPhraseTooltipCarac(ttWin, "ChaScore4_cost", phrase:getChaScore4Cost())	
 	self:setPhraseTooltipCarac(ttWin, "cast_time",  phrase:getCastTime(), concatUCString(string.format("%.1f", phrase:getCastTime()), i18n.get("uittSeconds")))
 	local castRange = phrase:getCastRange()
