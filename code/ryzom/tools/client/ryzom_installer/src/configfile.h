@@ -38,6 +38,7 @@ public:
 	bool load();
 	bool load(const QString &filename);
 	bool save() const;
+	bool remove();
 
 	static CConfigFile* getInstance();
 
@@ -53,6 +54,11 @@ public:
 
 	CProfiles getBackupProfiles() const { return m_backupProfiles; }
 	void backupProfiles();
+
+	QString getLanguage() const { return m_language; }
+
+	bool getInstallerCopied() const { return m_installerCopied; }
+	void setInstallerCopied(bool copied) { m_installerCopied = copied; }
 
 	int getProfilesCount() const;
 	CProfile getProfile(int i = -1) const;
@@ -87,10 +93,7 @@ public:
 	// default directories
 	static QString getCurrentDirectory();
 	static QString getParentDirectory();
-	static QString getApplicationDirectory();
-	static QString getOldInstallationDirectory();
 	static QString getNewInstallationDirectory();
-	static QString getOldInstallationLanguage();
 	static QString getNewInstallationLanguage();
 
 	// status of installation
@@ -101,6 +104,7 @@ public:
 	bool foundTemporaryFiles(const QString &directory) const;
 	bool shouldCreateDesktopShortcut() const;
 	bool shouldCreateMenuShortcut() const;
+	int compareInstallersVersion() const;
 
 	// installation choices
 	bool use64BitsClient() const;
@@ -109,16 +113,22 @@ public:
 	bool shouldUninstallOldClient() const;
 	void setShouldUninstallOldClient(bool on);
 
+	bool uninstallingOldClient() const;
+	void setUninstallingOldClient(bool on) const;
+
+	QString getInstallerFilename() const { return m_installerFilename; }
+
 	QString expandVariables(const QString &str) const;
 
 	QString getClientArch() const;
 
 	QString getInstallerCurrentFilePath() const;
 	QString getInstallerCurrentDirPath() const;
-	QString getInstallerOriginalFilePath() const;
-	QString getInstallerOriginalDirPath() const;
+	QString getInstallerInstalledFilePath() const;
+	QString getInstallerInstalledDirPath() const;
 
-	QString getInstallerMenuLinkFullPath() const;
+	QString getInstallerMenuShortcutFullPath() const;
+	QString getInstallerDesktopShortcutFullPath() const;
 
 	QStringList getInstallerRequiredFiles() const;
 
@@ -138,6 +148,7 @@ private:
 	int m_version;
 	int m_defaultServerIndex;
 	int m_defaultProfileIndex;
+	bool m_installerCopied;
 
 	CServers m_servers;
 	CProfiles m_profiles;
@@ -147,6 +158,7 @@ private:
 	QString m_srcDirectory;
 	bool m_use64BitsClient;
 	bool m_shouldUninstallOldClient;
+	QString m_installerFilename;
 	QString m_language;
 
 	QString m_defaultConfigPath;

@@ -572,7 +572,7 @@ namespace NLGUI
 							curl_easy_cleanup(it->curl);
 
 							string tmpfile = it->dest + ".tmp";
-							if(res != CURLE_OK || r < 200 || r >= 300 || ((it->md5sum != "") && (it->md5sum != getMD5(tmpfile).toString())))
+							if(res != CURLE_OK || r < 200 || r >= 300 || (!it->md5sum.empty() && (it->md5sum != getMD5(tmpfile).toString())))
 							{
 								NLMISC::CFile::deleteFile(tmpfile.c_str());
 							}
@@ -5497,6 +5497,19 @@ namespace NLGUI
 		const char *funcName = "removeContent";
 		CLuaIHM::checkArgCount(ls, funcName, 0);
 		removeContent();
+		return 0;
+	}
+
+	// ***************************************************************************
+	int CGroupHTML::luaRenderHtml(CLuaState &ls)
+	{
+		const char *funcName = "renderHtml";
+		CLuaIHM::checkArgCount(ls, funcName, 1);
+		CLuaIHM::checkArgType(ls, funcName, 1, LUA_TSTRING);
+		std::string html = ls.toString(1);
+
+		renderHtmlString(html);
+
 		return 0;
 	}
 

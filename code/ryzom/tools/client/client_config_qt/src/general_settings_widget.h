@@ -14,22 +14,37 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef GENERALSETTINGWIDGET_H
+#define GENERALSETTINGWIDGET_H
 
-
-
-#ifndef TL_SHEETS_PACKER_INIT_H
-#define TL_SHEETS_PACKER_INIT_H
-
-
+#include "ui_general_settings_widget.h"
+#include "widget_base.h"
 
 #include "nel/misc/types_nl.h"
 
-// Initialize the application.
-bool init();
+class QTranslator;
 
-// Release all.
-void release();
+/**
+ @brief The general settings page of the configuration tool
+*/
+class CGeneralSettingsWidget : public CWidgetBase, public Ui::general_settings_widget
+{
+	Q_OBJECT
 
-#endif // TL_SHEETS_PACKER_INIT_H
+public:
+	CGeneralSettingsWidget( QWidget *parent = NULL );
+	virtual	~CGeneralSettingsWidget();
 
-/* End of sheets_packer_init.h */
+	void load();
+	void save();
+
+private:
+	/**
+	 @brief  Retrieves the language combobox index for the language code provided.
+	 @param  languageCode  -  Reference to the language code, we are trying to find.
+	 @return Returns the index on success, returns -1 if the language code cannot be found.
+    */
+	sint32 getIndexForLanguageCode(const QString &languageCode);
+};
+
+#endif // GENERALSETTINGWIDGET_H

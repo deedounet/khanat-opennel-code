@@ -11,6 +11,6 @@ IF(WITH_UNIX_STRUCTURE)
   INSTALL(FILES khanat_48x48.png DESTINATION share/icons/hicolor/48x48/apps RENAME ${RYZOM_CLIENT_ICON}.png)
   INSTALL(FILES khanat_128x128.png DESTINATION share/icons/hicolor/128x128/apps RENAME ${RYZOM_CLIENT_ICON}.png)
 ELSE()
-  # in case of local client, only copy 48x48 icon
-  INSTALL(FILES khanat_48x48.png DESTINATION ${RYZOM_ETC_PREFIX} RENAME ${RYZOM_CLIENT_ICON}.png)
+  # in case of local client, only copy 128x128 icon
+  INSTALL(FILES khanat_128x128.png DESTINATION ${RYZOM_ETC_PREFIX} RENAME ${RYZOM_CLIENT_ICON}.png)
 ENDIF()
