@@ -9,11 +9,8 @@ stages:
 # Job de compilation pour Linux
 Linux client build:
   stage: build
-  only:
-    - develop
-    - /^release\/.*/
-    - /^feature\/.*(\+CI$|\+CI-LIN64.*)/
-    - tags
+  except:
+    - ryzomcore
   tags:
     - Docker
   image: ubuntu:14.04
@@ -55,8 +52,6 @@ Linux client build:
 OSX client build:
   stage: build
   only:
-    - develop
-    - /^feature\/.*(\+CI$|\+CI-OSX.*)/
     - tags
   tags:
     - OSX
@@ -78,11 +73,8 @@ OSX client build:
 
 Linux client test:
   stage: test
-  only:
-    - develop
-    - /^release\/.*/
-    - /^feature\/.*(\+CI$|\+CI-LIN64.*)/
-    - tags
+  except:
+    - ryzomcore
   tags:
     - Docker
   image: ubuntu:14.04
@@ -94,11 +86,8 @@ Linux client test:
     
 .OSX client test:
   stage: test
-  only:
-    - develop
-    - /^release\/.*/
-    - /^feature\/.*(\+CI$|\+CI-LIN64.*)/
-    - tags
+  except:
+    - ryzomcore
   tags:
     - OSX
   script:
@@ -113,10 +102,8 @@ Linux client test:
 .Deploy to Staging:
   stage: staging
   environment: Staging
-  only:
-    - develop
-    - /^release\/.*/
-    - tags
+  except:
+    - ryzomcore
   tags:
     - Docker
   image: ubuntu:14.04
