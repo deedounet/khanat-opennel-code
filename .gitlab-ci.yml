@@ -20,7 +20,7 @@ Linux client build:
   script:
     # Installation des dépendances
     - apt-get update
-    - apt-get install -y g++ gcc cmake libgl1-mesa-dev libjpeg-dev libpng12-dev libopenal-dev libfreetype6-dev libxxf86vm-dev libxrandr-dev libxrender-dev libvorbis-dev libluabind-dev libboost-dev libmysqlclient-dev libssl-dev liblzma-dev libxml2-dev makeself
+    - apt-get install -y g++ gcc cmake libgl1-mesa-dev libjpeg-dev libpng-dev libopenal-dev libfreetype6-dev libxxf86vm-dev libxrandr-dev libxrender-dev libvorbis-dev libluabind-dev libboost-dev libmysqlclient-dev libssl-dev liblzma-dev libxml2-dev makeself
     # Installation des dépendances des dépendances statiques (à commenter si construction de Khanat en mode dynamique)
     # libxml2 : python-pyicu (support d'unicode), python-dev (support de... python)
     - apt-get install -y wget python-pyicu python-dev
