@@ -16,7 +16,7 @@ Linux client build:
     - tags
   tags:
     - Docker
-  image: ubuntu:14.04
+  image: ubuntu:16.04
   script:
     # Installation des dépendances
     - apt-get update
