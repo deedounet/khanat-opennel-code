@@ -152,13 +152,13 @@ int main(int argc, char *argv[])
 	bool res = config.load();
 
 	// init log
-	CLogHelper logHelper(config.getInstallationDirectory());
+	CLogHelper logHelper(config.getInstallationDirectory().isEmpty() ? config.getNewInstallationDirectory():config.getInstallationDirectory());
 
 	nlinfo("Launched %s", Q2C(config.getInstallerCurrentFilePath()));
 
 	OperationStep step = res ? config.getInstallNextStep():DisplayNoServerError;
 
-	if (res == DisplayNoServerError)
+	if (step == DisplayNoServerError)
 	{
 		QMessageBox::critical(NULL, QApplication::tr("Error"), QApplication::tr("Unable to find ryzom_installer.ini"));
 		return 1;
@@ -232,8 +232,8 @@ int main(int argc, char *argv[])
 
 			dialog.setSelectedComponents(components);
 
-			// TODO: check real return codes from Uninstallers
-			if (!dialog.exec()) return 1;
+			// exit if press Cancel button or close dialog
+			if (!dialog.exec()) return 0;
 
 			components = dialog.getSelectedCompenents();
 		}

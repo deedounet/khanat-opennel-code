@@ -435,6 +435,7 @@ public:
 	CBankManager ()
 	{
 	}
+
 	const NL3D::CTileBank& getBank (std::string& path=GetBankPathName ())
 	{
 		if (path!=_lastPath)
@@ -450,7 +451,7 @@ public:
 			}
 			catch (const NLMISC::EStream& excp)
 			{
-				MessageBox (NULL, excp.what(), "Load error", MB_OK|MB_ICONEXCLAMATION);
+				MessageBox (NULL, utf8ToTStr(excp.what()), _T("Load error"), MB_OK|MB_ICONEXCLAMATION);
 			}
 		}
 		return _bank;

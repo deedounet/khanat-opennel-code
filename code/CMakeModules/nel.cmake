@@ -870,9 +870,6 @@ MACRO(NL_SETUP_BUILD)
     ELSE()
       # Check wrong formats in printf-like functions
       ADD_PLATFORM_FLAGS("-Wformat -Werror=format-security")
-
-      # Don't display invalid or unused command lines arguments by default (often too verbose)
-      ADD_PLATFORM_FLAGS("-Wno-invalid-command-line-argument -Wno-unused-command-line-argument")
     ENDIF()
 
     IF(ANDROID)
@@ -929,8 +926,10 @@ MACRO(NL_SETUP_BUILD)
       SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,--no-undefined -Wl,--as-needed")
     ENDIF()
 
-    # hardening
-    SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now")
+    IF(NOT APPLE)
+      # hardening
+      SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now")
+    ENDIF()
 
     IF(WITH_SYMBOLS)
       SET(NL_RELEASE_CFLAGS "${NL_RELEASE_CFLAGS} -g")

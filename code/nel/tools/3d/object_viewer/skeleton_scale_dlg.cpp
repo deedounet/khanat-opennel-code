@@ -199,12 +199,15 @@ void		CSkeletonScaleDlg::setSkeletonToEdit(NL3D::CSkeletonModel *skel, const std
 	{
 		for(uint i=0;i<_SkeletonModel->Bones.size();i++)
 		{
-			const std::string		tabStr= "   ";
-			std::string		name= _SkeletonModel->Bones[i].getBoneName();
+			const std::string tabStr = "   ";
+			std::string name = _SkeletonModel->Bones[i].getBoneName();
+
 			// append a tab for easy hierarchy
-			uint	boneId= i;
+			uint boneId = i;
+
 			while((boneId=_SkeletonModel->Bones[boneId].getFatherId())!=-1)
-				name= tabStr + name;
+				name = tabStr + name;
+
 			// append to the list
 			_BoneList.AddString(utf8ToTStr(name));
 		}
@@ -843,13 +846,13 @@ void CSkeletonScaleDlg::OnSsdButtonSaveas()
 		return;
 
 	// choose the file
-	CFileDialog fd(FALSE, "skel", _SkeletonFileName.c_str(), OFN_OVERWRITEPROMPT, "SkelFiles (*.skel)|*.skel|All Files (*.*)|*.*||", this) ;
-	fd.m_ofn.lpstrTitle= "Save As Skeleton";
+	CFileDialog fd(FALSE, _T("skel"), utf8ToTStr(_SkeletonFileName), OFN_OVERWRITEPROMPT, _T("SkelFiles (*.skel)|*.skel|All Files (*.*)|*.*||"), this) ;
+	fd.m_ofn.lpstrTitle = _T("Save As Skeleton");
 	if (fd.DoModal() == IDOK)
 	{
 		NLMISC::COFile	f;
 		
-		if( f.open((const char*)fd.GetPathName()) )
+		if( f.open(tStrToUtf8(fd.GetPathName())) )
 		{
 			if(saveCurrentInStream(f))
 			{
@@ -859,7 +862,7 @@ void CSkeletonScaleDlg::OnSsdButtonSaveas()
 			}
 
 			// bkup the valid fileName (new file edited)
-			_SkeletonFileName= (const char*)fd.GetPathName();
+			_SkeletonFileName= tStrToUtf8(fd.GetPathName());
 			_StaticFileName= _SkeletonFileName.c_str();
 			UpdateData(FALSE);
 		}
@@ -1222,7 +1225,7 @@ void CSkeletonScaleDlg::OnSsdButtonSaveScale()
 		return;
 	
 	// choose the file
-	std::string	defaultFileName= _SkeletonFileName;
+	std::string	defaultFileName = _SkeletonFileName;
 	NLMISC::strFindReplace(defaultFileName, ".skel", ".scale");
 
 	CFileDialog fd(FALSE, _T("scale"), utf8ToTStr(defaultFileName), OFN_OVERWRITEPROMPT, _T("SkelScaleFiles (*.scale)|*.scale|All Files (*.*)|*.*||"), this) ;
