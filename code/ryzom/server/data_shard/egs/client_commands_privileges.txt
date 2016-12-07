@@ -142,8 +142,8 @@ FBT					:DEV:SGM:GM:VG:EM:						// Is a Focus Beta Tester?
 God					:DEV:SGM:GM:EM:					audit	// God mode, invulnerability
 Invulnerable		:DEV:SGM:GM:EM:					audit	// Invulnerable mode, invulnerability to all
 ShowFactionChannels			:DEV:SGM:GM:EM:VG:SG:G:			// Show faction channel for moderation
-HP					:DEV:SGM:GM:EM:							// Hit points of a player
-MaxHP					:DEV:SGM:GM:EM:						// Max hit points of a bot
+ChaScore1					:DEV:SGM:GM:EM:							// Hit points of a player
+MaxChaScore1					:DEV:SGM:GM:EM:						// Max hit points of a bot
 Invisible				:DEV:SGM:GM:VG:SG:EM:EG:			// Invisibility of a player
 Money					:DEV:SGM:GM:EM:						// Money of a player
 Name					:DEV:SGM:GM:EM:						// Name of a player
