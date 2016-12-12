@@ -16,7 +16,7 @@ Linux client build:
     - tags
   tags:
     - Docker
-  image: debian:jessie+backports
+  image: debian:jessie
   script:
     # Installation des dépendances
     - echo "deb http://backports.debian.org/debian-backports squeeze-backports main" >> /etc/apt/sources.list
