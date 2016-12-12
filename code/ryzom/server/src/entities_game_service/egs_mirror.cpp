@@ -95,8 +95,8 @@ void	cbMirrorIsReadyForInit( CMirror *mirror )
 	FeTempDataset->declareProperty( "RiderEntity", PSOReadWrite );
 	FeTempDataset->declareProperty( "ContextualProperty", PSOReadWrite );
 	FeTempDataset->declareProperty( "AvailableImpulseBitSize", PSOReadOnly ); // set by FS
-	FeTempDataset->declareProperty( "CurrentHitPoints", PSOReadWrite );
-	FeTempDataset->declareProperty( "MaxHitPoints", PSOReadWrite );
+	FeTempDataset->declareProperty( "CurrentChaScore1", PSOReadWrite );
+	FeTempDataset->declareProperty( "MaxChaScore1", PSOReadWrite );
 	FeTempDataset->declareProperty( "BestRole", PSOReadWrite );
 	FeTempDataset->declareProperty( "BestRoleLevel", PSOReadWrite );
 	FeTempDataset->declareProperty( "CurrentRunSpeed", PSOReadWrite );
