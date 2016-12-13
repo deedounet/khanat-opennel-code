@@ -343,8 +343,13 @@ bool CDriverGL::init (uintptr_t windowIcon, emptyProc exitFunc)
 	retrieveATIDriverVersion();
 #elif defined(NL_OS_MAC)
 
-	// nothing to do
 	nlunreferenced(windowIcon);
+
+	// autorelease pool for memory management
+	_autoreleasePool = [[NSAutoreleasePool alloc] init];
+
+	// init the application object
+	[NSApplication sharedApplication];
 
 #elif defined (NL_OS_UNIX)
 
@@ -485,7 +490,7 @@ bool CDriverGL::unInit()
 
 #elif defined(NL_OS_MAC)
 
-	// nothing to do
+	[_autoreleasePool release];
 
 #elif defined (NL_OS_UNIX)
 
@@ -1454,7 +1459,7 @@ bool CDriverGL::createWindow(const GfxMode &mode)
 		pos = 0;
 		hwndParent = NULL;
 	}
-	window = CreateWindowW(L"NLClass", L"NeL Window", dwStyle, 
+	window = CreateWindowW(L"NLClass", L"NeL Window", dwStyle,
 		pos, pos, mode.Width, mode.Height, hwndParent, NULL, GetModuleHandle(NULL), NULL);
 
 	if (window == EmptyWindow)
@@ -1465,6 +1470,12 @@ bool CDriverGL::createWindow(const GfxMode &mode)
 	}
 
 #elif defined(NL_OS_MAC)
+
+	// create the menu in the top screen bar
+	setupApplicationMenu();
+
+	// finish the application launching
+	[NSApp finishLaunching];
 
 	// describe how the window should look like and behave
 	unsigned int styleMask = NSTitledWindowMask | NSClosableWindowMask |
@@ -1642,6 +1653,7 @@ bool CDriverGL::destroyWindow()
 	}
 
 #elif defined(NL_OS_MAC)
+
 #elif defined(NL_OS_UNIX)
 
 	if (_DestroyWindow && _ctx) // FIXME: _DestroyWindow may need to be removed here as well
@@ -2299,7 +2311,10 @@ void CDriverGL::setWindowTitle(const ucstring &title)
 
 #ifdef NL_OS_WINDOWS
 
-	SetWindowTextW(_win, (WCHAR*)title.c_str());
+	if (!SetWindowTextW(_win, (WCHAR*)title.c_str()))
+	{
+		nlwarning("SetWindowText failed: %s", formatErrorMessage(getLastError()).c_str());
+	}
 
 #elif defined(NL_OS_MAC)
 

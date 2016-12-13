@@ -12,33 +12,27 @@ MACOSPATH=$(dirname "$KHANAT_CLIENT")
 SIGNPATH=$CONTENTSPATH/_CodeSignature
 
 # all files of original Bundle are in the same directory
-# we have to copy them to the right location
+# we have to uncompress them to the right location
 
-# client_default.cfg and ryzom.icns are already in the right location
+# client_default.cfg and khanat.icns are already in the right location
 
-# PkgInfo usually doesn't change so don't copy it
-
-# Info.plist contains updated version
-cp -p "$ROOTPATH/Info.plist" "$CONTENTSPATH"
-
-cp -p "$ROOTPATH/CodeResources" "$SIGNPATH"
-
-# executable flag for all executables
+# uncompress Ryzom
+if [ -e "$ROOTPATH/Ryzom.zip" ]
+then
+  unzip -o "$ROOTPATH/Ryzom.zip" -d "$CONTENTSPATH/../.."
+fi
 chmod +x "$ROOTPATH/Khanat"
-chmod +x "$ROOTPATH/CrashReport"
 chmod +x "$ROOTPATH/KhanatClientPatcher"
 chmod +x "$ROOTPATH/KhanatConfiguration"
-
-# remove previous executables
 rm -f "$MACOSPATH/Khanat"
-rm -f "$MACOSPATH/CrashReport"
 rm -f "$MACOSPATH/KhanatClientPatcher"
 rm -f "$MACOSPATH/KhanatConfiguration"
 
-# copy all binaries in MacOS directory
+# only uncompress Ryzom Installer if found in parent directory
 cp -p "$ROOTPATH/Khanat" "$MACOSPATH"
-cp -p "$ROOTPATH/CrashReport" "$MACOSPATH"
+then
 cp -p "$ROOTPATH/KhanatClientPatcher" "$MACOSPATH"
 cp -p "$ROOTPATH/KhanatConfiguration" "$MACOSPATH"
+fi
 
 exit 0

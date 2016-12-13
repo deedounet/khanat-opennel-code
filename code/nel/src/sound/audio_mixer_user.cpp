@@ -1797,7 +1797,7 @@ void				CAudioMixerUser::addSource( CSourceCommon *source )
 	_Sources.insert( source );
 
 //	_profile(( "AM: ADDSOURCE, SOUND: %d, TRACK: %p, NAME=%s", source->getSound(), source->getTrack(),
-//			source->getSound() && (source->getSound()->getName()!="") ? source->getSound()->getName().c_str() : "" ));
+//			source->getSound() && (!source->getSound()->getName().empty()) ? source->getSound()->getName().c_str() : "" ));
 
 }
 
@@ -2684,17 +2684,17 @@ float	CAudioMixerUser::getMusicLength()
 }
 
 // ***************************************************************************
-bool	CAudioMixerUser::getSongTitle(const std::string &filename, std::string &result)
+bool	CAudioMixerUser::getSongTitle(const std::string &filename, std::string &result, float &length)
 {
 	if (_SoundDriver)
 	{
 		std::string artist;
 		std::string title;
 
-		if (!_SoundDriver->getMusicInfo(filename, artist, title))
+		if (!_SoundDriver->getMusicInfo(filename, artist, title, length))
 		{
 			// use 3rd party libraries supported formats
-			IAudioDecoder::getInfo(filename, artist, title);
+			IAudioDecoder::getInfo(filename, artist, title, length);
 		}
 
 		if (!title.empty())
@@ -2715,6 +2715,7 @@ bool	CAudioMixerUser::getSongTitle(const std::string &filename, std::string &res
 	}
 
 	result = "???";
+	length = 0;
 	return false;
 }
 

@@ -13,11 +13,13 @@ Linux client build:
     - ryzomcore
   tags:
     - Docker
-  image: ubuntu:14.04
+  image: debian:jessie
   script:
     # Installation des dépendances
+    - echo "deb http://ftp.debian.org/debian/ jessie-backports non-free contrib main" >> /etc/apt/sources.list
     - apt-get update
-    - apt-get install -y g++ gcc cmake libgl1-mesa-dev libjpeg-dev libpng12-dev libopenal-dev libfreetype6-dev libxxf86vm-dev libxrandr-dev libxrender-dev libvorbis-dev libluabind-dev libboost-dev libmysqlclient-dev libssl-dev liblzma-dev libxml2-dev makeself
+    - apt-get -y upgrade
+    - apt-get -t jessie-backports install libxml2 -y g++ gcc cmake libcurl4-openssl-dev libgl1-mesa-dev libjpeg-dev libpng-dev libopenal-dev libfreetype6-dev libxxf86vm-dev libxrandr-dev libxrender-dev libvorbis-dev libluabind-dev libboost-dev libmysqlclient-dev libssl-dev liblzma-dev libxml2-dev makeself
     # Installation des dépendances des dépendances statiques (à commenter si construction de Khanat en mode dynamique)
     # libxml2 : python-pyicu (support d'unicode), python-dev (support de... python)
     - apt-get install -y wget python-pyicu python-dev
@@ -35,7 +37,7 @@ Linux client build:
     - cd ..
     ## Compilation de Khanat
     # Configuration
-    - cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/ -DCMAKE_BUILD_TYPE=Release -DWITH_RYZOM_SERVER=OFF -DWITH_RYZOM_TOOLS=OFF -DWITH_RYZOM_CLIENT=ON -DWITH_NEL_TESTS=OFF -DWITH_NEL_TOOLS=OFF -DWITH_NEL_SAMPLES=OFF -DWITH_STATIC=ON -DWITH_STATIC_DRIVERS=ON -DWITH_STATIC_EXTERNAL=ON -DWITH_UNIX_STRUCTURE=OFF -DWITH_INSTALL_LIBRARIES=OFF -DWITH_LUA52=ON -DCURL_LIBRARY=/usr/local/lib/libcurl.a ../../code
+    - cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/ -DCMAKE_BUILD_TYPE=Release -DWITH_RYZOM_SERVER=OFF -DWITH_RYZOM_TOOLS=OFF -DWITH_RYZOM_CLIENT=ON -DWITH_NEL_TESTS=OFF -DWITH_NEL_TOOLS=OFF -DWITH_NEL_SAMPLES=OFF -DWITH_STATIC=ON -DWITH_STATIC_DRIVERS=ON -DWITH_STATIC_EXTERNAL=ON -DWITH_UNIX_STRUCTURE=OFF -DWITH_INSTALL_LIBRARIES=OFF -DWITH_LUA52=ON ../../code
     # Compilation et installation
     - make -j$(nproc) install DESTDIR=../../Linux/x86_64
     # Packaging

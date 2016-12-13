@@ -136,7 +136,7 @@ private:
 	static void	rawDebugInfo(const std::string &dbg);
 	// Dump callstack in the console
 	// Additionnally, if ClientCfg.LuaDebugInfoGotoButtonEnabled is set, then
-	// buttons will be created in fonr of eahc line to allow to goto the lua line that issued the message
+	// buttons will be created in front of each line to allow to go to the lua line that issued the message
 	// by using an external editor
 
 	static void	getCallStackAsString(int startStackLevel, std::string &result);
@@ -201,6 +201,7 @@ private:
 	static sint getCharacterSheetRegionForce(const std::string &sheet);
 	static sint	getCharacterSheetRegionLevel(const std::string &sheet);
 	static std::string getRegionByAlias(uint32 alias);
+	static sint getGroundZ(uint32 x, sint32 y);
 	// open the window to do a tell to 'player', if 'msg' is not empty, then the message will be sent immediatly
     // else, current command of the chat window will be replaced with tell 'player'
 	static void	tell(const ucstring &player, const ucstring &msg);

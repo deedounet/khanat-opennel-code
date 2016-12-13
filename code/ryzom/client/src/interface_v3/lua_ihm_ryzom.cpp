@@ -346,13 +346,13 @@ static CLuaString lstr_isNil("isNil");
 void CLuaIHMRyzom::createLuaEnumTable(CLuaState &ls, const std::string &str)
 {
 	//H_AUTO(Lua_CLuaIHM_createLuaEnumTable)
-	std::string path = "", script, p;
+	std::string path, script, p;
 	CSString s = str;
 	// Create table recursively (ex: 'game.TPVPClan' will check/create the table 'game' and 'game.TPVPClan')
 	p = s.splitTo('.', true);
 	while (p.size() > 0)
 	{
-		if (path == "")
+		if (path.empty())
 			path = p;
 		else
 			path += "." + p;
@@ -390,7 +390,7 @@ void CLuaIHMRyzom::RegisterRyzomFunctions( NLGUI::CLuaState &ls )
 	mt.setValue("__newindex", luaClientCfgNewIndex);
 	globals.setNil("__cfmt"); // remove temp metatable
 
-	ls.registerFunc( "getUI", getUI );
+	ls.registerFunc("getUI", getUI);
 	ls.registerFunc("validMessageBox",    validMessageBox);
 	ls.registerFunc("getUICaller",    getUICaller);
 	ls.registerFunc("getUI",    getUI);
@@ -519,6 +519,7 @@ void CLuaIHMRyzom::RegisterRyzomFunctions( NLGUI::CLuaState &ls )
 		LUABIND_FUNC(getCharacterSheetRegionForce),
 		LUABIND_FUNC(getCharacterSheetRegionLevel),
 		LUABIND_FUNC(getRegionByAlias),
+		LUABIND_FUNC(getGroundZ),
 		LUABIND_FUNC(tell),
 		LUABIND_FUNC(isRingAccessPointInReach),
 		LUABIND_FUNC(updateTooltipCoords),
@@ -2613,6 +2614,17 @@ string CLuaIHMRyzom::getRegionByAlias(uint32 alias)
 	//H_AUTO(Lua_CLuaIHM_getRegionByAlias)
 	return ContinentMngr.getRegionNameByAlias(alias);
 }
+
+
+sint32 CLuaIHMRyzom::getGroundZ(uint32 x, sint32 y)
+{
+	CVector vect = CVector(x, y, 0);
+	nlinfo("TEST");
+	UserEntity->getCollisionEntity()->snapToGround(vect);
+	nlinfo("Ground Z of (%d,%d) = %d", x, y, vect.z);
+	return vect.z;
+}
+
 
 // ***************************************************************************
 void CLuaIHMRyzom::tell(const ucstring &player, const ucstring &msg)
