@@ -2537,7 +2537,6 @@ class CAHAddShape : public IActionHandler
 		}
 
 		bool have_shapes = true;
-		bool first_shape = true;
 		while(have_shapes)
 		{
 			string shape;
@@ -2554,8 +2553,8 @@ class CAHAddShape : public IActionHandler
 				have_shapes = false;
 			}
 
-
-			CShapeInstanceReference instref = EntitiesMngr.createInstance(shape, CVector((float)x, (float)y, (float)z), c, u, first_shape);
+			sint32 idx;
+			CShapeInstanceReference instref = EntitiesMngr.createInstance(shape, CVector((float)x, (float)y, (float)z), c, u, false, idx);
 			UInstance instance = instref.Instance;
 
 			if(!instance.empty())
@@ -2575,7 +2574,7 @@ class CAHAddShape : public IActionHandler
 						instance.getMaterial(j).setShininess( 1000.0f );
 					}
 
-					if (!texture_name.empty() && first_shape)
+					if (!texture_name.empty())
 					{
 						sint numStages = instance.getMaterial(j).getLastTextureStage() + 1;
 						for(sint l = 0; l < numStages; l++)
@@ -2587,9 +2586,7 @@ class CAHAddShape : public IActionHandler
 						}
 					}
 				}
-
-				first_shape = false;
-
+				
 				if (transparency.empty())
 					::makeInstanceTransparent(instance, 255, false);
 				else
@@ -2622,6 +2619,9 @@ class CAHAddShape : public IActionHandler
 					instance.setPos(CVector((float)x, (float)y, (float)z));
 					instance.setRotQuat(dir.getRot());
 				}
+				
+				instance.setTransformMode(UTransformable::RotEuler);
+				
 				// if the shape is a particle system, additionnal parameters are user params
 				UParticleSystemInstance psi;
 				psi.cast (instance);
@@ -2653,6 +2653,7 @@ class CAHAddShape : public IActionHandler
 	}
 };
 REGISTER_ACTION_HANDLER (CAHAddShape, "add_shape");
+
 
 class CAHRemoveShapes : public IActionHandler
 {
