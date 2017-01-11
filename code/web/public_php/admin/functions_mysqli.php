@@ -275,8 +275,9 @@ class sql_db_string extends sql_db
 		$ret = false;
 		if ($connstring != '')
 		{
-			if (preg_match("#^mysqli?://([^:]+)(?::([^@]*))?@([^\\/]+)/([^/]+)[/]?$#", $connstring, $params))
-			{
+			//if (preg_match("#^mysqli?://([^:]+)(?::([^@]*))?@([^\\/]+)/([^/]+)[/]?$#", $connstring, $params))
+			if (ereg("^mysql\:\/\/([^\:]+)\:([^\@]+)\@([^\\]+)\/([^\/]+)[\/]?$", $connstring, $params))
+            {
 				$sqlserver		= $params[3];
 				$sqluser		= $params[1];
 				$sqlpassword	= $params[2];
