@@ -29,9 +29,9 @@ ELSE()
   ADD_DEFINITIONS(-DHAVE_OVQT_CONFIG_H)
 ENDIF()
 
-IF(UNIX AND WITH_STATIC)
-	MESSAGE(FATAL_ERROR "Studio does not work with static NeL builds on Unix atm.")
-ENDIF()
+#IF(UNIX AND WITH_STATIC)
+#	MESSAGE(FATAL_ERROR "Studio does not work with static NeL builds on Unix atm.")
+#ENDIF()
 
 ADD_SUBDIRECTORY(src)
 

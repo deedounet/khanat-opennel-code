@@ -75,7 +75,7 @@ public:
 		CTrackDefaultFloat DefaultUTrans; // u translation
 		CTrackDefaultFloat DefaultVTrans; // v translation
 		CTrackDefaultFloat DefaultUScale; // u scale
-		CTrackDefaultFloat DefaultVScale; // u scale
+		CTrackDefaultFloat DefaultVScale; // v scale
 		CTrackDefaultFloat DefaultWRot; // v scale
 
 
