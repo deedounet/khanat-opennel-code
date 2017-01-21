@@ -366,7 +366,7 @@ for projectName in ProjectsToProcess:
 				subprocess.call([ "python", "0_setup.py", "--excludeprocess" ] + args.excludeprocess)
 			else:
 				subprocess.call([ "python", "0_setup.py" ])
-		except Exception, e:
+		except Exception as e:
 			printLog(log, "<" + projectName + "> " + str(e))
 		os.chdir("..")
 		try:
@@ -374,7 +374,7 @@ for projectName in ProjectsToProcess:
 			projectLogData = projectLog.read()
 			projectLog.close()
 			log.write(projectLogData)
-		except Exception, e:
+		except Exception as e:
 			printLog(log, "<" + projectName + "> " + str(e))
 	else:
 		printLog(log, "IGNORE PROJECT " + projectName)

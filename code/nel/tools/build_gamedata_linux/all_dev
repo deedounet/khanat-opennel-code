@@ -1,0 +1,17 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+echo "Build Pipeline: 1_export.py"
+python 1_export.py
+echo "Build Pipeline: 2_build.py"
+python 2_build.py
+echo "Build Pipeline: 3_install.py"
+python 3_install.py
+echo "Build Pipeline: a1_worldedit_data.py"
+python a1_worldedit_data.py
+echo "Build Pipeline: b1_client_dev.py"
+python b1_client_dev.py
+echo "Build Pipeline: b2_shard_data.py"
+python b2_shard_data.py
+echo "Build Pipeline: Ready!!!"
