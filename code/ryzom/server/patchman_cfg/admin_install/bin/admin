@@ -80,13 +80,13 @@ then
 	cd /srv/core/patchman/
 	if [ $(grep $(hostname) auto_start_domain_list |wc -l) -gt 0 ]
 		then
-		DOMAIN_LIST=$(grep $(hostname) auto_start_domain_list | cut -d\  -f2-)
+		DOMAIN_LIST=$(grep $(hostname) auto_start_domain_list | cut -d\\  -f2-)
 	elif [ $(grep $(hostname -s) auto_start_domain_list |wc -l) -gt 0 ]
 		then
-		DOMAIN_LIST=$(grep $(hostname -s) auto_start_domain_list | cut -d\  -f2-)
+		DOMAIN_LIST=$(grep $(hostname -s) auto_start_domain_list | cut -d\\  -f2-)
 	elif [ $(grep $(hostname -d) auto_start_domain_list |wc -l) -gt 0 ]
 		then
-		DOMAIN_LIST=$(grep $(hostname -d) auto_start_domain_list | cut -d\  -f2-)
+		DOMAIN_LIST=$(grep $(hostname -d) auto_start_domain_list | cut -d\\  -f2-)
 	else
 		echo "There are no domains to be autostarted here"
 		DOMAIN_LIST=none

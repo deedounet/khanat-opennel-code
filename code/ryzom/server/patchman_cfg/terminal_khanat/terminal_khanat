@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/Volumes/SIELA/Khaganat/khaganat/code/build_server/bin/ryzom_patchman_service --nolog -C. -L.

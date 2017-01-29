@@ -1,5 +1,6 @@
 // default values for different sites
 
+khanat localhost
 mini01 ep1.mini01.ryzomcore.local
 std01 ep1.std01.ryzomcore.local
 std01 su1.std01.ryzomcore.local
