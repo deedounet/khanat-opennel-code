@@ -41,6 +41,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         ${_GTK2IncDir}
         /usr/include/gtk-2.0
         /usr/local/include/gtk-2.0
+	/opt/local/include/gtk-2.0
         /opt/include/gtk-2.0
         /opt/gnome/include/gtk-2.0
         /sw/include/gtk-2.0
@@ -63,6 +64,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /opt/gnome/lib64/glib-2.0/include
         /opt/gnome/lib/glib-2.0/include
         /opt/lib/glib-2.0/include
+	/opt/local/lib/glib-2.0/include
         /usr/lib64/glib-2.0/include
         /usr/lib/glib-2.0/include
         /sw/lib/glib-2.0/include
@@ -77,6 +79,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         ${_GLIB2IncDir}
         ${_GMODULE2IncDir}
         /opt/include/glib-2.0
+	/opt/local/include/glib-2.0
         /opt/gnome/include/glib-2.0
         /usr/include/glib-2.0
         /sw/include/glib-2.0
@@ -93,6 +96,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /opt/gnome/lib/gtk-2.0/include
         /opt/gnome/lib64/gtk-2.0/include
         /opt/lib/gtk-2.0/include
+	/opt/local/lib/gtk-2.0/include
         /usr/lib/gtk-2.0/include
         /usr/lib64/gtk-2.0/include
         /sw/lib/gtk-2.0/include
@@ -108,6 +112,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /opt/gnome/lib/gtk-2.0/include
         /opt/gnome/lib64/gtk-2.0/include
         /opt/lib/gtk-2.0/include
+	/opt/local/include/gdk-pixbuf-2.0
         /usr/lib/gtk-2.0/include
         /usr/lib64/gtk-2.0/include
         /sw/lib/gtk-2.0/include
@@ -140,6 +145,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /opt/gnome/include/libglade-2.0
         /usr/include/libglade-2.0
         /opt/include/libglade-2.0
+	/opt/local/include/libglade-2.0
         /sw/include/libglade-2.0
     )
     gtk2_debug_message("GTK2_GLADE_INCLUDE_DIR is ${GTK2_GLADE_INCLUDE_DIR}")
@@ -154,6 +160,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /usr/include/pango-1.0
         /opt/gnome/include/pango-1.0
         /opt/include/pango-1.0
+	/opt/local/include/pango-1.0
         /sw/include/pango-1.0
     )
     gtk2_debug_message("GTK2_PANGO_INCLUDE_DIR is ${GTK2_PANGO_INCLUDE_DIR}")
@@ -170,6 +177,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /usr/include/cairo
         /opt/include
         /opt/include/cairo
+	/opt/local/include/cairo
         /sw/include
         /sw/include/cairo
     )
@@ -185,6 +193,7 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /opt/gnome/include/atk-1.0
         /usr/include/atk-1.0
         /opt/include/atk-1.0
+	/opt/local/include/atk-1.0
         /sw/include/atk-1.0
     )
     gtk2_debug_message("GTK2_ATK_INCLUDE_DIR is ${GTK2_ATK_INCLUDE_DIR}")
@@ -232,6 +241,27 @@ else (GTK2_LIBRARIES AND GTK2_INCLUDE_DIRS)
         /opt/lib
         /sw/lib
     )
+
+    if (NOT GTK2_GDK_PIXBUF_LIBRARY)
+      # May need .dylib on Mac
+      SET(OLD_CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES})
+      SET(CMAKE_FIND_LIBRARY_SUFFIXES .dylib)
+      find_library(GTK2_GDK_PIXBUF_LIBRARY
+        NAMES
+          gdk_pixbuf-2.0.0
+        PATHS
+          ${_GDK2LinkDir}
+          /usr/lib
+          /usr/local/lib
+          /usr/openwin/lib
+          /usr/X11R6/lib
+          /opt/gnome/lib
+          /opt/lib
+          /sw/lib
+      )
+      SET(CMAKE_FIND_LIBRARY_SUFFIXES ${OLD_CMAKE_FIND_LIBRARY_SUFFIXES})
+    endif (NOT GTK2_GDK_PIXBUF_LIBRARY)
+
     gtk2_debug_message("GTK2_GDK_PIXBUF_LIBRARY is ${GTK2_GDK_PIXBUF_LIBRARY}")
 
     find_library(GTK2_GMODULE_LIBRARY

@@ -60,7 +60,7 @@ static GtkWidget *hrootbox = NULL, *scrolled_win2 = NULL;
 // Functions
 //
 
-CGtkDisplayer (const char *displayerName) : CWindowDisplayer(displayerName)
+CGtkDisplayer::CGtkDisplayer (const char *displayerName) : CWindowDisplayer(displayerName)
 {
 	needSlashR = false;
 	createLabel ("@Clear|CLEAR");
