@@ -458,6 +458,8 @@ if not args.noverify:
         findTool(log, ToolDirectories, AiBuildWmapTool, ToolSuffix)
         findTool(log, ToolDirectories, TgaCutTool, ToolSuffix)
         findTool(log, ToolDirectories, PatchGenTool, ToolSuffix)
+        findTool(log, ToolDirectories, LzmaTool, ToolSuffix)
+        findTool(log, ToolDirectories, XDeltaTool, ToolSuffix)
         findTool(log, ToolDirectories, TranslationToolsTool, ToolSuffix)
         findTool(log, ToolDirectories, BuildWorldPackedColTool, ToolSuffix)
         findTool(log, ToolDirectories, R2IslandsTexturesTool, ToolSuffix)

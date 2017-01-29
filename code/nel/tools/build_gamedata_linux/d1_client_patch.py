@@ -65,12 +65,12 @@ if BnpMake == "":
 	toolLogFail(log, BnpMakeTool, ToolSuffix)
 elif PatchGen == "" and not args.bnponly:
 	toolLogFail(log, PatchGenTool, ToolSuffix)
-elif Lzma == "" and not args.bnponly:
-	toolLogFail(log, "LZMA", ToolSuffix)
-elif XDelta == "" and not args.bnponly:
-	toolLogFail(log, "XDELTA", ToolSuffix)
-elif os.path.dirname(Lzma) != os.path.dirname(XDelta):
-	printLog(log, "FAIL lzma.exe and xdelta.exe must be in the same directory")
+#elif Lzma == "" and not args.bnponly:
+#	toolLogFail(log, "LZMA", ToolSuffix)
+#elif XDelta == "" and not args.bnponly:
+#	toolLogFail(log, "XDELTA", ToolSuffix)
+#elif os.path.dirname(Lzma) != os.path.dirname(XDelta):
+#	printLog(log, "FAIL lzma.exe and xdelta.exe must be in the same directory")
 else:
 	mkPath(log, ClientPatchDirectory)
 	if not args.bnponly:
@@ -144,7 +144,7 @@ else:
 		printLog(log, ">>> Update product <<<")
 		cwDir = os.getcwd().replace("\\", "/")
 		toolDir = os.path.dirname(Lzma).replace("\\", "/")
-		os.chdir(toolDir)
+#		os.chdir(toolDir)
 		subprocess.call([ PatchGen, "updateProduct", productXml ])
 		os.chdir(cwDir)
 		printLog(log, "")
