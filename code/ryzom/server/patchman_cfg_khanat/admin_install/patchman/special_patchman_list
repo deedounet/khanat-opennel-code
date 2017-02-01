@@ -1,0 +1,11 @@
+
+// khanat - khanat manager
+
+khanat localhost
+khanat_spm localhost
+khanat_bridge localhost
+
+
+// std01 - std manager
+
+// std01_spm ep1.std01.ryzomcore.local
