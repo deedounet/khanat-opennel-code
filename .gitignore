@@ -162,6 +162,7 @@ build/*
 install/*
 build_vc*
 code/nel/tools/build_gamedata/configuration/buildsite.py
+code/nel/tools/build_gamedata_linux/configuration/buildsite.py
 code/build*
 
 
