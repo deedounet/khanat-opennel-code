@@ -606,7 +606,7 @@ CClientConfig::CClientConfig()
 
 	// DEBUG
 	DisplayMissingAnimFile = false;
-	DefaultEntity = "ccafb1.creature";
+	DefaultEntity = "object_easter_egg01a";
 	RestrainPI = true;
 	DumpVSIndex = false;
 	HelpFontSize  = 12;
