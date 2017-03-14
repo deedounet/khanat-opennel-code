@@ -1,5 +1,7 @@
 FILE(GLOB SRC *.cpp *.h)
 
+add_definitions("-ftemplate-depth=100")
+
 LIST(REMOVE_ITEM SRC
 			${CMAKE_CURRENT_SOURCE_DIR}/ai_entity_id.cpp
 			${CMAKE_CURRENT_SOURCE_DIR}/ai_entity_id.h
