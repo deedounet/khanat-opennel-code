@@ -687,7 +687,7 @@ void release()
 	CIXml::releaseLibXml();
 
 #if FINAL_VERSION
-	// openURL ("http://www.ryzomcore.org/exit/");
+	// openURL ("http://ryzom.com/exit/");
 #endif
 
 }// release //
