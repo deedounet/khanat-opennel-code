@@ -49,6 +49,9 @@
 using namespace std;
 using namespace NLMISC;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
 
 // Default maximum time the request is allowed to take
 #define DEFAULT_RYZOM_CONNECTION_TIMEOUT (300.0)
@@ -494,7 +497,11 @@ namespace NLGUI
 
 						if (res != CURLE_OK)
 						{
-							browseError(string("Connection failed with curl error " + string(curl_easy_strerror(res))).c_str());
+							std::string err;
+							err = "Connection failed with cURL error: ";
+							err += curl_easy_strerror(res);
+							err += "\nURL '" + _CurlWWW->Url + "'";
+							browseError(err.c_str());
 						}
 						else
 						if ((code >= 301 && code <= 303) || code == 307 || code == 308)
@@ -510,7 +517,7 @@ namespace NLGUI
 								// redirect, get the location and try browse again
 								// we cant use curl redirection because 'addHTTPGetParams()' must be called on new destination
 								std::string location(_CurlWWW->getLocationHeader());
-								if (location.size() > 0)
+								if (!location.empty())
 								{
 	#ifdef LOG_DL
 									nlwarning("(%s) request (%d) redirected to (len %d) '%s'", _Id.c_str(), _RedirectsRemaining, location.size(), location.c_str());
@@ -538,7 +545,7 @@ namespace NLGUI
 
 							if ( (code < 200 || code >= 300) )
 							{
-								browseError(string("Connection failed (curl code " + toString((sint32)res) + "), http code " + toString((sint32)code) + ") : " + _CurlWWW->Url).c_str());
+								browseError(string("Connection failed (curl code " + toString((sint32)res) + ")\nhttp code " + toString((sint32)code) + ")\nURL '" + _CurlWWW->Url + "'").c_str());
 							}
 							else
 							{
@@ -585,11 +592,25 @@ namespace NLGUI
 									// second instance deletes first tmpfile and creates new file for itself.
 									if (CFile::getFileSize(tmpfile) > 0)
 									{
-										CFile::moveFile(it->dest, tmpfile);
-										for(uint i = 0; i < it->imgs.size(); i++)
+										try
 										{
-											setImage(it->imgs[i].Image, it->dest);
-											setImageSize(it->imgs[i].Image, it->imgs[i].Style);
+											// verify that image is not corrupted
+											uint32 w, h;
+											CBitmap::loadSize(tmpfile, w, h);
+											if (w != 0 && h != 0)
+											{
+												CFile::moveFile(it->dest, tmpfile);
+												for(uint i = 0; i < it->imgs.size(); i++)
+												{
+													setImage(it->imgs[i].Image, it->dest);
+													setImageSize(it->imgs[i].Image, it->imgs[i].Style);
+												}
+											}
+										}
+										catch(const NLMISC::Exception &e)
+										{
+											// exception message has .tmp file name, so keep it for further analysis
+											nlwarning("Invalid image (%s): %s", it->url.c_str(), e.what());
 										}
 									}
 								}
@@ -612,7 +633,7 @@ namespace NLGUI
 		}
 		RunningCurls = NewRunningCurls;
 	#ifdef LOG_DL
-		if (RunningCurls > 0 || Curls.size() > 0)
+		if (RunningCurls > 0 || !Curls.empty())
 			nlwarning("(%s) RunningCurls %d, _Curls %d", _Id.c_str(), RunningCurls, Curls.size());
 	#endif
 	}
@@ -835,6 +856,7 @@ namespace NLGUI
 		result.R = 255 * hueToRgb(m1, m2, h + 1.0f/3.0f);
 		result.G = 255 * hueToRgb(m1, m2, h);
 		result.B = 255 * hueToRgb(m1, m2, h - 1.0f/3.0f);
+		result.A = 255;
 	}
 
 	class CNameToCol
@@ -1625,7 +1647,7 @@ namespace NLGUI
 
 							// Action handler parameters : "name=group_html_id|form=id_of_the_form|submit_button=button_name"
 							string param = "name=" + getId() + "|form=" + toString (_Forms.size()-1) + "|submit_button=" + name + "|submit_button_type=submit";
-							if (text.size() > 0)
+							if (!text.empty())
 							{
 								// escape AH param separator
 								string tmp = text;
@@ -1961,7 +1983,7 @@ namespace NLGUI
 
 					// Table must fit the container size
 
-					addGroup (table, 0);
+					addHtmlGroup (table, 0);
 
 					_Tables.push_back(table);
 
@@ -2011,7 +2033,6 @@ namespace NLGUI
 								it = styles.find("background-image");
 								if (it != styles.end())
 								{
-									nlinfo("found background-image %s", it->second.c_str());
 									string image = (*it).second;
 									string::size_type texExt = toLower(image).find("url(");
 									// Url image
@@ -2089,10 +2110,10 @@ namespace NLGUI
 						templateName = value[MY_HTML_TEXTAREA_Z_INPUT_TMPL];
 
 					// Get the string name
-					_TextAreaName = "";
+					_TextAreaName.clear();
 					_TextAreaRow = 1;
 					_TextAreaCols = 10;
-					_TextAreaContent = "";
+					_TextAreaContent.clear();
 					_TextAreaMaxLength = 1024;
 					if (present[MY_HTML_TEXTAREA_NAME] && value[MY_HTML_TEXTAREA_NAME])
 						_TextAreaName = value[MY_HTML_TEXTAREA_NAME];
@@ -2112,7 +2133,7 @@ namespace NLGUI
 					if(!_TitlePrefix.empty())
 						_TitleString = _TitlePrefix + " - ";
 					else
-						_TitleString = "";
+						_TitleString.clear();
 					_Title = true;
 				}
 				break;
@@ -2144,10 +2165,10 @@ namespace NLGUI
 				endParagraph();
 				break;
 			case HTML_OBJECT:
-				_ObjectType = "";
-				_ObjectData = "";
-				_ObjectMD5Sum = "";
-				_ObjectAction = "";
+				_ObjectType.clear();
+				_ObjectData.clear();
+				_ObjectMD5Sum.clear();
+				_ObjectAction.clear();
 				if (present[HTML_OBJECT_TYPE] && value[HTML_OBJECT_TYPE])
 					_ObjectType = value[HTML_OBJECT_TYPE];
 				if (present[HTML_OBJECT_DATA] && value[HTML_OBJECT_DATA])
@@ -2369,7 +2390,7 @@ namespace NLGUI
 				{
 					endParagraph();
 				}
-				_DivName = "";
+				_DivName.clear();
 				popIfNotEmpty (_Divs);
 				popIfNotEmpty (_BlockLevelElement);
 				break;
@@ -2444,6 +2465,7 @@ namespace NLGUI
 				}
 				break;
 			case HTML_OPTION:
+				if (!(_Forms.empty()) && !(_Forms.back().Entries.empty()))
 				{
 					// insert the parsed text into the select control
 					CDBGroupComboBox *cb = _Forms.back().Entries.back().ComboBox;
@@ -2613,7 +2635,7 @@ namespace NLGUI
 							{
 								CLuaManager::getInstance().executeLuaScript("\nlocal __ALLREADYDL__=true\n"+_ObjectScript, true);
 							}
-							_ObjectScript = "";
+							_ObjectScript.clear();
 						}
 					}
 					_Object = false;
@@ -2631,7 +2653,7 @@ namespace NLGUI
 		{
 			// we receive an embeded lua script
 			_ParsingLua = _TrustedDomain; // Only parse lua if TrustedDomain
-			_LuaScript = "";
+			_LuaScript.clear();
 		}
 	}
 
@@ -2686,8 +2708,6 @@ namespace NLGUI
 		_LI = false;
 		_SelectOption = false;
 		_GroupListAdaptor = NULL;
-		_DocumentUrl = "";
-		_DocumentDomain = "";
 		_UrlFragment.clear();
 		_RefreshUrl.clear();
 		_NextRefreshTime = 0.0;
@@ -2740,7 +2760,6 @@ namespace NLGUI
 		DefaultCheckBoxBitmapOver =		"checkbox_over.tga";
 		DefaultRadioButtonBitmapNormal = "w_radiobutton.png";
 		DefaultRadioButtonBitmapPushed = "w_radiobutton_pushed.png";
-		DefaultRadioButtonBitmapOver =	"";
 		DefaultBackgroundBitmapView =	"bg";
 		clearContext();
 
@@ -3754,11 +3773,10 @@ namespace NLGUI
 		CGroupParagraph *newParagraph = new CGroupParagraph(CViewBase::TCtorParam());
 		newParagraph->setResizeFromChildH(true);
 
-		newParagraph->setBrowseGroup (this);
 		newParagraph->setIndent(_Indent);
 
 		// Add to the group
-		addGroup (newParagraph, beginSpace);
+		addHtmlGroup (newParagraph, beginSpace);
 		_Paragraph = newParagraph;
 
 		paragraphChange ();
@@ -3805,7 +3823,7 @@ namespace NLGUI
 
 
 		CUrlParser uri(url);
-		if (uri.hash.size() > 0)
+		if (!uri.hash.empty())
 		{
 			// Anchor to scroll after page has loaded
 			_UrlFragment = uri.hash;
@@ -3951,7 +3969,7 @@ namespace NLGUI
 
 	void CGroupHTML::registerAnchor(CInterfaceElement* elm)
 	{
-		if (_AnchorName.size() > 0)
+		if (!_AnchorName.empty())
 		{
 			for(uint32 i=0; i <  _AnchorName.size(); ++i)
 			{
@@ -4108,6 +4126,9 @@ namespace NLGUI
 						if (!newLink->Link.empty())
 						{
 							newLink->setHTMLView (this);
+
+							newLink->setActionOnLeftClick("browse");
+							newLink->setParamsOnLeftClick("name=" + getId() + "|url=" + newLink->Link);
 						}
 					}
 					newLink->setText(tmpStr);
@@ -4176,10 +4197,18 @@ namespace NLGUI
 			if (!reloadImg && lookupLocalFile (finalUrl, image.c_str(), false))
 			{
 				// don't display image that are not power of 2
-				uint32 w, h;
-				CBitmap::loadSize (image, w, h);
-				if (w == 0 || h == 0 || ((!NLMISC::isPowerOf2(w) || !NLMISC::isPowerOf2(h)) && !NL3D::CTextureFile::supportNonPowerOfTwoTextures()))
+				try
+				{
+					uint32 w, h;
+					CBitmap::loadSize (image, w, h);
+					if (w == 0 || h == 0 || ((!NLMISC::isPowerOf2(w) || !NLMISC::isPowerOf2(h)) && !NL3D::CTextureFile::supportNonPowerOfTwoTextures()))
+						image = "web_del.tga";
+				}
+				catch(const NLMISC::Exception &e)
+				{
+					nlwarning(e.what());
 					image = "web_del.tga";
+				}
 			}
 			else
 			{
@@ -4375,10 +4404,18 @@ namespace NLGUI
 				}
 				else
 				{
-					uint32 w, h;
-					CBitmap::loadSize(normal, w, h);
-					if (w == 0 || h == 0)
+					try
+					{
+						uint32 w, h;
+						CBitmap::loadSize(normal, w, h);
+						if (w == 0 || h == 0)
+							normal = "web_del.tga";
+					}
+					catch(const NLMISC::Exception &e)
+					{
+						nlwarning(e.what());
 						normal = "web_del.tga";
+					}
 				}
 			}
 		}
@@ -4544,7 +4581,7 @@ namespace NLGUI
 
 	// ***************************************************************************
 
-	void CGroupHTML::addGroup (CInterfaceGroup *group, uint beginSpace)
+	void CGroupHTML::addHtmlGroup (CInterfaceGroup *group, uint beginSpace)
 	{
 		if (!group)
 			return;
@@ -4624,34 +4661,21 @@ namespace NLGUI
 		result = url;
 		string tmp;
 
-		// folder used for images cache
-		static const string cacheDir = "cache";
-
-		string::size_type protocolPos = toLower(result).find("://");
-
-		if (protocolPos != string::npos)
+		if (toLower(result).find("file:") == 0 && result.size() > 5)
 		{
-			// protocol present, it's an url so file must be searched in cache folder
-			// TODO: case of special characters & and ?
-			result = cacheDir + result.substr(protocolPos+2);
-
-			// if the file is already cached, use it
-			if (CFile::fileExists(result)) tmp = result;
+			result = result.substr(5, result.size()-5);
 		}
-		else
+		else if (result.find("://") != string::npos || result.find("//") == 0)
 		{
-			// Url is a file ?
-			if (toLower(result).find("file:") == 0)
-			{
-				result = result.substr(5, result.size()-5);
-			}
+			// http://, https://, etc or protocol-less url "//domain.com/image.png"
+			return false;
+		}
 
-			tmp = CPath::lookup (CFile::getFilename(result), false, false, false);
-			if (tmp.empty())
-			{
-				// try to find in local directory
-				tmp = CPath::lookup (result, false, false, true);
-			}
+		tmp = CPath::lookup (CFile::getFilename(result), false, false, false);
+		if (tmp.empty())
+		{
+			// try to find in local directory
+			tmp = CPath::lookup (result, false, false, true);
 		}
 
 		if (!tmp.empty())
@@ -5136,7 +5160,7 @@ namespace NLGUI
 	#endif
 
 		// create <html> markup for image downloads
-		if (type.find("image/") == 0 && content.size() > 0)
+		if (type.find("image/") == 0 && !content.empty())
 		{
 			try
 			{
@@ -5198,6 +5222,11 @@ namespace NLGUI
 
 	void CGroupHTML::doBrowseAnchor(const std::string &anchor)
 	{
+		if (_Anchors.count(anchor) == 0)
+		{
+			return;
+		}
+
 		CInterfaceElement *pIE = _Anchors.find(anchor)->second;
 		if (pIE)
 		{
@@ -5824,7 +5853,7 @@ namespace NLGUI
 				if (it->second == "monospace")
 					style.FontFamily = "monospace";
 				else
-					style.FontFamily = "";
+					style.FontFamily.clear();
 			}
 			else
 			if (it->first == "font-weight")

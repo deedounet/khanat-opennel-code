@@ -159,6 +159,9 @@ using namespace NLPACS;
 using namespace NLNET;
 using namespace std;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
 
 
 
@@ -271,6 +274,7 @@ CTimedFXManager::TDebugDisplayMode	ShowTimedFXMode = CTimedFXManager::NoText;
 
 // DEBUG
 bool				PACSBorders = false;
+bool				ARKPACSBorders = false;
 bool				DebugClusters = false;
 CVector				LastDebugClusterCameraThirdPersonStart= CVector::Null;
 CVector				LastDebugClusterCameraThirdPersonEnd= CVector::Null;
@@ -1793,6 +1797,12 @@ bool mainLoop()
 						displayPACSPrimitive();
 					}
 
+					// Display PACS borders only (for ARK).
+					if (ARKPACSBorders)
+					{
+						displayPACSPrimitive();
+					}
+					
 					// display Sound box
 					if (SoundBox)
 					{
@@ -2502,6 +2512,10 @@ bool mainLoop()
 
 			// R2ED enabled ?
 			R2::getEditor().autoConfigInit(IsInRingSession);
+
+//			TODO: temporary commented, CEditor must be initialized before to call next lines
+//			if (!IsInRingSession)
+//				R2::getEditor().registerLuaFunc();
 
 			CurrSeason = computeCurrSeason();
 

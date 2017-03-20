@@ -24,6 +24,10 @@ using namespace std;
 	#define new DEBUG_NEW
 #endif
 
+#ifdef DEBUG_NEW
+	#define new DEBUG_NEW
+#endif
+
 namespace NLMISC {
 
 
@@ -136,7 +140,7 @@ TMsDuration	CStopWatch::getDuration() const
  */
 TMsDuration	CStopWatch::getPartialAverage() const
 {
-	if (_Queue.size() == 0)
+	if (_Queue.empty())
 		return (TMsDuration)0;
 	else
 		return (TMsDuration)(CTime::ticksToSecond( accumulate( _Queue.begin(), _Queue.end(), 0 ) / _Queue.size() ) * 1000.0);

@@ -3139,7 +3139,7 @@ uigcScreenRatioCustom	[Personnalisé]
 // INDEX 784
 uigcttScreenRatio	[L'@{6F6F}Aspect Ratio@{FFFF} de votre moniteur.\n
 	Changez si vous n'avez pas un moniteur standard 4/3.\n
-	NB: ne prenez pas en compte la résolution en pixels (même si vous êtes en fenêtré). Ryzom s'en occupe.]
+	NB : ne prenez pas en compte la résolution en pixels (même si vous êtes en fenêtré). Ryzom s'en occupe.]
 
 // HASH_VALUE 5050241C50D09420
 // INDEX 785
@@ -4667,7 +4667,7 @@ uittOutpostAttackRound	[@{6F6F}Période d'attaque !@{FFFF}\n
 	À chaque round perdu, le @{6F6F}niveau de round@{FFFF} diminuera ainsi que le nombre d'escouades à éliminer.\n
 	]
 
-// HASH_VALUE C3CD3092CDC57722
+// HASH_VALUE 5167E5C13ECAD46A
 // INDEX 1163
 uittOutpostAttackAfterWin	[@{6F6F}Après attaque@{FFFF}\n
 	La guerre continue !\n
@@ -4683,7 +4683,7 @@ uittOutpostAttackAfterLoose	[@{6F6F}Après attaque@{FFFF}\n
 	L'avant-poste sera complètement libéré à la fin de la phase d'attaque.\n
 	]
 
-// HASH_VALUE FE5CECB92CB02670
+// HASH_VALUE 80AE5D25B48D6AF6
 // INDEX 1165
 uittOutpostDefenseBefore	[@{6F6F}Attente défense@{FFFF}\n
 	La guerre continue !\n
@@ -4832,7 +4832,7 @@ uittOutpostDefHourError	[@{6F6F}Horaire de défense@{FFFF}\n
 
 // HASH_VALUE A0B52418EF5A9327
 // INDEX 1195
-uittOutpostDefHourCannotEdit	[Vous ne pouvez modifier la période de défense que si:\n
+uittOutpostDefHourCannotEdit	[Vous ne pouvez modifier la période de défense que si :\n
 	- vous êtes un officier de la guilde qui défend l'avant-poste\n
 	- l'état de l'avant-poste est en @{6F6F}paix@{FFFF}, ou en @{6F6F}déclaration de guerre@{FFFF}\n
 	]
@@ -5016,14 +5016,14 @@ uittOutpostTSquadDuring	[Escouades qui apparaîtront une à une pendant le round
 uiOutpostSquadEditDef	[Vous défendez cet avant-poste.\n
 	Pendant la @{6F6F}période d'attaque@{FFFF}, des escouades vont sortir pour défendre cet avant-poste.\n
 	Dans cette fenêtre, vous pouvez voir les escouades sorties ainsi que changer les escouades qui sortiront.\n
-	Note: Seuls les officiers supérieurs et le chef de guilde peuvent éditer les escouades.]
+	Note : Seuls les officiers supérieurs et le chef de guilde peuvent éditer les escouades.]
 
 // HASH_VALUE C24385362A0BC5BD
 // INDEX 1237
 uiOutpostSquadEditAtt	[Vous attaquez cet avant-poste.\n
 	Pendant la @{6F6F}période de défense@{FFFF}, des escouades vont sortir pour contrer les défenseurs qui essaieront de récupérer cet avant-poste.\n
 	Dans cette fenêtre, vous pouvez voir les escouades sorties ainsi que changer les escouades qui sortiront.\n
-	Note: Seuls les officiers supérieurs et le chef de guilde peuvent éditer les escouades.]
+	Note : Seuls les officiers supérieurs et le chef de guilde peuvent éditer les escouades.]
 
 // HASH_VALUE 3F6F38EC4351C039
 // INDEX 1238
@@ -5058,7 +5058,7 @@ uiOutpostChangeCapital	[Modifier le capital]
 // HASH_VALUE 0B48E9436F6E2255
 // INDEX 1244
 uittPvpOutpostOutOfZone	[Vous participez à une guerre d'avant-poste.\n
-	Vous êtes sortis de la zone, vous serez encore flaggué PVP pour un moment. Si vous faites l'une des actions suivantes, le timer redémarrera:\n
+	Vous êtes sortis de la zone, vous serez encore flaggué PVP pour un moment. Si vous faites l'une des actions suivantes, le chronomètre redémarrera :\n
 	@{T4}- Soigner un allié.\n
 	@{T4}- Attaquer un ennemi.\n
 	@{T4}- Rentrer dans la zone de l'avant-poste.]
@@ -5532,7 +5532,7 @@ uiFocBarDisplay	[Affichage Concentration]
 
 // HASH_VALUE EB5042B44A367EE6
 // INDEX 1360
-uiXpBonusInfo	[Bonus d'expérience:    Lvl@{6F6F}%lvl@{FFFF}    x@{6F6F}%count@{FFFF}]
+uiXpBonusInfo	[Bonus d'expérience :    Lvl@{6F6F}%lvl@{FFFF}    x@{6F6F}%count@{FFFF}]
 
 // HASH_VALUE 2D79EC806D00D1D6
 // INDEX 1361
@@ -6519,62 +6519,62 @@ uiPvPEffect_region_nexus_Bonus	[@{FE7F}Le foyer du Nexus @{FFFF}:\n
 uiPvPEffect_region_nexus_Malus	[@{FE7F}Le foyer du Nexus @{FFFF}:\n
 	  Aucun effet]
 
-// HASH_VALUE AA1DC3C4FD396774
+// HASH_VALUE 1DFA698F6F1CEB87
 // INDEX 1569
 uiHPDesc	[@{6F6F}HP@{FFFF},\n
 	les Points de vie mesurent le montant des dommages qu'un personnage peut supporter avant de mourir.]
 
-// HASH_VALUE 08CF5A4F3BBC8D17
+// HASH_VALUE F5FDD1AB033CC0EE
 // INDEX 1570
 uiStaDesc	[@{6F6F}Endurance@{FFFF},\n
 	utilisée par les actions de combat physique, l'Endurance mesure l'état de fatigue d'un personnage.]
 
-// HASH_VALUE 57516E1B1624B27C
+// HASH_VALUE 2C1FD421622528DA
 // INDEX 1571
 uiSapDesc	[@{6F6F}Sève@{FFFF},\n
 	l'énergie qui permet à un personnage de canaliser des forces magiques.]
 
-// HASH_VALUE 0818382AFDB10CD9
+// HASH_VALUE C633F11DEEB020B7
 // INDEX 1572
 uiFocDesc	[@{6F6F}Concentration@{FFFF},\n
 	mesure la capacité d'un personnage à se focaliser sur une tâche précise.]
 
-// HASH_VALUE C5C5AADDE9B1CB06
+// HASH_VALUE B53F72F05B6AC409
 // INDEX 1573
 uiConsDesc	[@{6F6F}Constitution@{FFFF},\n
 	mesure la résistance physique d'un personnage.]
 
-// HASH_VALUE B4C1EFCDAFE00362
+// HASH_VALUE CACBF78CD4CA1DA6
 // INDEX 1574
 uiIntDesc	[@{6F6F}Intelligence@{FFFF},\n
 	mesure les facultés d'abstraction et la force mentale d'un personnage.]
 
-// HASH_VALUE 2D2E06E01D8CC946
+// HASH_VALUE 53F88E3BCEE9769C
 // INDEX 1575
 uiStrDesc	[@{6F6F}Force@{FFFF},\n
 	mesure la force physique d'un personnage.]
 
-// HASH_VALUE 2CBDF588F00F8902
+// HASH_VALUE 3D7762B2175118D9
 // INDEX 1576
 uiDexDesc	[@{6F6F}Dextérité@{FFFF},\n
 	mesure l'habileté manuelle d'un personnage.]
 
-// HASH_VALUE EE7A5B01A1BEDC58
+// HASH_VALUE D2BB0D83FCD3D9A7
 // INDEX 1577
 uiMetaDesc	[@{6F6F}Métabolisme@{FFFF},\n
 	mesure la rapidité avec laquelle un personnage peut se rétablir de ses blessures.]
 
-// HASH_VALUE 9DF5C8519F10DD99
+// HASH_VALUE 3B7F472AFA19751E
 // INDEX 1578
 uiWisDesc	[@{6F6F}Sagesse@{FFFF},\n
 	détermine le temps de régénération de la sève, l'énergie utilisée pour faire de la magie.]
 
-// HASH_VALUE DFFD9B8BE269FBC5
+// HASH_VALUE F75D672C48475E52
 // INDEX 1579
 uiWBDesc	[@{6F6F}Équilibre@{FFFF},\n
 	permet à un personnage de diminuer le temps nécessaire pour se reposer.]
 
-// HASH_VALUE C9E791CC1DBE5661
+// HASH_VALUE C92E4B6CD924CBB7
 // INDEX 1580
 uiWillDesc	[@{6F6F}Volonté@{FFFF},\n
 	mesure la capacité d'un personnage à maintenir un haut niveau de concentration durant une longue période de temps.]
@@ -6709,7 +6709,7 @@ uiSkillJobLVL	[Niv. : ]
 
 // HASH_VALUE 13B2403C13D33C3E
 // INDEX 1613
-uiStatusTitle	[ÉTAT]
+uiStatusTitle	[État]
 
 // HASH_VALUE 0AF2781B05A2A82D
 // INDEX 1614
@@ -6789,7 +6789,7 @@ uiGuildFameProgress	[Evolution de la renommée de la guilde : ]
 
 // HASH_VALUE 4C90E4244C90E424
 // INDEX 1633
-uiInfo	[INFOS]
+uiInfo	[Infos]
 
 // HASH_VALUE C2E0380A83B0380D
 // INDEX 1634
@@ -6949,7 +6949,7 @@ uimRemove	[SUPPRIMER]
 
 // HASH_VALUE 41002B370C210010
 // INDEX 1673
-uimMoveTo	[DÉPLACER]
+uimMoveTo	[Déplacer]
 
 // HASH_VALUE C81227254C1ED00C
 // INDEX 1674
@@ -8899,7 +8899,7 @@ uimwJewelry	[Bijoux]
 
 // HASH_VALUE 8A40982588C1BC21
 // INDEX 2156
-uimwPA	[ANIMAUX]
+uimwPA	[Animaux]
 
 // HASH_VALUE 8EE3BC39CBA3F82E
 // INDEX 2157
@@ -8919,7 +8919,7 @@ uimwRadar	[Radar]
 
 // HASH_VALUE 0AF2802B07C1BC1F
 // INDEX 2161
-uimwMap	[CARTE]
+uimwMap	[Carte]
 
 // HASH_VALUE 08F0D4144B50E812
 // INDEX 2162
@@ -8963,7 +8963,7 @@ uimwGuildChat	[CHAT DE LA GUILDE]
 
 // HASH_VALUE 88C1902A3A9EEBF8
 // INDEX 2172
-uimwMainChat	[CHAT PRINCIPAL]
+uimwMainChat	[Chat principal]
 
 // HASH_VALUE CF114F418A60E404
 // INDEX 2173
@@ -8983,15 +8983,15 @@ uimwTeamChat	[CHAT DE L'ÉQUIPE]
 
 // HASH_VALUE 4C5054504C505450
 // INDEX 2177
-uimwTeamList	[ÉQUIPE]
+uimwTeamList	[Équipe]
 
 // HASH_VALUE 4742AC133AA37C11
 // INDEX 2178
-uimwContactList	[LISTE DES CONTACTS]
+uimwContactList	[Liste des contacts]
 
 // HASH_VALUE 4450141844501418
 // INDEX 2179
-uimwFame	[RENOMMÉE]
+uimwFame	[Renommée]
 
 // HASH_VALUE 4408943444D05404
 // INDEX 2180
@@ -9127,7 +9127,7 @@ uimRefine	[Améliorer]
 
 // HASH_VALUE 4C90E4244C90E424
 // INDEX 2213
-uimBoldInfo	[INFOS]
+uimBoldInfo	[Infos]
 
 // HASH_VALUE 0F52F02F4CC3C033
 // INDEX 2214
@@ -10062,7 +10062,7 @@ uihelpItemFocusMalus	[@{FFF9}Pénalité Concentration :@{T21}@{F44F}%val\n
 
 // HASH_VALUE F0AA55011CAF7807
 // INDEX 2434
-uihelpMagicProtectFormatHeader	[@{FFF9}@{HuittInfoProt}Protections:@{H}\n
+uihelpMagicProtectFormatHeader	[@{FFF9}@{HuittInfoProt}Protections :@{H}\n
 	]
 
 // HASH_VALUE D94F70517B78674A
@@ -10072,12 +10072,12 @@ uihelpMagicProtectFormat	[@{T4}@{FFF9}%t:@{T18}@{FFFF}+%v%\n
 
 // HASH_VALUE ED2AD1F20B1DE4B3
 // INDEX 2436
-uihelpMagicProtectMaxAbsorbFormat	[@{T4}@{FFF9}Max absorbés:@{T18}@{FFFF}+%v\n
+uihelpMagicProtectMaxAbsorbFormat	[@{T4}@{FFF9}Max absorbés :@{T18}@{FFFF}+%v\n
 	]
 
 // HASH_VALUE FCD4C98932A028D0
 // INDEX 2437
-uihelpMagicResistFormatHeader	[@{FFF9}@{HuittInfoResist}Résistances:@{H}\n
+uihelpMagicResistFormatHeader	[@{FFF9}@{HuittInfoResist}Résistances :@{H}\n
 	]
 
 // HASH_VALUE D94F7047B478674A
@@ -10482,7 +10482,7 @@ uihelpItemChargeSpell	[@{FFF9}Charge en Sève :@{T12}@{FFFF}%quality\n
 
 // HELP - ITEM - animals
 // **************
-// HASH_VALUE E83415184D022FA7
+// HASH_VALUE 88359CF16D5CFDBD
 // INDEX 2496
 uihelpItemAnimal	[Cet objet représente\n
 	votre animal n°#%petnumber.\n
@@ -10698,7 +10698,7 @@ uihelpPhraseCrystalSpellFormat	[@{FFFF}--- Enchantement ---\n
 	@{FFF9}Portée :@{T12}@{FFFF}%range\n
 	]
 
-// HASH_VALUE 9719881D178D7D81
+// HASH_VALUE D143C452681C513F
 // INDEX 2525
 uihelpPhraseRequirementHeader	[\n
 	@{FFFF}--- Prérequis---\n
@@ -12034,11 +12034,11 @@ uiBotChatPrice	[Prix : ]
 
 // HASH_VALUE DEB2060E5EB9C0A1
 // INDEX 2844
-uiBotChatFactionType	[Faction: ]
+uiBotChatFactionType	[Faction : ]
 
 // HASH_VALUE C7D186455AC47621
 // INDEX 2845
-uiBotChatFactionPointPrice	[. Points: ]
+uiBotChatFactionPointPrice	[. Points : ]
 
 // HASH_VALUE 6698829CC29474AE
 // INDEX 2846
@@ -12046,7 +12046,7 @@ uiBotChatRetirePrice	[. Prix de rachat : ]
 
 // HASH_VALUE 681400B8208C54B4
 // INDEX 2847
-uiBotChatTime	[. Temps: ]
+uiBotChatTime	[. Temps : ]
 
 // HASH_VALUE 73DC6ACDC6DC351A
 // INDEX 2848
@@ -12326,7 +12326,7 @@ uiNoGuild	[Aucun]
 
 // HASH_VALUE 8A40982588C1BC21
 // INDEX 2917
-uiBeast	[ANIMAUX]
+uiBeast	[Animaux]
 
 // HASH_VALUE ADE9908C2828DC8C
 // INDEX 2918
@@ -20044,7 +20044,7 @@ uiAppear_Infos5	[Infos aspect - actions]
 // INDEX 4834
 uiWebOnQuit	[Répondre au questionnaire]
 
-// HASH_VALUE E1C9F277D15BECEE
+// HASH_VALUE 8835A1BEF5B44A40
 // INDEX 4835
 uiAppear_Infos_Fyros	[LA CIVILISATION FYROS\n
 	\n
@@ -20128,7 +20128,7 @@ uiAppear_Infos_Fyros	[LA CIVILISATION FYROS\n
 	Que puis-je attendre d'Atys, notre monde ?\n
 	Atys abonde de matières premières, jeune homin, tant que tu respectes l'environnement tu pourras tirer profit des bienfaits en son sein. Lorsque tu te seras familiarisé avec le monde, tu apprendras à apprivoiser les étendues sauvages et à conquérir de nouvelles terres.]
 
-// HASH_VALUE 4DD020F174DAF28F
+// HASH_VALUE C49E1C470D78B970
 // INDEX 4836
 uiAppear_Infos_Matis	[LA CIVILISATION MATIS\n
 	\n
@@ -20283,7 +20283,7 @@ uiAppear_Infos_Tryker	[LA CIVILISATION TRYKER\n
 	Que puis-je attendre d'Atys, notre monde ?\n
 	Atys est une source de richesses naturelles, jeune homin. Tu apprendras en temps voulu comment en tirer profit. Lorsque tu te seras familiarisé avec le monde, tu apprendras comment s'organisent les terres et tu pourras alors découvrir de nouveaux lieux.]
 
-// HASH_VALUE 89DF5206BCA0DF71
+// HASH_VALUE 3C0E7C72556007F0
 // INDEX 4838
 uiAppear_Infos_Zorai	[LA CIVILISATION ZORAÏ\n
 	\n
@@ -20886,11 +20886,11 @@ uiDesktopNotIn32	[Pour exécuter Ryzom en mode fenêtre, le bureau doit être co
 
 // HASH_VALUE 6694E8FCD8E528A4
 // INDEX 4969
-uiPhraseLevelFmt	[Niveau Requis: %d]
+uiPhraseLevelFmt	[Niveau Requis : %d]
 
 // HASH_VALUE A1A9B419D995D468
 // INDEX 4970
-uiPhraseSectionFmt	[Niveau Requis %min-%max:]
+uiPhraseSectionFmt	[Niveau Requis %min-%max :]
 
 // HASH_VALUE EA668B7899D6738D
 // INDEX 4971
@@ -21289,53 +21289,53 @@ uiEulaAccept	[J'ACCEPTE]
 // INDEX 5069
 uiEulaDecline	[JE REFUSE]
 
-// HASH_VALUE 7F1832C442FC5ED9
+// HASH_VALUE 540891315EF2921F
 // INDEX 5070
 uiEulaContent	[LICENCE RYZOM\n
 	\n
-	AVIS À L'UTILISATEUR : CE DOCUMENT EST UN CONTRAT. AVANT DE CLIQUER SUR LE BOUTON « J'ACCEPTE » CI-DESSOUS ET D'ACHEVER LA PROCÉDURE D'INSTALLATION OU D'ENREGISTREMENT, VEUILLEZ LE LIRE ATTENTIVEMENT. EN CLIQUANT SUR LE BOUTON « J'ACCEPTE », VOUS ACCEPTEZ LES TERMES DU PRÉSENT CONTRAT ET LES OBLIGATIONS QU'IL CONTIENT. SI VOUS NE SOUHAITEZ PAS DEVENIR PARTIE AU PRÉSENT CONTRAT OU ÊTRE LIÉ PAR L'ENSEMBLE DE SES STIPULATIONS, CLIQUEZ SUR LE BOUTON « ANNULER » ET VEUILLEZ NE PAS INSTALLER (OU VEUILLEZ DÉSINSTALLER, SELON LE CAS) LE LOGICIEL, ET NE PAS L'UTILISER. SI VOUS CLIQUEZ SUR LE BOUTON « ANNULER », ET SI VOUS ÊTES L'ACHETEUR D'ORIGINE DU JEU SUR CD-ROM, NOUS VOUS CONSEILLONS DE CONTACTER LE DETAILLANT QUI VOUS A VENDU LE JEU POUR OBTENIR UN REMBOURSEMENT, CONFORMÉMENT À SA POLITIQUE DE RETOURS. EN AUCUN CAS VOUS NE POURREZ OBTENIR UN REMBOURSEMENT DE L'ABONNEMENT ÉVENTUELLEMENT PAYÉ OU INCLUS DANS LE PRIX DE VENTE DU CD-ROM SI VOUS CLIQUEZ SUR LE BOUTON « ANNULER ». En cas de difficultés relatives à la présente Licence, veuillez contacter le service clients Ryzom à l'adresse suivante support@ryzom.com\n
+	AVIS À L'UTILISATEUR : CE DOCUMENT EST UN CONTRAT. AVANT DE CLIQUER SUR LE BOUTON « J'ACCEPTE » CI-DESSOUS ET D'ACHEVER LA PROCÉDURE D'INSTALLATION OU D'ENREGISTREMENT, VEUILLEZ LE LIRE ATTENTIVEMENT. EN CLIQUANT SUR LE BOUTON « J'ACCEPTE », VOUS ACCEPTEZ LES TERMES DU PRÉSENT CONTRAT ET LES OBLIGATIONS QU'IL CONTIENT. SI VOUS NE SOUHAITEZ PAS DEVENIR PARTIE AU PRÉSENT CONTRAT OU ÊTRE LIÉ PAR L'ENSEMBLE DE SES STIPULATIONS, CLIQUEZ SUR LE BOUTON « JE REFUSE » ET VEUILLEZ NE PAS INSTALLER (OU VEUILLEZ DÉSINSTALLER, SELON LE CAS) LE LOGICIEL, ET NE PAS L'UTILISER. En cas de difficultés relatives à la présente Licence, veuillez contacter le service clients Ryzom à l'adresse suivante support@ryzom.com\n
 	\n
-	1. OBJET. La présente Licence Ryzom (ci-après le « Contrat ») constitue un contrat entre vous et Winch Gate Property Limited (ci-après « Winch Gate » ou « nous »). Il a pour objet de définir les conditions auxquelles Winch Gate concède à l'utilisateur autorisé (tel que défini à l'article 2 ci-après) les services suivants relatifs au jeu massivement multijoueur en ligne Ryzom (ci-après « Ryzom » ou le « Jeu » ou « Ryzom Ring » ), consistant dans l'ouverture et le maintien d'un compte permettant, par l'intermédiaire de l'Internet, de jouer au Jeu, et dans la concession d'une licence d'utilisation du Jeu.\n
+	1. OBJET DU CONTRAT. La présente Licence Ryzom (ci-après le « Contrat ») constitue un contrat entre vous et Winch Gate Property Limited (ci-après « Winch Gate » ou « nous »). Il a pour objet de définir les conditions auxquelles Winch Gate concède à l'utilisateur autorisé (tel que défini à l'article 2 ci-après) les services suivants relatifs au jeu massivement multijoueur en ligne Ryzom (ci-après « Ryzom » ou le « Jeu » ou « Ryzom Arkitect » ), consistant dans l'ouverture et le maintien d'un compte permettant, par l'intermédiaire de l'Internet, de jouer au Jeu, et d'utiliser notre outil en jeu Ryzom Arkitect pour créer du contenu interne au jeu.\n
 	\n
-	2. UTILISATEURS AUTORISÉS. Seules les personnes physiques d'âge adulte peuvent ouvrir un compte leur permettant de jouer à Ryzom, pour leur propre usage ou pour celui de l'un de leurs enfants mineurs. Si vous êtes mineur, vos parents doivent s'inscrire eux-mêmes et accepter le présent Contrat. Aux fins du présent Contrat, un « mineur » est une personne qui n'a pas atteint l'âge de la majorité légale dans le pays où elle réside. Les seuls utilisateurs autorisés à jouer à Ryzom sont les utilisateurs qui (a) ont acheté ou autrement obtenu de manière légitime le CD-Rom original du Jeu (ci-après le « CD-Rom »), (b) sont titulaires d'un compte d'accès et d'un abonnement en cours, et (c) disposent d'une connexion à Internet. Les utilisateurs autorisés sont ci-après dénommés les « Utilisateurs ».\n
+	2. UTILISATEURS AUTORISÉS. Seuls, les personnes physiques ayant atteint leur majorité sont autorisées à ouvrir un compte, pour leur utilisation personnelle ou pour celle de leurs enfants mineurs, leur permettant de jouer à Ryzom. Si vous êtes mineur, alors, vos parents doivent souscrire et accepter les termes de ce contrat. Pour l'objet de ce contrat, une personne mineure est une personne n'ayant pas atteint l'âge de la majorité légale dans son pays de résidence. De plus, les seuls utilisateurs autorisés à jouer à Ryzom sont ceux qui un compte gratuit ou payant en cours de validité. Il sera fait référence aux utilisateurs autorisés en tant qu"Utilisateurs" dans la suite de ce document.\n
 	\n
-	3. ENREGISTREMENT ET OUVERTURE D'UN COMPTE. Le présent Contrat vous permet de créer, par la procédure d'enregistrement qui vous est proposée, un (1) compte permettant de jouer à Ryzom et/ou Ryzom Ring par l'intermédiaire de l'Internet. La connexion à l'Internet n'est pas fournie par Winch Gate, et l'Utilisateur est seul responsable du paiement de tous frais permettant d'obtenir, de maintenir et d'utiliser cette connexion. L'enregistrement nécessite la communication d'informations à Winch Gate, notamment relatives à votre identité et au moyen de paiement utilisé. Vous garantissez que l'ensemble des informations que vous serez amené à fournir au cours de la procédure d'enregistrement sont exactes et véridiques, et vous vous engagez à informer Winch Gate de tout changement relatif à ces informations en utilisant les moyens de mise à jour qui vous sont offerts dans le cadre de l'utilisation de votre compte.\n
+	3. INSCRIPTION ET OUVERTURE D'UN COMPTE. Ce contrat vous permet d'utiliser la procédure mise en place ppour enregistrer les détails afin de configurer un(1) compte qui vous permettra de jouer à Ryzom et/ou à Ryzom Arkitect sur internet. La connexion internet n'est pas fournie par Winch Gate, et l'utilisateur est complètement responsable du paiement de toutes les charges lui permettant d'obtenir, conserver et utiliser la connexion. L'inscription nécessite que vous envoyiez des informations à Winch Gate, parmi lesquelles des informations sur votre identité et le moyen de paiement utilisé. Vous garantissez que toutes les informations que vous fournissez au cours de votre procédure d'inscription est vrai, et vous vous engagez à informer Winch Gate de tous les changements de cette information, en utilisant la fonction de mise à jour fournie en tant que part de votre compte.\n
 	\n
 	4. CARACTÈRE PERSONNEL DU COMPTE. L'utilisation du compte est strictement personnelle. Le compte ne doit pas être partagé ou autrement concédé à un tiers, gratuitement ou non, même temporairement, ni faire l'objet d'une opération, gratuite ou non, étrangère à l'utilisation normale du Jeu. L'Utilisateur est pleinement responsable de l'utilisation de son compte d'accès ou de l'utilisation faite de son compte par son enfant mineur ou tout tiers qui y aurait accès.\n
 	\n
-	5. IDENTIFIANT ET MOT DE PASSE. Pour obtenir un compte, vous devrez choisir un identifiant de connexion et un mot de passe, qui vous permettront par la suite d'accéder à ce compte. Cet identifiant et ce mot de passe sont strictement personnels et ne peuvent être utilisés par un tiers. De même, vous ne pouvez utiliser vous-même l'identifiant et le mot de passe d'un autre joueur. Vous êtes pleinement responsable du choix de vos identifiant et mot de passe, du maintien de leur confidentialité, et de l'usage qui pourrait en être fait par un tiers. Winch Gate décline toute responsabilité pour tout dommage causé à votre compte par l'utilisation non autorisée de votre identifiant ou mot de passe. En cas de perte l'attribution d'un nouvel identifiant ou d'un nouveau mot de passe pourra être facturée.\n
+	5. IDENTIFIANT ET MOT DE PASSE. Pour obtenir un compte, vous devrez choisir un identifiant de connexion et un mot de passe, qui vous permettront par la suite d'accéder à ce compte. Cet identifiant et ce mot de passe sont strictement personnels et ne peuvent être utilisés par un tiers. De même, vous ne pouvez utiliser vous-même l'identifiant et le mot de passe d'un autre joueur. Vous êtes pleinement responsable du choix de vos identifiant et mot de passe, du maintien de leur confidentialité, et de l'usage qui pourrait en être fait par un tiers. Winch Gate décline toute responsabilité pour tout dommage causé à votre compte par l'utilisation non autorisée de votre identifiant ou mot de passe.\n
 	\n
-	6. ABONNEMENT ET FACTURATION. Les tarifs d'abonnement en vigueur sont indiqués sur le site www.ryzom.com et lors de la procédure d'enregistrement. Ces tarifs pourront être modifiés à tout moment par Winch Gate, sous réserve d'en informer au préalable l'Utilisateur par une notice sur le site Internet de Winch Gate à l'adresse www.ryzom.com, ou lors de la connexion de l'Utilisateur à son compte ou par un courriel adressé à ce dernier. La modification du tarif applicable ne prendra effet qu'à compter du prochain renouvellement de la période d'abonnement. Les prix d'abonnement sont indiqués en euros dans les pays de la zone euro, en livre sterling au Royaume-Uni et en dollars pour les États Unis. Le tarif correspond à une durée d'abonnement précise (1 mois, 3 mois, 6 mois,...). L'abonnement est renouvelé tacitement par périodes identiques, sauf résiliation de l'Utilisateur adressée à Winch Gate dans les conditions décrites à l'article 18 ci-après. Le paiement de l'abonnement permet à l'Utilisateur d'accéder à Ryzom de manière illimitée pendant la période d'abonnement et ses éventuels renouvellements. Ce paiement n'inclut pas le prix d'achat de Ryzom sur CD-Rom et les coûts associés à la connexion à Internet nécessaire pour souscrire l'abonnement et jouer à Ryzom. Sauf opération commerciale particulière, le premier mois d'abonnement est inclus dans le prix d'achat du CD-Rom de Ryzom vendu dans le commerce. L'abonnement et ses renouvellements éventuels sont payés d'avance et ne sont pas remboursables. L'abonnement est payé par carte bancaire ou par tout autre moyen accepté par Winch Gate, selon les procédures indiquées sur le site de Winch Gate. Le prix de l'abonnement sera prélevé automatiquement sur votre carte bancaire lors de l'abonnement initial (s'il n'est pas compris dans le prix de vente d'un CD-Rom de Ryzom) ou à la date de chaque renouvellement. Winch Gate se réserve le droit de fermer immédiatement le compte d'un Utilisateur en cas d'impossibilité de traiter sa carte bancaire ou son moyen de paiement accepté à une date de renouvellement.\n
+	6. ABONNEMENT ET FACTURATION. Les tarifs d'abonnement actuels sont affichés sur le site web à l'adresse http://ryzom.com/?page=page_why_pay et à nouveau lors de la procédure d'inscription. Ces tarifs peuvent être changés par Winch Gate à tout moment, sous réserve de prévenir l'Utilisateur avant, soit sur la page http://ryzom.com/?page=page_why_pay, lors de la connexion de l'Utilisateur à son compte, ou par le biais d'un email à l'adresse de l'Utilisateur. Les modifications de tarifs ne prendront effet que lors du prochain renouvellement de l'abonnement. Les tarifs d'abonnement sont exprimés en EUROS dans les pays de la zone Euro, en Livres Sterling dans le Royaume-Uni et en US Dollars pour les États-Unis d'Amérique. Le tarif est indiqué pour une période d'abonnement exacte (1 mois, 3 mois, 6 mois, 1 an). Les abonnements peuvent être, selon le paiement utilisé, soit renouvelés tacitement par périodes identiques, sauf résiliation de l'Utilisateur adressée à Winch Gate comme prévu à l'article 18 ci-dessous, soit renouvelés manuellement par l'Utilisateur. Lorsque le paiement doit être renouvelé par l'Utilisateur, ce dernier est responsable du renouvellement de sa souscription avant l'échéance, sinon Winch Gate se réserve le droit de fermer immédiatement le compte. Le paiement des frais de souscription permet à l'Utilisateur d'accéder à Ryzom sans limite durant la durée de la souscription et de tout prolongement par renouvellement. Ce paiement ne couvre pas les coûts associés à la connexion internet nécessaire pour utiliser la souscription et jouer à Ryzom . Les frais de souscription et de tout renouvellement sont payés en avance et non remboursables. La souscription peut être payée par carte de crédit ou de débit, ou tout autre moyen accepté par Winch Gate, en accord avec la procédure affichée sur le site de Ryzom. Les frais de souscription seront automatiquement prélevés sur votre carte de crédit ou de débit à la date de votre souscription et à celle de chaque renouvellement. Winch Gate se réserve le droit de fermer immédiatement un compte Utilisateur, à n'importe quelle date de renouvellement, s'il prouve qu'il est impossible de prélever les fonds de manière sécurisée de la carte de crédit ou de débit, ou des autres moyens de paiements agréés.\n
 	\n
-	7. SÉCURISATION DES PAIEMENTS. La sécurisation des paiements par carte bancaire est assurée par le système de paiement fourni par la société Wordpay (http://www.worldpay.com/), prestataire spécialisé dans la sécurisation des paiements en ligne. Les informations relatives à votre carte bancaire (nom, type de carte, numéro et date d'expiration) sont transmises cryptées sous protocole SSL directement au serveur de la société Wordpay, qui valide le paiement auprès des Institutions Bancaires. Les informations bancaires fournies seront utilisées à seule fin de procéder au traitement et à la facturation de votre paiement.\n
+	7. SÉCURITÉ DU PAIEMENT. La sécurité du paiement par carte de crédit ou de débit est assurée par l'utilisation de différentes compagnies de systèmes de paiements externes, telles que WorldPay (www.worldpay.com) et PayPal(www.paypal.com), toutes deux fournisseurs spécialisés de transaction de paiement sécurisées en ligne, tout comme en utilisant le système de paiement du portail de Steam (http://store.steampowered.com). Vos données de cartes de crédit ou de débit (nom, type de cartes, numéro et date d'expiration) sont directement chiffrées par les différents serveurs de systèmes de paiement en utilisant le protocole SSL. Les détails bancaires fournis par le souscripteur seront utilisés seulement pour le traitement et la facturation de ses paiements.\n
 	\n
-	8. LICENCE D'UTILISATION DE RYZOM. Le présent Contrat concède à l'Utilisateur un droit limité, non exclusif et révocable d'accéder, au travers d'un compte valide, au serveur du Jeu pour utiliser le Jeu conformément à sa destination et aux conditions des présentes, à l'exclusion de tout autre droit. Le présent Contrat vous autorise à installer et à utiliser une copie du Logiciel présent sur le CD-Rom sur un (1) seul ordinateur. Le Logiciel est « utilisé » sur un ordinateur lorsqu'il est chargé dans la mémoire temporaire (mémoire RAM) ou installé dans la mémoire permanente (par exemple, disque dur, CD-Rom ou autre unité de mémoire). Le logiciel ne peut être partagé ou utilisé concurremment sur différents ordinateurs. En cas d'installation sur un réseau, vous devez obtenir une licence pour chaque ordinateur sur lequel le Jeu est utilisé. Vous pouvez effectuer une (1) copie de sauvegarde ou d'archivage uniquement du CD-Rom, à l'exclusion de toute autre copie, de tout ou partie du CD-Rom ou du Jeu. Sous réserve des restrictions stipulées au présent Contrat, Winch Gate accorde à l'Utilisateur une licence non-exclusive et révocable d'utiliser le Jeu uniquement dans le but de jouer à Ryzom et/ou Ryzom Ring dans des conditions légitimes par l'intermédiaire d'un compte autorisé et entièrement payé ou dans le cadre d'une période d'essai valide. Toutes les autres utilisations du compte ou du Jeu sont interdites. En particulier, vous ne pouvez en aucun cas procéder à l'ingénierie inverse, décompiler ou désassembler le ou les logiciels constituant le Jeu. Vous ne pouvez non plus transférer tout ou partie du Jeu à un tiers. Vous ne pouvez louer, prêter ou vendre le Jeu. Tous les droits qui ne sont pas expressément accordés à l'Utilisateur par le présent Contrat sont réservés à Winch Gate.\n
+	8. LICENCE D'UTILISATION DE RYZOM. Le présent Contrat concède à l'Utilisateur un droit limité, non exclusif et révocable d'accéder, au travers d'un compte valide, au serveur du Jeu pour utiliser le Jeu conformément à sa destination et aux conditions des présentes, à l'exclusion de tout autre droit. Le présent Contrat vous autorise à installer et à utiliser une copie gratuite du Logiciel. Sous réserve des restrictions stipulées au présent Contrat, Winch Gate accorde à l'Utilisateur une licence non-exclusive et révocable d'utiliser le Jeu uniquement dans le but de jouer à Ryzom et/ou d'utiliser les outils de Ryzom Arkitect dans des conditions légitimes par l'intermédiaire d'un compte autorisé gratuit ou entièrement payé. Toutes les autres utilisations du compte ou du Jeu sont interdites. En particulier, vous ne pouvez en aucun cas procéder à l'ingénierie inverse, décompiler ou désassembler le ou les logiciels constituant le Jeu. Vous ne pouvez non plus transférer tout ou partie du Jeu à un tiers. Vous ne pouvez louer, prêter ou vendre le Jeu. Tous les droits qui ne sont pas expressément accordés à l'Utilisateur par le présent Contrat sont réservés à Winch Gate.\n
 	\n
-	9. LICENCE GNU/GPL. Certaines sources du logiciel client de Ryzom (partie du logiciel située sur l'ordinateur de l'Utilisateur) ont été publiées par Winch Gate sous une Licence spécifique « GNU General Public License », dont le texte est accessible à l'adresse suivante : http://www.gnu.org/licenses/gpl-2.0.html. Leur utilisation est soumise aux termes de cette licence. Les sources concernées sont identifiées sur le site de Winch Gate à l'adresse dev.ryzom.com.\n
+	9. LICENCE GNU AGPL. Le code source du logiciel client de Ryzom (partie du logiciel sur l'ordinateur de l'utilisateur) a été publié par Winch Gate sous la licence spécifique « GNU Affero General Public License », dont le texte est accessible à cette URL : https://www.gnu.org/licenses/agpl-3.0.fr.html. Son utilisation est soumise aux termes de cette licence. Il peut être téléchargé sur : https://bitbucket.org/ryzom/ryzomcore/.\n
 	\n
-	10. VERSIONS ULTÉRIEURES – AMÉLIORATIONS. Ni ce Contrat ni votre compte ne vous donnent droit à une quelconque version ultérieure ou extension de Ryzom et/ou Ryzom Ring. Si Winch Gate peut mettre à jour ou améliorer le Jeu, Winch Gate n'a aucune obligation de vous fournir cette mise à jour ou amélioration. La fourniture gratuite par Winch Gate d'une mise à jour ou d'une amélioration ne vous donne aucun droit sur des mises à jour ou améliorations ultérieures.\n
+	10. VERSION ULTÉRIEURE ET AMÉLIORATIONS. Ni ce contrat ni votre compte ne vous donne le droit à une version ultérieure ou une extension de Ryzom et/ou des outils Ryzom Arkitect. Wich Gate peut mettre àà jour et améliorer le Jeu, mais sans obligation de vous fournir cette mise à jour ou cette amélioration. La fourniture par Winch Gate d'un mise à jour ou amélioration gratuite ne vous donne aucun droit à une mise à jour ou amélioration ultérieure.\n
 	\n
-	11. PROPRIÉTÉ DU JEU ET DE SES ÉLÉMENTS. Winch Gate est propriétaire exclusif de Ryzom et/ou Ryzom Ring, de l'ensemble des éléments propriétaires destinés à le faire fonctionner, et de l'ensemble des droits de propriété intellectuelle relatifs à ces éléments. Vous reconnaissez que Ryzom et son contenu sont protégés par copyright et par d'autres droits de propriété intellectuelle détenus par Winch Gate ou ses fournisseurs, et que vous ne bénéficiez d'aucun droit au delà des droits limités de licence qui vous sont expressément concédés aux termes de l'article 7 des présentes. Winch Gate est également propriétaire exclusif du compte de l'Utilisateur et des éléments créés ou utilisés par l'Utilisateur au travers de son compte, comprenant notamment les personnages, leur apparence, leurs caractéristiques, leur histoire, les objets créés ou fabriqués, les guildes, groupes et titres. L'Utilisateur concède également à Winch Gate le droit d'utiliser l'information transmise au serveur au moyen du compte (à l'exception des données personnelles et des messages adressés aux autres Utilisateurs) comme bon lui semble, y compris pour un usage commercial.\n
+	11. PROPRIÉTÉ DU JEU ET DE SES ÉLÉMENTS. Winch Gate est le seul propriétaire de Ryzom et des outils Ryzom Arkitect, de tous les éléments propriétaires créés pour le faire fonctionner, et de tous les droits de propriété intellectuelle concernant ces éléments. Vous reconnaissez que Ryzom et son contenu sont protégés par le copyright et les autres droits de propriété intellectuelle détenus par Winch Gate ou ses fournisseurs, et que vous n'avez aucun droits au delà de la licence limitée qui vous est expressément accordée à l'article 7 du présent contrat. Winch Gate est également le seul propriétaire du compte de l'Utilisateur et de tout élément, objet, concept ou contenu créé par l'Utilisateur en utilisant ce compte, y compris, mais pas seulement, les personnages, leur apparence, leurs caractéristiques, leur histoire, les objets créés ou manufacturés, les guildes, groupes et titres, et n'importe quel élément, objet, concept ou contenu créé en utilisant les outil Ryzom Arkitect. L'Utilisateur donne également à Winch Gate les pleins droits de propriété afin d'utiliser les informations envoyées au serveur en utilisant le compte et de tout élément, objet, concept, ou contenu créé en utilisant les outils Ryzom Arkitect (à l'expression des données personnelles et des messages adressés aux autres Utilisateurs) comme il l'entend, incluant une exploitation commerciale.\n
 	\n
-	12. INFORMATIONS ET DONNÉES TRANSMISES PAR L'UTILISATEUR. Les informations et données communiquées ou transmises par l'Utilisateur dans le cadre de l'utilisation de Ryzom ne doivent pas (a) violer les droits de tiers, y compris leurs droits de propriété intellectuelle, leur droit à l'image et leur droit à la vie privée; (b) violer une loi ou une réglementation quelconque; (c) contenir des propos diffamatoires, indécents, obscènes ou autrement préjudiciables aux mineurs; et (d) contenir des virus, chevaux de Troie, codes invalidants, vers, bombes logiques, ou autres instructions, programmes ou sous-programmes d'ordinateur destinés à causer ou qui causent des dommages aux données ou des interventions non autorisées sur les logiciels ou les serveurs de Ryzom et/ou Ryzom Ring. Nous pourrons prendre toute mesure en urgence sur votre compte (y compris la suspension ou l'annulation de celui-ci) si nous pensons (à notre seule discrétion) que cette utilisation contrevient aux interdictions ci-dessus.\n
+	12. INFORMATIONS ET DONNÉES TRANSMISES PAR L'UTILISATEUR. Les informations et données communiquées ou transmises par l'Utilisateur dans le cadre de l'utilisation de Ryzom ne doivent pas (a) violer les droits de tiers, y compris leurs droits de propriété intellectuelle, leur droit à l'image et leur droit à la vie privée; (b) violer une loi ou une réglementation quelconque; (c) contenir des propos diffamatoires, indécents, obscènes ou autrement préjudiciables aux mineurs; et (d) contenir des virus, chevaux de Troie, codes invalidants, vers, bombes logiques, ou autres instructions, programmes ou sous-programmes d'ordinateur destinés à causer ou qui causent des dommages aux données ou des interventions non autorisées sur les logiciels ou les serveurs de Ryzom et/ou les outils Ryzom Arkitect. Nous pourrons prendre toute mesure en urgence sur votre compte (ycompris la suspension ou l'annulation de celui-ci) si nous pensons (à notre seule discrétion) que cette utilisation contrevient aux interdictions ci-dessus.\n
 	\n
-	13. RÈGLES DE CONDUITE. Vous reconnaissez que le bon fonctionnement et le succès d'un Jeu de rôle en ligne comme Ryzom et/ou Ryzom Ring résultent d'un équilibre délicat que Winch Gate se doit de préserver. En conséquence, il est strictement interdit à l'Utilisateur : (a) d'utiliser un logiciel ou une méthode quelconque pour modifier le contenu ou les fonctionnalités du Jeu ; (b) de provoquer une surcharge du serveur ; (c) d'utiliser tout procédé facilitant la saisie de toute instruction à une cadence accélérée en comparaison avec le déroulement ordinaire de Jeu ; (d) de modifier l'interface utilisateur ou tout autre élément pour obtenir des objets, points d'expérience, devises, attributs de caractère, rangs, etc., ne résultant pas d'une utilisation normale du Jeu ; (e) d'acheter, de vendre ou de transférer des personnages ou des attributs de personnages du Jeu. En outre, l'Utilisateur doit à tout moment respecter le Code de conduite, les Politiques de Courtoisie et la Charte de nommage de Ryzom présents sur son site à l'adresse www.ryzom.com, dont le contenu est incorporé aux présentes par référence. Nous pourrons prendre toute mesure en urgence sur votre compte (y compris la suspension ou l'annulation de celui-ci) si nous pensons (à notre seule discrétion) que cette utilisation contrevient aux interdictions ci-dessus.\n
+	13. RÈGLES DE CONDUITE. Vous reconnaissez que le bon fonctionnement et le succès d'un Jeu de rôle en ligne comme Ryzom et/ou Ryzom Arkitect résulte d'un équilibre délicat que Winch Gate se doit de préserver. En conséquence, il est strictement interdit à l'Utilisateur : (a) d'utiliser un logiciel ou une méthode quelconque pour modifier le contenu ou les fonctionnalités du Jeu ; (b) de provoquer une surcharge du serveur ; (c) d'utiliser tout procédé facilitant la saisie de toute instruction à une cadence accélérée en comparaison avec le déroulement ordinaire de Jeu ; (d) de modifier l'interface utilisateur ou tout autre élément pour obtenir des objets, points d'expérience, devises, attributs de caractère, rangs, etc., ne résultant pas d'une utilisation normale du Jeu ; (e) d'acheter, de vendre ou de transférer des personnages ou des attributs de personnages du Jeu, ou tout élément, objet, concept, ou tout contenu créé en utilisant les outils Ryzom Arkitect. En outre, l'Utilisateur doit à tout moment respecter le Code de conduite, les Politiques de Courtoisie et la Charte de nommage de Ryzom présents sur le forum du Jeu à l'adresse http://app.ryzom.com/app_forum/index.php?page=topic/view/21885/, dont le contenu est incorporé aux présentes par référence. Nous pourrons prendre toute mesure en urgence sur votre compte (y compris la suspension ou l'annulation de celui-ci) si nous pensons (à notre seule discrétion) que cette utilisation contrevient aux interdictions ci-dessus.\n
 	\n
-	14. INFORMATIONS PERSONNELLES / UTILISATEUR. Les engagements de Winch Gate concernant les données personnelles sont contenues dans la politique de protection des données personnelles présente sur le site Internet de Winch Gate à l'adresse www.ryzom.com, qui sont intégrées au présent Contrat par référence. Winch Gate n'est pas en mesure de s'assurer que les informations personnelles communiquées par l'Utilisateur à un autre Utilisateur dans le cadre du Jeu ne seront pas révélées aux tiers. Afin de permettre la mise à jour / patching du Jeu, vous autorisez Winch Gate (a) à extraire des données de profil de votre matériel informatique ; (b) à extraire de votre ordinateur l'information relative à la localisation du Jeu dans votre système de fichiers et à vos droits d'accès ; et (c) à télécharger des éléments du Jeu et des éléments nécessaires à son installation sur votre ordinateur utilisant votre compte.\n
+	14. INFORMATIONS PERSONNELLES / UTILISATEUR. Les engagements de Winch Gate concernant les données personnelles sont contenues dans la politique de protection des données personnelles présente sur le site Internet de Ryzom à l'adresse www.ryzom.com, qui sont intégrées au présent Contrat par référence. Winch Gate n'est pas en mesure de s'assurer que les informations personnelles communiquées par l'Utilisateur à un autre Utilisateur dans le cadre du Jeu ne seront pas révélées aux tiers. Afin de permettre la mise à jour / patching du Jeu, vous autorisez Winch Gate (a) à extraire des données de profil de votre matériel informatique ; (b) à extraire de votre ordinateur l'information relative à la localisation du Jeu dans votre système de fichiers et à vos droits d'accès ; et (c) à télécharger des éléments du Jeu et des éléments nécessaires à son installation sur votre ordinateur utilisant votre compte.\n
 	\n
-	15. GARANTIE / LIMITATION DE RESPONSABILITÉ. Le CD-Rom, le Jeu et les services associés sont fournis « tels quels » par Winch Gate, sans autre garantie que les garanties légales d'ordre public minimum applicables au présent Contrat. Toute autre garantie, légale ou conventionnelle, est expressément exclue. Winch Gate produira ses meilleurs efforts afin de rendre le compte de l'Utilisateur accessible de manière permanente, sous réserve des interruptions dues à des interventions techniques et de maintenance. Cependant, Winch Gate ne saurait garantir un fonctionnement continu et sans erreur de ses services ou du Jeu, ni l'accès permanent des Utilisateurs à leur compte. En tout état de cause, la responsabilité de Winch Gate ne saurait être engagée en cas de dommages causés aux matériels et aux logiciels de l'Utilisateur lors de l'Utilisation du Jeu. A ce titre, il est rappelé aux Utilisateurs la nécessité de maintenir une configuration matérielle et logicielle correcte et conforme aux préconisations de Winch Gate, de procéder aux mises à jours régulières de leurs logiciels et à des sauvegardes régulières de leurs fichiers importants. Winch Gate ne saurait non plus être responsable du contenu des échanges entre joueurs et du comportement de ceux-ci. Si la responsabilité de Winch Gate venait à être engagée à un titre quelconque, cette responsabilité ne saurait être supérieure au montant cumulé des abonnements payés par l'Utilisateur.\n
+	15. GARANTIE / LIMITATION DE RESPONSABILITÉ. Le Jeu et les services associés sont fournis « tels quels » par Winch Gate, sans autre garantie que les garanties légales d'ordre public minimum applicables au présent Contrat. Toute autre garantie, légale ou conventionnelle, est expressément exclue. Winch Gate produira ses meilleurs efforts afin de rendre le compte de l'Utilisateur accessible de manière permanente, sous réserve des interruptions dues à des interventions techniques et de maintenance. Cependant, Winch Gate ne saurait garantir un fonctionnement continu et sans erreur de ses services ou du Jeu, ni l'accès permanent des Utilisateurs à leur compte. En tout état de cause, la responsabilité de Winch Gate ne saurait être engagée en cas de dommages causés aux matériels et aux logiciels de l'Utilisateur lors de l'Utilisation du Jeu. A ce titre, il est rappelé aux Utilisateurs la nécessité de maintenir une configuration matérielle et logicielle correcte et conforme aux préconisations de Winch Gate, de procéder aux mises à jours régulières de leurs logiciels et à des sauvegardes régulières de leurs fichiers importants. Winch Gate ne saurait non plus être responsable du contenu des échanges entre joueurs et du comportement de ceux-ci. Si la responsabilité de Winch Gate venait à être engagée à un titre quelconque, cette responsabilité ne saurait être supérieure au montant cumulé des abonnements payés par l'Utilisateur.\n
 	\n
-	16. CESSATION DE L'EXPLOITATION DU JEU PAR WINCH GATE. Winch Gate ne donne aucune garantie à l'Utilisateur sur la durée d'exploitation du Jeu. Winch Gate se réserve le droit de cesser de proposer le Jeu et de maintenir ses services, à sa seule discrétion, notamment lorsque le nombre d'Utilisateurs deviendra ou s'il demeure insuffisant, sous réserve d'en avertir l'Utilisateur au moyen d'une mention lors de l'accès au Jeu, sur son site Internet à l'adresse www.ryzom.com ou par un courriel. Les comptes d'exploitation seront alors définitivement fermés.\n
+	16. CESSATION DE L'EXPLOITATION DU JEU PAR WINCH GATE. Winch Gate ne donne aucune garantie à l'Utilisateur sur la durée d'exploitation du Jeu. Winch Gate se réserve le droit de cesser de proposer le Jeu et de maintenir ses services, à sa seule discrétion, notamment lorsque le nombre d'Utilisateurs deviendra ou s'il demeure insuffisant, sous réserve d'en avertir l'Utilisateur au moyen d'une mention lors de l'accès au Jeu, sur son site Internet à l'adresse www.ryzom.com ou par un message email. Les comptes d'exploitation seront alors définitivement fermés.\n
 	\n
-	17. RÉSILIATION PAR WINCH GATE. Winch Gate pourra résilier le présent Contrat et fermer sans préavis le compte de l'Utilisateur, immédiatement et sans sommation ni préavis, en cas de manquement, par l'Utilisateur, à l'une quelconque des ses obligations au terme du présent Contrat et ou de non respect par l'Utilisateur des conditions imposées par l'un des documents auxquels ce Contrat fait référence. Dans cette hypothèse, aucun remboursement ne sera dû à l'Utilisateur sur la partie de l'abonnement correspondant aux jours restant à courir jusqu'à la date d'expiration normale de la période d'abonnement en cours.\n
+	17. RÉSILIATION PAR WINCH GATE. Winch Gate pourra résilier le présent Contrat et fermer sans préavis le compte de l'Utilisateur, immédiatement et sans sommation ni préavis, en cas de manquement, par l'Utilisateur, à l'une quelconque des ses obligations au terme du présent Contrat et ou de non respect par l'Utilisateur des conditions imposées par l'un des documents auxquels ce Contrat fait référence. Si Winch Gate ferme le compte d'un Utilisateur à cause d'une violation du contrat, Winch Gate se réserve le droit d'exclure l'ordinateur de l'Utilisateur, sa carte de crédit et/ou désactiver le Logiciel pour un accès ultérieur au Jeu. Si l'ordinateur est exclu ou le logiciel désactivé, aucun autre Utilisateur utilisant le même ordinateur et/ou Logiciel ne pourra se connecter. Si la carte de crédit du compte est bannie, tous les comptes utilisant la même carte de crédit peuvent également être bannis. Dans cette hypothèse, aucun remboursement ne sera dû à l'Utilisateur sur la partie de l'abonnement correspondant aux jours restant à courir jusqu'à la date d'expiration normale de la période d'abonnement en cours.\n
 	\n
-	18. RÉSILIATION PAR L'UTILISATEUR. L'Utilisateur peut mettre fin au présent Contrat et clôturer son compte à tout moment, sur notification adressée Winch Gate, par courriel ou dans les conditions indiquées lors de l'accès au compte. La résiliation prendra effet à l'expiration de la période d'abonnement en cours. Les sommes payées en contrepartie de l'abonnement en cours ne pourront être restituées, même si l'Utilisateur n'utilise pas son compte jusqu'à la date de résiliation.\n
+	18. RÉSILIATION PAR L'UTILISATEUR. L'Utilisateur peut mettre fin au présent Contrat et clôturer son compte à tout moment, sur notification adressée Winch Gate, par email à support@ryzom.com ou dans les conditions indiquées lors de l'accès au compte. La résiliation prendra effet à l'expiration de la période d'abonnement en cours. Les sommes payées en contrepartie de l'abonnement en cours ne pourront être restituées, même si l'Utilisateur n'utilise pas son compte jusqu'à la date de résiliation.\n
 	\n
 	19. MODIFICATIONS DE LA LICENCE. Winch Gate se réserve le droit de modifier les termes du présent Contrat à tout moment. L'Utilisateur sera informé des modifications éventuelles apportées au Contrat lors de l'accès à son compte suivant ce changement. L'accès au Jeu vaudra alors acceptation des conditions du Contrat modifié, qui s'appliqueront immédiatement.\n
 	\n
 	20. PRÉCAUTIONS À PRENDRE / ÉPILEPSIE. Winch Gate vous rappelle qu'il est nécessaire d'éviter de jouer si vous êtes fatigué ou si vous manquez de sommeil. Assurez-vous que vous jouez dans une pièce bien éclairée en modérant la luminosité de votre écran. Lorsque vous utilisez un jeu vidéo susceptible d'être connecté à un écran, jouez à bonne distance de cet écran de télévision et aussi loin que le permet le cordon de raccordement. En cours d'utilisation, faites des pauses de dix à quinze minutes toutes les heures. De même, nous attirons votre attention sur le fait que certaines personnes sont susceptibles de faire des crises d'épilepsie comportant, le cas échéant, des pertes de conscience à la vue, notamment, de certains types de stimulations lumineuses fortes : succession rapide d'images ou répétition de figures géométriques simples, d'éclairs ou d'explosions. Ces personnes s'exposent à des crises lorsqu'elles jouent à certains jeux vidéo comportant de telles stimulations, alors même qu'elles n'ont pas d'antécédent médical ou n'ont jamais été sujettes elles-mêmes à des crises d'épilepsie. Si vous-même ou un membre de votre famille avez déjà présenté des symptômes liés à l'épilepsie (crise ou perte de conscience) en présence de stimulations lumineuses, consultez votre médecin avant toute utilisation. Les parents se doivent également d'être particulièrement attentifs à leurs enfants lorsqu'ils jouent avec des jeux vidéo. Si vous-même ou votre enfant présentez un des symptômes suivants : vertige, trouble de la vision, contraction des yeux ou des muscles, trouble de l'orientation, mouvement involontaire ou convulsion, perte momentanée de conscience, il faut cesser immédiatement de jouer et consulter un médecin.\n
 	\n
-	21. LOI APPLICABLE / DIVERS. Le présent Contrat est régi par la loi française. L'application de la Convention des Nations Unies sur les contrats internationaux de vente de marchandises est expressément écartée. Tout litige relatif au présent Contrat sera soumis à la compétence exclusive des tribunaux compétents de Paris. Si l'une des clauses du présent Contrat venait à être jugée nulle ou non opposable à l'Utilisateur, cette nullité ou non opposabilité n'affecterait pas la validité ou l'opposabilité des autres clauses du Contrat. Le présent Contrat ne peut être cédé ni transféré par l'Utilisateur.]
+	21. LOI APPLICABLE / DIVERS. Le présent Contrat est régi par la loi chypriote. L'application de la Convention des Nations Unies sur les contrats internationaux de vente de marchandises est expressément écartée. Tout litige relatif au présent Contrat sera soumis à la compétence exclusive des tribunaux compétents de Chypre. Si l'une des clauses du présent Contrat venait à être jugée nulle ou non opposable à l'Utilisateur, cette nullité ou non opposabilité n'affecterait pas la validité ou l'opposabilité des autres clauses du Contrat. Le présent Contrat ne peut être cédé ni transféré par l'Utilisateur.]
 
 // HASH_VALUE AC59689FA8799CBD
 // INDEX 5071
@@ -22223,11 +22223,11 @@ gn_zorai_voluteer_f	[Milicien Zoraï]
 
 // HASH_VALUE 10F0B412CEB0AC10
 // INDEX 5292
-uimwEncyclopedia	[ENCYCLOPÉDIE]
+uimwEncyclopedia	[Encyclopédie]
 
 // HASH_VALUE 10F0B412CEB0AC10
 // INDEX 5293
-uiEncyclopedia	[ENCYCLOPÉDIE]
+uiEncyclopedia	[Encyclopédie]
 
 // HASH_VALUE A79A55E425442C20
 // INDEX 5294
@@ -22252,31 +22252,31 @@ uiRite	[RITE : Rite donnée par PNJ...]
 
 // HASH_VALUE 26EF7898DE522F7E
 // INDEX 5299
-uiTask1	[Tâche du rituel 1: Tâche donnée par PNJ...]
+uiTask1	[Tâche du rituel 1 : Tâche donnée par PNJ...]
 
 // HASH_VALUE 26EF7898DE522F7F
 // INDEX 5300
-uiTask2	[Tâche du rituel 2: Tâche donnée par PNJ...]
+uiTask2	[Tâche du rituel 2 : Tâche donnée par PNJ...]
 
 // HASH_VALUE 26EF7898DE522F80
 // INDEX 5301
-uiTask3	[Tâche du rituel 3: Tâche donnée par PNJ...]
+uiTask3	[Tâche du rituel 3 : Tâche donnée par PNJ...]
 
 // HASH_VALUE 26EF7898DE522F81
 // INDEX 5302
-uiTask4	[Tâche du rituel 4: Tâche donnée par PNJ...]
+uiTask4	[Tâche du rituel 4 : Tâche donnée par PNJ...]
 
 // HASH_VALUE 26EF7898DE522F82
 // INDEX 5303
-uiTask5	[Tâche du rituel 5: Tâche donnée par PNJ...]
+uiTask5	[Tâche du rituel 5 : Tâche donnée par PNJ...]
 
 // HASH_VALUE 26EF7898DE522F83
 // INDEX 5304
-uiTask6	[Tâche du rituel 6: Tâche donnée par PNJ...]
+uiTask6	[Tâche du rituel 6 : Tâche donnée par PNJ...]
 
 // HASH_VALUE 26EF7898DE522F84
 // INDEX 5305
-uiTask7	[Tâche du rituel 7: Tâche donnée par PNJ...]
+uiTask7	[Tâche du rituel 7 : Tâche donnée par PNJ...]
 
 // HASH_VALUE 245AACCC6BFBC0BE
 // INDEX 5306
@@ -22599,31 +22599,31 @@ uiProtect_MaxAbsorb	[Absorption max.]
 
 // HASH_VALUE 7259CAAC235FEE16
 // INDEX 5384
-uittProtect_Rot	[Absorption des dommages de pourriture: @{6F6F}%v%@{FFFF} %max]
+uittProtect_Rot	[Absorption des dommages de pourriture : @{6F6F}%v%@{FFFF} %max]
 
 // HASH_VALUE CB53C08014A3833C
 // INDEX 5385
-uittProtect_Acid	[Absorption des dommages d'acide: @{6F6F}%v%@{FFFF} %max]
+uittProtect_Acid	[Absorption des dommages d'acide : @{6F6F}%v%@{FFFF} %max]
 
 // HASH_VALUE 0C53B980D4F39B4B
 // INDEX 5386
-uittProtect_Cold	[Absorption des dommages de froid: @{6F6F}%v%@{FFFF} %max]
+uittProtect_Cold	[Absorption des dommages de froid : @{6F6F}%v%@{FFFF} %max]
 
 // HASH_VALUE A7CA8DB65D5E0B80
 // INDEX 5387
-uittProtect_Fire	[Absorption des dommages de feu: @{6F6F}%v%@{FFFF} %max]
+uittProtect_Fire	[Absorption des dommages de feu : @{6F6F}%v%@{FFFF} %max]
 
 // HASH_VALUE 6CC982F5CCA8356D
 // INDEX 5388
-uittProtect_Poison	[Absorption des dommages de poison: @{6F6F}%v%@{FFFF} %max]
+uittProtect_Poison	[Absorption des dommages de poison : @{6F6F}%v%@{FFFF} %max]
 
 // HASH_VALUE C10039287A9472FB
 // INDEX 5389
-uittProtect_Electricity	[Absorption des dommages d'électricité: @{6F6F}%v%@{FFFF} %max]
+uittProtect_Electricity	[Absorption des dommages d'électricité : @{6F6F}%v%@{FFFF} %max]
 
 // HASH_VALUE 56A951A06FA9108A
 // INDEX 5390
-uittProtect_Shockwave	[Absorption des dommages d'ondes de choc: @{6F6F}%v%@{FFFF} %max]
+uittProtect_Shockwave	[Absorption des dommages d'ondes de choc : @{6F6F}%v%@{FFFF} %max]
 
 // HASH_VALUE DB00AE336D4AC0AF
 // INDEX 5391
@@ -22648,8 +22648,8 @@ uittMagicResistTable	[Les sorts des créatures et des personnages peuvent être 
 	@{T0}Votre @{6F6F}score de résistance@{FFFF} est la somme :\n
 	@{T4}- du maximum entre vos niveaux de compétences en @{6F6F}combat, magie et forage/2@{FFFF}\n
 	@{T4}- des bonus de @{6F6F}résistance des bijoux@{FFFF} dans le domaine de magie concerné\n
-	@{T4}- d'un bonus dépendant de @{6F6F}votre race@{FFFF} (ex: +10 en Désert pour les Fyros)\n
-	@{T4}- d'un malus dépendant de @{6F6F}l'écosystème@{FFFF} dans lequel vous vous trouvez (ex: -10 en Désert si vous êtes dans le désert)]
+	@{T4}- d'un bonus dépendant de @{6F6F}votre race@{FFFF} (ex : +10 en Désert pour les Fyros)\n
+	@{T4}- d'un malus dépendant de @{6F6F}l'écosystème@{FFFF} dans lequel vous vous trouvez (ex : -10 en Désert si vous êtes dans le désert)]
 
 // HASH_VALUE CC25343C56C9D2F7
 // INDEX 5395
@@ -23507,7 +23507,7 @@ uiItemSpecialEffectFlyingTextISE_FORAGE_ADD_RM	[Bonus de récolte]
 // INDEX 5596
 uiItemSpecialEffectFlyingTextISE_FORAGE_NO_RISK	[Source sans risque]
 
-// HASH_VALUE ADCF037D8B34A964
+// HASH_VALUE A5CD835D83322944
 // INDEX 5597
 uihelpItemConsumableFormat	[@{FFF9}Consommation :@{T21}@{FFFF}%consumption_time sec\n
 	@{FFF9}réutilisable après :@{T21}@{FFFF}%overdose_timer_min min %overdose_timer_sec\n
@@ -23517,7 +23517,7 @@ uihelpItemConsumableFormat	[@{FFF9}Consommation :@{T21}@{FFFF}%consumption_time 
 
 // HASH_VALUE 3AE04726A243C91F
 // INDEX 5598
-uiItemConsumableEffectDownCharac	[Donne un malus de @{F22F}%bonus@{FFFF} sur @{FF2F}%charac@{FFFF} \n
+uiItemConsumableEffectDownCharac	[Donne un malus de @{F22F}%bonus@{FFFF} sur @{FF2F}%charac@{FFFF}\n
 	pendant %minutes min et %secondes sec.]
 
 // HASH_VALUE 356C7F1BA243C933
@@ -24531,7 +24531,7 @@ uittActionSuccessRateSC	[@{6F6F}Taux de réussite @{FFFF}:\n
 uittActionSuccessRateSH	[@{6F6F}Taux de réussite @{FFFF}:\n
 	Le taux de réussite dépend du lieu de récolte et des briques utilisées.]
 
-// HASH_VALUE 6272716CB11A7CC9
+// HASH_VALUE 3E26F9FD7FAAFC3B
 // INDEX 5824
 uittActionSkillPoint	[@{6F6F}Points de compétence @{FFFF}:\n
 	@{AAAF}Points manquants / coût total\n
@@ -25488,15 +25488,15 @@ uiRingLaunchScenarioTooltip	[Lance une session Ring avec le scénario que vous a
 // INDEX 6057
 uiRingDescriptionScenarioTooltip	[Décrit le scénario que vous allez lancer. Cela sera visible par tous les joueurs à chaque terminal Ring.]
 
-// HASH_VALUE 37A499AF454933EB
+// HASH_VALUE 84B0468E03833CAE
 // INDEX 6058
-uiRingWarningFreeTrial	[LIMITES DU COMPTE D'ESSAI:\n
+uiRingWarningFreeTrial	[LIMITES DU COMPTE D'ESSAI :\n
 	\n
 	Vous ne pouvez pas rejoindre ce scénario Ring avec un compte d'essai.\n
 	\n
 	Afin d'obtenir l'accès complet au Ring, il faut vous abonner à Ryzom.\n
 	\n
-	Pour vous abonner, visitez:\n
+	Pour vous abonner, visitez :\n
 	www.ryzom.com\n
 	]
 
@@ -25567,37 +25567,37 @@ uiR2EdPropertyToolTip_LoadScenario_LoadScenario_RingPointsLevel	[@{6F6F}Prérequ
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_Author	[@{6F6F}Auteur\n
 	@{FFFF} Auteur du scénario sélectionné. Le nombre entre crochets est la note donnée au scénario par son propre auteur.]
 
-// HASH_VALUE 7D5B350CB5DF616F
+// HASH_VALUE 9EA0A0FD78FB3997
 // INDEX 6073
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_NewbieTreeInfo	[@{6F6F}Scenarii de la zone de départ\n
 	@{FFFF} M'ÉCRIRE]
 
-// HASH_VALUE F0009604F468F22A
+// HASH_VALUE 87960AF7A45D2658
 // INDEX 6074
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_Fun	[@{6F6F}Note de divertissement\n
 	@{FFFF} Note le divertissement apporté par le scénario sélectionné.]
 
-// HASH_VALUE 5CC60FE247B6E541
+// HASH_VALUE CDB27963AD12DDA0
 // INDEX 6075
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_Difficulty	[@{6F6F}Note de difficulté\n
 	@{FFFF} Note la difficulté du scénario sélectionné.]
 
-// HASH_VALUE C3A8D93AB4BF2DF7
+// HASH_VALUE D46FE1B7F50CEE11
 // INDEX 6076
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_Accessibility	[@{6F6F}Note d'accessibilité\n
 	@{FFFF} Note l'accessibilité du scénario sélectionné.]
 
-// HASH_VALUE E63CECE3EAA44809
+// HASH_VALUE 3D328CC9DBB9483A
 // INDEX 6077
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_Originality	[@{6F6F}Note d'originalité\n
 	@{FFFF} Note l'originalité du scénario sélectionné.]
 
-// HASH_VALUE EAB3000597E79860
+// HASH_VALUE 57E6B4C838791D1A
 // INDEX 6078
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_Direction	[@{6F6F}Note de clarté de consignes\n
 	@{FFFF} Note la clarté des consignes du scénario sélectionné.]
 
-// HASH_VALUE F9C96D1B8F3186FB
+// HASH_VALUE 585781307E13678D
 // INDEX 6079
 uiR2EdPropertyToolTip_LoadScenario_LoadScenario_RRPTotal	[@{6F6F}Total des points de Ring\n
 	@{FFFF} Points de Ring totaux pour le scénario sélectionné.]
@@ -26245,7 +26245,7 @@ uiCP_KeysetName_bi_wow_alike	[Autre 1]
 
 // HASH_VALUE 9181AE4143F379CE
 // INDEX 6233
-uiCP_KeysetTooltip_bi_wow_alike	[Pour les personnes habituées à la configuration des touches d'un autre MMO, celle peut éventuellement vous permettre de retrouver vos marques. Ceci ne s'applique qu'à Ryzom (La configuration du Ring reste la même).]
+uiCP_KeysetTooltip_bi_wow_alike	[Pour les personnes habituées à la configuration des touches d'un autre MMO, cela peut éventuellement vous permettre de retrouver vos marques. Ceci ne s'applique qu'à Ryzom (La configuration du Ring reste la même).]
 
 // HASH_VALUE 2957F04D21D5A0AF
 // INDEX 6234
@@ -26590,7 +26590,7 @@ uiDeathWarningAvoid	[Ne plus jamais afficher ce message.]
 
 // HASH_VALUE D963345468890479
 // INDEX 6315
-uiScreenShotPNG	[Capture d'écran PNG]
+uiScreenShotPNG	[Capture d'écran (PNG)]
 
 // HASH_VALUE C7272835423B4BEB
 // INDEX 6316
@@ -27233,7 +27233,6 @@ uiFixedMissionEntry_Mainland_Unknwown	[Continent / Inconnu]
 // INDEX 6472
 uiNoFiles	[Aucun fichier...]
 
-// symbol of byte unit
 // HASH_VALUE 4090240840902408
 // INDEX 6473
 uiByte	[o]
@@ -27302,8 +27301,15 @@ uiKeyOEM_102	[OEM 102]
 // INDEX 6489
 uiFilterMenuDynamic	[%channel @{T12}/%shortcut]
 
-// displayed in System/Windows/Communication
 // HASH_VALUE 6588A87B1E781483
 // INDEX 6490
-uiwmAppZone	[AppZone]
+uimwAppZone	[AppZone]
+
+// HASH_VALUE 27273D41B0FA7DD2
+// INDEX 6491
+uiPlayedTime	[Vous avez joué avec ce personnage pendant %time.]
+
+// HASH_VALUE EB1A8C8F22674C92
+// INDEX 6492
+uiPlaylistRefresh	[Rafraîchir]
 

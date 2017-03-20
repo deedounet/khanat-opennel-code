@@ -1854,6 +1854,84 @@ std::string CFileContainer::getTemporaryDirectory()
 	return path;
 }
 
+std::string CPath::getApplicationDirectory(const std::string &appName, bool local)
+{
+	return getInstance()->_FileContainer.getApplicationDirectory(appName, local);
+}
+
+std::string CFileContainer::getApplicationDirectory(const std::string &appName, bool local)
+{
+	static std::string appPaths[2];
+
+	std::string &appPath = appPaths[local ? 1 : 0];
+
+	if (appPath.empty())
+	{
+#ifdef NL_OS_WINDOWS
+		wchar_t buffer[MAX_PATH];
+#ifdef CSIDL_LOCAL_APPDATA
+		if (local)
+		{
+			SHGetSpecialFolderPathW(NULL, buffer, CSIDL_LOCAL_APPDATA, TRUE);
+		}
+		else
+#endif
+		{
+			SHGetSpecialFolderPathW(NULL, buffer, CSIDL_APPDATA, TRUE);
+		}
+		appPath = CPath::standardizePath(wideToUtf8(buffer));
+#else
+		// get user home directory from HOME environment variable
+		const char* homePath = getenv("HOME");
+		appPath = CPath::standardizePath(homePath ? homePath : ".");
+
+#if defined(NL_OS_MAC)
+		appPath += "Library/Application Support/";
+#else
+		// recommended for applications data that are owned by user
+		appPath += ".local/share/";
+#endif
+#endif
+	}
+
+	return CPath::standardizePath(appPath + appName);
+}
+
+std::string CPath::getTemporaryDirectory()
+{
+	return getInstance()->_FileContainer.getTemporaryDirectory();
+}
+
+std::string CFileContainer::getTemporaryDirectory()
+{
+	static std::string path;
+	if (path.empty())
+	{
+		const char *temp = getenv("TEMP");
+		const char *tmp = getenv("TMP");
+
+		std::string tempDir;
+
+		if (temp)
+			tempDir = temp;
+
+		if (tempDir.empty() && tmp)
+			tempDir = tmp;
+
+#ifdef NL_OS_UNIX
+		if (tempDir.empty())
+			tempDir = "/tmp";
+#else
+		if (tempDir.empty())
+			tempDir = ".";
+#endif
+
+		path = CPath::standardizePath(tempDir);
+	}
+
+	return path;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2523,7 +2601,7 @@ bool CFile::createDirectoryTree(const std::string &filename)
 	return lastResult;
 }
 
-bool CPath::makePathRelative (const char *basePath, std::string &relativePath)
+bool CPath::makePathRelative (const std::string &basePath, std::string &relativePath)
 {
 	// Standard path with final slash
 	string tmp = standardizePath (basePath, true);

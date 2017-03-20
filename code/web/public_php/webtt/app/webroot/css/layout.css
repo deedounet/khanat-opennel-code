@@ -1,11 +1,13 @@
-/* WebTT template based on 960 Grid System (http://960.gs/)
+/*
+ WebTT template based on 960 Grid System (http://960.gs/)
 
 -----------------------------------------------
 Grey Box Method - Layout CSS
 ----------------------------------------------- */
 
 body {
-	background: #000;
+	background: #000
+;
 	background-image: url("http://www.ryzom.com/data/bg.jpg");
 	background-attachment:fixed;
 	background-repeat: repeat-x;
@@ -234,7 +236,8 @@ ul.menu ul li a {
 
 /* menu lists
 ----------------------------------------------- */
-ul.list {
+
+ul.list {
 	margin-bottom: 0px;
 	border-top: 0px none;
 }

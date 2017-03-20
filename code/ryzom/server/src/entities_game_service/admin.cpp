@@ -952,19 +952,19 @@ ENTITY_VARIABLE(ChaScore1, "ChaScore1 of a player")
 	}
 }
 
-ENTITY_VARIABLE(MaxChaScore1, "Max ChaScore1 of a player")
+ENTITY_VARIABLE(MaxHP, "Max hit points of a player")
 {
 	ENTITY_GET_ENTITY
 
 	if (get)
 	{
-		value = toString (e->maxChaScore1());
+		value = toString (e->maxHp());
 	}
 	else
 	{
 		sint32 v;
 		NLMISC::fromString(value, v);
-		e->getScores()._PhysicalScores[SCORES::cha_score1].Max = v;
+		e->getScores()._PhysicalScores[SCORES::hit_points].Max = v;
 	}
 }
 
@@ -2801,7 +2801,7 @@ NLMISC_COMMAND(respawnAfterDeath,"respawnAfterDeath at re-spawn point name, it m
 //-----------------------------------------------
 // Simulate Resurrection by other PC until UI is ready
 //-----------------------------------------------
-NLMISC_COMMAND(resurrected,"Another PC resurrect PC by giving some energy","<player id(id:type:crea:dyn)><ChaScore1 removed><ChaScore2 removed><ChaScore3 removed><ChaScore4 gived>")
+NLMISC_COMMAND(resurrected,"Another PC resurrect PC by giving some energy","<player id(id:type:crea:dyn)><Hp gived><Sta gived><Sap gived><Focus gived>")
 {
 	if( args.size() == 1 )
 	{
@@ -5489,7 +5489,7 @@ NLMISC_COMMAND (webExecCommand, "Execute a web command", "<user id> <web_app_url
 		if (command_args.size() > 8)
 		{
 			if (command_args[8] != "*") {
-				NLMISC::fromString(command_args[7], z);
+				NLMISC::fromString(command_args[8], z);
 			}
 		}
 

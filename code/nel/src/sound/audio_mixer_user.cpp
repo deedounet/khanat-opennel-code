@@ -1770,7 +1770,7 @@ void				CAudioMixerUser::update()
 			str += tmp;
 		}
 		nldebug((string("Status1: ")+str).c_str());
-		str = "";
+		str.clear();
 		for (i=_NbTracks/2; i<_NbTracks; ++i)
 		{
 			sprintf(tmp, "[%2u]%8p ", i, _Tracks[i]->getSource());
@@ -2559,7 +2559,7 @@ void CAudioMixerUser::changeMaxTrack(uint maxTrack)
 	else
 	{
 		vector<CTrack *> non_erasable;
-		while (_Tracks.size() + non_erasable.size() > maxTrack && _Tracks.size() > 0)
+		while (_Tracks.size() + non_erasable.size() > maxTrack && !_Tracks.empty())
 		{
 			CTrack *track = _Tracks.back();
 			_Tracks.pop_back();
@@ -2588,7 +2588,7 @@ void CAudioMixerUser::changeMaxTrack(uint maxTrack)
 				non_erasable.push_back(track);
 			}
 		}
-		while (non_erasable.size() > 0)
+		while (!non_erasable.empty())
 		{
 			// put non erasable back into track list
 			_Tracks.push_back(non_erasable.back());

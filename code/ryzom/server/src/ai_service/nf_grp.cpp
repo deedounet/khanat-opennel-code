@@ -1626,10 +1626,17 @@ Arguments: s(actionName),s(url) ->
 ()setUrl("Click on Me", "http://www.domain.com/script.pChaScore1");
 @endcode
 
-*/
-// CGroup
-void setUrl_ss_(CStateInstance* entity, CScriptStack& stack)
 {
+	std::string url = (std::string)stack.top();stack.pop();	
+	std::string actionName = (std::string)stack.top();stack.pop();	
+	
+		CSpawnBot* pbot = botIt->getSpawnObj();
+		if (pbot!=NULL)
+		{		
+			msg.Entities.push_back(pbot->dataSetRow());
+		}
+	}
+	
 	std::string url = (std::string)stack.top();stack.pop();	
 	std::string actionName = (std::string)stack.top();stack.pop();	
 	

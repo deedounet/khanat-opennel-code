@@ -69,6 +69,10 @@ using namespace NLNET;
 // Macros
 //
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 //
 // RYZOM_TRY and RYZOM_CATCH aim is to catch differently in dev and final version
 //    In final version, we catch everything and nlerror the problem to display a NeL message box
@@ -147,8 +151,14 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE /* hPrevInstance */, LPSTR cm
 int main(int argc, char **argv)
 #endif
 {
+#if defined(_MSC_VER) && defined(_DEBUG)
+	_CrtSetDbgFlag (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
+
 	// init the Nel context
 	CApplicationContext *appContext = new CApplicationContext;
+	DisableNLDebug = true;
+#endif
 
 	// disable nldebug messages in logs in Release
 #ifdef NL_RELEASE
@@ -159,12 +169,17 @@ int main(int argc, char **argv)
 	createDebug(NULL, false);
 
 	INelContext::getInstance().setWindowedApplication(true);
+	INelContext::getInstance().getDebugLog()->removeDisplayer("DEFAULT_SD");
+	INelContext::getInstance().getInfoLog()->removeDisplayer("DEFAULT_SD");
+	INelContext::getInstance().getWarningLog()->removeDisplayer("DEFAULT_SD");
+#endif // NL_DEBUG
 
 #ifndef NL_DEBUG
 	INelContext::getInstance().getDebugLog()->removeDisplayer("DEFAULT_SD");
 	INelContext::getInstance().getInfoLog()->removeDisplayer("DEFAULT_SD");
 	INelContext::getInstance().getWarningLog()->removeDisplayer("DEFAULT_SD");
 #endif // NL_DEBUG
+	Args.addAdditionalArg("shard_id", "Shard ID to use", true, false);
 
 	Args.setVersion(getDisplayVersion());
 	Args.setDescription("Ryzom client");
@@ -179,24 +194,29 @@ int main(int argc, char **argv)
 	Args.addArg("", "release", "", "Crash client after init");
 #endif // TEST_CRASH_COUNTER
 
+	// extract the 2 or 3 first param (argv[1], argv[2] and argv[3]) it must be <login> <password> [shardId]
 #ifdef NL_OS_WINDOWS
 	if (!Args.parse(cmdline)) return 1;
 #else
 	if (!Args.parse(argc, argv)) return 1;
 #endif
 
-	// extract the 2 or 3 first param (argv[1], argv[2] and argv[3]) it must be <login> <password> [shardId]
-
 	// no shard id in ring mode
 	std::string sLoginShardId;
 
-	if (Args.haveAdditionalArg("login") && Args.haveAdditionalArg("password"))
+	if (Args.haveAdditionalArg("login"))
 	{
 		LoginLogin = Args.getAdditionalArg("login").front();
 		LoginPassword = Args.getAdditionalArg("password").front();
 
-		if (Args.haveAdditionalArg("shard_id"))
-			sLoginShardId = Args.getAdditionalArg("shard_id").front();
+		if (Args.haveAdditionalArg("password"))
+		{
+			LoginPassword = Args.getAdditionalArg("password").front();
+		LoginShardId = std::numeric_limits<uint32>::max();
+
+			if (Args.haveAdditionalArg("shard_id"))
+				sLoginShardId = Args.getAdditionalArg("shard_id").front();
+		}
 	}
 
 	if (sLoginShardId.empty() || !fromString(sLoginShardId, LoginShardId))
@@ -206,13 +226,11 @@ int main(int argc, char **argv)
 	if (Args.haveArg("p") || !CFile::isExists("client_default.cfg"))
 	{
 		std::string currentPath = CPath::getApplicationDirectory("Khanat");
-
 		// create parent directory
 		if (!CFile::isExists(currentPath)) CFile::createDirectory(currentPath);
 
 		// append profile ID to directory
 		if (Args.haveArg("p"))
-		{
 			currentPath = NLMISC::CPath::standardizePath(currentPath) + Args.getArg("p").front();
 
 			if (!CFile::isExists(currentPath)) CFile::createDirectory(currentPath);
@@ -311,6 +329,16 @@ int main(int argc, char **argv)
 			//ICommand::execute("iFileAccessLogStop",*NLMISC::InfoLog);
 			//ICommand::execute("iFileAccessLogClear",*NLMISC::InfoLog);
 #endif
+
+			release();
+
+			// delete all logs and displayers when we're not using logs macros anymore
+			destroyDebug();
+			CLog::releaseProcessName();
+
+			// delete the Nel context
+			delete appContext;
+
 			return EXIT_SUCCESS;
 		}
 	}
@@ -398,6 +426,10 @@ int main(int argc, char **argv)
 #if FINAL_VERSION || defined (TEST_CRASH_COUNTER)
 	quitCrashReport ();
 #endif // FINAL_VERSION
+
+	// delete all logs and displayers when we're not using logs macros anymore
+	destroyDebug();
+	CLog::releaseProcessName();
 
 	// delete the Nel context
 	delete appContext;

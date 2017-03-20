@@ -15895,6 +15895,18 @@ void CCharacter::referencedAsFriendBy( const NLMISC::CEntityId &id)
 	{
 		return;
 	}
+	return false;
+}
+
+//--------------------------------------------------------------
+//	CCharacter::referencedAsFriendBy()
+//--------------------------------------------------------------
+void CCharacter::referencedAsFriendBy( const NLMISC::CEntityId &id)
+{
+	if (isFriendOf(id))
+	{
+		return;
+	}
 
 	// not found -> add it
 	_IsFriendOf.push_back(id);
@@ -19553,9 +19565,6 @@ void CCharacter::setLeagueId(TChanID id, bool removeIfEmpty)
 		CPVPManager2::getInstance()->broadcastMessage(id, string("<INFO>"), "<-- "+name);
 	}
 
-	_LeagueId = id;
-	updatePVPClanVP();
-}
 
 //------------------------------------------------------------------------------
 

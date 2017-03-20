@@ -795,8 +795,8 @@ void CInterfaceManager::uninitOutGame()
 
 	CInterfaceItemEdition::getInstance()->setCurrWindow(NULL);
 
-	NLMISC::TTime initStart;
-	initStart = ryzomGetLocalTime ();
+//	NLMISC::TTime initStart;
+//	initStart = ryzomGetLocalTime ();
 	if (SoundMngr != NULL)
 	{
 		NLSOUND::UAudioMixer *pMixer = SoundMngr->getMixer();
@@ -804,23 +804,23 @@ void CInterfaceManager::uninitOutGame()
 	}
 	//nlinfo ("%d seconds for uninitOutGame", (uint32)(ryzomGetLocalTime ()-initStart)/1000);
 
-	initStart = ryzomGetLocalTime ();
+//	initStart = ryzomGetLocalTime ();
 	CWidgetManager::getInstance()->activateMasterGroup ("ui:outgame", false);
 
 	CInterfaceParser *parser = dynamic_cast< CInterfaceParser* >( CWidgetManager::getInstance()->getParser() );
 	//nlinfo ("%d seconds for activateMasterGroup", (uint32)(ryzomGetLocalTime ()-initStart)/1000);
-	initStart = ryzomGetLocalTime ();
+//	initStart = ryzomGetLocalTime ();
 	parser->removeAll();
 	//nlinfo ("%d seconds for removeAll", (uint32)(ryzomGetLocalTime ()-initStart)/1000);
-	initStart = ryzomGetLocalTime ();
+//	initStart = ryzomGetLocalTime ();
 	reset();
 	//nlinfo ("%d seconds for reset", (uint32)(ryzomGetLocalTime ()-initStart)/1000);
 	// reset the mouse pointer to avoid invalid pointer access
 	CWidgetManager::getInstance()->setPointer( NULL );
-	initStart = ryzomGetLocalTime ();
+//	initStart = ryzomGetLocalTime ();
 	CInterfaceLink::removeAllLinks();
 	//nlinfo ("%d seconds for removeAllLinks", (uint32)(ryzomGetLocalTime ()-initStart)/1000);
-	initStart = ryzomGetLocalTime ();
+//	initStart = ryzomGetLocalTime ();
 	ICDBNode::CTextId textId("UI");
 	NLGUI::CDBManager::getInstance()->getDB()->removeNode(textId);
 	//nlinfo ("%d seconds for removeNode", (uint32)(ryzomGetLocalTime ()-initStart)/1000);
@@ -828,7 +828,7 @@ void CInterfaceManager::uninitOutGame()
 	// Init the action manager
 	{
 
-		initStart = ryzomGetLocalTime ();
+//		initStart = ryzomGetLocalTime ();
 		uninitActions();
 	//	nlinfo ("%d seconds for uninitActions", (uint32)(ryzomGetLocalTime ()-initStart)/1000);
 	}
@@ -1504,7 +1504,7 @@ void CInterfaceManager::updateFrameEvents()
 			str += CI18N::get("uiAtysianCycle" + toString(RT.getRyzomCycle()+1) + "Ordinal") + " " + CI18N::get("uiAtysianCycle") + " ";
 			str += toString("%04d", RT.getRyzomYear());*/
 
-			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
+			pVT = dynamic_cast<CViewText*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:time"));
 			str += toString("%d", (sint)RT.getRyzomWeek()) + " ";
 			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
 			ucstring year = RT.getRyzomYearStr();
@@ -1527,6 +1527,8 @@ void CInterfaceManager::updateFrameEvents()
 					else
 						str = getTimestampHuman("%H:%M");
 					pVT->setText(str);
+				}
+			}
 				}
 			}
 		}
@@ -1857,7 +1859,8 @@ bool CInterfaceManager::saveConfig (const string &filename)
 
 	COFile f;
 
-	if (!f.open(filename)) return false;
+	// using temporary file, so no f.close() unless its a success
+	if (!f.open(filename, false, false, true)) return false;
 
 	CInterfaceConfig ic;
 
@@ -1904,7 +1907,6 @@ bool CInterfaceManager::saveConfig (const string &filename)
 		{
 			nlwarning("Config saving failed");
 			// couldn't save result so do not continue
-			f.close();
 			return false;
 		}
 
@@ -1959,22 +1961,19 @@ bool CInterfaceManager::saveConfig (const string &filename)
 		{
 			nlwarning("Bad user dyn chat saving");
 			return false;
+	catch(const NLMISC::EStream &)
+		{
+			nlwarning("Bad user dyn chat saving");
+			return false;
 		}
+		f.close();
 	}
 	catch(const NLMISC::EStream &)
 	{
-		f.close();
 		nlwarning("Config saving failed.");
 		return false;
-	}
-	f.close();
-
 	ContinentMngr.serialFOWMaps();
-
 	return true;
-}
-
-// ------------------------------------------------------------------------------------------------
 void CInterfaceManager::drawViews(NL3D::UCamera camera)
 {
 	IngameDbMngr.flushObserverCalls();
@@ -2063,7 +2062,6 @@ public:
 	{
 		this->reset = reset;
 	}
-
 	void visitGroup( CInterfaceGroup *group )
 	{
 		const std::vector< CViewBase* > &vs = group->getViews();
@@ -2676,7 +2674,8 @@ bool	CInterfaceManager::saveKeys(const std::string &filename)
 	try
 	{
 		COFile file;
-		if (file.open (filename))
+		// using temporary file, so no file.close() unless its a success
+		if (file.open (filename, false, false, true))
 		{
 			COXml xmlStream;
 			xmlStream.init (&file);
@@ -2706,8 +2705,7 @@ bool	CInterfaceManager::saveKeys(const std::string &filename)
 	}
 	catch (const Exception &e)
 	{
-		nlwarning ("Error while writing the file %s : %s. Remove it.", filename.c_str(), e.what ());
-		CFile::deleteFile(filename);
+		nlwarning ("Error while writing the file %s : %s.", filename.c_str(), e.what ());
 	}
 	return ret;
 }
@@ -2735,7 +2733,7 @@ void CInterfaceManager::log(const ucstring &str, const std::string &cat)
 	{
 		// Open file with the name of the player
 		const string fileName= "save/log_" + PlayerSelectedFileName + ".txt";
-		FILE *f = fopen(fileName.c_str(), "at");
+		FILE *f = nlfopen(fileName, "at");
 		if (f != NULL)
 		{
 			const string finalString = string(NLMISC::IDisplayer::dateToHumanString()) + " (" + NLMISC::toUpper(cat) + ") * " + str.toUtf8();
@@ -3176,7 +3174,7 @@ void CInterfaceManager::uninitEmotes()
 
 	// reset the emotes menu
 	CTextEmotListSheet *pTELS = dynamic_cast<CTextEmotListSheet*>(SheetMngr.get(CSheetId("list.text_emotes")));
-	if (pTELS != NULL && pTELS->TextEmotList.size() > 0)
+	if (pTELS != NULL && !pTELS->TextEmotList.empty())
 	{
 		// get the emotes menu id
 		string sPath = pTELS->TextEmotList[0].Path;
@@ -3218,7 +3216,7 @@ void CInterfaceManager::updateEmotes()
 bool CInterfaceManager::CEmoteCmd::execute(const std::string &/* rawCommandString */, const vector<string> &args, CLog &/* log */, bool /* quiet */, bool /* human */)
 {
 	string customPhrase;
-	if( args.size() > 0 )
+	if (!args.empty())
 	{
 		customPhrase = args[0];
 	}
@@ -3824,7 +3822,7 @@ bool CInterfaceManager::parseTokens(ucstring& ucstr)
 		vector<ucstring> token_vector;
 		vector<ucstring> param_vector;
 		splitUCString(token_string, ucstring("."), token_vector);
-		if (token_vector.size() == 0)
+		if (token_vector.empty())
 		{
 			// Wrong formatting; give up on this one.
 			start_pos = end_pos;
@@ -3834,7 +3832,7 @@ bool CInterfaceManager::parseTokens(ucstring& ucstr)
 		if (token_vector.size() == 1)
 		{
 			splitUCString(token_subject, ucstring("/"), param_vector);
-			token_subject = (param_vector.size() > 0) ? param_vector[0] : ucstring("");
+			token_subject = !param_vector.empty() ? param_vector[0] : ucstring("");
 			token_param = ucstring("name");
 		}
 		else if (token_vector.size() > 1)
@@ -3843,7 +3841,7 @@ bool CInterfaceManager::parseTokens(ucstring& ucstr)
 			if (token_param.luabind_substr(0, 3) != ucstring("gs("))
 			{
 				splitUCString(token_vector[1], ucstring("/"), param_vector);
-				token_param = (param_vector.size() > 0) ? param_vector[0] : ucstring("");
+				token_param = !param_vector.empty() ? param_vector[0] : ucstring("");
 			}
 		}
 

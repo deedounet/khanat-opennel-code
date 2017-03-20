@@ -95,7 +95,7 @@
 	<!-- AppZone -->
 	<action handler="set" params="target='ui:interface:appzone:active'|value=1" />
 	<action handler="set" params="target='ui:interface:appzone:x'|value=div(sub(getprop('ui:interface:w'),getprop('ui:interface:appzone:w')),2)" />
-	<action handler="set" params="target='ui:interface:appzone:y'|value=add(getprop('ui:interface:appzone:h'),2)" />	
+	<action handler="set" params="target='ui:interface:appzone:y'|value=add(getprop('ui:interface:appzone:h'),2)" />
 </proc>
 
 <proc id="proc_reset_interface">

@@ -44,6 +44,10 @@
 using namespace std;
 using namespace NLMISC;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 namespace NL3D {
 
 #ifdef NL_STATIC
@@ -473,18 +477,18 @@ bool CDriverGL::unInit()
 	// Restore monitor color parameters
 	if (_NeedToRestoreGammaRamp)
 	{
-		HDC dc = CreateDCA ("DISPLAY", NULL, NULL, NULL);
+		HDC dc = CreateDCA("DISPLAY", NULL, NULL, NULL);
 		if (dc)
 		{
-			if (!SetDeviceGammaRamp (dc, _GammaRampBackuped))
-				nlwarning ("(CDriverGL::release): SetDeviceGammaRamp failed");
+			if (!SetDeviceGammaRamp(dc, _GammaRampBackuped))
+				nlwarning("(CDriverGL::release): SetDeviceGammaRamp failed");
 
 			// Release the DC
-			ReleaseDC (NULL, dc);
+			ReleaseDC(NULL, dc);
 		}
 		else
 		{
-			nlwarning ("(CDriverGL::release): can't create DC");
+			nlwarning("(CDriverGL::release): can't create DC");
 		}
 	}
 
@@ -497,8 +501,11 @@ bool CDriverGL::unInit()
 	// restore default X errors handler
 	XSetErrorHandler(NULL);
 
-	XCloseDisplay(_dpy);
-	_dpy = NULL;
+	if (_dpy)
+	{
+		XCloseDisplay(_dpy);
+		_dpy = NULL;
+	}
 
 #endif // NL_OS_UNIX
 
@@ -2747,7 +2754,7 @@ void CDriverGL::setWindowSize(uint32 width, uint32 height)
 		setWindowStyle(EWSFullscreen);
 
 		// set the back buffer manually to match the desired rendering resolution
-		GLint dim[2]   = { width, height };
+		GLint dim[2]   = { (GLint)width, (GLint)height };
 		CGLError error = CGLSetParameter(
 			(CGLContextObj)[_ctx CGLContextObj],
 			kCGLCPSurfaceBackingSize, dim);

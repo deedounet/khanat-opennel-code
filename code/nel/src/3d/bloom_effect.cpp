@@ -33,6 +33,10 @@ using namespace NLMISC;
 using namespace NL3D;
 using namespace std;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 namespace NL3D
 {
 
@@ -98,10 +102,6 @@ CBloomEffect::~CBloomEffect()
 			if (_Driver) _Driver->deleteMaterial(_BlurMat);
 		}
 	}
-}
-
-//-----------------------------------------------------------------------------------------------------------
-
 void CBloomEffect::init()
 {
 	if (!((CDriverUser *)_Driver)->getDriver()->supportBloomEffect())

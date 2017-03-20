@@ -101,6 +101,10 @@
 using namespace NL3D;
 using namespace NLMISC;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 ////////////
 // EXTERN //
 ////////////
@@ -127,6 +131,19 @@ extern void selectTipsOfTheDay (uint tips);
 ///////////////
 // FUNCTIONS //
 ///////////////
+
+// ***************************************************************************
+// Saving ingame resolution when in windowed mode
+static void saveIngameResolution()
+{
+	if (ClientCfg.Windowed)
+	{
+		uint32 width, height;
+		Driver->getWindowSize(width, height);
+		ClientCfg.writeInt("Width", std::max((sint)width, 800));
+		ClientCfg.writeInt("Height", std::max((sint)height, 600));
+	}
+}
 
 // ***************************************************************************
 // 3D element release, called from both releaseMainLoopReselect() and releaseMainLoop()
@@ -204,6 +221,8 @@ volatile bool TempResetShapeBankOnRetCharSelect = false;
 void	releaseMainLoopReselect()
 {
 	ProgressBar.release();
+
+	saveIngameResolution();
 
 	CInterfaceManager	*pIM= CInterfaceManager::getInstance();
 
@@ -359,6 +378,8 @@ void	releaseMainLoopReselect()
 void releaseMainLoop(bool closeConnection)
 {
 	ProgressBar.release();
+
+	saveIngameResolution();
 
 	// Release R2 editor if applicable
 	R2::getEditor().autoConfigRelease(IsInRingSession);
@@ -547,7 +568,6 @@ void release()
 
 	ProgressBar.release();
 
-	R2::getEditor().release();
 	R2::CEditor::releaseInstance();
 
 	// flush the server string cache
@@ -565,13 +585,13 @@ void release()
 	releaseCommands();
 
 	// Exit config file stuff
-	ClientCfg.release ();
+	ClientCfg.release();
 
 	// Disconnect the client from the server.
 	NetMngr.disconnect();
 
 	// delete the sound manager
-	if(SoundMngr)
+	if (SoundMngr)
 	{
 		delete SoundMngr;
 		SoundMngr = NULL;
@@ -579,16 +599,16 @@ void release()
 
 	// Release the Entities Animation Manager
 	CEntityAnimationManager::delInstance();
-	EAM= NULL;
+	EAM = NULL;
 
 	nldebug("VR [C]: VR Shutting down");
 	releaseStereoDisplayDevice();
 
 	// Delete the driver.
-	if(Driver)
+	if (Driver)
 	{
 		// Release the prim
-		PrimFiles.release (*Driver);
+		PrimFiles.release(*Driver);
 
 		if (TextContext != NULL)
 			Driver->deleteTextContext(TextContext);
@@ -603,7 +623,7 @@ void release()
 
 		// Delete the driver.
 		delete Driver;
-		Driver = 0;
+		Driver = NULL;
 	}
 
 	NetMngr.getConnection().close();
@@ -613,13 +633,13 @@ void release()
 	EventsListener.removeFromServer(CInputHandlerManager::getInstance()->FilteredEventServer);
 
 	IDisplayer *clientLogDisplayer = ErrorLog->getDisplayer("CLIENT.LOG");
-	if( clientLogDisplayer )
+	if (clientLogDisplayer)
 	{
-		DebugLog->removeDisplayer (clientLogDisplayer);
-		InfoLog->removeDisplayer (clientLogDisplayer);
-		WarningLog->removeDisplayer (clientLogDisplayer);
-		ErrorLog->removeDisplayer (clientLogDisplayer);
-		AssertLog->removeDisplayer (clientLogDisplayer);
+		DebugLog->removeDisplayer(clientLogDisplayer);
+		InfoLog->removeDisplayer(clientLogDisplayer);
+		WarningLog->removeDisplayer(clientLogDisplayer);
+		ErrorLog->removeDisplayer(clientLogDisplayer);
+		AssertLog->removeDisplayer(clientLogDisplayer);
 		delete clientLogDisplayer;
 	}
 
@@ -663,6 +683,8 @@ void release()
 	CLuaManager::releaseInstance();
 	NLGUI::CDBManager::release();
 	CWidgetManager::release();
+	CViewRenderer::release();
+	CIXml::releaseLibXml();
 
 #if FINAL_VERSION
 	// openURL ("http://ryzom.com/exit/");

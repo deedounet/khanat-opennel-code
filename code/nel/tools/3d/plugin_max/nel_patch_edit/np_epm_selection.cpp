@@ -71,18 +71,15 @@ void EditPatchMod::RefreshSelType()
 		*/
 		if (selLevel == EP_PATCH)
 		{
-			hSurfPanel = ip->AddRollupPage(hInstance, MAKEINTRESOURCE(IDD_EDPATCH_SURF),
-				PatchSurfDlgProc, GetString(IDS_TH_SURFACEPROPERTIES), (LPARAM) this, rsSurf ? 0 : APPENDROLL_CLOSED);
+			hSurfPanel = ip->AddRollupPage(hInstance, MAKEINTRESOURCE(IDD_EDPATCH_SURF), PatchSurfDlgProc, GetString(IDS_TH_SURFACEPROPERTIES), (LPARAM) this, rsSurf ? 0 : APPENDROLL_CLOSED);
 		}
 		if (selLevel == EP_TILE)
 		{
-			hTilePanel = ip->AddRollupPage(hInstance, MAKEINTRESOURCE(IDD_EDPATCH_TILE),
-				PatchTileDlgProc, "Tile Properties", (LPARAM) this, rsTile ? 0 : APPENDROLL_CLOSED);
+			hTilePanel = ip->AddRollupPage(hInstance, MAKEINTRESOURCE(IDD_EDPATCH_TILE), PatchTileDlgProc, _M("Tile Properties"), (LPARAM) this, rsTile ? 0 : APPENDROLL_CLOSED);
 		}
 		if (selLevel == EP_EDGE)
 		{
-			hEdgePanel = ip->AddRollupPage(hInstance, MAKEINTRESOURCE(IDD_EDPATCH_EDGE),
-				PatchEdgeDlgProc, "Edge Properties", (LPARAM) this, rsEdge ? 0 : APPENDROLL_CLOSED);
+			hEdgePanel = ip->AddRollupPage(hInstance, MAKEINTRESOURCE(IDD_EDPATCH_EDGE), PatchEdgeDlgProc, _M("Edge Properties"), (LPARAM) this, rsEdge ? 0 : APPENDROLL_CLOSED);
 		}
 		SetSurfDlgEnables();
 		SetTileDlgEnables();
@@ -280,6 +277,50 @@ void EditPatchMod::SelectSubPatch(int index)
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
+void EditPatchMod::SelectSubPatch(int index)
+{
+	if (!ip)
+		return; 
+	TimeValue t = ip->GetTime();
+
+	ip->ClearCurNamedSelSet();
+
+	ModContextList mcList;
+	INodeTab nodes;
+	ip->GetModContexts(mcList, nodes);
+
+	for (int i = 0; i < mcList.Count(); i++)
+	{
+		EditPatchData *patchData =(EditPatchData*)mcList[i]->localData;
+	
+		if (!patchData)
+			return;
+		
+		RPatchMesh *rpatch;
+		PatchMesh *patch = patchData->TempData(this)->GetPatch(t, rpatch);
+		if (!patch)
+			return;
+		
+		patchData->BeginEdit(t);
+		if (theHold.Holding()) 
+			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("SelectSubComponent")));
+
+		patch->patchSel.Set(index);
+
+		patchData->UpdateChanges(patch, rpatch, FALSE);
+		if (patchData->tempData)
+		{
+			patchData->tempData->Invalidate(PART_SELECT);
+		}
+	}
+	PatchSelChanged();
+		
+	UpdateSelectDisplay();
+	NotifyDependents(FOREVER, PART_SELECT, REFMSG_CHANGE);
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // Select a subcomponent within our object(s).  WARNING! Because the HitRecord list can
 // indicate any of the objects contained within the group of patches being edited, we need
 // to watch for control breaks in the patchData pointer within the HitRecord!
@@ -311,7 +352,7 @@ void EditPatchMod::SelectSubPatch(int index)
 		
 		patchData->BeginEdit(t);
 		if (theHold.Holding()) 
-			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, "SelectSubComponent"));
+			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("SelectSubComponent")));
 		
 		switch (selLevel)
 		{
@@ -636,7 +677,7 @@ void EditPatchMod::ClearSelection(int selLevel)
 		patchData->BeginEdit(ip->GetTime());
 		if (theHold.Holding())
 		{
-			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, "ClearSelection"));
+			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("ClearSelection")));
 		}
 		
 		switch (selLevel)
@@ -744,7 +785,7 @@ void EditPatchMod::SelectAll(int selLevel)
 		patchData->BeginEdit(ip->GetTime());
 		if (theHold.Holding())
 		{
-			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, "SelectAll"));
+			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("SelectAll")));
 		}
 		
 		switch (selLevel)
@@ -813,7 +854,7 @@ void EditPatchMod::InvertSelection(int selLevel)
 		
 		patchData->BeginEdit(ip->GetTime());
 		if (theHold.Holding())
-			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, "InvertSelection"));
+			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("InvertSelection")));
 		
 		switch (selLevel)
 		{
@@ -1004,7 +1045,7 @@ void EditPatchMod::ChangeSelPatches(int type)
 		{
 			altered = holdNeeded = TRUE;
 			if (theHold.Holding())
-				theHold.Put(new PatchRestore(patchData, this, patch, rpatch, "ChangeSelPatches"));
+				theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("ChangeSelPatches")));
 			// Call the vertex type change function
 			ChangePatchType(patch, -1, type);
 			patchData->UpdateChanges(patch, rpatch, FALSE);
@@ -1077,7 +1118,7 @@ void EditPatchMod::ChangeSelVerts(int type)
 		{
 			altered = holdNeeded = TRUE;
 			if (theHold.Holding())
-				theHold.Put(new PatchRestore(patchData, this, patch, rpatch, "ChangeSelVerts"));
+				theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("ChangeSelVerts")));
 			// Call the vertex type change function
 			patch->ChangeVertType(-1, type);
 			patchData->UpdateChanges(patch, rpatch, FALSE);

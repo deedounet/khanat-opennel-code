@@ -24,6 +24,10 @@
 
 using namespace NLMISC;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 namespace NL3D
 {
 
@@ -262,8 +266,8 @@ void	CLandscapeUser::refreshZonesAround(const CVector &pos, float radius, std::s
 {
 	NL3D_HAUTO_LOAD_LANDSCAPE;
 
-	zoneRemoved= "";
-	zoneAdded= "";
+	zoneRemoved.clear();
+	zoneAdded.clear();
 	CZoneManager::SZoneManagerWork Work;
 	// Check if new zone must be added to landscape
 	if (_ZoneManager.isWorkComplete(Work))

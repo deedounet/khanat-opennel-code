@@ -123,14 +123,14 @@ void CMigrateDialog::updateDestinationText()
 void CMigrateDialog::accept()
 {
 	// check free disk space
-	qint64 freeSpace = NLMISC::CSystemInfo::availableHDSpace(m_dstDirectory.toUtf8().constData());
+	qint64 freeSpace = CConfigFile::getInstance()->ignoreFreeDiskSpaceChecks() ? 0:NLMISC::CSystemInfo::availableHDSpace(m_dstDirectory.toUtf8().constData());
 
 	// shouldn't happen
 	if (freeSpace == 0)
 	{
 		int error = NLMISC::getLastError();
 
-		nlwarning("Error '%s' (%d) occured when trying to check free disk space on %s, continue anyway", NLMISC::formatErrorMessage(error).c_str(), error, Q2C(m_dstDirectory));
+		nlwarning("Error '%s' (%d) occurred when trying to check free disk space on %s, continue anyway", NLMISC::formatErrorMessage(error).c_str(), error, Q2C(m_dstDirectory));
 	}
 
 	// compare with exact size of current directory

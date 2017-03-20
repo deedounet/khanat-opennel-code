@@ -135,6 +135,13 @@ int CDBCtrlSheet::luaGetDraggedSheet(CLuaState &ls)
 }
 
 // ***************************************************************************
+int CDBCtrlSheet::luaGetDraggedSheet(CLuaState &ls)
+{
+	CLuaIHM::pushUIOnStack(ls, dynamic_cast<CInterfaceElement *>( dynamic_cast< CDBCtrlSheet* >( CCtrlDraggable::getDraggedSheet() ) ));
+	return 1;
+}
+
+// ***************************************************************************
 int CDBCtrlSheet::luaGetChaScore1Buff(CLuaState &ls)
 {
 	CDBCtrlSheet *ctrlSheet = const_cast<CDBCtrlSheet*>(this);
@@ -1816,8 +1823,7 @@ void CDBCtrlSheet::draw()
 
 	CInterfaceManager *pIM = CInterfaceManager::getInstance();
 	CViewRenderer &rVR = *CViewRenderer::getInstance();
-	CRGBA color = CRGBA(255,255,255,255);
-
+	
 	if (_Type != SheetType_Macro)
 	{
 		if (_LastSheetId != _SheetId.getSInt32())

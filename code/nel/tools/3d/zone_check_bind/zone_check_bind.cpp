@@ -89,13 +89,13 @@ typedef CQuadGrid<CPatchVertexInfo>   TPVQuadGrid;
 
 /** Load the given zone (name without extension)
   * return a pointer to the zone, or NULL if not found
-  * Throw an exception if a read error occured
+  * Throw an exception if a read error occurred
   */
 static CZone *LoadZone(uint16 xPos, uint16 yPos, std::string zoneExt)
 {
 	std::string zoneName;
 	::getZoneNameByCoord(xPos, yPos, zoneName);
-	std::auto_ptr<CZone> zone(new CZone);
+	CUniquePtr<CZone> zone(new CZone);
 	std::string lookedUpZoneName = CPath::lookup(zoneName + zoneExt, false, false, false);
 	if (lookedUpZoneName.empty()) return NULL;
 	CIFile iF;
@@ -174,7 +174,7 @@ static uint CheckZone(std::string middleZoneFile, float weldThreshold, float mid
 	// Load the zones around  //
 	////////////////////////////
 
-		std::auto_ptr<CZone>		zones[9];
+		CUniquePtr<CZone>		zones[9];
 		std::string					zoneNames[9];
 		CZoneInfo					zoneInfos[9];
 		uint16  xPos, yPos;

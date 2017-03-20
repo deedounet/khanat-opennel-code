@@ -193,7 +193,7 @@ BEGIN
 #endif			
 #else
 #ifdef _DEBUG
-            VALUE "OriginalFilename", "kkhanat_client_dev_d.exe"
+            VALUE "OriginalFilename", "khanat_client_dev_d.exe"
 #else
             VALUE "OriginalFilename", "khanat_client_dev_r.exe"
 #endif			

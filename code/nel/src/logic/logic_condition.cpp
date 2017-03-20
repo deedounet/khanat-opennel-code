@@ -23,6 +23,8 @@
 
 #include "nel/misc/o_xml.h"
 
+#include "nel/misc/o_xml.h"
+
 using namespace NLMISC;
 using namespace std;
 
@@ -337,7 +339,7 @@ bool CLogicConditionNode::testLogic()
 	}
 
 	// if there's no subtree we assess the subtree is true
-	if( _Nodes.size() == 0 )
+	if( _Nodes.empty() )
 	{
 		return true;
 	}

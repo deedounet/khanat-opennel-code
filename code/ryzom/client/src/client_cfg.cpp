@@ -350,6 +350,7 @@ CClientConfig::CClientConfig()
 	FreeLookAcceleration    = 0;					// Default FreeLookAcceleration
 	FreeLookSmoothingPeriod = 0.f;                  // when in absolute mode, free look factor is used instead of speed, the mouse gives the absolute angle
 	FreeLookInverted		= false;
+	FreeLookTablet			= false;                // Mouse reports absolute coordinates, so avoid mouse recentering
 	AutomaticCamera			= true;
 	DblClickMode			= true;					// when in dbl click mode, a double click is needed to execute default contextual action
 	AutoEquipTool			= true;					// when true player will auto-equip last used weapon or forage tool when doing an action
@@ -855,6 +856,7 @@ void CClientConfig::setValues()
 	READ_INT_FV(FreeLookAcceleration)
 	READ_FLOAT_FV(FreeLookSmoothingPeriod)
 	READ_BOOL_FV(FreeLookInverted)
+	READ_BOOL_FV(FreeLookTablet)
 	READ_BOOL_FV(AutomaticCamera)
 	READ_BOOL_FV(DblClickMode)
 	READ_BOOL_FV(AutoEquipTool)
@@ -1046,7 +1048,7 @@ void CClientConfig::setValues()
 
 	/////////////////////////
 	// NEW PATCHING SYSTEM //
-	READ_BOOL_DEV(PatchWanted)
+	READ_BOOL_FV(PatchWanted)
 
 #ifdef RZ_USE_CUSTOM_PATCH_SERVER
 	READ_STRING_FV(PatchUrl)
@@ -2031,13 +2033,9 @@ void CClientConfig::release ()
 				// Are we in window mode ?
 				if (ClientCfg.Windowed /* && !isWindowMaximized() */)
 				{
-					// Save windows position
+					// Save windows position. width/height are saved when leaving ingame.
 					writeInt("PositionX", x);
 					writeInt("PositionY", y);
-
-					// Save windows size
-					writeInt("Width", std::max((sint)width, 800));
-					writeInt("Height", std::max((sint)height, 600));
 				}
 			}
 

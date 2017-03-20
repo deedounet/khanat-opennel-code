@@ -23,6 +23,10 @@
 
 using namespace std;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 const string DefaultColTitle = "name";
 
 #ifdef DEBUG_NEW
