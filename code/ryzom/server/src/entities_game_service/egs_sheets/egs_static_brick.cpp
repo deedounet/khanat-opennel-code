@@ -1359,16 +1359,6 @@ void addParam(const std::string &paramStr, std::vector<TBrickParam::IIdPtr> &Par
 		Params.push_back(new CSBrickParamChaScore3Aura2(tail)); 
 		break;
 
-	case TBrickParam::SP_SAP_AURA2:
-		// $*STRUCT CSBrickParamSapAura2 TBrickParam::SP_SAP_AURA2
-		// $*-i uint16	RegenMod			// regen modifier (in %) proportionally to item level
-		// $*-f float	Duration			// duration in seconds
-		// $*-f float	Radius				// aura radius in meters
-		// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-		// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-		Params.push_back(new CSBrickParamSapAura2(tail)); 
-		break;
-
 	case TBrickParam::SP_SPEEDING_UP:
 		// $*STRUCT CSBrickParamSpeedingUp TBrickParam::SP_SPEEDING_UP
 		// $*-i uint16	SpeedMod			// speed modifier (in %)

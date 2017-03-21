@@ -496,7 +496,6 @@ void CZoneBank::reset ()
 	_Selection.clear ();
 }
 
-#ifdef NL_OS_WINDOWS
 // ---------------------------------------------------------------------------
 bool CZoneBank::initFromPath(const std::string &sPathName, std::string &error)
 {
@@ -516,7 +515,6 @@ bool CZoneBank::initFromPath(const std::string &sPathName, std::string &error)
 
 	return true;
 }
-#endif // NL_OS_WINDOWS
 
 // ---------------------------------------------------------------------------
 bool CZoneBank::addElement (const std::string &elementName, std::string &error)

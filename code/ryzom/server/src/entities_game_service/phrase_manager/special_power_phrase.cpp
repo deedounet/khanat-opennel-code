@@ -198,25 +198,6 @@ void CSpecialPowerPhrase::processParams(const vector<TBrickParam::IIdPtr> &param
 			}
 			break;
 
-		case TBrickParam::SP_LIFE_AURA2:
-			{
-			// $*STRUCT CSBrickParamLifeAura: public TBrickParam::CId <TBrickParam::SP_LIFE_AURA2>
-			// $*-i uint16	RegenMod			// regen modifier proportionally to item level
-			// $*-f float	Duration			// duration in seconds
-			// $*-f float	Radius				// aura radius in meters
-			// $*-f float	TargetDisableTime	// disable life aura for x seconds on targets
-			// $*-f float	UserDisableTime		// disable life aura for x seconds on user
-				CSpecialPowerBasicAura *lifeAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamLifeAura *)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamLifeAura *)param)->TargetDisableTime, POWERS::LifeAura);
-				if (lifeAura)
-				{
-					lifeAura->setRadius(((CSBrickParamLifeAura *)param)->Radius);
-					lifeAura->setFamilies(EFFECT_FAMILIES::PowerRootLifeAura,EFFECT_FAMILIES::PowerLifeAura );
-					lifeAura->setParamValue(((CSBrickParamLifeAura *)param)->RegenMod*quality);
-					lifeAura->setByPass(isConsumable);
-				}
-			}
-			break;
-
 		case TBrickParam::SP_ChaScore1_AURA2:
 			{
 			// $*STRUCT CSBrickParamChaSCore1Aura: public TBrickParam::CId <TBrickParam::SP_ChaScore1_AURA2>
@@ -233,19 +214,6 @@ void CSpecialPowerPhrase::processParams(const vector<TBrickParam::IIdPtr> &param
 					ChaScore1Aura->setParamValue(((CSBrickParamChaScore1Aura *)param)->RegenMod*quality);
 					ChaScore1Aura->setByPass(isConsumable);
 					_Powers.push_back(ChaScore1Aura);
-				}
-			}
-			break;
-
-		case TBrickParam::SP_STAMINA_AURA2:
-			{
-				CSpecialPowerBasicAura *staminaAura = new CSpecialPowerBasicAura(_ActorRowId, this, ((CSBrickParamStaminaAura*)param)->Duration, ((CSBrickParamLifeAura *)param)->UserDisableTime, ((CSBrickParamStaminaAura *)param)->TargetDisableTime, POWERS::StaminaAura);
-				if (staminaAura)
-				{
-					staminaAura->setRadius(((CSBrickParamStaminaAura *)param)->Radius);
-					staminaAura->setFamilies(EFFECT_FAMILIES::PowerRootStaminaAura,EFFECT_FAMILIES::PowerStaminaAura );
-					staminaAura->setParamValue(((CSBrickParamStaminaAura *)param)->RegenMod*quality);
-					staminaAura->setByPass(isConsumable);
 				}
 			}
 			break;

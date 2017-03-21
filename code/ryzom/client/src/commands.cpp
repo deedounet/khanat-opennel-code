@@ -1215,52 +1215,6 @@ NLMISC_COMMAND(setItemName, "set name of items, sbrick, etc..","<sheet_id> <name
 	if (pSMC)
 		pSMC->replaceSBrickName(id, name, desc, desc2);
 	else
-	else
-	{
-		ChatMngr.updateChatModeAndButton(CChatGroup::dyn_chat, nb);
-	}
-		return false;
-	return true;
-}
-
-
-NLMISC_COMMAND(setMissingDynstringText, "set text of missing dynamic string"," <name> <text>")
-{
-	if (args.size() < 2) return false;
-	ucstring name;
-	name.fromUtf8(args[0]);
-	ucstring text;
-	text.fromUtf8(args[1]);
-
-	STRING_MANAGER::CStringManagerClient *pSMC = STRING_MANAGER::CStringManagerClient::instance();
-	if (pSMC)
-		pSMC->replaceDynString(name, text);
-	else
-		return false;
-	return true;
-}
-
-
-
-
-
-NLMISC_COMMAND(setItemName, "set name of items, sbrick, etc..","<sheet_id> <name> <desc> <desc2>")
-{
-	if (args.size() < 2) return false;
-	CSheetId id(args[0]);
-	ucstring name;
-	name.fromUtf8(args[1]);
-	ucstring desc;
-	ucstring desc2;
-	if (args.size() > 2)
-		desc.fromUtf8(args[2]);
-	if (args.size() > 2)
-		desc2.fromUtf8(args[3]);
-
-	STRING_MANAGER::CStringManagerClient *pSMC = STRING_MANAGER::CStringManagerClient::instance();
-	if (pSMC)
-		pSMC->replaceSBrickName(id, name, desc, desc2);
-	else
 		return false;
 	return true;
 }
@@ -4304,8 +4258,8 @@ NLMISC_COMMAND(debugItemInfo, "simulate a ItemInfo received from server", "itemS
 	itemInfo.DesertMagicResistance= 133;
 	itemInfo.ForestMagicResistance= 500;
 	itemInfo.PrimaryRootMagicResistance= 341;
-	itemInfo.Hp= 66;
-	itemInfo.HpMax= 100;
+	itemInfo.ChaScore1= 66;
+	itemInfo.ChaScore1Max= 100;
 	itemInfo.Range= 169;
 	itemInfo.SapLoadCurrent= 6;
 	itemInfo.SapLoadMax= 30;
@@ -5747,74 +5701,7 @@ NLMISC_COMMAND(em, "emote command", "<emote phrase>")
 	return false;
 }
 
-NLMISC_COMMAND(me, "emote command", "<emote phrase>")
-{
-	if (args.size() < 1) return false;
 
-	CInterfaceManager *pIM = CInterfaceManager::getInstance();
-	if( pIM )
-	{
-		string emotePhrase;
-		if( args.size() > 0 )
-		{
-			emotePhrase = args[0];
-		}
-		for(uint i = 1; i < args.size(); ++i )
-		{
-			emotePhrase += " ";
-			emotePhrase += args[i];
-		}
-		CAHManager::getInstance()->runActionHandler("emote", NULL, "nb=0|behav=255|custom_phrase="+emotePhrase);
-		return true;
-	}
-	return false;
-}
-
-NLMISC_COMMAND(emote, "emote command", "<emote phrase>")
-{
-	if (args.size() < 1) return false;
-
-NLMISC_COMMAND(guildmotd, "Set or see the guild message of the day","<msg of the day>")
-	if( pIM )
-	{
-		string emotePhrase;
-		if( args.size() > 0 )
-		{
-			emotePhrase = args[0];
-		}
-		for(uint i = 1; i < args.size(); ++i )
-		{
-			emotePhrase += " ";
-			emotePhrase += args[i];
-		}
-		CAHManager::getInstance()->runActionHandler("emote", NULL, "nb=0|behav=255|custom_phrase="+emotePhrase);
-		return true;
-	}
-	return false;
-}
-
-NLMISC_COMMAND(m, "emote command", "<emote phrase>")
-{
-	if (args.size() < 1) return false;
-
-	CInterfaceManager *pIM = CInterfaceManager::getInstance();
-	if( pIM )
-	{
-		string emotePhrase;
-		if( args.size() > 0 )
-		{
-			emotePhrase = args[0];
-		}
-		for(uint i = 1; i < args.size(); ++i )
-		{
-			emotePhrase += " ";
-			emotePhrase += args[i];
-		}
-		CAHManager::getInstance()->runActionHandler("emote", NULL, "nb=0|behav=255|custom_phrase="+emotePhrase);
-		return true;
-	}
-	return false;
-}
 
 
 NLMISC_COMMAND(guildmotd, "Set or see the guild message of the day","<msg of the day>")

@@ -528,15 +528,6 @@ void CPVPManager2::removeFactionChannelForCharacter(TChanID channel, CCharacter 
 				_CharacterChannels.erase(user->getId());
 				_CharacterChannels.insert(make_pair(user->getId(), currentChannels));
 			}
-
-			// Update channel list for player
-			currentChannels.erase(currentChannels.begin() + i);
-			std::map< NLMISC::CEntityId, std::vector<TChanID> >::iterator it = _CharacterChannels.find(user->getId());
-			if( it != _CharacterChannels.end() )
-			{
-				_CharacterChannels.erase(user->getId());
-				_CharacterChannels.insert(make_pair(user->getId(), currentChannels));
-			}
 		}
 	}
 
@@ -778,7 +769,6 @@ PVP_RELATION::TPVPRelation CPVPManager2::getPVPRelation( CCharacter * actor, CEn
 				relationTmp = PVP_RELATION::NeutralPVP;
 			}
 			relation = relationTmp;
-			}
 		}
 		////////////////////////////////////////////////////////
 	}

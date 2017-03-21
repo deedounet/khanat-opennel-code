@@ -157,8 +157,6 @@ int main(int argc, char **argv)
 
 	// init the Nel context
 	CApplicationContext *appContext = new CApplicationContext;
-	DisableNLDebug = true;
-#endif
 
 	// disable nldebug messages in logs in Release
 #ifdef NL_RELEASE
@@ -169,17 +167,12 @@ int main(int argc, char **argv)
 	createDebug(NULL, false);
 
 	INelContext::getInstance().setWindowedApplication(true);
-	INelContext::getInstance().getDebugLog()->removeDisplayer("DEFAULT_SD");
-	INelContext::getInstance().getInfoLog()->removeDisplayer("DEFAULT_SD");
-	INelContext::getInstance().getWarningLog()->removeDisplayer("DEFAULT_SD");
-#endif // NL_DEBUG
 
 #ifndef NL_DEBUG
 	INelContext::getInstance().getDebugLog()->removeDisplayer("DEFAULT_SD");
 	INelContext::getInstance().getInfoLog()->removeDisplayer("DEFAULT_SD");
 	INelContext::getInstance().getWarningLog()->removeDisplayer("DEFAULT_SD");
 #endif // NL_DEBUG
-	Args.addAdditionalArg("shard_id", "Shard ID to use", true, false);
 
 	Args.setVersion(getDisplayVersion());
 	Args.setDescription("Ryzom client");
@@ -207,12 +200,10 @@ int main(int argc, char **argv)
 	if (Args.haveAdditionalArg("login"))
 	{
 		LoginLogin = Args.getAdditionalArg("login").front();
-		LoginPassword = Args.getAdditionalArg("password").front();
 
 		if (Args.haveAdditionalArg("password"))
 		{
 			LoginPassword = Args.getAdditionalArg("password").front();
-		LoginShardId = std::numeric_limits<uint32>::max();
 
 			if (Args.haveAdditionalArg("shard_id"))
 				sLoginShardId = Args.getAdditionalArg("shard_id").front();
@@ -226,11 +217,13 @@ int main(int argc, char **argv)
 	if (Args.haveArg("p") || !CFile::isExists("client_default.cfg"))
 	{
 		std::string currentPath = CPath::getApplicationDirectory("Khanat");
+
 		// create parent directory
 		if (!CFile::isExists(currentPath)) CFile::createDirectory(currentPath);
 
 		// append profile ID to directory
 		if (Args.haveArg("p"))
+		{
 			currentPath = NLMISC::CPath::standardizePath(currentPath) + Args.getArg("p").front();
 
 			if (!CFile::isExists(currentPath)) CFile::createDirectory(currentPath);

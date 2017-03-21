@@ -1497,14 +1497,7 @@ void CInterfaceManager::updateFrameEvents()
 
 			// literal version
 			// str = CI18N::get("uiDate");
-			/*			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
-			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + ", ";
-			str += CI18N::get("ui"+MONTH::toString( (MONTH::EMonth)RT.getRyzomMonthInCurrentCycle() )) + " ";
-			str += toString("%02d", RT.getRyzomDayOfMonth()+1) + ", ";
-			str += CI18N::get("uiAtysianCycle" + toString(RT.getRyzomCycle()+1) + "Ordinal") + " " + CI18N::get("uiAtysianCycle") + " ";
-			str += toString("%04d", RT.getRyzomYear());*/
-
-			pVT = dynamic_cast<CViewText*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:time"));
+			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
 			str += toString("%d", (sint)RT.getRyzomWeek()) + " ";
 			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
 			ucstring year = RT.getRyzomYearStr();
@@ -1527,8 +1520,6 @@ void CInterfaceManager::updateFrameEvents()
 					else
 						str = getTimestampHuman("%H:%M");
 					pVT->setText(str);
-				}
-			}
 				}
 			}
 		}
@@ -1961,19 +1952,22 @@ bool CInterfaceManager::saveConfig (const string &filename)
 		{
 			nlwarning("Bad user dyn chat saving");
 			return false;
-	catch(const NLMISC::EStream &)
-		{
-			nlwarning("Bad user dyn chat saving");
-			return false;
 		}
+
 		f.close();
 	}
 	catch(const NLMISC::EStream &)
 	{
 		nlwarning("Config saving failed.");
 		return false;
+	}
+
 	ContinentMngr.serialFOWMaps();
+
 	return true;
+}
+
+// ------------------------------------------------------------------------------------------------
 void CInterfaceManager::drawViews(NL3D::UCamera camera)
 {
 	IngameDbMngr.flushObserverCalls();
@@ -2062,6 +2056,7 @@ public:
 	{
 		this->reset = reset;
 	}
+
 	void visitGroup( CInterfaceGroup *group )
 	{
 		const std::vector< CViewBase* > &vs = group->getViews();

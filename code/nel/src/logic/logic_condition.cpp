@@ -23,8 +23,6 @@
 
 #include "nel/misc/o_xml.h"
 
-#include "nel/misc/o_xml.h"
-
 using namespace NLMISC;
 using namespace std;
 

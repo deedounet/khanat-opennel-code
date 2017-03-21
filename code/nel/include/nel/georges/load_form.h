@@ -865,7 +865,7 @@ void loadForm (const std::vector<std::string> &sheetFilters, const std::string &
 	}
 
 	// make sure the CSheetId singleton has been properly initialised
-	NLMISC::CSheetId::init(updatePackedSheet);
+//	NLMISC::CSheetId::init(updatePackedSheet);
 
 	// load the packed sheet if exists
 	try

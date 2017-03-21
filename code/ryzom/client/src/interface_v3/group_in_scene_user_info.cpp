@@ -683,34 +683,6 @@ CGroupInSceneUserInfo *CGroupInSceneUserInfo::build (CEntityCL *entity)
 								else
 									pvpFactionLogo->setActive(false);
 							}
-								else if (pPlayer->getPvpMode() & PVP_MODE::PvpFaction)
-								{
-									if (pPlayer->getPvpMode() & PVP_MODE::PvpZoneSafe)
-										pvpFactionBitmap->setTexture("pvp_neutral.tga");
-							else
-										pvpFactionBitmap->setTexture("pvp_enemy_tag.tga");
-								}
-								else if (pPlayer->getPvpMode() & PVP_MODE::PvpFactionFlagged)
-							{
-								if (pPlayer->getPvpMode() & PVP_MODE::PvpChallenge)
-									pvpFactionBitmap->setTexture("ico_curse.tga");
-								else if (pPlayer->isNeutralPVP())
-									pvpFactionBitmap->setTexture("pvp_neutral.tga");
-								else if (pPlayer->isAlly() && (pPlayer->getPvpMode() & PVP_MODE::PvpFactionFlagged))
-									pvpFactionBitmap->setTexture("pvp_ally_flag.tga");
-								else if (pPlayer->isAlly() && (pPlayer->getPvpMode() & PVP_MODE::PvpFaction))
-									pvpFactionBitmap->setTexture("pvp_ally_tag.tga");
-								else if (pPlayer->isEnemy() && (pPlayer->getPvpMode() & PVP_MODE::PvpFactionFlagged))
-									pvpFactionBitmap->setTexture("pvp_enemy_flag.tga");
-								else if (pPlayer->isEnemy() && (pPlayer->getPvpMode() & PVP_MODE::PvpFaction))
-									pvpFactionBitmap->setTexture("pvp_enemy_tag.tga");
-								else if (pPlayer->getPvpMode() & PVP_MODE::PvpFactionFlagged)
-									pvpFactionBitmap->setTexture("pvp_enemy_flag.tga");
-								else if (pPlayer->getPvpMode() & PVP_MODE::PvpFaction)
-									pvpFactionBitmap->setTexture("pvp_enemy_tag.tga");
-								else
-									pvpFactionLogo->setActive(false);
-							}
 							else
 							{
 								if (pPlayer->getPvpMode() & PVP_MODE::PvpChallenge)
@@ -732,7 +704,6 @@ CGroupInSceneUserInfo *CGroupInSceneUserInfo::build (CEntityCL *entity)
 								else
 									pvpFactionLogo->setActive(false);
 							}
-						}
 						}
 					}
 									

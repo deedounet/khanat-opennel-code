@@ -3785,8 +3785,6 @@ uint CZoneLighter::getAPatch (uint process)
 
 	nlassert(index < _PatchInfo.size());
 
-	nlassert(index < _PatchInfo.size());
-
 	if (access.value().empty())
 		// no more patches
 		return 0xffffffff;

@@ -896,55 +896,6 @@ void initAltLogin()
 	LoginSM.pushEvent(CLoginStateMachine::ev_login_not_alt);
 }
 
-void initAltLogin()
-{
-	// Check the alt param
-	if (!LoginCustomParameters.empty())
-	{
-		// don't use login and password for alternate login
-		string res = checkLogin("", "", ClientApp, LoginCustomParameters);
-		if (res.empty())
-		{
-			if (ClientCfg.R2Mode)
-			{
-				LoginSM.pushEvent(CLoginStateMachine::ev_login_ok);
-			}
-			else
-			{
-				// Select good shard
-				ShardSelected = -1;
-				for (uint32 i = 0; i < Shards.size(); ++i)
-				{
-					if (Shards[i].ShardId == LoginShardId)
-					{
-						ShardSelected = i;
-						break;
-					}
-				}
-
-				if (ShardSelected == -1)
-				{
-					CInterfaceManager *pIM = CInterfaceManager::getInstance();
-					pIM->messageBoxWithHelp(CI18N::get("uiErrServerLost"), "ui:login");
-					LoginSM.pushEvent(CLoginStateMachine::ev_quit);
-				}
-				else
-				{
-					LoginSM.pushEvent(CLoginStateMachine::ev_login_ok);
-				}
-			}
-
-			return;
-		}
-	}
-
-	// close the socket in case of error
-	HttpClient.disconnect();
-
-	// ignore error
-	LoginSM.pushEvent(CLoginStateMachine::ev_login_not_alt);
-}
-
 
 // ***************************************************************************
 // Called from client.cpp
@@ -1195,7 +1146,7 @@ void initShardDisplay()
 	for (uint fff = 0; fff < 20; ++fff)
 	{
 		CShard s (	toString("%05d",fff), fff%3, fff+32, toString("%s%d","pipo",fff),
-					32*fff%46546, "32.32.32.32", "http://www.ryzomcore.org" );
+					32*fff%46546, "32.32.32.32", "http://www.ryzom.com" );
 		Shards.push_back(s);
 	}*/
 
@@ -1322,7 +1273,7 @@ void onlogin(bool vanishScreen = true)
 //		for (uint fff = 0; fff < 20; ++fff)
 //		{
 //			CShard s (	toString("%05d",fff), fff%3, fff+32, toString("%s%d","pipo",fff),
-//						32*fff%46546, "32.32.32.32", "http://www.ryzomcore.org" );
+//						32*fff%46546, "32.32.32.32", "http://www.ryzom.com" );
 //			Shards.push_back(s);
 //		}*/
 //

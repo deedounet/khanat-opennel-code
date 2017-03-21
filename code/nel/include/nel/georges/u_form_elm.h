@@ -227,9 +227,6 @@ public:
 	/// Returns the type of the atom. NULL otherwise.
 	virtual const class UType	*getType () = 0;
 
-	/// Returns the type of the atom. NULL otherwise.
-	virtual const class UType	*getType () = 0;
-
 	/// Return true if the element is an atom
 	virtual bool	isAtom () const = 0;
 

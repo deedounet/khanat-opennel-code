@@ -259,50 +259,6 @@ void EditPatchMod::SelectSubPatch(int index)
 		
 		patchData->BeginEdit(t);
 		if (theHold.Holding()) 
-			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, "SelectSubComponent"));
-
-		patch->patchSel.Set(index);
-
-		patchData->UpdateChanges(patch, rpatch, FALSE);
-		if (patchData->tempData)
-		{
-			patchData->tempData->Invalidate(PART_SELECT);
-		}
-	}
-	PatchSelChanged();
-		
-	UpdateSelectDisplay();
-	NotifyDependents(FOREVER, PART_SELECT, REFMSG_CHANGE);
-}
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------------
-
-void EditPatchMod::SelectSubPatch(int index)
-{
-	if (!ip)
-		return; 
-	TimeValue t = ip->GetTime();
-
-	ip->ClearCurNamedSelSet();
-
-	ModContextList mcList;
-	INodeTab nodes;
-	ip->GetModContexts(mcList, nodes);
-
-	for (int i = 0; i < mcList.Count(); i++)
-	{
-		EditPatchData *patchData =(EditPatchData*)mcList[i]->localData;
-	
-		if (!patchData)
-			return;
-		
-		RPatchMesh *rpatch;
-		PatchMesh *patch = patchData->TempData(this)->GetPatch(t, rpatch);
-		if (!patch)
-			return;
-		
-		patchData->BeginEdit(t);
-		if (theHold.Holding()) 
 			theHold.Put(new PatchRestore(patchData, this, patch, rpatch, _T("SelectSubComponent")));
 
 		patch->patchSel.Set(index);

@@ -521,20 +521,6 @@ public:
 	 */
 	static bool isAbsolutePath (const std::string &path);
 
-	/** Make path absolute
-	 * \param relativePath - The relative path
-	 * \param directory - the directory to which the path is relative to
-	 * \param simplify - if we should simplify or not the path (convert . and .. in path)
-	 * returns the absolute path, or empty if something went wrong.
-	 */
-	static std::string makePathAbsolute (const std::string &relativePath, const std::string &directory, bool simplify = false );
-
-	/** Return if a path is absolute or not.
-	 * \param path - The path
-	 * returns true if path is absolute or false if relative.
-	 */
-	static bool isAbsolutePath (const std::string &path);
-
 	/** If File in this list is added more than one in an addSearchPath, it doesn't launch a warning.
 	 */
 	static void addIgnoredDoubleFile(const std::string &ignoredFile);

@@ -3851,53 +3851,7 @@ struct CSBrickParamChaScore1Aura : public TBrickParam::IId
 
 struct CSBrickParamChaScore1Aura2 : public TBrickParam::IId
 {
-	// regen modifier (in %)
-	uint16 RegenMod;
-	// duration in seconds
-	float Duration;
-	// aura radius in meters
-	float Radius;
-	// disable life aura for x seconds on targets
-	float TargetDisableTime;
-	// disable life aura for x seconds on user
-	float UserDisableTime;
 
-	CSBrickParamLifeAura2():
-		RegenMod(),
-		Duration(),
-		Radius(),
-		TargetDisableTime(),
-		UserDisableTime()
-	{
-		_Id = TBrickParam::SP_LIFE_AURA2;
-	}
-
-	CSBrickParamLifeAura2(const std::string&str)
-	{
-		*this=CSBrickParamLifeAura2();
-		*this=str;
-	}
-
-	const CSBrickParamLifeAura2& operator=(const std::string& input)
-	{
-		std::vector<std::string> args;
-		convertInput(args, input);
-
-		if (args.size()!=5)
-			return *this;
-
-		ParsedOk=true;
-		RegenMod=atoi(args[0].c_str());
-		Duration=(float)atof(args[1].c_str());
-		Radius=(float)atof(args[2].c_str());
-		TargetDisableTime=(float)atof(args[3].c_str());
-		UserDisableTime=(float)atof(args[4].c_str());
-
-		return *this;
-	}
-};
-
-{
 	// regen modifier (in %)
 	uint16 RegenMod;
 	// duration in seconds

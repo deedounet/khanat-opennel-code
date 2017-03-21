@@ -102,6 +102,10 @@ CBloomEffect::~CBloomEffect()
 			if (_Driver) _Driver->deleteMaterial(_BlurMat);
 		}
 	}
+}
+
+//-----------------------------------------------------------------------------------------------------------
+
 void CBloomEffect::init()
 {
 	if (!((CDriverUser *)_Driver)->getDriver()->supportBloomEffect())

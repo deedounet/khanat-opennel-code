@@ -135,13 +135,6 @@ int CDBCtrlSheet::luaGetDraggedSheet(CLuaState &ls)
 }
 
 // ***************************************************************************
-int CDBCtrlSheet::luaGetDraggedSheet(CLuaState &ls)
-{
-	CLuaIHM::pushUIOnStack(ls, dynamic_cast<CInterfaceElement *>( dynamic_cast< CDBCtrlSheet* >( CCtrlDraggable::getDraggedSheet() ) ));
-	return 1;
-}
-
-// ***************************************************************************
 int CDBCtrlSheet::luaGetChaScore1Buff(CLuaState &ls)
 {
 	CDBCtrlSheet *ctrlSheet = const_cast<CDBCtrlSheet*>(this);
