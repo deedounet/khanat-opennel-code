@@ -4258,8 +4258,8 @@ NLMISC_COMMAND(debugItemInfo, "simulate a ItemInfo received from server", "itemS
 	itemInfo.DesertMagicResistance= 133;
 	itemInfo.ForestMagicResistance= 500;
 	itemInfo.PrimaryRootMagicResistance= 341;
-	itemInfo.ChaScore1= 66;
-	itemInfo.ChaScore1Max= 100;
+	itemInfo.Hp= 66;
+	itemInfo.HpMax= 100;
 	itemInfo.Range= 169;
 	itemInfo.SapLoadCurrent= 6;
 	itemInfo.SapLoadMax= 30;
