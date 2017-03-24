@@ -865,8 +865,8 @@ function game:updatePhraseTooltip(phrase)
 	end
 	-- IMPORTANT : the following getters on 'phrase' take in account the 'total action malus' for the timebeing 	
 	self:setPhraseTooltipCarac(ttWin, "ChaScore1_cost",	phrase:getChaScore1Cost())
-	self:setPhraseTooltipCarac(ttWin, "ChaScore3_cost",	phrase:getChaScore3Cost())
-	self:setPhraseTooltipCarac(ttWin, "ChaScore2_cost",	phrase:getChaScore2Cost())	
+	self:setPhraseTooltipCarac(ttWin, "ChaScore2_cost",	phrase:getChaScore2Cost())
+	self:setPhraseTooltipCarac(ttWin, "ChaScore3_cost",	phrase:getChaScore3Cost())	
 	self:setPhraseTooltipCarac(ttWin, "ChaScore4_cost", phrase:getChaScore4Cost())	
 	self:setPhraseTooltipCarac(ttWin, "cast_time",  phrase:getCastTime(), concatUCString(string.format("%.1f", phrase:getCastTime()), i18n.get("uittSeconds")))
 	local castRange = phrase:getCastRange()
@@ -906,6 +906,7 @@ function game:updatePhraseTooltip(phrase)
 	updateTooltipCoords()	
 	return text
 end
+
 
 ------------------------------------------------------------------------------------------------------------
 -- called at each frame when a power/aura tooltip is displayed,in order to update the regen countdown

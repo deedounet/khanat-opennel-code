@@ -1965,11 +1965,6 @@
                 name="7"
                 usergroup_l="chat_menu_button"
                 usergroup_params_l="chat_db=DYNAMIC_CHAT7" />
-                usergroup_params_l="chat_db=DYNAMIC_CHAT6" />
-        <action id="dyn7"
-                name="7"
-                usergroup_l="chat_menu_button"
-                usergroup_params_l="chat_db=DYNAMIC_CHAT7" />
       </action>
     <separator />
   </group>
