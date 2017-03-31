@@ -3140,10 +3140,6 @@ void CBankAccessor_PLR::TPACK_ANIMAL::TBEAST::init(ICDBStructNode *parent, uint 
 	nlassert(node != NULL);
 	_DESPAWN = node;
 	
-	node  = parent->getNode( ICDBStructNode::CTextId("NAME"), false );
-	nlassert(node != NULL);
-	_NAME = node;
-
 	// WARNING: let the value to true, else it'll corrupt backups
 	node  = parent->getNode( ICDBStructNode::CTextId("NAME"), true );
 	nlassert(node != NULL);

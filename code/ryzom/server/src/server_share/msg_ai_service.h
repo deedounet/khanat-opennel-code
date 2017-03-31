@@ -603,27 +603,6 @@ public:
 };
 
 //----------------------------------------------------------------------------
-// AIS -> EGS ais change creature Max HP
-//----------------------------------------------------------------------------
-class CChangeCreatureMaxHPMsg : public CMirrorTransportClass
-{
-public:
-	std::vector<TDataSetRow>    Entities;
-	std::vector<uint32>         MaxHp;
-	std::vector<uint8>          SetFull;
-	
-	virtual void description ()
-	{
-		className ("CChangeCreatureMaxHPMsg");
-		propertyCont ("Entities", PropDataSetRow, Entities);
-		propertyCont ("MaxHp", PropUInt32, MaxHp);
-		propertyCont ("SetFull", PropUInt8, SetFull);
-	}
-	
-	virtual void callback (const std::string &/* name */, NLNET::TServiceId /* id */) {}
-};
-
-//----------------------------------------------------------------------------
 // AIS -> EGS ais change creature Max ChaScore1
 //----------------------------------------------------------------------------
 class CChangeCreatureMaxChaScore1Msg : public CMirrorTransportClass
