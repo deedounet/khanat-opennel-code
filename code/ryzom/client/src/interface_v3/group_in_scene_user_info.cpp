@@ -227,7 +227,7 @@ CGroupInSceneUserInfo *CGroupInSceneUserInfo::build (CEntityCL *entity)
 		forageSourceBarDisplayed = (entity->slot() == UserEntity->selection());
 		bars[Time] = forageSourceBarDisplayed;
 		bars[Amount] = forageSourceBarDisplayed;
-		//bool displayExtractingParams = true; //forageSource->isExtractionInProgress() /*&& NLGUI::CDBManager::getInstance()->getDbProp(dbEntry+"ChaScore1")*/;
+		//bool displayExtractingParams = true; //forageSource->isExtractionInProgress() /*&& NLGUI::CDBManager::getInstance()->getDbProp(dbEntry+"HP")*/;
 		bars[Life] = forageSourceBarDisplayed;//displayExtractingParams;
 		bars[Danger] = forageSourceBarDisplayed;//displayExtractingParams;
 		bars[Spawn] = forageSourceBarDisplayed;//displayExtractingParams;

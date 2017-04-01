@@ -22,7 +22,11 @@
 #include "nel/3d/texture_grouped.h"
 #include "nel/3d/ps_iterator.h"
 #include "nel/3d/particle_system.h"
+#include "nel/3d/debug_vb.h"
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
 
 namespace NL3D
 {

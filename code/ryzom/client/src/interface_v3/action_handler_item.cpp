@@ -50,6 +50,10 @@ extern NLMISC::CLog	g_log;
 using namespace std;
 using namespace NLMISC;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 CInterfaceItemEdition *CInterfaceItemEdition::_Instance = NULL;
 
 // ********************************************************************************************
@@ -329,7 +333,7 @@ void CInterfaceItemEdition::CItemEditionWindow::end()
 		// remove infos waiter (if not already canceled)
 		getInventory().removeItemInfoWaiter(this);
 		_CurrItemSheet = NULL;
-		WindowName = "";
+		WindowName.clear();
 
 		// hide the dialog
 		CInterfaceManager *pIM = CInterfaceManager::getInstance();
@@ -425,8 +429,6 @@ static	CDBCtrlSheet	*CurrentStackDst= NULL;
 static	TStackMode		CurrentStackMode;
 
 
-static void putStackableInventoryItemToExchange(CDBCtrlSheet *src, CDBCtrlSheet *dest, uint quantity);
-static void putStackableExchangedItemToInventory(CDBCtrlSheet *src, CDBCtrlSheet *dest, uint quantity);
 static void validateStackItem(CDBCtrlSheet *src, CDBCtrlSheet *dest, sint32 quantity, TStackMode stackMode);
 
 
@@ -1944,6 +1946,26 @@ class CHandlerItemMenuCheck : public IActionHandler
 		{
 			pItemTextEdition->setGrayed(NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:ISACTIVE:PHRASE_EDIT_CUSTOM")->getValueBool());
 			pItemTextDisplay->setGrayed(NLGUI::CDBManager::getInstance()->getDbProp("UI:VARIABLES:ISACTIVE:PHRASE_EDIT_CUSTOM")->getValueBool());
+		}
+
+		if (pCS->getGrayed())
+		{
+			if (pEquip) pEquip->setActive(false);
+			if (pDestroy) pDestroy->setActive(false);
+			if (pLockUnlock) pLockUnlock->setActive(false);
+			if (pMoveSubMenu) pMoveSubMenu->setActive(false);
+		}
+
+		if (bIsLockedByOwner) 
+		{
+			if (pLockUnlock) pLockUnlock->setHardText("uimUnlockItem");
+			// Cannot drop/destroy if locked by owner
+			if (pDrop)    pDrop->setActive(false);
+			if (pDestroy) pDestroy->setActive(false);
+		}
+		else
+		{
+			if (pLockUnlock) pLockUnlock->setHardText("uimLockItem");
 		}
 
 		if (pCS->getGrayed())

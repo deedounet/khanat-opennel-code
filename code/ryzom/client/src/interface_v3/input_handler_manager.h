@@ -43,7 +43,6 @@ typedef xmlNode *xmlNodePtr;
  * \date 2002
  */
 
-
 class CInputHandlerManager : public NLMISC::IEventListener, public CGroupEditBox::IComboKeyHandler
 {
 public:
@@ -88,7 +87,7 @@ public:
 	/**
 	 * read the input config file.
 	 * \param fileName : name of the config file
-	 * \return true if no error occured
+	 * \return true if no error occurred
 	 */
 	bool	readInputConfigFile(const std::string & fileName);
 

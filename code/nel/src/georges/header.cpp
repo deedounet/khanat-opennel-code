@@ -76,7 +76,7 @@ void CFileHeader::write (xmlNodePtr node) const
 
 // ***************************************************************************
 
-void CFileHeader::addLog (const char *log)
+void CFileHeader::addLog (const std::string &log)
 {
 	time_t t;
 	time (&t);
@@ -92,7 +92,7 @@ void CFileHeader::addLog (const char *log)
 
 // ***************************************************************************
 
-void CFileHeader::setComments (const char *comments)
+void CFileHeader::setComments (const std::string &comments)
 {
 	Comments = comments;
 }
@@ -112,8 +112,8 @@ void CFileHeader::read (xmlNodePtr root)
 			xmlFree ((void*)value);
 
 			// Throw exception
-			warning (true, "read", "XML Syntax error in TYPE block line %p, the Version argument is invalid.",
-				root->content);
+			warning (true, "read", "XML Syntax error in TYPE block line %d, the Version argument is invalid.",
+				(sint)root->line);
 		}
 
 		// Delete the value
@@ -145,8 +145,8 @@ void CFileHeader::read (xmlNodePtr root)
 			xmlFree ((void*)value);
 
 			// Throw exception
-			warning (true, "read", "XML Syntax error in TYPE block line %p, the State argument is invalid.",
-				root->content);
+			warning (true, "read", "XML Syntax error in TYPE block line %d, the State argument is invalid.",
+				(sint)root->line);
 		}
 
 		// Delete the value
@@ -159,7 +159,7 @@ void CFileHeader::read (xmlNodePtr root)
 	}
 
 	// Look for the comment node
-	Comments = "";
+	Comments.clear();
 	xmlNodePtr node = CIXml::getFirstChildNode (root, "COMMENTS");
 	if (node)
 	{
@@ -181,7 +181,7 @@ void CFileHeader::read (xmlNodePtr root)
 	}
 
 	// Look for the log node
-	Log = "";
+	Log.clear();
 	node = CIXml::getFirstChildNode (root, "LOG");
 	if (node)
 	{
@@ -215,7 +215,7 @@ const char *CFileHeader::getStateString (TState state)
 
 // ***************************************************************************
 
-void CFileHeader::warning (bool exception, const char *function, const char *format, ... ) const
+void CFileHeader::warning (bool exception, const std::string &function, const char *format, ... ) const
 {
 	// Make a buffer string
 	va_list args;
@@ -225,7 +225,7 @@ void CFileHeader::warning (bool exception, const char *function, const char *for
 	va_end( args );
 
 	// Set the warning
-	NLGEORGES::warning (exception, "(CFileHeader::%s) : %s", function, buffer);
+	NLGEORGES::warning (exception, "(CFileHeader::%s) : %s", function.c_str(), buffer);
 }
 
 // ***************************************************************************

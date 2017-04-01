@@ -36,6 +36,10 @@
 using namespace NLMISC;
 using namespace std;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 namespace NL3D
 {
 
@@ -749,7 +753,7 @@ bool CInstanceGroup::addToSceneWhenAllShapesLoaded (CScene& scene, IDriver *driv
 	for (i = 0; i < _Instances.size(); ++i)
 	if (_Instances[i] != NULL && !_InstancesInfos[i].DontAddToScene)
 	{
-		if (_InstancesInfos[i].Clusters.size() > 0)
+		if (!_InstancesInfos[i].Clusters.empty())
 		{
 			_Instances[i]->clipUnlinkFromAll();
 			for (j = 0; j < _InstancesInfos[i].Clusters.size(); ++j)
@@ -808,7 +812,7 @@ bool CInstanceGroup::addToSceneWhenAllShapesLoaded (CScene& scene, IDriver *driv
 	// Register the instanceGroup for light animation
 	// -----------------
 	// If some PointLight to animate
-	if(_PointLightArray.getPointLights().size() > 0)
+	if(!_PointLightArray.getPointLights().empty())
 		scene.addInstanceGroupForLightAnimation(this);
 
 	_AddToSceneState = StateAdded;
@@ -1036,7 +1040,7 @@ bool CInstanceGroup::removeFromScene (CScene& scene)
 	// UnRegister the instanceGroup for light animation
 	// -----------------
 	// If some PointLight to animate
-	if(_PointLightArray.getPointLights().size() > 0)
+	if(!_PointLightArray.getPointLights().empty())
 		scene.removeInstanceGroupForLightAnimation(this);
 
 	if (_AddRemoveInstance)
@@ -1113,7 +1117,7 @@ void CInstanceGroup::setClusterSystemForInstances(CInstanceGroup *pIG)
 {
 	_ClusterSystemForInstances = pIG;
 	for (uint32 i = 0; i < _Instances.size(); ++i)
-		if (_Instances[i] && _InstancesInfos[i].Clusters.size() == 0)
+		if (_Instances[i] && _InstancesInfos[i].Clusters.empty())
 			_Instances[i]->setClusterSystem (_ClusterSystemForInstances);
 }
 

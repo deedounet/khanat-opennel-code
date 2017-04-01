@@ -367,7 +367,11 @@ ENDMACRO(NL_SETUP_SNOWBALLS_DEFAULT_OPTIONS)
 MACRO(ADD_PLATFORM_FLAGS _FLAGS)
   SET(PLATFORM_CFLAGS "${PLATFORM_CFLAGS} ${_FLAGS}")
   SET(PLATFORM_CXXFLAGS "${PLATFORM_CXXFLAGS} ${_FLAGS}")
-ENDMACRO(ADD_PLATFORM_FLAGS)
+ENDMACRO()
+
+MACRO(ADD_PLATFORM_LINKFLAGS _FLAGS)
+  SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${_FLAGS}")
+ENDMACRO()
 
 MACRO(NL_SETUP_BUILD)
 
@@ -390,9 +394,13 @@ MACRO(NL_SETUP_BUILD)
     ENDIF()
   ENDIF()
 
-  SET(HOST_CPU ${CMAKE_HOST_SYSTEM_PROCESSOR})
+  IF(CMAKE_CXX_LIBRARY_ARCHITECTURE)
+    SET(HOST_CPU ${CMAKE_CXX_LIBRARY_ARCHITECTURE})
+  ELSE()
+    SET(HOST_CPU ${CMAKE_HOST_SYSTEM_PROCESSOR})
+  ENDIF()
 
-  IF(HOST_CPU MATCHES "(amd|AMD)64")
+  IF(HOST_CPU MATCHES "(amd|AMD|x86_)64")
     SET(HOST_CPU "x86_64")
   ELSEIF(HOST_CPU MATCHES "i.86")
     SET(HOST_CPU "x86")
@@ -402,10 +410,10 @@ MACRO(NL_SETUP_BUILD)
 
   # If not specified, use the same CPU as host
   IF(NOT TARGET_CPU)
-    SET(TARGET_CPU ${CMAKE_SYSTEM_PROCESSOR})
+    SET(TARGET_CPU ${HOST_CPU})
   ENDIF()
 
-  IF(TARGET_CPU MATCHES "(amd|AMD)64")
+  IF(TARGET_CPU MATCHES "(amd|AMD|x86_)64")
     SET(TARGET_CPU "x86_64")
   ELSEIF(TARGET_CPU MATCHES "i.86")
     SET(TARGET_CPU "x86")
@@ -413,7 +421,7 @@ MACRO(NL_SETUP_BUILD)
 
   IF(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
     SET(CLANG ON)
-    MESSAGE(STATUS "Using Clang compiler")
+    MESSAGE(STATUS "Using Clang ${CMAKE_CXX_COMPILER_VERSION} compiler")
   ENDIF()
 
   IF(CMAKE_GENERATOR MATCHES "Xcode")
@@ -424,6 +432,11 @@ MACRO(NL_SETUP_BUILD)
   IF(CMAKE_GENERATOR MATCHES "NMake")
     SET(NMAKE ON)
     MESSAGE(STATUS "Generating NMake project")
+  ENDIF()
+
+  IF(CMAKE_GENERATOR MATCHES "Ninja")
+    SET(NINJA ON)
+    MESSAGE(STATUS "Generating Ninja project")
   ENDIF()
 
   # If target and host CPU are the same
@@ -474,6 +487,9 @@ MACRO(NL_SETUP_BUILD)
       SET(TARGET_X86 1)
     ELSEIF(TARGET_CPU STREQUAL "x86")
       SET(TARGET_X86 1)
+    ELSEIF(TARGET_CPU STREQUAL "arm64")
+      SET(TARGET_ARM 1)
+      SET(TARGET_ARM64 1)
     ELSEIF(TARGET_CPU STREQUAL "armv7s")
       SET(TARGET_ARM 1)
       SET(TARGET_ARMV7S 1)
@@ -493,6 +509,10 @@ MACRO(NL_SETUP_BUILD)
     ENDIF()
 
     IF(TARGET_ARM)
+      IF(TARGET_ARM64)
+        ADD_PLATFORM_FLAGS("-DHAVE_ARM64")
+      ENDIF()
+
       IF(TARGET_ARMV7S)
         ADD_PLATFORM_FLAGS("-DHAVE_ARMV7S")
       ENDIF()
@@ -541,10 +561,6 @@ MACRO(NL_SETUP_BUILD)
   ENDIF()
 
   IF(MSVC)
-    IF(MSVC_VERSION EQUAL "1700" AND NOT MSVC11)
-      SET(MSVC11 ON)
-    ENDIF()
-
     # Ignore default include paths
     ADD_PLATFORM_FLAGS("/X")
 
@@ -555,31 +571,31 @@ MACRO(NL_SETUP_BUILD)
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC12)
-      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
+      ADD_PLATFORM_FLAGS("/Gy-")
       # /Ox is working with VC++ 2013, but custom optimizations don't exist
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC11)
-      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
+      ADD_PLATFORM_FLAGS("/Gy-")
       # /Ox is working with VC++ 2012, but custom optimizations don't exist
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC10)
-      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
+      ADD_PLATFORM_FLAGS("/Gy-")
       # /Ox is working with VC++ 2010, but custom optimizations don't exist
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Od /Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC90)
-      ADD_PLATFORM_FLAGS("/Gy- /MP /Zm1000")
+      ADD_PLATFORM_FLAGS("/Gy-")
       # don't use a /O[012x] flag if you want custom optimizations
       SET(RELEASE_CFLAGS "/Ob2 /Oi /Ot /Oy /GT /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
       SET(DEBUG_CFLAGS "/Ob1 /GF- ${DEBUG_CFLAGS}")
     ELSEIF(MSVC80)
-      ADD_PLATFORM_FLAGS("/Gy- /Wp64 /Zm1000")
+      ADD_PLATFORM_FLAGS("/Gy- /Wp64")
       # don't use a /O[012x] flag if you want custom optimizations
       SET(RELEASE_CFLAGS "/Ox /GF /GS- ${RELEASE_CFLAGS}")
       # without inlining it's unusable, use custom optimizations again
@@ -588,16 +604,19 @@ MACRO(NL_SETUP_BUILD)
       MESSAGE(FATAL_ERROR "Can't determine compiler version ${MSVC_VERSION}")
     ENDIF()
 
-    ADD_PLATFORM_FLAGS("/D_CRT_SECURE_NO_DEPRECATE /D_CRT_SECURE_NO_WARNINGS /D_CRT_NONSTDC_NO_WARNINGS /DWIN32 /D_WINDOWS /wd4250")
+    ADD_PLATFORM_FLAGS("/D_CRT_SECURE_NO_DEPRECATE /D_CRT_SECURE_NO_WARNINGS /D_CRT_NONSTDC_NO_WARNINGS /D_SCL_SECURE_NO_WARNINGS /D_WIN32 /DWIN32 /D_WINDOWS /wd4250")
+
+    # huge PCH
+    ADD_PLATFORM_FLAGS("/Zm1000")
 
     IF(TARGET_X64)
       # Fix a bug with Intellisense
       ADD_PLATFORM_FLAGS("/D_WIN64")
       # Fix a compilation error for some big C++ files
-      SET(RELEASE_CFLAGS "${RELEASE_CFLAGS} /bigobj")
+      ADD_PLATFORM_FLAGS("/bigobj")
     ELSE()
       # Allows 32 bits applications to use 3 GB of RAM
-      SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} /LARGEADDRESSAWARE")
+      ADD_PLATFORM_LINKFLAGS("/LARGEADDRESSAWARE")
     ENDIF()
 
     # Exceptions are only set for C++
@@ -780,7 +799,7 @@ MACRO(NL_SETUP_BUILD)
 
               ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
               ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-              SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
+              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
             ENDIF()
 
             IF(TARGET_ARMV7)
@@ -790,7 +809,7 @@ MACRO(NL_SETUP_BUILD)
 
               ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
               ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-              SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
+              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
             ENDIF()
 
             IF(TARGET_ARMV6)
@@ -800,7 +819,7 @@ MACRO(NL_SETUP_BUILD)
 
               ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SYSROOT}")
               ADD_PLATFORM_FLAGS("${XARCH}-miphoneos-version-min=${IOS_VERSION}")
-              SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
+              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-iphoneos_version_min,${IOS_VERSION}")
             ENDIF()
           ENDIF()
 
@@ -812,20 +831,27 @@ MACRO(NL_SETUP_BUILD)
             ADD_PLATFORM_FLAGS("${XARCH}-isysroot${CMAKE_IOS_SIMULATOR_SYSROOT}")
             ADD_PLATFORM_FLAGS("${XARCH}-mios-simulator-version-min=${IOS_VERSION}")
             IF(CMAKE_OSX_DEPLOYMENT_TARGET)
-              SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} ${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
+              ADD_PLATFORM_LINKFLAGS("${XARCH}-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
             ENDIF()
           ENDIF()
         ELSE()
           # Always force -mmacosx-version-min to override environement variable
           IF(CMAKE_OSX_DEPLOYMENT_TARGET)
-            SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
+            IF(CMAKE_OSX_DEPLOYMENT_TARGET VERSION_LESS "10.7")
+              MESSAGE(FATAL_ERROR "Minimum target for OS X is 10.7 but you're using ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+            ENDIF()
+            ADD_PLATFORM_LINKFLAGS("-Wl,-macosx_version_min,${CMAKE_OSX_DEPLOYMENT_TARGET}")
           ENDIF()
         ENDIF()
 
-        SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-headerpad_max_install_names")
+        # use libc++ under OX X to be able to use new C++ features (and else it'll use GCC 4.2.1 STL)
+        # minimum target is now OS X 10.7
+        SET(PLATFORM_CXXFLAGS "${PLATFORM_CXXFLAGS} -stdlib=libc++")
+
+        ADD_PLATFORM_LINKFLAGS("-Wl,-headerpad_max_install_names")
 
         IF(HAVE_FLAG_SEARCH_PATHS_FIRST)
-          SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-search_paths_first")
+          ADD_PLATFORM_LINKFLAGS("-Wl,-search_paths_first")
         ENDIF()
       ENDIF()
     ELSE()
@@ -838,7 +864,13 @@ MACRO(NL_SETUP_BUILD)
       ENDIF()
     ENDIF()
 
-    ADD_PLATFORM_FLAGS("-D_REENTRANT -fno-strict-aliasing")
+    # use c++0x standard to use std::unique_ptr and std::shared_ptr
+    SET(PLATFORM_CXXFLAGS "${PLATFORM_CXXFLAGS} -std=c++0x")
+
+    ADD_PLATFORM_FLAGS("-D_REENTRANT")
+
+    # hardening
+    ADD_PLATFORM_FLAGS("-D_FORTIFY_SOURCE=2")
 
     IF(NOT WITH_LOW_MEMORY)
       ADD_PLATFORM_FLAGS("-pipe")
@@ -849,7 +881,19 @@ MACRO(NL_SETUP_BUILD)
     ENDIF()
 
     IF(WITH_WARNINGS)
-      ADD_PLATFORM_FLAGS("-Wall -W -Wpointer-arith -Wsign-compare -Wno-deprecated-declarations -Wno-multichar -Wno-unused")
+      ADD_PLATFORM_FLAGS("-Wall")
+    ELSE()
+      # Check wrong formats in printf-like functions
+      ADD_PLATFORM_FLAGS("-Wformat -Werror=format-security")
+    ENDIF()
+
+    # never display these warnings because they are minor
+    ADD_PLATFORM_FLAGS("-Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-value")
+
+    IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "6.0.0")
+      ADD_PLATFORM_FLAGS("-Wno-unused-local-typedefs")
+    ELSEIF(CLANG)
+      ADD_PLATFORM_FLAGS("-Wno-unused-private-field -Wno-unused-local-typedef")
     ENDIF()
 
     IF(ANDROID)
@@ -859,37 +903,33 @@ MACRO(NL_SETUP_BUILD)
       ADD_PLATFORM_FLAGS("-Wa,--noexecstack")
 
       IF(TARGET_ARM)
-        ADD_PLATFORM_FLAGS("-fpic -fstack-protector")
+        ADD_PLATFORM_FLAGS("-fpic")
         ADD_PLATFORM_FLAGS("-D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ -D__ARM_ARCH_5TE__")
 
         IF(TARGET_ARMV7)
           ADD_PLATFORM_FLAGS("-march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16")
-          SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -march=armv7-a -Wl,--fix-cortex-a8")
+          ADD_PLATFORM_LINKFLAGS("-march=armv7-a -Wl,--fix-cortex-a8")
         ELSEIF(TARGET_ARMV5)
           ADD_PLATFORM_FLAGS("-march=armv5te -mtune=xscale -msoft-float")
         ENDIF()
 
         SET(TARGET_THUMB ON)
         IF(TARGET_THUMB)
-          ADD_PLATFORM_FLAGS("-mthumb -fno-strict-aliasing -finline-limit=64")
+          ADD_PLATFORM_FLAGS("-mthumb -finline-limit=64")
           SET(DEBUG_CFLAGS "${DEBUG_CFLAGS} -marm")
         ELSE()
           ADD_PLATFORM_FLAGS("-funswitch-loops -finline-limit=300")
-          SET(DEBUG_CFLAGS "${DEBUG_CFLAGS} -fno-strict-aliasing")
-          SET(RELEASE_CFLAGS "${RELEASE_CFLAGS} -fstrict-aliasing")
         ENDIF()
       ELSEIF(TARGET_X86)
         # Optimizations for Intel Atom
         ADD_PLATFORM_FLAGS("-march=i686 -mtune=atom -mstackrealign -msse3 -mfpmath=sse -m32 -flto -ffast-math -funroll-loops")
-        ADD_PLATFORM_FLAGS("-fstack-protector -funswitch-loops -finline-limit=300")
-        SET(RELEASE_CFLAGS "${RELEASE_CFLAGS} -fstrict-aliasing")
-        SET(DEBUG_CFLAGS "${DEBUG_CFLAGS} -fno-strict-aliasing")
+        ADD_PLATFORM_FLAGS("-funswitch-loops -finline-limit=300")
       ELSEIF(TARGET_MIPS)
-        ADD_PLATFORM_FLAGS("-fpic -finline-functions -fmessage-length=0 -fno-inline-functions-called-once -fgcse-after-reload -frerun-cse-after-loop -frename-registers -fno-strict-aliasing")
+        ADD_PLATFORM_FLAGS("-fpic -finline-functions -fmessage-length=0 -fno-inline-functions-called-once -fgcse-after-reload -frerun-cse-after-loop -frename-registers")
         SET(RELEASE_CFLAGS "${RELEASE_CFLAGS} -funswitch-loops -finline-limit=300")
       ENDIF()
-      SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now")
-      SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -L${PLATFORM_ROOT}/usr/lib")
+      ADD_PLATFORM_LINKFLAGS("-Wl,-z,noexecstack")
+      ADD_PLATFORM_LINKFLAGS("-L${PLATFORM_ROOT}/usr/lib")
     ENDIF()
 
     IF(APPLE)
@@ -897,14 +937,30 @@ MACRO(NL_SETUP_BUILD)
     ENDIF()
 
     # Fix "relocation R_X86_64_32 against.." error on x64 platforms
-    IF(TARGET_X64 AND WITH_STATIC AND NOT WITH_STATIC_DRIVERS AND NOT MINGW)
+    IF(NOT MINGW)
       ADD_PLATFORM_FLAGS("-fPIC")
     ENDIF()
 
     SET(PLATFORM_CXXFLAGS "${PLATFORM_CXXFLAGS} -ftemplate-depth-48")
 
+    # hardening
+    ADD_PLATFORM_FLAGS("-fstack-protector --param=ssp-buffer-size=4")
+
+    # If -fstack-protector or -fstack-protector-all enabled, enable too new warnings and fix possible link problems
+    IF(WITH_WARNINGS)
+      ADD_PLATFORM_FLAGS("-Wstack-protector")
+    ENDIF()
+
+    # Fix undefined reference to `__stack_chk_fail' error
+    ADD_PLATFORM_LINKFLAGS("-lc")
+
     IF(NOT APPLE)
-      SET(PLATFORM_LINKFLAGS "${PLATFORM_LINKFLAGS} -Wl,--no-undefined -Wl,--as-needed")
+      ADD_PLATFORM_LINKFLAGS("-Wl,--no-undefined -Wl,--as-needed")
+    ENDIF()
+
+    IF(NOT APPLE)
+      # hardening
+      ADD_PLATFORM_LINKFLAGS("-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now")
     ENDIF()
 
     IF(WITH_SYMBOLS)
@@ -920,7 +976,7 @@ MACRO(NL_SETUP_BUILD)
     SET(NL_DEBUG_CFLAGS "-g -DNL_DEBUG -D_DEBUG ${NL_DEBUG_CFLAGS}")
     SET(NL_RELEASE_CFLAGS "-DNL_RELEASE -DNDEBUG -O3 ${NL_RELEASE_CFLAGS}")
   ENDIF()
-ENDMACRO(NL_SETUP_BUILD)
+ENDMACRO()
 
 MACRO(NL_SETUP_BUILD_FLAGS)
   SET(CMAKE_C_FLAGS ${PLATFORM_CFLAGS} CACHE STRING "" FORCE)

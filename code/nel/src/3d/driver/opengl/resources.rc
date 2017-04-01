@@ -25,7 +25,7 @@ BEGIN
             VALUE "OriginalFilename", "nel_drv_opengl_win_d.dll"
 #else
             VALUE "OriginalFilename", "nel_drv_opengl_win_r.dll"
-#endif
+#endif			
             VALUE "ProductName", "Ryzom Core"
             VALUE "ProductVersion", NL_VERSION
         END

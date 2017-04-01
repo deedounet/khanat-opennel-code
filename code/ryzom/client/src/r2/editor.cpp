@@ -168,7 +168,7 @@ bool ReloadUIFlag = true; // by default, CEditor loads its own UI
 bool ResetScenarioWanted = false;
 bool ReloadScenarioWanted = false;
 bool ConnectionWanted = false;
-std::string CEditor::_ScenarioToLoadWhenEntreringIntoAnimation="";
+std::string CEditor::_ScenarioToLoadWhenEntreringIntoAnimation;
 bool CEditor::_IsStartingScenario=false;
 
 // *********************************************************************************************************
@@ -2081,10 +2081,6 @@ void CEditor::registerLuaFunc()
 	registerEnvMethod("teleportToCharacter", luaTeleportToCharacter);
 	registerEnvMethod("enumInstances", luaEnumInstances);
 	registerEnvMethod("isClearingContent", luaIsClearingContent);
-
-
-
-
 }
 
 /*
@@ -4893,23 +4889,19 @@ CEntityCL *CEditor::createEntity(uint slot, const NLMISC::CSheetId &sheetId, con
 	node = NLGUI::CDBManager::getInstance()->getDbProp("SERVER:Entities:E"+toString("%d", slot)+":P"+toString("%d", CLFECOMMON::PROPERTY_ORIENTATION), false);
 	if(node)
 	{
-		union
-		{
-			uint64 heading64;
-			float  headingFloat;
-		};
-		headingFloat = heading;
-		node->setValue64(heading64);
+		C64BitsParts parts;
+		parts.f[0] = heading;
+		parts.f[1] = 0.f;
+		node->setValue64(parts.i64[0]);
 	}
 	// Set Mode
 	node = NLGUI::CDBManager::getInstance()->getDbProp("SERVER:Entities:E"+toString("%d", slot)+":P"+toString("%d", CLFECOMMON::PROPERTY_MODE), false);
 	if(node)
 	{
-		MBEHAV::EMode m = MBEHAV::NORMAL;
-		prop = (sint64 *)&m;
-		node->setValue64(*prop);
+		node->setValue64((sint64)MBEHAV::NORMAL);
 		EntitiesMngr.updateVisualProperty(0, slot, CLFECOMMON::PROPERTY_MODE);
 	}
+
 	// Set Visual Properties
 	SPropVisualA visualA;
 	//visualA.PropertySubData.LTrail = 1;

@@ -370,7 +370,7 @@ void selectTipsOfTheDay (uint /* tips */)
 	TipsOfTheDay = title+CI18N::get ("uiTips"+toString (tips));*/
 	// todo tips of the day remove
 	//trap TipsOfTheDay = CI18N::get ("uiMessageOfTheDay");
-	TipsOfTheDay = ""; //trap
+	TipsOfTheDay.clear(); //trap
 }
 
 // ***************************************************************************
@@ -741,10 +741,8 @@ void addSearchPaths(IProgressCallback &progress)
 		H_AUTO(InitRZAddSearchPath2)
 
 		addPaths(progress, ClientCfg.DataPath, true);
-
 		CPath::loadRemappedFiles("remap_files.csv");
 	}
-
 	addPaths(progress, ClientCfg.DataPathNoRecurse, false);
 }
 
@@ -1648,7 +1646,7 @@ void postlogInit()
 		else
 		{
 			// To have the same number of newMessage in client light
-			nmsg = "";
+			nmsg.clear();
 			ProgressBar.newMessage (nmsg);
 			ProgressBar.newMessage (nmsg);
 			ProgressBar.newMessage (nmsg);

@@ -1,7 +1,22 @@
+// Ryzom - MMORPG Framework <http://dev.ryzom.com/projects/ryzom/>
+// Copyright (C) 2010  Winch Gate Property Limited
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as
+// published by the Free Software Foundation, either version 3 of the
+// License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef INCLUDED_database_PLR_H
-#define INCLUDED_database_PLR_H
+#ifndef INCLUDED_DATABASE_PLR_H
+#define INCLUDED_DATABASE_PLR_H
 /////////////////////////////////////////////////////////////////
 // WARNING : this is a generated file, don't change it !
 /////////////////////////////////////////////////////////////////
@@ -941,8 +956,6 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 	
 		void setIS_INVISIBLE(CCDBSynchronised &dbGroup, bool value, bool forceSending = false)
 		{
-			
-
 			_setProp(dbGroup, _IS_INVISIBLE, value, forceSending);
 		}
 
@@ -958,7 +971,7 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		{
 			return _IS_INVISIBLE;
 		}
-	
+
 		void setCOUNTER(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
 		{
 			
@@ -1306,7 +1319,7 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		}
 		
 	};
-		
+
 	class TTARGET
 	{
 	public:
@@ -8858,7 +8871,6 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_HUNGER;
 		ICDBStructNode	*_DESPAWN;
 		ICDBStructNode	*_NAME;
-		
 
 	public:
 		void init(ICDBStructNode *parent, uint index);
@@ -9047,11 +9059,9 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		{
 			return _DESPAWN;
 		}
-	
+
 		void setNAME(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
 		{
-			
-
 			_setProp(dbGroup, _NAME, value, forceSending);
 		}
 
@@ -9062,12 +9072,11 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 
 			return value;
 		}
-		
+
 		ICDBStructNode *getNAMECDBNode()
 		{
 			return _NAME;
 		}
-	
 	};
 		
 
@@ -10489,4 +10498,4 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 	};
 	
 
-#endif // INCLUDED_database_PLR_H
+#endif // INCLUDED_DATABASE_PLR_H

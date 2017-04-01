@@ -41,7 +41,8 @@
 	</div>
 	<div class="clear" style="height: 10px; width: 100%;" style="clear: both"></div>
 	<?php
-	if (isset($this->params['prefix']) && $this->params['prefix'] == "admin") {
+	if
+ (isset($this->params['prefix']) && $this->params['prefix'] == "admin") {
 		?>
 		<div class="container_16" style="background: none repeat scroll 0pt 0pt rgba(40, 60, 60, 0.9);">
 			<div class="grid_16">
@@ -60,7 +61,8 @@
 	<div class="container_16" style="background: none repeat scroll 0pt 0pt rgba(40, 60, 60, 0.9);">
 		<div class="grid_16">
 		<?php
-			if (isset($assocPath)) {
+			if
+ (isset($assocPath)) {
 			?>
 			<div style="margin:5px; float: left">
 			<h5>/
@@ -96,7 +98,8 @@
 	</div>
 	<div class="clear" style="height: 10px; width: 100%;" style="clear: both"></div>
 	<div class="container_16">
-<!--		<div class="clear"></div>-->
+<!--		<div class="clear"></div>
+-->
 		
 		<div class="clear" style="height: 10px; width: 100%;"></div>
 		

@@ -23,6 +23,10 @@
 
 using namespace std;
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
+
 namespace NLMISC
 {
 
@@ -61,7 +65,7 @@ static int readGIFData(GifFileType *gif, GifByteType *data, int length)
 	}
 	catch(...)
 	{
-		nlwarning("error while reading JPEG image");
+		nlwarning("error while reading GIF image");
 
 		return 0;
 	}

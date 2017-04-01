@@ -3851,6 +3851,7 @@ struct CSBrickParamChaScore1Aura : public TBrickParam::IId
 
 struct CSBrickParamChaScore1Aura2 : public TBrickParam::IId
 {
+
 	// regen modifier (in %)
 	uint16 RegenMod;
 	// duration in seconds
@@ -3887,7 +3888,7 @@ struct CSBrickParamChaScore1Aura2 : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		RegenMod=atoi(args[0].c_str());
+		NLMISC::fromString(args[0], RegenMod);
 		Duration=(float)atof(args[1].c_str());
 		Radius=(float)atof(args[2].c_str());
 		TargetDisableTime=(float)atof(args[3].c_str());
@@ -3983,7 +3984,7 @@ struct CSBrickParamChaScore2Aura2 : public TBrickParam::IId
 			return *this;
 
 		ParsedOk=true;
-		RegenMod=atoi(args[0].c_str());
+		NLMISC::fromString(args[0], RegenMod);
 		Duration=(float)atof(args[1].c_str());
 		Radius=(float)atof(args[2].c_str());
 		TargetDisableTime=(float)atof(args[3].c_str());

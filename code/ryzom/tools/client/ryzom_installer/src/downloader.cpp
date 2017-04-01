@@ -18,6 +18,7 @@
 #include "operation.h"
 #include "downloader.h"
 #include "utils.h"
+#include "configfile.h"
 
 #include "nel/misc/system_info.h"
 #include "nel/misc/path.h"
@@ -179,14 +180,14 @@ void CDownloader::getFileHead()
 
 void CDownloader::downloadFile()
 {
-	qint64 freeSpace = NLMISC::CSystemInfo::availableHDSpace(m_fullPath.toUtf8().constData());
+	qint64 freeSpace = CConfigFile::getInstance()->ignoreFreeDiskSpaceChecks() ? 0:NLMISC::CSystemInfo::availableHDSpace(m_fullPath.toUtf8().constData());
 
 	if (freeSpace == 0)
 	{
 		if (m_listener)
 		{
 			QString error = qFromUtf8(NLMISC::formatErrorMessage(NLMISC::getLastError()));
-			m_listener->operationFail(tr("Error '%1' occured when trying to check free disk space on %2.").arg(error).arg(m_fullPath));
+			m_listener->operationFail(tr("Error '%1' occurred when trying to check free disk space on %2.").arg(error).arg(m_fullPath));
 		}
 		return;
 	}
@@ -277,7 +278,7 @@ void CDownloader::onHeadFinished()
 	}
 
 	// redirection
-	if (status == 302 || status == 307)
+	if (status >= 300 && status < 400)
 	{
 		if (redirection.isEmpty())
 		{
@@ -401,7 +402,7 @@ void CDownloader::onDownloadFinished()
 
 			emit downloadDone();
 		}
-		else if (status == 206)
+		else if (status >= 200 && status < 300)
 		{
 			if (m_listener) m_listener->operationContinue();
 		}

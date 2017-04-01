@@ -789,10 +789,12 @@ bool CUserEntity::mode(MBEHAV::EMode m)
 	case MBEHAV::COMBAT:
 	case MBEHAV::COMBAT_FLOAT:
 	{
+		C64BitsParts rot;
+
 		// Compute the angle
 		const string propName = toString("SERVER:Entities:E%d:P%d", _Slot, CLFECOMMON::PROPERTY_ORIENTATION);
-		sint64 ang = NLGUI::CDBManager::getInstance()->getDbProp(propName)->getValue64();
-		_TargetAngle = *(float *)(&ang);
+		rot.i64[0] = NLGUI::CDBManager::getInstance()->getDbProp(propName)->getValue64();
+		_TargetAngle = rot.f[0];
 
 		// Initialize controls for the combat.
 		UserControls.startCombat();
