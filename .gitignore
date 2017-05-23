@@ -169,6 +169,7 @@ code/build_windows32
 code/build_windows64
 code/build_server
 code/build_nel_tools
+code/build_*
 
 # Linux nel compile
 code/nel/build/nel-config
