@@ -93,7 +93,9 @@
 #include "interface_v3/interface_ddx.h"
 #include "bg_downloader_access.h"
 #include "nel/gui/lua_manager.h"
-
+#include "item_group_manager.h"
+#include "nel/gui/http_cache.h"
+#include "nel/gui/http_hsts.h"
 
 ///////////
 // USING //
@@ -228,6 +230,7 @@ void	releaseMainLoopReselect()
 
 	// save keys loaded and interface cfg (not done in releaseMainLoop() because done at end of mainLoop()...)
 	pIM->uninitInGame0();
+	CItemGroupManager::getInstance()->uninit();
 
 	// alredy called from farTPMainLoop()
 	// --R2::getEditor().autoConfigRelease(IsInRingSession);
@@ -685,6 +688,8 @@ void release()
 	CWidgetManager::release();
 	CViewRenderer::release();
 	CIXml::releaseLibXml();
+	CHttpCache::release();
+	CStrictTransportSecurity::release();
 
 #if FINAL_VERSION
 	// openURL ("http://ryzom.com/exit/");

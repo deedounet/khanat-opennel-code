@@ -28,10 +28,6 @@ IF(COMMAND cmake_policy)
   # have absolute paths (e.g. -lpthread)
   cmake_policy(SET CMP0003 NEW)
 
-  # Works around warnings about escaped quotes in ADD_DEFINITIONS
-  # statements
-  cmake_policy(SET CMP0005 OLD)
-
   # allow to link to qtmain automatically under Windows
   IF(POLICY CMP0020)
     CMAKE_POLICY(SET CMP0020 NEW)
@@ -64,8 +60,8 @@ SET(YEAR "2004-${CURRENT_YEAR}")
 SET(AUTHOR "Winch Gate and The Ryzom Core Community")
 
 SET(RYZOM_VERSION_MAJOR 3)
-SET(RYZOM_VERSION_MINOR 1)
-SET(RYZOM_VERSION_PATCH 0)
+SET(RYZOM_VERSION_MINOR 2)
+SET(RYZOM_VERSION_PATCH 1)
 
 #-----------------------------------------------------------------------------
 # Redirect output files
@@ -168,25 +164,30 @@ IF(WITH_SSE2)
   ENDIF()
 ENDIF()
 
-IF(APPLE_CERTIFICATE)
-  # Find codesign_allocate
+IF(APPLE)
+  FIND_LIBRARY(CARBON_FRAMEWORK Carbon)
+  FIND_LIBRARY(FOUNDATION_FRAMEWORK Foundation)
 
-  # Xcode 7.0 and later versions
-  SET(CODESIGN_ALLOCATE ${OSX_DEVELOPER_ROOT}/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate)
+  IF(APPLE_CERTIFICATE)
+    # Find codesign_allocate
 
-  IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
-    # Xcode 6.4 and previous versions
-    SET(CODESIGN_ALLOCATE ${CMAKE_OSX_SYSROOT}/usr/bin/codesign_allocate)
-  ENDIF()
+    # Xcode 7.0 and later versions
+    SET(CODESIGN_ALLOCATE ${OSX_DEVELOPER_ROOT}/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate)
 
-  IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
-    # System path
-    SET(CODESIGN_ALLOCATE /usr/bin/codesign_allocate)
-  ENDIF()
+    IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+      # Xcode 6.4 and previous versions
+      SET(CODESIGN_ALLOCATE ${CMAKE_OSX_SYSROOT}/usr/bin/codesign_allocate)
+    ENDIF()
 
-  IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
-    MESSAGE(WARNING "Unable to find codesign_allocate in standard directories")
-    SET(CODESIGN_ALLOCATE)
+    IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+      # System path
+      SET(CODESIGN_ALLOCATE /usr/bin/codesign_allocate)
+    ENDIF()
+
+    IF(NOT EXISTS "${CODESIGN_ALLOCATE}")
+      MESSAGE(WARNING "Unable to find codesign_allocate in standard directories")
+      SET(CODESIGN_ALLOCATE)
+    ENDIF()
   ENDIF()
 ENDIF()
 
@@ -336,7 +337,7 @@ IF(WITH_QT5)
       ENDIF()
 
       # freetype is needed since Qt 5.5
-      FIND_PACKAGE(FreeType)
+      FIND_PACKAGE(Freetype)
 
       IF(FREETYPE_FOUND)
         SET(QT_LIBRARIES ${QT_LIBRARIES} ${FREETYPE_LIBRARIES})
@@ -382,8 +383,6 @@ IF(WITH_QT5)
       IF(APPLE)
         FIND_LIBRARY(PCRE_LIBRARY pcre16 pcre)
 
-        FIND_LIBRARY(FOUNDATION_FRAMEWORK Foundation)
-        FIND_LIBRARY(CARBON_FRAMEWORK Carbon)
         FIND_LIBRARY(SECURITY_FRAMEWORK Security)
 
         SET(QT_LIBRARIES ${QT_LIBRARIES}
@@ -448,6 +447,8 @@ IF(WITH_NEL)
             SET(CURL_LIBRARIES ${CURL_LIBRARIES} ${INTL_LIBRARY})
           ENDIF()
         ENDIF()
+      ELSEIF(WIN32)
+        SET(CURL_LIBRARIES ${CURL_LIBRARIES} Crypt32.lib)
       ENDIF()
     ENDIF()
   ENDIF()

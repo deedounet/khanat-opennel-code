@@ -68,6 +68,8 @@
 
 #include "interface_v3/sbrick_manager.h"
 #include "nel/gui/widget_manager.h"
+#include "nel/gui/http_cache.h"
+#include "nel/gui/http_hsts.h"
 //
 #include "gabarit.h"
 #include "hair_set.h"
@@ -741,8 +743,10 @@ void addSearchPaths(IProgressCallback &progress)
 		H_AUTO(InitRZAddSearchPath2)
 
 		addPaths(progress, ClientCfg.DataPath, true);
+
 		CPath::loadRemappedFiles("remap_files.csv");
 	}
+
 	addPaths(progress, ClientCfg.DataPathNoRecurse, false);
 }
 
@@ -1362,6 +1366,12 @@ void prelogInit()
 			}
 			//nlinfo ("PROFILE: %d seconds for Add search paths Data", (uint32)(ryzomGetLocalTime ()-initPaths)/1000);
 		}
+
+		// Initialize HTTP cache
+		CHttpCache::getInstance()->setCacheIndex("cache/cache.index");
+		CHttpCache::getInstance()->init();
+
+		CStrictTransportSecurity::getInstance()->init("save/hsts-list.save");
 
 		// Register the reflected classes
 		registerInterfaceElements();

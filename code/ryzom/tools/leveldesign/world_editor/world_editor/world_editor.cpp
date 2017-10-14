@@ -491,10 +491,6 @@ void CWorldEditorApp::syntaxError (const std::string &filename, xmlNodePtr xmlNo
 
 	if (format)
 	{
-	char buffer[1024];
-
-	if (format)
-	{
 		va_list args;
 		va_start( args, format );
 		sint ret = vsnprintf( buffer, 1024, format, args );

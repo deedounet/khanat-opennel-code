@@ -485,6 +485,7 @@ void CContinent::select(const CVectorD &pos, NLMISC::IProgressCallback &progress
 
 		{
 			H_AUTO(InitRZWorldPacs)
+
 			releasePACS();
 			// Init PACS
 			std::string pacsRBankPath = CPath::lookup(PacsRBank, false);
@@ -1384,10 +1385,3 @@ void CContinent::releaseSky()
 	CurrentSky.release();
 }
 
-
-//=========================================================================
-/*static*/ uint CContinent::getMaxNbUserLandMarks()
-{
-	uint nbBonusLandmarks = (uint)IngameDbMngr.getProp( "INTERFACES:NB_BONUS_LANDMARKS" );
-	return STANDARD_NUM_USER_LANDMARKS + nbBonusLandmarks;
-}

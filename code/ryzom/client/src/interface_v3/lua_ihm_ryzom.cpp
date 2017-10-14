@@ -513,6 +513,7 @@ void CLuaIHMRyzom::RegisterRyzomFunctions(NLGUI::CLuaState &ls)
 		LUABIND_FUNC(unpauseBGDownloader),
 		LUABIND_FUNC(requestBGDownloaderPriority),
 		LUABIND_FUNC(getBGDownloaderPriority),
+		LUABIND_FUNC(loadBackground),
 		LUABIND_FUNC(getPatchLastErrorMessage),
 		LUABIND_FUNC(getPlayerSelectedSlot),
 		LUABIND_FUNC(isInGame),
@@ -2047,7 +2048,9 @@ int CLuaIHMRyzom::addShape(CLuaState &ls)
 	float x = 0.0f, y = 0.0f, z = 0.0f;
 	float scale = 1.0f;
 	string context, url, skeleton, texture;
-	bool highlight, transparency, collision = false;
+	bool highlight = false;
+	bool transparency = false;
+	bool collision = true;
 	
 	if (ls.getTop() >= 2)
 	{
@@ -2137,11 +2140,6 @@ int CLuaIHMRyzom::addShape(CLuaState &ls)
 		CLuaIHM::checkArgType(ls, funcName, 13, LUA_TSTRING);
 		skeleton = ls.toString(13);
 	}
-
-	/// ???????????????
-	transparency = false;
-	highlight = false;
-	collision = true;
 	
 	CShapeInstanceReference instref = EntitiesMngr.createInstance(shape, CVector(x, y, z), context, url, collision, idx);
 	UInstance instance = instref.Instance;
@@ -2153,14 +2151,14 @@ int CLuaIHMRyzom::addShape(CLuaState &ls)
 			if (!highlight)
 			{
 				instance.getMaterial(j).setAmbient(CRGBA(0,0,0,255));
-				instance.getMaterial(j).setShininess( 10.0f );
 				instance.getMaterial(j).setEmissive(CRGBA(255,255,255,255));
+				instance.getMaterial(j).setShininess(10.0f);
 			}
 			else
 			{
 				instance.getMaterial(j).setAmbient(CRGBA(0,0,0,255));
 				instance.getMaterial(j).setEmissive(CRGBA(255,0,0,255));
-				instance.getMaterial(j).setShininess( 1000.0f );
+				instance.getMaterial(j).setShininess(1000.0f);
 			}
 
 			if (!texture.empty())
@@ -3003,6 +3001,14 @@ sint CLuaIHMRyzom::getBGDownloaderPriority()
 {
 	return CBGDownloaderAccess::getInstance().getDownloadThreadPriority();
 }
+
+// ***************************************************************************
+void CLuaIHMRyzom::loadBackground(const std::string &bg)
+{
+	LoadingBackground = CustomBackground;
+	LoadingBackgroundBG = bg;
+}
+
 
 // ***************************************************************************
 ucstring CLuaIHMRyzom::getPatchLastErrorMessage()

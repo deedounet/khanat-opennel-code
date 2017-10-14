@@ -274,9 +274,11 @@ void HandleSystemCursorCapture(const CEvent &event)
 
 		CViewPointer *cursor = static_cast< CViewPointer* >( CWidgetManager::getInstance()->getPointer() );
 		if (cursor)
+		{
 				cursor->setPointerDown(em.Button == leftButton);
 				cursor->setPointerMiddleDown(em.Button == middleButton);
 				cursor->setPointerRightDown(em.Button == rightButton);
+		}
 
 		Driver->setCapture(true);
 	}

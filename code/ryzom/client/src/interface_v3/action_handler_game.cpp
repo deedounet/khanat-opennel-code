@@ -20,6 +20,7 @@
 #include "stdpch.h"
 
 #include <sstream>
+#include <locale>
 
 // Interface includes
 #include "interface_manager.h"
