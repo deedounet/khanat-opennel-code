@@ -130,7 +130,6 @@ using namespace NLGUI;
 
 #include "../global.h"
 #include "user_agent.h"
-#include "../item_group_manager.h"
 
 using namespace NLMISC;
 
@@ -1499,7 +1498,6 @@ void CInterfaceManager::updateFrameEvents()
 							toString(", %d", (uint)(roundWeatherValue(WeatherManager.getWeatherValue()) * 100.f)) + "% " +CI18N::get("uiHumidity");
 
 
-
 			CViewText *pVT = dynamic_cast<CViewText*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:weather"));
 			if (pVT != NULL)
 				pVT->setText(str);
@@ -1512,6 +1510,7 @@ void CInterfaceManager::updateFrameEvents()
 								toString("%d", (uint)(roundWeatherValue(WeatherManager.getNextWeatherValue()) * 100.f)) + "%";
 				pTooltip->setDefaultContextHelp(tt);
 			}
+
 
 			// The date feature is temporarily disabled
 			str.clear();
@@ -1526,13 +1525,13 @@ void CInterfaceManager::updateFrameEvents()
 
 			// literal version
 			// str = CI18N::get("uiDate");
+			str += toString("%02d", (sint)RT.getRyzomTime()) + " - ";
 			uint minutes = ((RT.getRyzomTime() - (sint)RT.getRyzomTime()) * (float) RYZOM_HOUR_IN_MINUTES);
-			str += toString("%02d:%02d", (sint)RT.getRyzomTime(), minutes) + " - ";
-			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + ", ";
-			str += CI18N::get("ui"+MONTH::toString( (MONTH::EMonth)RT.getRyzomMonthInCurrentCycle() )) + " ";
-			str += toString("%02d", RT.getRyzomDayOfMonth()+1) + ", ";
-			str += CI18N::get("uiAtysianCycle" + toString(RT.getRyzomCycle()+1) + "Ordinal") + " " + CI18N::get("uiAtysianCycle") + " ";
-			str += toString("%04d", RT.getRyzomYear());
+			str += toString("%d:%d", (sint)RT.getRyzomWeek(), minutes) + " ";
+			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
+			ucstring year = RT.getRyzomYearStr();
+			str += year + " - ";
+			str += CI18N::get("uiEon");
 
 			pVT = dynamic_cast<CViewText*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:time"));
 			if (pVT != NULL)
@@ -1571,8 +1570,6 @@ void CInterfaceManager::updateFrameEvents()
 	CLuaManager::getInstance().getLuaState()->handleGC();
 
 	CBGDownloaderAccess::getInstance().update();
-
-	CItemGroupManager::getInstance()->update();
 
 }
 

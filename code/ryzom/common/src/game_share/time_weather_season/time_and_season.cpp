@@ -83,9 +83,11 @@ namespace WEEKDAY
 
 void CRyzomTime::updateRyzomClock(uint32 gameCyle)
 {
+	static const uint32 ticksPerDay = (RYZOM_DAY_IN_HOUR * RYZOM_HOURS_IN_TICKS);
 	static const float ticksPerHour = (float)RYZOM_HOURS_IN_TICKS;
 
 	uint32 totalTicks = gameCyle + _TickOffset;
+
 	uint32 days = totalTicks / RYZOM_DAY_IN_TICKS;
 	uint32 dayCycle = totalTicks - (days * RYZOM_DAY_IN_TICKS);
 	// Avoid rollover for low amount of days

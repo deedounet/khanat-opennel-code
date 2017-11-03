@@ -127,7 +127,6 @@ bool  CFaunaGenericPlace::getActive() const
 	std::vector<std::string> dayIntervals;
 	NLMISC::explode(_DayInterval, std::string(","), dayIntervals, true);
 	std::string season = EGSPD::CSeason::toString(rt.getRyzomSeason());
-	std::string month = MONTH::toString((MONTH::EMonth) rt.getRyzomMonth());
 	std::string weekday = WEEKDAY::toString((WEEKDAY::EWeekDay) rt.getRyzomDay());	
 	bool found = false;
 	for (uint k = 0; k < dayIntervals.size(); ++k)
@@ -144,15 +143,6 @@ bool  CFaunaGenericPlace::getActive() const
 			break;
 		}		
 		if (EGSPD::CSeason::fromString(season) != EGSPD::CSeason::Unknown)
-		{
-			goodToken = true;
-		}
-		if (NLMISC::nlstricmp(dayIntervals[k], month) == 0)
-		{
-			found = true;
-			break;
-		}
-		if (MONTH::toMonth(dayIntervals[k]) != MONTH::UNKNOWN)
 		{
 			goodToken = true;
 		}

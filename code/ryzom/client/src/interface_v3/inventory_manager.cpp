@@ -2120,6 +2120,7 @@ bool SBagOptions::canDisplay(CDBCtrlSheet *pCS) const
 	const CItemSheet *pIS = pCS->asItemSheet();
 	if (pIS != NULL)
 	{
+
 		if (SearchFilter.size() > 0)
 		{
 			bool match = true;
@@ -2547,6 +2548,7 @@ class CHandlerInvSetSearch : public IActionHandler
 	}
 };
 REGISTER_ACTION_HANDLER( CHandlerInvSetSearch, "inv_set_search" );
+
 
 // ***************************************************************************
 // COMMON INVENTORIES Test if we can drop an item to a slot or a list
