@@ -128,7 +128,7 @@ protected:
 					targets[i].getId(),
 					_UpdatePeriod,
 					_CostPerUpdate,
-					SCORES::cha_score3,
+q					SCORES::cha_score3,
 					_Skill,
 					_TargetSkill,
 					_DebuffValue  );

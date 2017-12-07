@@ -111,6 +111,9 @@
 #include "game_share/range_weapon_type.h"
 //
 
+#ifdef DEBUG_NEW
+#define new DEBUG_NEW
+#endif
 
 ////////////
 // DEFINE //
@@ -136,10 +139,6 @@ using namespace NLSOUND;
 using namespace std;
 using namespace MBEHAV;
 using namespace CLFECOMMON;
-
-#ifdef DEBUG_NEW
-#define new DEBUG_NEW
-#endif
 
 ////////////
 // EXTERN //
@@ -1716,6 +1715,17 @@ void CCharacterCL::updateVisualPropertyVpb(const NLMISC::TGameCycle &/* gameCycl
 	{
 		float	s= getScale();
 		_Instances[0].setScale(CVector(s,s,s));
+	}
+
+
+	if (_Primitive)
+	{
+		float width, depth;
+		_Primitive->getSize(width, depth);
+		UMovePrimitive::TType primtype = _Primitive->getPrimitiveType();
+		_Primitive->setPrimitiveType(UMovePrimitive::_2DOrientedBox);
+		_Primitive->setSize((width / oldCustomScale) * _CustomScale, (depth / oldCustomScale) * _CustomScale);
+		_Primitive->setPrimitiveType(primtype);
 	}
 
 }// updateVisualPropertyVpb //

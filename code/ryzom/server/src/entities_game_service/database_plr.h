@@ -2780,6 +2780,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_SHEET;
 		ICDBStructNode	*_QUALITY;
 		ICDBStructNode	*_QUANTITY;
+		ICDBStructNode	*_CREATE_TIME;
+		ICDBStructNode	*_SERIAL;
 		ICDBStructNode	*_USER_COLOR;
 		ICDBStructNode	*_WEIGHT;
 		ICDBStructNode	*_NAMEID;
@@ -2864,6 +2866,46 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode *getQUANTITYCDBNode()
 		{
 			return _QUANTITY;
+		}
+	
+		void setCREATE_TIME(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _CREATE_TIME, value, forceSending);
+		}
+
+		uint32 getCREATE_TIME(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _CREATE_TIME, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getCREATE_TIMECDBNode()
+		{
+			return _CREATE_TIME;
+		}
+	
+		void setSERIAL(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _SERIAL, value, forceSending);
+		}
+
+		uint32 getSERIAL(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _SERIAL, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getSERIALCDBNode()
+		{
+			return _SERIAL;
 		}
 	
 		void setUSER_COLOR(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
@@ -3079,6 +3121,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_SHEET;
 		ICDBStructNode	*_QUALITY;
 		ICDBStructNode	*_QUANTITY;
+		ICDBStructNode	*_CREATE_TIME;
+		ICDBStructNode	*_SERIAL;
 		ICDBStructNode	*_USER_COLOR;
 		ICDBStructNode	*_WEIGHT;
 		ICDBStructNode	*_NAMEID;
@@ -3163,6 +3207,46 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode *getQUANTITYCDBNode()
 		{
 			return _QUANTITY;
+		}
+	
+		void setCREATE_TIME(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _CREATE_TIME, value, forceSending);
+		}
+
+		uint32 getCREATE_TIME(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _CREATE_TIME, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getCREATE_TIMECDBNode()
+		{
+			return _CREATE_TIME;
+		}
+	
+		void setSERIAL(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _SERIAL, value, forceSending);
+		}
+
+		uint32 getSERIAL(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _SERIAL, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getSERIALCDBNode()
+		{
+			return _SERIAL;
 		}
 	
 		void setUSER_COLOR(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
@@ -3711,6 +3795,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_SHEET;
 		ICDBStructNode	*_QUALITY;
 		ICDBStructNode	*_QUANTITY;
+		ICDBStructNode	*_CREATE_TIME;
+		ICDBStructNode	*_SERIAL;
 		ICDBStructNode	*_USER_COLOR;
 		ICDBStructNode	*_WEIGHT;
 		ICDBStructNode	*_NAMEID;
@@ -3795,6 +3881,46 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode *getQUANTITYCDBNode()
 		{
 			return _QUANTITY;
+		}
+	
+		void setCREATE_TIME(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _CREATE_TIME, value, forceSending);
+		}
+
+		uint32 getCREATE_TIME(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _CREATE_TIME, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getCREATE_TIMECDBNode()
+		{
+			return _CREATE_TIME;
+		}
+	
+		void setSERIAL(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _SERIAL, value, forceSending);
+		}
+
+		uint32 getSERIAL(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _SERIAL, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getSERIALCDBNode()
+		{
+			return _SERIAL;
 		}
 	
 		void setUSER_COLOR(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
@@ -4052,6 +4178,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_SHEET;
 		ICDBStructNode	*_QUALITY;
 		ICDBStructNode	*_QUANTITY;
+		ICDBStructNode	*_CREATE_TIME;
+		ICDBStructNode	*_SERIAL;
 		ICDBStructNode	*_USER_COLOR;
 		ICDBStructNode	*_WEIGHT;
 		ICDBStructNode	*_NAMEID;
@@ -4139,6 +4267,46 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode *getQUANTITYCDBNode()
 		{
 			return _QUANTITY;
+		}
+	
+		void setCREATE_TIME(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _CREATE_TIME, value, forceSending);
+		}
+
+		uint32 getCREATE_TIME(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _CREATE_TIME, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getCREATE_TIMECDBNode()
+		{
+			return _CREATE_TIME;
+		}
+	
+		void setSERIAL(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _SERIAL, value, forceSending);
+		}
+
+		uint32 getSERIAL(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _SERIAL, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getSERIALCDBNode()
+		{
+			return _SERIAL;
 		}
 	
 		void setUSER_COLOR(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)
@@ -5695,6 +5863,8 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode	*_SHEET;
 		ICDBStructNode	*_QUALITY;
 		ICDBStructNode	*_QUANTITY;
+		ICDBStructNode	*_CREATE_TIME;
+		ICDBStructNode	*_SERIAL;
 		ICDBStructNode	*_USER_COLOR;
 		ICDBStructNode	*_WEIGHT;
 		ICDBStructNode	*_NAMEID;
@@ -5791,6 +5961,46 @@ inline void _getProp(const CCDBSynchronised &db, ICDBStructNode *node, NLMISC::C
 		ICDBStructNode *getQUANTITYCDBNode()
 		{
 			return _QUANTITY;
+		}
+	
+		void setCREATE_TIME(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _CREATE_TIME, value, forceSending);
+		}
+
+		uint32 getCREATE_TIME(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _CREATE_TIME, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getCREATE_TIMECDBNode()
+		{
+			return _CREATE_TIME;
+		}
+	
+		void setSERIAL(CCDBSynchronised &dbGroup, uint32 value, bool forceSending = false)
+		{
+			
+
+			_setProp(dbGroup, _SERIAL, value, forceSending);
+		}
+
+		uint32 getSERIAL(const CCDBSynchronised &dbGroup)
+		{
+			uint32 value;
+			_getProp(dbGroup, _SERIAL, value);
+
+			return value;
+		}
+		
+		ICDBStructNode *getSERIALCDBNode()
+		{
+			return _SERIAL;
 		}
 	
 		void setUSER_COLOR(CCDBSynchronised &dbGroup, uint8 value, bool forceSending = false)

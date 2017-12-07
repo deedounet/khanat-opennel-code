@@ -1433,6 +1433,23 @@ void CInterfaceManager::flushDebugWindow()
 }
 
 // ------------------------------------------------------------------------------------------------
+// Make sure 0.166 is displayed as 16% and 0.167 as 17%
+// because they belong to different weather conditions
+static float roundWeatherValue(float weatherValue)
+{
+	// Number of possible weather setups in server
+	const static uint NB_WEATHER_SETUPS = 6;
+	float floorValue = floorf(weatherValue * 100.f) / 100.f;
+	uint weatherIndex = min((uint)(weatherValue * NB_WEATHER_SETUPS), NB_WEATHER_SETUPS - 1);
+	uint floorIndex = min((uint)(floorValue * NB_WEATHER_SETUPS), NB_WEATHER_SETUPS - 1);
+
+	if (weatherIndex > floorIndex)
+		return ceilf(weatherValue * 100.f) / 100.f;
+
+	return weatherValue;
+}
+
+// ------------------------------------------------------------------------------------------------
 void CInterfaceManager::updateFrameEvents()
 {
 
@@ -1470,19 +1487,30 @@ void CInterfaceManager::updateFrameEvents()
 		// Update string if some waiting
 		CEncyclopediaManager::getInstance()->updateAllFrame();
 
-		// Setup the weather setup in the player's map
-		if ((T0 - _UpdateWeatherTime) > (1 * 5 * 1000))
+		// Setup the weather setup in the player's map every 3 sec (1 ingame minute)
+		if ((T0 - _UpdateWeatherTime) > (1 * 3 * 1000))
 		{
 			_UpdateWeatherTime = T0;
 			ucstring str =	CI18N::get ("uiTheSeasonIs") +
 							CI18N::get ("uiSeason"+toStringEnum(computeCurrSeason())) +
 							CI18N::get ("uiAndTheWeatherIs") +
-							CI18N::get (WeatherManager.getCurrWeatherState().LocalizedName);
+							CI18N::get (WeatherManager.getCurrWeatherState().LocalizedName) +
+							toString(", %d", (uint)(roundWeatherValue(WeatherManager.getWeatherValue()) * 100.f)) + "% " +CI18N::get("uiHumidity");
 
 
 			CViewText *pVT = dynamic_cast<CViewText*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:weather"));
 			if (pVT != NULL)
 				pVT->setText(str);
+
+			CCtrlBase *pTooltip= dynamic_cast<CCtrlBase*>(CWidgetManager::getInstance()->getElementFromId("ui:interface:map:content:map_content:weather_tt"));
+			if (pTooltip != NULL)
+			{
+				ucstring tt =	toString("%02d", WeatherManager.getNextWeatherHour()) + CI18N::get("uiMissionTimerHour") +
+								" - " + CI18N::get("uiHumidity") + " " +
+								toString("%d", (uint)(roundWeatherValue(WeatherManager.getNextWeatherValue()) * 100.f)) + "%";
+				pTooltip->setDefaultContextHelp(tt);
+			}
+
 
 			// The date feature is temporarily disabled
 			str.clear();
@@ -1497,8 +1525,9 @@ void CInterfaceManager::updateFrameEvents()
 
 			// literal version
 			// str = CI18N::get("uiDate");
-			str += toString("%02d", (sint)RT.getRyzomTime()) + CI18N::get("uiMissionTimerHour") + " - ";
-			str += toString("%d", (sint)RT.getRyzomWeek()) + " ";
+			str += toString("%02d", (sint)RT.getRyzomTime()) + " - ";
+			uint minutes = ((RT.getRyzomTime() - (sint)RT.getRyzomTime()) * (float) RYZOM_HOUR_IN_MINUTES);
+			str += toString("%d:%d", (sint)RT.getRyzomWeek(), minutes) + " ";
 			str += CI18N::get("ui"+WEEKDAY::toString( (WEEKDAY::EWeekDay)RT.getRyzomDayOfWeek() )) + " - ";
 			ucstring year = RT.getRyzomYearStr();
 			str += year + " - ";

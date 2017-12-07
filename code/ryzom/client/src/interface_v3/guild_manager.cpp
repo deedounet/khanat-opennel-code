@@ -882,7 +882,6 @@ class CAHGuildSheetOpen : public IActionHandler
 					pViewEnterDate->setText(str);
 				}
 
-
 				// Add to the list
 				pLine->setParent (pParent);
 				pParent->addChild (pLine);

@@ -46,7 +46,7 @@ namespace CHARACTERISTICS
 	/**
 	 * get the right characteristic enum from the input string
 	 * \param str the input string
-	 * \return the TCharacteristics associated to this string (unknown if the string cannot be interpreted)
+	 * \return the ECharacteristics associated to this string (unknown if the string cannot be interpreted)
 	 */
 	TCharacteristics toCharacteristic( const std::string &str );
 

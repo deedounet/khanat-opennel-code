@@ -1431,6 +1431,8 @@ function game:onInGameDbInitialized()
 	end
 
 	game:setInfoPlayerCharacterRace()
+
+	runAH(nil, "sort_tribefame", "")
 end
 
 function game:onWebIgReady()
@@ -1606,9 +1608,9 @@ end
 
 function game:addRpJob(jobtype, id, value, rpjobs)
 	local base_path = "ui:interface:info_player_skills:content:rpjobs:rpjob_"..jobtype.."_"..id..":rpjob_"..jobtype.."_infos_"..id
-	
+
 	local group = getUI("ui:interface:info_player_skills:content:rpjobs:rpjob_"..jobtype.."_"..id)
-	
+
 	if (value == nil) then
 		group.active = false
 	else

@@ -354,7 +354,7 @@ void CTestingTool::testEnd()
 		if ( _ActorsDeathFlags[_Actors[i].TargetIndex] )
 			_ActorsNbWin[i]++;
 	}
-ﬂ
+
 	_CurrentIteration++;
 
 	

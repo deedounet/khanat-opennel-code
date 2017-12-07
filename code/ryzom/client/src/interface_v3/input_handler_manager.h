@@ -43,6 +43,7 @@ typedef xmlNode *xmlNodePtr;
  * \date 2002
  */
 
+
 class CInputHandlerManager : public NLMISC::IEventListener, public CGroupEditBox::IComboKeyHandler
 {
 public:
