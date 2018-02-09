@@ -1,8 +1,8 @@
 stages:
 - build
 - test
-- staging
-- production
+#- staging
+#- production
 
 ## BUILDS
 
